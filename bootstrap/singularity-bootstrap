@@ -1,0 +1,19 @@
+Bootstrap: docker
+From: ubuntu:17.04
+
+%runscript
+exec echo "The runscript is the containers default runtime command!"
+
+%files
+
+%environment
+
+%labels
+AUTHOR guilherme.r.alles@gmail.com
+
+%post
+sed -i "s/#precedence\s::ffff:0:0\/96\s\s100/precedence ::ffff:0:0\/96  100/" /etc/gai.conf
+echo "Acquire::ForceIPv4 false;" > /etc/apt/apt.conf.d/99force-ipv4
+
+apt-get install -y build-essential --fix-missing
+apt-get install -y openmpi-bin openmpi-common openssh-client openssh-server libopenmpi2 libopenmpi-dev --fix-missing
