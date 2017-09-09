@@ -1,0 +1,32 @@
+Bootstrap: docker
+From: centos:7
+
+%runscript
+/tmp/is.W.4
+
+%files
+
+%environment
+LD_LIBRARY_PATH=$LD_LIBRARY_PATH:'/usr/local/lib'
+
+%labels
+AUTHOR guilherme.r.alles@gmail.com
+
+%post
+# Install development toods
+yum groupinstall -y "Development Tools"
+
+# Install openmpi
+curl https://www.open-mpi.org/software/ompi/v2.1/downloads/openmpi-2.1.0.tar.bz2 > openmpi-2.1.0.tar.bz2
+tar -xvjf openmpi-2.1.0.tar.bz2
+cd openmpi-2.1.0
+./configure --prefix=/usr/local
+make
+make install
+
+curl https://www.nas.nasa.gov/assets/npb/NPB3.3.1.tar.gz > NPB-3.3.1.tar.gz
+tar -xvzf NPB-3.3.1.tar.gz
+cd NPB3.3.1/NPB3.3-MPI/
+cp config/make.def.template config/make.def
+make is CLASS=W NPROCS=4
+cp bin/is.W.4 /tmp/is.W.4
