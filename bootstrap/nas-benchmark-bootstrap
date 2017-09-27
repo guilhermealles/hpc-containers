@@ -2,7 +2,7 @@ Bootstrap: docker
 From: guilhermealles/centos-openmpi:latest
 
 %runscript
-/tmp/is.A.4
+/tmp/ep.C.16
 
 %files
 
@@ -18,5 +18,5 @@ curl https://www.nas.nasa.gov/assets/npb/NPB3.3.1.tar.gz > NPB-3.3.1.tar.gz
 tar -xvzf NPB-3.3.1.tar.gz
 cd NPB3.3.1/NPB3.3-MPI/
 cp config/make.def.template config/make.def
-make is CLASS=A NPROCS=4
-cp bin/is.A.4 /tmp/is.A.4
+make is CLASS=C NPROCS=16
+cp bin/ep.C.16 /tmp/ep.C.16
