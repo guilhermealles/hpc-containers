@@ -2,7 +2,7 @@ Bootstrap: docker
 From: guilhermealles/centos-openmpi:latest
 
 %runscript
-/project/ep.C.16
+/project/ep.C.1
 
 %files
 
@@ -14,12 +14,15 @@ AUTHOR guilherme.r.alles@gmail.com
 
 %post
 mkdir /project && cd /project
+
 # Install NAS Benchmarks
 curl https://www.nas.nasa.gov/assets/npb/NPB3.3.1.tar.gz > NPB-3.3.1.tar.gz
 tar -xvzf NPB-3.3.1.tar.gz
 cd NPB3.3.1/NPB3.3-MPI/
 cp config/make.def.template config/make.def
 sed -i 's/f77/mpif77/g' config/make.def
-make ep CLASS=C NPROCS=16
+make ep CLASS=C NPROCS=1
 mkdir /project/bin
-cp bin/ep.C.16 /project/bin/ep.C.16
+
+# Copy binary to runscript destination
+cp bin/ep.C.1 /project/bin/ep.C.1
