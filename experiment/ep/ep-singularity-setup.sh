@@ -1,4 +1,6 @@
 #!/bin/bash
+mkdir ./images
+
 singularity create -s 1000 ./images/mpi-c-16.img
 sudo singularity bootstrap ./images/mpi-c-16.img ../../singularity/bootstrap/mpi-ep-c-16.bootstrap
 
