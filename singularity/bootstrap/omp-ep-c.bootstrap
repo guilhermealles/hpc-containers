@@ -2,7 +2,7 @@ Bootstrap: docker
 From: guilhermealles/centos-openmpi:latest
 
 %runscript
-/project/ep.C.x
+/project/bin/ep.C.x
 
 %files
 
