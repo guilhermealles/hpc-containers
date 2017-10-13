@@ -1,4 +1,4 @@
-FROM nlknguyen/alpine-mpich:onbuild
+FROM guilhermealles/alpine-mpi:onbuild
 
 # # ------------------------------------------------------------
 # # Build MPI project
@@ -14,10 +14,24 @@ FROM nlknguyen/alpine-mpich:onbuild
 COPY project/ .
 
 # Normal build command
-RUN cd NPB3.3.1/NPB3.3-MPI/ && make ep CLASS=C NPROCS=1
-RUN cd NPB3.3.1/NPB3.3-MPI/ && make ep CLASS=C NPROCS=4
-RUN cd NPB3.3.1/NPB3.3-MPI/ && make ep CLASS=C NPROCS=16
-RUN cd NPB3.3.1/NPB3.3-OMP/ && make ep CLASS=C
+USER root
+RUN curl https://www.nas.nasa.gov/assets/npb/NPB3.3.1.tar.gz > NPB-3.3.1.tar.gz
+RUN tar -xvzf NPB-3.3.1.tar.gz
+RUN cd NPB3.3.1/NPB3.3-MPI/ && cp config/make.def.template config/make.def 
+RUN cd NPB3.3.1/NPB3.3-MPI/ && sed -i 's/f77/mpif77/g' config/make.def
+RUN cd NPB3.3.1/NPB3.3-MPI/ && make ep CLASS=A NPROCS=1
+RUN cd NPB3.3.1/NPB3.3-MPI/ && make ep CLASS=A NPROCS=4
+RUN cd NPB3.3.1/NPB3.3-MPI/ && make ep CLASS=A NPROCS=16
+
+RUN cd NPB3.3.1/NPB3.3-OMP/ && cp config/make.def.template config/make.def
+RUN cd NPB3.3.1/NPB3.3-OMP/ && sed -i 's/f77/gfortran/g' config/make.def
+RUN cd NPB3.3.1/NPB3.3-OMP/ && sed -i 's/^FFLAGS\s=\s-O$/FFLAGS  = -O -fopenmp/g' config/make.def
+RUN cd NPB3.3.1/NPB3.3-OMP/ && sed -i 's/^FLINKFLAGS\s=\s-O$/FLINKFLAGS  = -O -fopenmp/g' config/make.def
+RUN cd NPB3.3.1/NPB3.3-OMP/ && sed -i 's/^CFLAGS\s=\s-O$/CFLAGS  = -O -fopenmp/g' config/make.def
+RUN cd NPB3.3.1/NPB3.3-OMP/ && sed -i 's/^CLINKFLAGS\s=\s-O$/CLINKFLAGS  = -O -fopenmp/g' config/make.def
+RUN cd NPB3.3.1/NPB3.3-OMP/ && make ep CLASS=A
+RUN chown -R ${USER}:${USER} *
+USER mpi
 
 # ####################
 # For Docker beginner:
