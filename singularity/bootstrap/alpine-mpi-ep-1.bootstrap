@@ -24,5 +24,5 @@ sed -i 's/f77/mpif77/g' config/make.def
 make ep CLASS=C NPROCS=1
 mkdir /project/bin
 
-Copy binary to runscript destination
+# Copy binary to runscript destination
 cp bin/ep.C.1 /project/bin/ep.C.1
