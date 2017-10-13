@@ -359,13 +359,14 @@ elif [ $COMMAND_RELOAD -eq 1 ]; then
     show_instruction
 
 elif [ $COMMAND_LOGIN -eq 1 ]; then
-    exec_on_mpi_master_container bash
+    exec_on_mpi_master_container ash
 
 elif [ $COMMAND_EXEC -eq 1 ]; then
-    exec_on_mpi_master_container bash -c "${SHELL_COMMAND}"
+    exec_on_mpi_master_container ash -c "${SHELL_COMMAND}"
 
 elif [ $COMMAND_LIST -eq 1 ]; then
     list
 else
     usage
 fi
+

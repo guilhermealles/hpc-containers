@@ -1,4 +1,5 @@
 **/.DS_Store
+**/execution_env
 *.out
 *.img
 *.o
