@@ -2,7 +2,7 @@ Bootstrap: docker
 From: guilhermealles/alpine-mpi:latest
 
 %runscript
-/project/ep.C.1
+/project/bin/ep.C.1
 
 %files
 
