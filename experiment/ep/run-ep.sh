@@ -11,36 +11,51 @@ OLDIFS=$IFS
 IFS=","
 while read name order number rp environment context parallelism block exectime
 do
+    HOSTFILE="./hosts.txt"
+    HOSTFILE_FORCE_COMM="./hosts-force-comm.txt";
     if [ $environment = "singularity" ]; then
         if [ $context = "mpi" ]; then
-            EXEC_COMMAND="../../software/utils/ms-time.sh mpirun ./images/mpi-c-$parallelism.img"
+            EXEC_COMMAND="../../software/utils/ms-time.sh 'mpirun --hostfile $HOSTFILE -np $parallelism ./images/mpi-c-$parallelism.img > /dev/null 2&>1'"
         elif [ $context = "mpi-high-comm" ]; then
-            # TODO
-            EXEC_COMMAND="../../software/utils/ms-time.sh high_comm mpirun ./images/mpi-c-$parallelism.img"
+            EXEC_COMMAND="../../software/utils/ms-time.sh 'mpirun --hostfile $HOSTFILE_FORCE_COMM -np $parallelism ./images/mpi-c-$parallelism.img > /dev/null 2&>1'"
         else #OpenMP
-            EXEC_COMMAND="../../software/utils/ms-time.sh OMP_NUM_THREADS=$parallelism ./images/omp-c.img"
+            EXEC_COMMAND="../../software/utils/ms-time.sh 'OMP_NUM_THREADS=$parallelism ./images/omp-c.img > /dev/null 2>&1'"
         fi
     elif [ $environment = "docker" ]; then
         if [ $context = "mpi" ]; then
-            EXEC_COMMAND="../../software/utils/ms-time.sh docker mpi ep c 16"
+            ./setup/assemble-swarm.sh create $HOSTFILE
+            ./setup/ep-start-docker-cluster.sh up size=$parallelism
+            EXEC_COMMAND="../../software/utils/ms-time.sh '../../docker/cluster/swarm.sh exec run_ep_$parallelism.sh'"
         elif [ $context = "mpi-high-comm" ]; then
+            ./setup/assemble-swarm.sh create $HOSTFILE_FORCE_COMM
+            ./setup/ep-start-docker-cluster.sh up size=$parallelism
             EXEC_COMMAND="../../software/utils/ms-time.sh docker mpi-high-comm ep c 16"
         else # OpenMP
+            # TODO o que acontece se eu criar um cluster de tamanho 1????
+            ./setup/assemble-swarm.sh create $HOSTFILE
+            ./setup/ep-start-docker-cluster.sh up size=1
             EXEC_COMMAND="../../software/utils/ms-time.sh docker openmp ep c 16"
         fi
     else # native
         if [ $context = "mpi" ]; then
-            EXEC_COMMAND="../../software/utils/ms-time.sh mpirun --hostfile file ep.C.$parallelism"
+            EXEC_COMMAND="../../software/utils/ms-time.sh 'mpirun --hostfile $HOSTFILE -np $parallelism ep.C.$parallelism > /dev/null 2&>1'"
         elif [ $context = "mpi-high-comm" ]; then
-            EXEC_COMMAND="../../software/utils/ms-time.sh mpirun --hostfile file2 ep.C.$parallelism"
+            EXEC_COMMAND="../../software/utils/ms-time.sh 'mpirun --hostfile $HOSTFILE_FORCE_COMM -np $parallelism ep.C.$parallelism > /dev/null 2&>1'"
         else # OpenMP
-            EXEC_COMMAND="../../software/utils/ms-time.sh OMP_NUM_THREADS=$parallelism ./ep.C.x"
+            EXEC_COMMAND="../../software/utils/ms-time.sh 'OMP_NUM_THREADS=$parallelism ./ep.C.x > /dev/null 2&>1'"
         fi
     fi
 
     # Exclude first line
     if [ $name != "name" ]; then
         echo "$EXEC_COMMAND";
+
+        # --- EXECUTION
+        EXEC_TIME=$($EXEC_COMMAND)
+        if [ $environment = "docker" ]; then
+            ./setup/ep-start-docker-cluster.sh down size=16
+            ./setup/assemble-swarm destroy $HOSTFILE
+        fi
     fi
 done < $INPUT_FILE
 IFS=$OLDIFS

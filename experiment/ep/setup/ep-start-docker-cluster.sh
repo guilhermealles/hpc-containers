@@ -1,14 +1,17 @@
 #!/bin/bash
 
-if [ -z $1 ] ; then
-    echo "USAGE: $0 <cluster-size>"
+# TODO arrumar as combinações de parâmetros (down com size não faz sentido)
+return
+if [ -z $1 ] || [ -z $2 ] ; then
+    echo "USAGE: $0 <up/down> <cluster-size>"
     return;
 fi
 
-CLUSTER_SIZE=$1
+START_COMMAND=$1
+CLUSTER_SIZE=$2
 
 cd ../../docker/cluster
-./swarm.sh size="$CLUSTER_SIZE"
+./swarm.sh "$START_COMMAND" size="$CLUSTER_SIZE"
 
 # Sleep for 15 seconds in order to allow the containers to spin up
-sleep 15
+sleep 20
