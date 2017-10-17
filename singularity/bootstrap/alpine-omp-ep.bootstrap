@@ -2,7 +2,7 @@ Bootstrap: docker
 From: guilhermealles/alpine-mpi:latest
 
 %runscript
-/project/bin/ep.C.x
+/project/bin/ep.B.x
 
 %files
 
@@ -25,8 +25,8 @@ sed -i 's/^FFLAGS\s=\s-O$/FFLAGS  = -O -fopenmp/g' config/make.def
 sed -i 's/^FLINKFLAGS\s=\s-O$/FLINKFLAGS  = -O -fopenmp/g' config/make.def
 sed -i 's/^CFLAGS\s=\s-O$/CFLAGS  = -O -fopenmp/g' config/make.def
 sed -i 's/^CLINKFLAGS\s=\s-O$/CLINKFLAGS  = -O -fopenmp/g' config/make.def
-make ep CLASS=C NPROCS=16
+make ep CLASS=B NPROCS=16
 mkdir /project/bin
 
 # Copy binary to runscript destination
-cp bin/ep.C.x /project/bin/ep.C.x
+cp bin/ep.B.x /project/bin/ep.B.x
