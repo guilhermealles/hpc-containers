@@ -17,11 +17,11 @@ do
     HOSTFILE_FORCE_COMM="./hosts-force-comm.txt";
     if [ $environment = "singularity" ]; then
         if [ $context = "mpi" ]; then
-            EXEC_COMMAND="../../software/utils/ms-time.sh 'mpirun --hostfile $HOSTFILE -np $parallelism ./images/mpi-c-$parallelism.img > /dev/null 2&>1'"
+            EXEC_COMMAND="../../software/utils/ms-time.sh 'mpirun --hostfile $HOSTFILE -np $parallelism ./images/mpi-c-$parallelism.img'"
         elif [ $context = "mpi-high-comm" ]; then
-            EXEC_COMMAND="../../software/utils/ms-time.sh 'mpirun --hostfile $HOSTFILE_FORCE_COMM -np $parallelism ./images/mpi-c-$parallelism.img > /dev/null 2&>1'"
+            EXEC_COMMAND="../../software/utils/ms-time.sh 'mpirun --hostfile $HOSTFILE_FORCE_COMM -np $parallelism ./images/mpi-c-$parallelism.img'"
         else #OpenMP
-	    export OMP_NUM_THREADS=$parallelism
+	        export OMP_NUM_THREADS=$parallelism
             EXEC_COMMAND="../../software/utils/ms-time.sh './images/omp-c.img'"
         fi
     elif [ $environment = "docker" ]; then
@@ -44,7 +44,7 @@ do
         elif [ $context = "mpi-high-comm" ]; then
             EXEC_COMMAND="../../software/utils/ms-time.sh 'mpirun --hostfile $HOSTFILE_FORCE_COMM -np $parallelism $LOCAL_NAS_BUILD/NPB3.3.1/NPB3.3-MPI/bin/ep.B.$parallelism'"
         else # OpenMP
-	    export OMP_NUM_THREADS=$parallelism
+	        export OMP_NUM_THREADS=$parallelism
             EXEC_COMMAND="../../software/utils/ms-time.sh '$LOCAL_NAS_BUILD/NPB3.3.1/NPB3.3-OMP/bin/ep.B.x'"
         fi
     fi
