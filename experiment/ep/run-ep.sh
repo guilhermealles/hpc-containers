@@ -12,7 +12,7 @@ echo "Singularity containers created successfully."
 echo "Running experiments from input CSV file..."
 OLDIFS=$IFS
 IFS=","
-while read name order number rp environment context parallelism block exectime
+while -u 11 read name order number rp environment context parallelism block exectime
 do
     HOSTFILE="./hosts.txt"
     HOSTFILE_FORCE_COMM="./hosts-force-comm.txt";
@@ -64,7 +64,7 @@ do
         fi
     fi
     OMP_NUM_THREADS=""
-done < $INPUT_FILE
+done 11< $INPUT_FILE
 IFS=$OLDIFS
 
 echo "Done."
