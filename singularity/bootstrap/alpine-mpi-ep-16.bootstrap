@@ -1,5 +1,5 @@
 Bootstrap: docker
-From: guilhermealles/alpine-mpi:latest
+From: guilhermealles/alpine-mpi:base
 
 %runscript
 /project/bin/ep.B.16
