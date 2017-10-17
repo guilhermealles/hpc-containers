@@ -4,7 +4,7 @@
 return
 if [ -z $1 ] || [ -z $2 ] ; then
     echo "USAGE: $0 <up/down> <cluster-size>"
-    return;
+    exit
 fi
 
 START_COMMAND=$1

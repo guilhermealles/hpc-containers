@@ -1,18 +1,17 @@
-#/bin/bash
+#!/bin/bash
 INPUT_FILE='./ep-configuration.csv'
 RESULTS_FILE='./ep-results.csv'
 LOCAL_NAS_BUILD="$HOME/NAS"
 
 echo "Creating singularity containers..."
-echo "$(./ep-singularity-setup)"
+echo "$(./setup/ep-singularity-setup.sh)"
 echo "Singularity containers created successfully."
 
-
-
 echo "Running experiments from input CSV file..."
+sleep 5
 OLDIFS=$IFS
 IFS=","
-while -u 11 read name order number rp environment context parallelism block exectime
+while read -u 11 name order number rp environment context parallelism block exectime
 do
     HOSTFILE="./hosts.txt"
     HOSTFILE_FORCE_COMM="./hosts-force-comm.txt";
@@ -64,6 +63,7 @@ do
         fi
     fi
     OMP_NUM_THREADS=""
+    sleep 5
 done 11< $INPUT_FILE
 IFS=$OLDIFS
 
