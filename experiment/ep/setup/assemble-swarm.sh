@@ -19,6 +19,6 @@ while read -u 10 LINE
 do
     HOST=$(echo $LINE | sed 's/ .*$//')
     echo "Processing $COMMAND on host $HOST"
-    echo $(ssh alles@$HOST "$SWARM_COMMAND")
+    echo $(ssh -o StrictHostKeyChecking=no alles@$HOST "$SWARM_COMMAND")
     echo "Host $HOST processed."
 done 10< $HOSTFILE
