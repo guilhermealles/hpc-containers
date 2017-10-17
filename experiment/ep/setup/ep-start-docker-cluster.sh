@@ -13,5 +13,5 @@ CLUSTER_SIZE=$2
 cd ../../docker/cluster
 ./swarm.sh "$START_COMMAND" size="$CLUSTER_SIZE"
 
-# Sleep for 15 seconds in order to allow the containers to spin up
+# Sleep for 20 seconds in order to allow the containers to spin up
 sleep 20
