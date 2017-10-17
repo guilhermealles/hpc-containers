@@ -14,7 +14,7 @@ FROM guilhermealles/alpine-mpi:onbuild
 COPY project/ .
 
 # Normal build command
-USER root
+USER mpi
 RUN curl https://www.nas.nasa.gov/assets/npb/NPB3.3.1.tar.gz > NPB-3.3.1.tar.gz
 RUN tar -xvzf NPB-3.3.1.tar.gz
 RUN cd NPB3.3.1/NPB3.3-MPI/ && cp config/make.def.template config/make.def 
@@ -30,8 +30,6 @@ RUN cd NPB3.3.1/NPB3.3-OMP/ && sed -i 's/^FLINKFLAGS\s=\s-O$/FLINKFLAGS  = -O -f
 RUN cd NPB3.3.1/NPB3.3-OMP/ && sed -i 's/^CFLAGS\s=\s-O$/CFLAGS  = -O -fopenmp/g' config/make.def
 RUN cd NPB3.3.1/NPB3.3-OMP/ && sed -i 's/^CLINKFLAGS\s=\s-O$/CLINKFLAGS  = -O -fopenmp/g' config/make.def
 RUN cd NPB3.3.1/NPB3.3-OMP/ && make ep CLASS=B
-RUN chown -R ${USER}:${USER} *
-USER mpi
 
 # ####################
 # For Docker beginner:
