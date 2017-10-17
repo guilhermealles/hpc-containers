@@ -31,7 +31,6 @@ do
             ./setup/ep-start-docker-cluster.sh up size=$parallelism
             EXEC_COMMAND="../../software/utils/ms-time.sh docker mpi-high-comm ep c 16"
         else # OpenMP
-            # TODO o que acontece se eu criar um cluster de tamanho 1????
             ./setup/assemble-swarm.sh create $HOSTFILE
             ./setup/ep-start-docker-cluster.sh up size=1
             EXEC_COMMAND="../../software/utils/ms-time.sh docker openmp ep c 16"
