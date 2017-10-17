@@ -22,7 +22,8 @@ do
         elif [ $context = "mpi-high-comm" ]; then
             EXEC_COMMAND="../../software/utils/ms-time.sh 'mpirun --hostfile $HOSTFILE_FORCE_COMM -np $parallelism ./images/mpi-c-$parallelism.img > /dev/null 2&>1'"
         else #OpenMP
-            EXEC_COMMAND="../../software/utils/ms-time.sh 'OMP_NUM_THREADS=$parallelism ./images/omp-c.img'"
+	    export OMP_NUM_THREADS=$parallelism
+            EXEC_COMMAND="../../software/utils/ms-time.sh './images/omp-c.img'"
         fi
     elif [ $environment = "docker" ]; then
         if [ $context = "mpi" ]; then
@@ -44,7 +45,8 @@ do
         elif [ $context = "mpi-high-comm" ]; then
             EXEC_COMMAND="../../software/utils/ms-time.sh 'mpirun --hostfile $HOSTFILE_FORCE_COMM -np $parallelism $LOCAL_NAS_BUILD/NPB3.3.1/NPB3.3-MPI/bin/ep.B.$parallelism'"
         else # OpenMP
-            EXEC_COMMAND="../../software/utils/ms-time.sh 'OMP_NUM_THREADS=$parallelism $LOCAL_NAS_BUILD/NPB3.3.1/NPB3.3-OMP/bin/ep.B.x'"
+	    export OMP_NUM_THREADS=$parallelism
+            EXEC_COMMAND="../../software/utils/ms-time.sh '$LOCAL_NAS_BUILD/NPB3.3.1/NPB3.3-OMP/bin/ep.B.x'"
         fi
     fi
 
@@ -61,6 +63,7 @@ do
             ./setup/assemble-swarm destroy $HOSTFILE
         fi
     fi
+    OMP_NUM_THREADS=""
 done < $INPUT_FILE
 IFS=$OLDIFS
 
