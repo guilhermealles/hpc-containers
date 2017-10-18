@@ -20,8 +20,6 @@ do
     HOSTFILE="./hosts.txt"
     HOSTFILE_FORCE_COMM="./hosts-force-comm.txt";
 
-    # TODO para OpenMP: Exportar a variável de amviente OMP_NUM_THREADS
-    # TODO para Docker: mudar permissões das chaves ssh e mudar o diretório corrente para ../../docker/cluster
     if [ $context = "openmp" ]; then
         export OMP_NUM_THREADS=$parallelism
     fi
