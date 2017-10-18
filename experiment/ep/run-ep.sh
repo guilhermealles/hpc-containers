@@ -59,7 +59,7 @@ do
 
     # Exclude first line
     if [ $name != "name" ]; then
-        echo "$EXEC_COMMAND";
+        echo $EXEC_COMMAND;
 
         # --- EXECUTION
         EXEC_TIME=$($EXEC_COMMAND)
