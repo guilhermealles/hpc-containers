@@ -26,34 +26,34 @@ do
 
     if [ $environment = "singularity" ]; then
         if [ $context = "mpi" ]; then
-            EXEC_COMMAND="../../software/utils/ms-time.sh 'mpirun --hostfile $HOSTFILE -np $parallelism ./images/mpi-c-$parallelism.img'"
+            EXEC_COMMAND="../../software/utils/ms-time.sh mpirun --hostfile $HOSTFILE -np $parallelism ./images/mpi-c-$parallelism.img"
         elif [ $context = "mpi-high-comm" ]; then
-            EXEC_COMMAND="../../software/utils/ms-time.sh 'mpirun --hostfile $HOSTFILE_FORCE_COMM -np $parallelism ./images/mpi-c-$parallelism.img'"
+            EXEC_COMMAND="../../software/utils/ms-time.sh mpirun --hostfile $HOSTFILE_FORCE_COMM -np $parallelism ./images/mpi-c-$parallelism.img"
         else #OpenMP
-            EXEC_COMMAND="../../software/utils/ms-time.sh './images/omp-c.img'"
+            EXEC_COMMAND="../../software/utils/ms-time.sh ./images/omp-c.img"
         fi
     elif [ $environment = "docker" ]; then
         if [ $context = "mpi" ]; then
             ./setup/assemble-swarm.sh create $HOSTFILE
             ./setup/ep-start-docker-cluster.sh up $parallelism
-            EXEC_COMMAND="../../software/utils/ms-time.sh './swarm.sh exec mpirun -np $parallelism NPB3.3.1/NPB3.3-MPI/bin/ep.B.$parallelism'"
+            EXEC_COMMAND="../../software/utils/ms-time.sh ./swarm.sh exec mpirun -np $parallelism NPB3.3.1/NPB3.3-MPI/bin/ep.B.$parallelism"
         elif [ $context = "mpi-high-comm" ]; then
             ./setup/assemble-swarm.sh create $HOSTFILE_FORCE_COMM
             ./setup/ep-start-docker-cluster.sh up $parallelism
-	        EXEC_COMMAND="../../software/utils/ms-time.sh './swarm.sh exec mpirun -np $parallelism NPB3.3.1/NPB3.3-MPI/bin/ep.B.$parallelism'"
+	        EXEC_COMMAND="../../software/utils/ms-time.sh ./swarm.sh exec mpirun -np $parallelism NPB3.3.1/NPB3.3-MPI/bin/ep.B.$parallelism"
         else # OpenMP
             ./setup/assemble-swarm.sh create $HOSTFILE
             ./setup/ep-start-docker-cluster.sh up 1
-            EXEC_COMMAND="../../software/utils/ms-time.sh './swarm.sh exec NPB3.3.1/NPB3.3-OMP/bin/ep.B.x"
+            EXEC_COMMAND="../../software/utils/ms-time.sh ./swarm.sh exec NPB3.3.1/NPB3.3-OMP/bin/ep.B.x"
         fi
         cd ../../docker/cluster/
     else # native
         if [ $context = "mpi" ]; then
-            EXEC_COMMAND="../../software/utils/ms-time.sh 'mpirun --hostfile $HOSTFILE -np $parallelism $LOCAL_NAS_BUILD/NPB3.3.1/NPB3.3-MPI/bin/ep.B.$parallelism'"
+            EXEC_COMMAND="../../software/utils/ms-time.sh mpirun --hostfile $HOSTFILE -np $parallelism $LOCAL_NAS_BUILD/NPB3.3.1/NPB3.3-MPI/bin/ep.B.$parallelism"
         elif [ $context = "mpi-high-comm" ]; then
-            EXEC_COMMAND="../../software/utils/ms-time.sh 'mpirun --hostfile $HOSTFILE_FORCE_COMM -np $parallelism $LOCAL_NAS_BUILD/NPB3.3.1/NPB3.3-MPI/bin/ep.B.$parallelism'"
+            EXEC_COMMAND="../../software/utils/ms-time.sh mpirun --hostfile $HOSTFILE_FORCE_COMM -np $parallelism $LOCAL_NAS_BUILD/NPB3.3.1/NPB3.3-MPI/bin/ep.B.$parallelism"
         else # OpenMP
-            EXEC_COMMAND="../../software/utils/ms-time.sh '$LOCAL_NAS_BUILD/NPB3.3.1/NPB3.3-OMP/bin/ep.B.x'"
+            EXEC_COMMAND="../../software/utils/ms-time.sh $LOCAL_NAS_BUILD/NPB3.3.1/NPB3.3-OMP/bin/ep.B.x"
         fi
     fi
 
