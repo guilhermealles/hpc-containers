@@ -16,7 +16,6 @@ OLDIFS=$IFS
 IFS=","
 while read -u 11 name order number rp environment context parallelism block exectime
 do
-    cd "$RUN_EP_PWD"
     HOSTFILE="./hosts.txt"
     HOSTFILE_FORCE_COMM="./hosts-force-comm.txt";
 
@@ -59,9 +58,10 @@ do
 
     # Exclude first line
     if [ $name != "name" ]; then
-        echo "$EXEC_COMMAND";
+
+        cd "$RUN_EP_PWD"
         if [ $environment = "docker" ]; then
-            ./setup/ep-start-docker-cluster.sh down size=16
+            ./setup/ep-start-docker-cluster.sh down 16
             ./setup/assemble-swarm destroy $HOSTFILE
         fi
     fi

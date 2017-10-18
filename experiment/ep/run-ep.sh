@@ -66,7 +66,7 @@ do
         echo $EXEC_TIME
         echo "$name,$environment,$context,$parallelism,$EXEC_TIME" > $RESULTS_FILE
         if [ $environment = "docker" ]; then
-            ./setup/ep-start-docker-cluster.sh down size=16
+            ./setup/ep-start-docker-cluster.sh down 16
             ./setup/assemble-swarm destroy $HOSTFILE
         fi
     fi
