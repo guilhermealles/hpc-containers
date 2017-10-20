@@ -7,9 +7,6 @@ SOFTWARE_UTILS_DIR="$HOME/singularity-mpi/software/utils"
 INPUT_FILE="$EXPERIMENT_HOME_DIR/ep-configuration.csv"
 RESULTS_FILE="$EXPERIMENT_HOME_DIR/ep-results.csv"
 
-echo "Creating singularity containers..."
-echo "$(./setup/ep-singularity-setup.sh)"
-
 echo "Setting up docker keys..."
 chmod 600 ../../docker/cluster/ssh/*
 
