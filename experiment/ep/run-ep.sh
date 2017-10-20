@@ -56,7 +56,7 @@ do
         fi
         cd "$EXPERIMENT_HOME_DIR"
         ./setup/ep-start-docker-cluster.sh down 16
-        ./setup/assemble-swarm destroy $HOSTFILE
+        ./setup/assemble-swarm.sh destroy $HOSTFILE
     else # native
         if [ $context = "mpi" ]; then
             EXEC_TIME=$($SOFTWARE_UTILS_DIR/ms-time.sh mpirun --hostfile $HOSTFILE -np $parallelism $LOCAL_NAS_BUILD/NPB3.3.1/NPB3.3-MPI/bin/ep.B.$parallelism)
