@@ -2,9 +2,9 @@
 INPUT_FILE='./ep-configuration.csv'
 RESULTS_FILE='./ep-results.csv'
 LOCAL_NAS_BUILD="$HOME/NAS"
-DOCKER_CLUSTER_DIR="$HOME/singularity-mpi/docker/cluster/"
-EXPERIMENT_HOME_DIR="$HOME/singularity-mpi/experiment/ep/"
-SOFTWARE_UTILS_DIR="$HOME/singularity-mpi/software/utils/"
+DOCKER_CLUSTER_DIR="$HOME/singularity-mpi/docker/cluster"
+EXPERIMENT_HOME_DIR="$HOME/singularity-mpi/experiment/ep"
+SOFTWARE_UTILS_DIR="$HOME/singularity-mpi/software/utils"
 
 echo "Creating singularity containers..."
 echo "$(./setup/ep-singularity-setup.sh)"
