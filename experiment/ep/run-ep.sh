@@ -1,5 +1,6 @@
 #!/bin/bash
 LOCAL_NAS_BUILD="$HOME/NAS"
+SINGULARITY_IMAGES_DIR="$HOME/singularity_images"
 DOCKER_CLUSTER_DIR="$HOME/singularity-mpi/docker/cluster"
 EXPERIMENT_HOME_DIR="$HOME/singularity-mpi/experiment/ep"
 SOFTWARE_UTILS_DIR="$HOME/singularity-mpi/software/utils"
@@ -31,11 +32,11 @@ do
 
     if [ $environment = "singularity" ]; then
         if [ $context = "mpi" ]; then
-            EXEC_TIME=$($SOFTWARE_UTILS_DIR/ms-time.sh mpirun --hostfile $HOSTFILE -np $parallelism ./images/mpi-c-$parallelism.img)
+            EXEC_TIME=$($SOFTWARE_UTILS_DIR/ms-time.sh mpirun --hostfile $HOSTFILE -np $parallelism $SINGULARITY_IMAGES_DIR/mpi-c-$parallelism.img)
         elif [ $context = "mpi-high-comm" ]; then
-            EXEC_TIME=$($SOFTWARE_UTILS_DIR/ms-time.sh mpirun --hostfile $HOSTFILE_FORCE_COMM -np $parallelism ./images/mpi-c-$parallelism.img)
+            EXEC_TIME=$($SOFTWARE_UTILS_DIR/ms-time.sh mpirun --hostfile $HOSTFILE_FORCE_COMM -np $parallelism $SINGULARITY_IMAGES_DIR/mpi-c-$parallelism.img)
         else #OpenMP
-            EXEC_TIME=$($SOFTWARE_UTILS_DIR/ms-time.sh ./images/omp-c.img)
+            EXEC_TIME=$($SOFTWARE_UTILS_DIR/ms-time.sh $SINGULARITY_IMAGES_DIR/omp-c.img)
         fi
     elif [ $environment = "docker" ]; then
         if [ $context = "mpi" ]; then
