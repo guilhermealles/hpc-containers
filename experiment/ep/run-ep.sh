@@ -55,7 +55,7 @@ do
         elif [ $context = "mpi-high-comm" ]; then
             EXEC_COMMAND="$SOFTWARE_UTILS_DIR/ms-time.sh mpirun --hostfile $HOSTFILE_FORCE_COMM -np $parallelism $LOCAL_NAS_BUILD/NPB3.3.1/NPB3.3-MPI/bin/ep.B.$parallelism"
         else # OpenMP
-            EXEC_COMMAND="$SOFTWARE_UTILS_DIR/ms-time.sh $LOCAL_NAS_BUILD/NPB3.3.1/NPB3.3-OMP/bin/ep.B.x"
+            EXEC_COMMAND="$SOFTWARE_UTILS_DIR/ms-time.sh '$LOCAL_NAS_BUILD/NPB3.3.1/NPB3.3-OMP/bin/ep.B.x'"
         fi
     fi
 
