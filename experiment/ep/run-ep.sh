@@ -68,7 +68,7 @@ do
     fi
 
     echo ">>>>>>>>>> $name,$environment,$context,$parallelism,$EXEC_TIME <<<<<<<<<<"
-    echo "$name,$environment,$context,$parallelism,$EXEC_TIME" > $RESULTS_FILE
+    echo "$name,$environment,$context,$parallelism,$EXEC_TIME" >> $RESULTS_FILE
     sleep 10
 done 11< $INPUT_FILE
 IFS=$OLDIFS
