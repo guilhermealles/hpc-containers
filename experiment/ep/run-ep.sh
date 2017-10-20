@@ -54,6 +54,7 @@ do
             cd $DOCKER_CLUSTER_DIR
             EXEC_TIME=$($SOFTWARE_UTILS_DIR/ms-time.sh ./swarm.sh exec NPB3.3.1/NPB3.3-OMP/bin/ep.B.x)
         fi
+        cd "$EXPERIMENT_HOME_DIR"
         ./setup/ep-start-docker-cluster.sh down 16
         ./setup/assemble-swarm destroy $HOSTFILE
     else # native
