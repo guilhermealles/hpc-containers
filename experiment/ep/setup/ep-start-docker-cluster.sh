@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# TODO arrumar as combinações de parâmetros (down com size não faz sentido)
-return
 if [ -z $1 ] || [ -z $2 ] ; then
     echo "USAGE: $0 <up/down> <cluster-size>"
     exit
