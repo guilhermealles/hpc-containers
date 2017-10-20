@@ -2,7 +2,9 @@
 INPUT_FILE='./ep-configuration.csv'
 RESULTS_FILE='./ep-results.csv'
 LOCAL_NAS_BUILD="$HOME/NAS"
-RUN_EP_PWD=$(pwd)
+DOCKER_CLUSTER_DIR="$HOME/singularity-mpi/docker/cluster/"
+EXPERIMENT_HOME_DIR="$HOME/singularity-mpi/experiment/ep/"
+SOFTWARE_UTILS_DIR="$HOME/singularity-mpi/software/utils/"
 
 echo "Creating singularity containers..."
 echo "$(./setup/ep-singularity-setup.sh)"
@@ -16,7 +18,7 @@ OLDIFS=$IFS
 IFS=","
 while read -u 11 name order number rp environment context parallelism block exectime
 do
-    cd "$RUN_EP_PWD"
+    cd "$EXPERIMENT_HOME_DIR"
     HOSTFILE="./hosts.txt"
     HOSTFILE_FORCE_COMM="./hosts-force-comm.txt";
 
@@ -26,34 +28,34 @@ do
 
     if [ $environment = "singularity" ]; then
         if [ $context = "mpi" ]; then
-            EXEC_COMMAND="../../software/utils/ms-time.sh mpirun --hostfile $HOSTFILE -np $parallelism ./images/mpi-c-$parallelism.img"
+            EXEC_COMMAND="$SOFTWARE_UTILS_DIR/ms-time.sh mpirun --hostfile $HOSTFILE -np $parallelism ./images/mpi-c-$parallelism.img"
         elif [ $context = "mpi-high-comm" ]; then
-            EXEC_COMMAND="../../software/utils/ms-time.sh mpirun --hostfile $HOSTFILE_FORCE_COMM -np $parallelism ./images/mpi-c-$parallelism.img"
+            EXEC_COMMAND="$SOFTWARE_UTILS_DIR/ms-time.sh mpirun --hostfile $HOSTFILE_FORCE_COMM -np $parallelism ./images/mpi-c-$parallelism.img"
         else #OpenMP
-            EXEC_COMMAND="../../software/utils/ms-time.sh ./images/omp-c.img"
+            EXEC_COMMAND="$SOFTWARE_UTILS_DIR/ms-time.sh ./images/omp-c.img"
         fi
     elif [ $environment = "docker" ]; then
         if [ $context = "mpi" ]; then
             ./setup/assemble-swarm.sh create $HOSTFILE
             ./setup/ep-start-docker-cluster.sh up $parallelism
-            EXEC_COMMAND="../../software/utils/ms-time.sh ./swarm.sh exec mpirun -np $parallelism NPB3.3.1/NPB3.3-MPI/bin/ep.B.$parallelism"
+            EXEC_COMMAND="$SOFTWARE_UTILS_DIR/ms-time.sh ./swarm.sh exec mpirun -np $parallelism NPB3.3.1/NPB3.3-MPI/bin/ep.B.$parallelism"
         elif [ $context = "mpi-high-comm" ]; then
             ./setup/assemble-swarm.sh create $HOSTFILE_FORCE_COMM
             ./setup/ep-start-docker-cluster.sh up $parallelism
-	        EXEC_COMMAND="../../software/utils/ms-time.sh ./swarm.sh exec mpirun -np $parallelism NPB3.3.1/NPB3.3-MPI/bin/ep.B.$parallelism"
+	        EXEC_COMMAND="$SOFTWARE_UTILS_DIR/ms-time.sh ./swarm.sh exec mpirun -np $parallelism NPB3.3.1/NPB3.3-MPI/bin/ep.B.$parallelism"
         else # OpenMP
             ./setup/assemble-swarm.sh create $HOSTFILE
             ./setup/ep-start-docker-cluster.sh up 1
-            EXEC_COMMAND="../../software/utils/ms-time.sh ./swarm.sh exec NPB3.3.1/NPB3.3-OMP/bin/ep.B.x"
+            EXEC_COMMAND="$SOFTWARE_UTILS_DIR/ms-time.sh ./swarm.sh exec NPB3.3.1/NPB3.3-OMP/bin/ep.B.x"
         fi
-        cd ../../docker/cluster/
+        cd $DOCKER_CLUSTER_DIR
     else # native
         if [ $context = "mpi" ]; then
-            EXEC_COMMAND="../../software/utils/ms-time.sh mpirun --hostfile $HOSTFILE -np $parallelism $LOCAL_NAS_BUILD/NPB3.3.1/NPB3.3-MPI/bin/ep.B.$parallelism"
+            EXEC_COMMAND="$SOFTWARE_UTILS_DIR/ms-time.sh mpirun --hostfile $HOSTFILE -np $parallelism $LOCAL_NAS_BUILD/NPB3.3.1/NPB3.3-MPI/bin/ep.B.$parallelism"
         elif [ $context = "mpi-high-comm" ]; then
-            EXEC_COMMAND="../../software/utils/ms-time.sh mpirun --hostfile $HOSTFILE_FORCE_COMM -np $parallelism $LOCAL_NAS_BUILD/NPB3.3.1/NPB3.3-MPI/bin/ep.B.$parallelism"
+            EXEC_COMMAND="$SOFTWARE_UTILS_DIR/ms-time.sh mpirun --hostfile $HOSTFILE_FORCE_COMM -np $parallelism $LOCAL_NAS_BUILD/NPB3.3.1/NPB3.3-MPI/bin/ep.B.$parallelism"
         else # OpenMP
-            EXEC_COMMAND="../../software/utils/ms-time.sh $LOCAL_NAS_BUILD/NPB3.3.1/NPB3.3-OMP/bin/ep.B.x"
+            EXEC_COMMAND="$SOFTWARE_UTILS_DIR/ms-time.sh $LOCAL_NAS_BUILD/NPB3.3.1/NPB3.3-OMP/bin/ep.B.x"
         fi
     fi
 
@@ -63,14 +65,14 @@ do
 
         # --- EXECUTION
         EXEC_TIME=$($EXEC_COMMAND)
-        echo $EXEC_TIME
+        echo ">>>>>>>>>> $name,$environment,$context,$parallelism,$EXEC_TIME <<<<<<<<<<"
         echo "$name,$environment,$context,$parallelism,$EXEC_TIME" > $RESULTS_FILE
         if [ $environment = "docker" ]; then
             ./setup/ep-start-docker-cluster.sh down 16
             ./setup/assemble-swarm destroy $HOSTFILE
         fi
     fi
-    sleep 5
+    sleep 25
 done 11< $INPUT_FILE
 IFS=$OLDIFS
 
