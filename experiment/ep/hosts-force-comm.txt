@@ -1,0 +1,16 @@
+host slots=1 max-slots=1
+host slots=1 max-slots=1
+host slots=1 max-slots=1
+host slots=1 max-slots=1
+host slots=1 max-slots=1
+host slots=1 max-slots=1
+host slots=1 max-slots=1
+host slots=1 max-slots=1
+host slots=1 max-slots=1
+host slots=1 max-slots=1
+host slots=1 max-slots=1
+host slots=1 max-slots=1
+host slots=1 max-slots=1
+host slots=1 max-slots=1
+host slots=1 max-slots=1
+host slots=1 max-slots=1
