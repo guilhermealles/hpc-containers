@@ -1,1 +1,0 @@
-57 23 * * * cd /home/alles/singularity-mpi/experiment/ep && git add ep-results && git commit -m "Adds results" && git push
