@@ -14,7 +14,7 @@ COPY project/ .
 
 # Normal build command
 USER mpi
-RUN cp ./ESSAI-XML/options.h ./SRC
+RUN rm ./SRC/options.h && cp ./ESSAI-XML/options.h ./SRC
 RUN sed -i 's/^\(TESTFLAGS.*+=.*-DMPI\)$/#\1/' ./SRC/Makefile
 RUN cd SRC/ && make clean && make
 RUN cp ondes3d ondes3d-omp
