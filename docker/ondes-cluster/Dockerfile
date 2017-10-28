@@ -24,4 +24,5 @@ RUN sed -i 's/^\(OMP_FLAGS.*+=.*-fopenmp\)$/#\1/' ./SRC/Makefile
 RUN cd SRC/ && make clean && make
 RUN mkdir ESSAI-OUTPUT
 RUN cp ondes3d ondes3d-mpi
+RUN chown -R mpi:mpi *
 USER mpi
