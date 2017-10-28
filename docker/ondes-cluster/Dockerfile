@@ -5,6 +5,7 @@ FROM guilhermealles/alpine-mpi:onbuild
 # # ------------------------------------------------------------
 
 # Put all build steps and additional package installation here
+RUN apk add --no-cache git
 
 # Note: the current directory is ${WORKDIR:=/project}, which is
 # also the default directory where ${USER:=mpi} will SSH login to
