@@ -8,7 +8,7 @@ fi
 START_COMMAND=$1
 CLUSTER_SIZE=$2
 
-cd ../../docker/cluster
+cd ../../docker/ep-cluster
 ./swarm.sh "$START_COMMAND" size="$CLUSTER_SIZE"
 
 # Sleep for 20 seconds in order to allow the containers to spin up

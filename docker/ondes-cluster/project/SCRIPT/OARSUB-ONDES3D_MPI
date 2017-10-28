@@ -1,0 +1,51 @@
+#!/bin/bash
+#flag_omp = 0 (OMP=no - pure MPI version) / 1 (OMP=yes - hybrid version)
+#task_number - total number of parallel task (MPI x OMP ) 
+#proc_MPI_node - number of MPI task per node
+#core_OMP - number of threads OpenMP per MPI process
+################################
+
+flag_omp=$1
+task_number=$2
+proc_MPI_node=$3
+core_OMP=$4
+core_hw=$5
+
+
+
+EXE_NAME=./ondes3d
+module=openmpi-gcc
+exec_time=4
+core_hw=24
+############
+
+
+
+total_node=
+
+if [ $flag_omp == 0 ]; then
+	cpu_O3D=$task_number
+        total_node=$(expr $task_number / $proc_MPI_node )
+
+
+else
+	
+
+	tmp=$(expr $task_number / $core_OMP) 
+	total_node=$(expr $tmp / $proc_MPI_node )
+	cpu_O3D=$total_node
+
+fi
+
+
+echo $EXE_NAME
+echo "Flag OMP" $flag_omp
+echo "total number of parallel tasks" $task_number
+echo "number of MPI processes per node" $proc_MPI_node
+echo "number of computing nodes used for the computation" $total_node
+echo "number of OpenMP threads per MPI process" $core_OMP
+echo "number of MPI processes for mpirun" $cpu_O3D
+echo "number of physical cores on each computing node" $core_hw
+
+##############################
+oarsub -p "thin='yes'"   -l nodes=$total_node/core=$core_hw,walltime=$exec_time "./RUN-ONDES3D $PWD/$EXE_NAME $cpu_O3D $module $core_OMP $flag_omp $core_hw"
