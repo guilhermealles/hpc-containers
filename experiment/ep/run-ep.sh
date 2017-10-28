@@ -1,7 +1,7 @@
 #!/bin/bash
 LOCAL_NAS_BUILD="$HOME/NAS"
 SINGULARITY_IMAGES_DIR="$HOME/singularity_images"
-DOCKER_CLUSTER_DIR="$HOME/singularity-mpi/docker/cluster"
+DOCKER_CLUSTER_DIR="$HOME/singularity-mpi/docker/ep-cluster"
 EXPERIMENT_HOME_DIR="$HOME/singularity-mpi/experiment/ep"
 SOFTWARE_UTILS_DIR="$HOME/singularity-mpi/software/utils"
 INPUT_FILE="$EXPERIMENT_HOME_DIR/ep-configuration.csv"
