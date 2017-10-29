@@ -163,6 +163,7 @@ up_master ()
     printf "$ docker service create \\
         --name %s \\
         --replicas 1 \\
+        --constraint 'node.role == manager'    \\
         --network %s \\
         --publish %s:22 \\
         --user root \\
@@ -178,6 +179,7 @@ up_master ()
     docker service create                      \
         --name ${MPI_MASTER_SERVICE_NAME}      \
         --replicas 1                           \
+        --constraint 'node.role == manager'    \
         --network ${NETWORK_NAME}              \
         --publish ${SSH_PORT}:22               \
         --user root                            \
@@ -200,6 +202,7 @@ up_workers ()
     printf "$ docker service create \\
         --name %s \\
         --replicas %s \\
+        --constraint 'node.role == worker'     \\
         --network %s \\
         --user root \\
         %s mpi_bootstrap \\
@@ -214,6 +217,7 @@ up_workers ()
     docker service create                      \
         --name ${MPI_WORKER_SERVICE_NAME}      \
         --replicas ${NUM_WORKER}               \
+        --constraint 'node.role == worker'     \
         --network ${NETWORK_NAME}              \
         --user root                            \
         "${IMAGE_TAG}" mpi_bootstrap             \
