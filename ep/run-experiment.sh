@@ -1,12 +1,6 @@
 #!/bin/bash
-LOCAL_NAS_BUILD="$HOME/NAS"
-DOCKER_CLUSTER_DIR="$PWD/docker-cluster/"
 EXPERIMENT_HOME_DIR="$PWD"
-SOFTWARE_UTILS_DIR="$EXPERIMENT_HOME_DIR/../software/utils"
 INPUT_FILE="$EXPERIMENT_HOME_DIR/config/ep-configuration.csv"
-RESULTS_FILE="$EXPERIMENT_HOME_DIR/results/ep-results.csv"
-HOSTFILE="$EXPERIMENT_HOME_DIR/config/hosts.txt"
-HOSTFILE_FORCE_COMM="$EXPERIMENT_HOME_DIR/config/hosts-force-comm.txt";
 
 echo "Setting up docker keys..."
 echo $(./setup/fix-docker-ssh-permissions.sh $DOCKER_CLUSTER_DIR/ssh/id_rsa)
