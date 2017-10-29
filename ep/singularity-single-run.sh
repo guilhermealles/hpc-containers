@@ -13,18 +13,18 @@ HOSTFILE_FORCE_COMM="$EXPERIMENT_HOME_DIR/config/hosts-force-comm.txt";
 RESULTS_FILE="$EXPERIMENT_HOME_DIR/results/ep-results.csv"
 NAME=$1
 ENVIRONMENT=$2
-CONTET=$3
+CONTEXT=$3
 PARALLELISM=$4
 
-if [ $CONTET = "mpi" ]; then
+if [ $CONTEXT = "mpi" ]; then
     EXEC_TIME=$($SOFTWARE_UTILS_DIR/ms-time.sh mpirun --hostfile $HOSTFILE -np $PARALLELISM $SINGULARITY_IMAGES_DIR/alpine-mpi-ep-$PARALLELISM.img)
-elif [ $CONTET = "mpi-high-comm" ]; then
+elif [ $CONTEXT = "mpi-high-comm" ]; then
     EXEC_TIME=$($SOFTWARE_UTILS_DIR/ms-time.sh mpirun --hostfile $HOSTFILE_FORCE_COMM -np $PARALLELISM $SINGULARITY_IMAGES_DIR/alpine-mpi-ep-$PARALLELISM.img)
-elif [ $CONTET = "openmp" ]; then
+elif [ $CONTEXT = "openmp" ]; then
     export OMP_NUM_THREADS=$PARALLELISM
     EXEC_TIME=$($SOFTWARE_UTILS_DIR/ms-time.sh $SINGULARITY_IMAGES_DIR/alpine-omp-ep.img)
     export OMP_NUM_THREADS=''
 fi
 
-echo ">>>>>>>>>> $NAME,$ENVIRONMENT,$CONTET,$PARALLELISM,$EXEC_TIME <<<<<<<<<<"
-echo "$NAME,$ENVIRONMENT,$CONTET,$PARALLELISM,$EXEC_TIME" >> $RESULTS_FILE
+echo ">>>>>>>>>> $NAME,$ENVIRONMENT,$CONTEXT,$PARALLELISM,$EXEC_TIME <<<<<<<<<<"
+echo "$NAME,$ENVIRONMENT,$CONTEXT,$PARALLELISM,$EXEC_TIME" >> $RESULTS_FILE
