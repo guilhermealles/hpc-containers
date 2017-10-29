@@ -17,12 +17,12 @@ CONTET=$3
 PARALLELISM=$4
 
 if [ $CONTET = "mpi" ]; then
-    EXEC_TIME=$($SOFTWARE_UTILS_DIR/ms-time.sh mpirun --hostfile $HOSTFILE -np $PARALLELISM $SINGULARITY_IMAGES_DIR/mpi-c-$PARALLELISM.img)
+    EXEC_TIME=$($SOFTWARE_UTILS_DIR/ms-time.sh mpirun --hostfile $HOSTFILE -np $PARALLELISM $SINGULARITY_IMAGES_DIR/alpine-mpi-ep-$PARALLELISM.img)
 elif [ $CONTET = "mpi-high-comm" ]; then
-    EXEC_TIME=$($SOFTWARE_UTILS_DIR/ms-time.sh mpirun --hostfile $HOSTFILE_FORCE_COMM -np $PARALLELISM $SINGULARITY_IMAGES_DIR/mpi-c-$PARALLELISM.img)
+    EXEC_TIME=$($SOFTWARE_UTILS_DIR/ms-time.sh mpirun --hostfile $HOSTFILE_FORCE_COMM -np $PARALLELISM $SINGULARITY_IMAGES_DIR/alpine-mpi-ep-$PARALLELISM.img)
 elif [ $CONTET = "openmp" ]; then
     export OMP_NUM_THREADS=$PARALLELISM
-    EXEC_TIME=$($SOFTWARE_UTILS_DIR/ms-time.sh $SINGULARITY_IMAGES_DIR/omp-c.img)
+    EXEC_TIME=$($SOFTWARE_UTILS_DIR/ms-time.sh $SINGULARITY_IMAGES_DIR/alpine-omp-ep.img)
     export OMP_NUM_THREADS=''
 fi
 
