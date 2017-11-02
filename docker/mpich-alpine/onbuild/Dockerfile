@@ -1,4 +1,4 @@
-FROM guilhermealles/alpine-mpi:latest
+FROM guilhermealles/alpine-mpi:base
 
 USER root
 
