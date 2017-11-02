@@ -10,7 +10,9 @@ do
   get_hosts > /tmp/current_hosts
   current_hosts=$(cat /tmp/current_hosts)
   current_hosts_count=$(wc -l /tmp/current_hosts | cut -d ' ' -f1)
-  [ "$current_hosts_count" -gt "$hosts_count" ] && printf "%s" "$current_hosts" > "$1"
-  hosts=$current_hosts
-  hosts_count=$current_hosts_count
+  if [ "$current_hosts_count" -gt "$hosts_count" ]; then
+    printf "%s" "$current_hosts" > "$1"
+    hosts=$current_hosts
+    hosts_count=$current_hosts_count
+  fi
 done
