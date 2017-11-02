@@ -1,11 +1,16 @@
 #!/bin/sh
 
-hosts=$(get_hosts)
+get_hosts > /tmp/hosts
+hosts=$(cat /tmp/hosts)
+hosts_count=$(wc -l /tmp/hosts | cut -d ' ' -f1)
 printf "%s" "$hosts" > "$1"
 
 while sleep 2
 do
-  current_hosts=$(get_hosts)
-  [ "$hosts" != "$current_hosts" ] && printf "%s" "$current_hosts" > "$1"
+  get_hosts > /tmp/current_hosts
+  current_hosts=$(cat /tmp/current_hosts)
+  current_hosts_count=$(wc -l /tmp/current_hosts | cut -d ' ' -f1)
+  [ "$current_hosts_count" -gt "$hosts_count" ] && printf "%s" "$current_hosts" > "$1"
   hosts=$current_hosts
+  hosts_count=$current_hosts_count
 done
