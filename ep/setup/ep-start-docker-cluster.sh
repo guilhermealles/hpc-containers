@@ -6,7 +6,8 @@ if [ -z $1 ] || [ -z $2 ] ; then
 fi
 
 START_COMMAND=$1
-CLUSTER_SIZE=$2
+PARALLELISM=$2
+CLUSTER_SIZE=$(($PARALLELISM+1))
 
 cd docker-cluster
 ./swarm.sh "$START_COMMAND" size="$CLUSTER_SIZE"
