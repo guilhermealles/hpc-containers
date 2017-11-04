@@ -12,6 +12,10 @@ From: guilhermealles/alpine-mpi:base
 %labels
 AUTHOR guilherme.r.alles@gmail.com
 
+%setup
+
+cp -R ../docker-cluster/project/* ${SINGULARITY_ROOTFS}
+
 %post
 mkdir /project && cd /project
 
