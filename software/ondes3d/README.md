@@ -1,0 +1,1 @@
+The source code contained here is a subset of the public Ondes3D repository, which can be found here: https://bitbucket.org/fdupros/ondes3d.
