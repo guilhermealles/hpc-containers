@@ -2,7 +2,7 @@ Bootstrap: docker
 From: guilhermealles/alpine-mpi:base
 
 %runscript
-cd /project && ./ondes3d
+cd /project && ./ondes3d $@
 
 %files
 
