@@ -1,4 +1,0 @@
-host slots=4 max-slots=4
-host slots=4 max-slots=4
-host slots=4 max-slots=4
-host slots=4 max-slots=4
