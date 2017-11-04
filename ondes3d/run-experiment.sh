@@ -1,6 +1,8 @@
 #!/bin/bash
 EXPERIMENT_HOME_DIR="$PWD"
 INPUT_FILE="$EXPERIMENT_HOME_DIR/config/ep-configuration.csv"
+DOCKER_CLUSTER_DIR="$PWD/docker-cluster/"
+
 
 echo "Setting up docker keys..."
 echo $(./setup/fix-docker-ssh-permissions.sh $DOCKER_CLUSTER_DIR/ssh/id_rsa)
