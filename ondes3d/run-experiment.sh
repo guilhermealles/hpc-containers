@@ -1,6 +1,6 @@
 #!/bin/bash
 EXPERIMENT_HOME_DIR="$PWD"
-INPUT_FILE="$EXPERIMENT_HOME_DIR/config/ep-configuration.csv"
+INPUT_FILE="$EXPERIMENT_HOME_DIR/config/doe-configuration.csv"
 DOCKER_CLUSTER_DIR="$PWD/docker-cluster/"
 
 
