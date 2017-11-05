@@ -2,7 +2,7 @@ Bootstrap: docker
 From: guilhermealles/alpine-mpi:base
 
 %runscript
-cd /project && ./ondes3d $@
+cd /project && ./ondes3d
 
 %files
 
@@ -19,9 +19,9 @@ cp -R ../docker-cluster/project/* ${SINGULARITY_ROOTFS}/project
 # Compile Ondes3D
 cd /project
 rm ./SRC/options.h && cp ./ESSAI-XML/options.h ./SRC
-sed -i 's/^\(TESTFLAGS.*+=.*-DMPI\)$/#\1/' ./SRC/Makefile
-sed -i 's/^#\(TESTFLAGS.*+=.*-DOMP\)$/\1/' ./SRC/Makefile
-sed -i 's/^#\(.*-fopenmp\)$/\1/' ./SRC/Makefile
+sed -i 's/^#\(TESTFLAGS.*+=.*-DMPI\)$/\1/' ./SRC/Makefile
+sed -i 's/^\(TESTFLAGS.*+=.*-DOMP\)$/#\1/' ./SRC/Makefile
+sed -i 's/^\(.*-fopenmp\)$/#\1/' ./SRC/Makefile
 cd SRC/ && make clean && make
 cd ..
 chmod -R 777 *
