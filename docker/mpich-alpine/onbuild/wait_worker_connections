@@ -8,10 +8,10 @@ fi
 DESIRED_CONNECTIONS_COUNT=$(($1-1))
 
 cat /etc/opt/hosts > /tmp/active_connections
-CURRENT_CONNECTIONS_COUNT=$(wc -l /tmp/active_connections)
+CURRENT_CONNECTIONS_COUNT=$(wc -l /tmp/active_connections | cut -d ' ' -f1)
 
 while [ "$CURRENT_CONNECTIONS_COUNT" -lt "$DESIRED_CONNECTIONS_COUNT" ]; do
     sleep 1
     cat /etc/opt/hosts > /tmp/active_connections
-    CURRENT_CONNECTIONS_COUNT=$(wc -l /tmp/active_connections)
+    CURRENT_CONNECTIONS_COUNT=$(wc -l /tmp/active_connections | cut -d ' ' -f1)
 done
