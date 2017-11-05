@@ -17,6 +17,9 @@ RUN chmod +x /usr/local/bin/get_hosts
 COPY auto_update_hosts /usr/local/bin/auto_update_hosts
 RUN chmod +x /usr/local/bin/auto_update_hosts
 
+COPY wait_worker_connections /usr/local/bin/wait_worker_connections
+RUN chmod +x /usr/local/bin/wait_worker_connections
+
 # # ------------------------------------------------------------
 # # Miscellaneous setup for better user experience
 # # ------------------------------------------------------------
