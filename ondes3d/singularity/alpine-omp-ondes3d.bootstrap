@@ -8,11 +8,11 @@ cd $HOME/singularity_images/ondes3d-omp && ./ondes3d $@
 AUTHOR guilherme.r.alles@gmail.com
 
 %setup
-cp -R ../docker-cluster/project/* ${HOME}/singularity_images/ondes3d-omp
+cp -R ../docker-cluster/project/* /home/alles/singularity_images/ondes3d-omp
 
 %post
 # Compile Ondes3D
-cd $HOME/singularity_images/ondes3d-omp
+cd /home/alles/singularity_images/ondes3d-omp
 rm ./SRC/options.h && cp ./ESSAI-XML/options.h ./SRC
 sed -i 's/^\(TESTFLAGS.*+=.*-DMPI\)$/#\1/' ./SRC/Makefile
 sed -i 's/^#\(TESTFLAGS.*+=.*-DOMP\)$/\1/' ./SRC/Makefile
