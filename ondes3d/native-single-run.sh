@@ -16,15 +16,17 @@ ENVIRONMENT=$2
 CONTEXT=$3
 PARALLELISM=$4
 
+cd "$LOCAL_ONDES3D_BUILD"
 if [ $CONTEXT = "mpi" ]; then
-    EXEC_TIME=$($SOFTWARE_UTILS_DIR/ms-time.sh mpirun --hostfile $HOSTFILE -np $PARALLELISM $LOCAL_ONDES3D_BUILD/ondes3d-mpi)
+    EXEC_TIME=$($SOFTWARE_UTILS_DIR/ms-time.sh mpirun --hostfile $HOSTFILE -np $PARALLELISM ./ondes3d-mpi)
 elif [ $CONTEXT = "mpi-high-comm" ]; then
-    EXEC_TIME=$($SOFTWARE_UTILS_DIR/ms-time.sh mpirun --hostfile $HOSTFILE_FORCE_COMM -np $PARALLELISM $LOCAL_ONDES3D_BUILD/ondes3d-mpi)
+    EXEC_TIME=$($SOFTWARE_UTILS_DIR/ms-time.sh mpirun --hostfile $HOSTFILE_FORCE_COMM -np $PARALLELISM ./ondes3d-mpi)
 else # OpenMP
     export OMP_NUM_THREADS=$PARALLELISM
-    EXEC_TIME=$($SOFTWARE_UTILS_DIR/ms-time.sh $LOCAL_ONDES3D_BUILD/ondes3d-omp)
+    EXEC_TIME=$($SOFTWARE_UTILS_DIR/ms-time.sh ./ondes3d-omp $PARALLELISM)
     export OMP_NUM_THREADS=''
 fi
+CD "$EXPERIMENT_HOME_DIR"
 
 echo ">>>>>>>>>> $NAME,$ENVIRONMENT,$CONTEXT,$PARALLELISM,$EXEC_TIME <<<<<<<<<<"
 echo "$NAME,$ENVIRONMENT,$CONTEXT,$PARALLELISM,$EXEC_TIME" >> $RESULTS_FILE
