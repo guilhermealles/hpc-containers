@@ -18,11 +18,13 @@ do
     fi
     cd "$EXPERIMENT_HOME_DIR"
 
+    echo "$name $environment $context $parallelism"
+
     if [ $environment = "singularity" ]; then
         echo $(./singularity-single-run.sh $name $environment $context $parallelism)
     elif [ $environment = "docker" ]; then
         echo $(./docker-single-run.sh $name $environment $context $parallelism)
-    else # native
+    elif [ $environment = "native" ]; then
         echo $(./native-single-run.sh $name $environment $context $parallelism)
     fi
     sleep 2

@@ -28,7 +28,7 @@ elif [ $CONTEXT = "mpi-high-comm" ]; then
     echo $(./setup/ep-start-docker-cluster.sh up $PARALLELISM)
     cd $DOCKER_CLUSTER_DIR
 	EXEC_TIME=$($SOFTWARE_UTILS_DIR/ms-time.sh ./swarm.sh exec mpirun -np $PARALLELISM ./ondes3d)
-else # OpenMP
+elif [ $CONTEXT = 'openmp' ]; then
     echo $(./setup/assemble-swarm.sh create $SWARM_HOSTFILE)
     echo $(./setup/ep-start-docker-cluster.sh up 1)
     cd $DOCKER_CLUSTER_DIR

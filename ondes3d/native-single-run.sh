@@ -21,7 +21,7 @@ if [ $CONTEXT = "mpi" ]; then
     EXEC_TIME=$($SOFTWARE_UTILS_DIR/ms-time.sh mpirun --hostfile $HOSTFILE -np $PARALLELISM ./ondes3d-mpi)
 elif [ $CONTEXT = "mpi-high-comm" ]; then
     EXEC_TIME=$($SOFTWARE_UTILS_DIR/ms-time.sh mpirun --hostfile $HOSTFILE_FORCE_COMM -np $PARALLELISM ./ondes3d-mpi)
-else # OpenMP
+elif [ $CONTEXT = "openmp" ]; then
     export OMP_NUM_THREADS=$PARALLELISM
     EXEC_TIME=$($SOFTWARE_UTILS_DIR/ms-time.sh ./ondes3d-omp $PARALLELISM)
     export OMP_NUM_THREADS=''
