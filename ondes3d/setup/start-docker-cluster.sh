@@ -12,5 +12,8 @@ CLUSTER_SIZE=$(($PARALLELISM+1))
 cd docker-cluster
 ./swarm.sh "$START_COMMAND" size="$CLUSTER_SIZE"
 
-# Sleep for 20 seconds in order to allow the containers to spin up
-sleep 20
+if [ "$START_COMMAND" = 'up' ]; then
+    ./swarm.sh exec wait_worker_connections "$PARALLELISM"
+elif [ "$START_COMMAND" = 'down' ]; then
+    sleep 10
+fi
