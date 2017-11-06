@@ -19,4 +19,5 @@ sed -i 's/^\(TESTFLAGS.*+=.*-DOMP\)$/#\1/' ./SRC/Makefile
 sed -i 's/^\(.*-fopenmp\)$/#\1/' ./SRC/Makefile
 cd SRC/ && make clean && make
 cd ..
+chown -R mpi:mpi *
 chmod -R 777 *
