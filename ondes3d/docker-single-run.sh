@@ -22,17 +22,17 @@ if [ $CONTEXT = "mpi" ]; then
     echo $(./setup/assemble-swarm.sh create $SWARM_HOSTFILE)
     echo $(./setup/start-docker-cluster.sh up $PARALLELISM)
     cd $DOCKER_CLUSTER_DIR
-    EXEC_TIME=$($SOFTWARE_UTILS_DIR/ms-time.sh ./swarm.sh exec mpirun -np $PARALLELISM ./ondes3d)
+    EXEC_TIME=$($SOFTWARE_UTILS_DIR/ms-time.sh ./swarm.sh exec mpirun -np $PARALLELISM ./ondes3d-mpi)
 elif [ $CONTEXT = "mpi-high-comm" ]; then
     echo $(./setup/assemble-swarm.sh create $SWARM_HOSTFILE_FORCE_COMM)
     echo $(./setup/start-docker-cluster.sh up $PARALLELISM)
     cd $DOCKER_CLUSTER_DIR
-	EXEC_TIME=$($SOFTWARE_UTILS_DIR/ms-time.sh ./swarm.sh exec mpirun -np $PARALLELISM ./ondes3d)
+	EXEC_TIME=$($SOFTWARE_UTILS_DIR/ms-time.sh ./swarm.sh exec mpirun -np $PARALLELISM ./ondes3d-mpi)
 elif [ $CONTEXT = 'openmp' ]; then
     echo $(./setup/assemble-swarm.sh create $SWARM_HOSTFILE)
     echo $(./setup/start-docker-cluster.sh up 1)
     cd $DOCKER_CLUSTER_DIR
-    EXEC_TIME=$($SOFTWARE_UTILS_DIR/ms-time.sh ./swarm.sh exec OMP_NUM_THREADS=$PARALLELISM ./ondes3d $PARALLELISM)
+    EXEC_TIME=$($SOFTWARE_UTILS_DIR/ms-time.sh ./swarm.sh exec OMP_NUM_THREADS=$PARALLELISM ./ondes3d-omp $PARALLELISM)
 fi
 
 cd "$EXPERIMENT_HOME_DIR"
