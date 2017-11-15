@@ -150,4 +150,3 @@
 229,native,openmp,4,Time taken: 174820 milliseconds
 231,native,mpi,4,Time taken: 166056 milliseconds
 232,singularity,mpi-high-comm,16,Time taken: 48152 milliseconds
-233,docker,openmp,16,Time taken: 169687 milliseconds
