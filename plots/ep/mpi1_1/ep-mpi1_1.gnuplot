@@ -116,7 +116,7 @@ set cbtics  norangelimit autofreq
 set rtics axis in scale 1,0.5 nomirror norotate  autojustify
 set rtics  norangelimit autofreq 
 unset ttics
-set title "EP - MPI 4:1" 
+set title "EP - MPI 1:1" 
 set title  font "" norotate
 set timestamp bottom 
 set timestamp "" 

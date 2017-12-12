@@ -10,7 +10,7 @@
 #    	gnuplot home:     http://www.gnuplot.info
 #    	faq, bugs, etc:   type "help FAQ"
 #    	immediate help:   type "help"  (plot window: hit 'h')
-# set terminal x11  nopersist enhanced
+# set terminal x11 
 # set output
 unset clip points
 set clip one
@@ -42,7 +42,7 @@ set tics back
 set grid nopolar
 set grid xtics nomxtics ytics nomytics noztics nomztics nortics nomrtics \
  nox2tics nomx2tics noy2tics nomy2tics nocbtics nomcbtics
-set grid layerdefault   lt 0 linecolor 0 linewidth 0.500,  lt 0 linecolor 0 linewidth 0.500
+set grid layerdefault   lt 0 linecolor 0 linewidth 0.500 dashtype solid,  lt 0 linecolor 0 linewidth 0.500 dashtype solid
 unset raxis
 set theta counterclockwise right
 set style parallel front  lt black linewidth 2.000 dashtype solid
@@ -116,7 +116,7 @@ set cbtics  norangelimit autofreq
 set rtics axis in scale 1,0.5 nomirror norotate  autojustify
 set rtics  norangelimit autofreq 
 unset ttics
-set title "EP - MPI 4:1" 
+set title "EP - OpenMP" 
 set title  font "" norotate
 set timestamp bottom 
 set timestamp "" 
@@ -124,7 +124,7 @@ set timestamp  font "" norotate
 set trange [ * : * ] noreverse nowriteback
 set urange [ * : * ] noreverse nowriteback
 set vrange [ * : * ] noreverse nowriteback
-set xlabel "Processos" 
+set xlabel "Threads" 
 set xlabel  font "" textcolor lt -1 norotate
 set x2label "" 
 set x2label  font "" textcolor lt -1 norotate
@@ -134,7 +134,7 @@ set ylabel "Tempo (s)"
 set ylabel  font "" textcolor lt -1 rotate
 set y2label "" 
 set y2label  font "" textcolor lt -1 rotate
-set yrange [ * : * ] noreverse nowriteback
+set yrange [ 0.00000 : 100.000 ] noreverse nowriteback
 set y2range [ * : * ] noreverse nowriteback
 set zlabel "" 
 set zlabel  font "" textcolor lt -1 norotate
