@@ -78,7 +78,7 @@ int main(int argc, char **argv) {
       MPI_Barrier(MPI_COMM_WORLD);
       t_stop = MPI_Wtime();
       if (me == 0)
-        printf("%8d bytes, %12.8f ms\n", msg_length, (t_stop-t_start)/1000);
+        printf("%8d bytes, %12.8f ms\n", msg_length, (t_stop-t_start)*1000);
     }
   }
 
