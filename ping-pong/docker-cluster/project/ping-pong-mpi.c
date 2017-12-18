@@ -6,7 +6,7 @@
 #include <mpi.h>
 
 #define MAX_SIZE   1048576
-#define NUM_ROUNDS 1000
+#define NUM_ROUNDS 10
 
 int main(int argc, char **argv) {
   int        me, nproc;
@@ -40,11 +40,10 @@ int main(int argc, char **argv) {
 
   for (msg_length = 1; msg_length <= MAX_SIZE; msg_length *= 2) {
     MPI_Barrier(MPI_COMM_WORLD);
-    t_start = MPI_Wtime();
 
     // Perform NUM_ROUNDS ping-pongs
     for (round = 0; round < NUM_ROUNDS*2; round++) {
-
+      t_start = MPI_Wtime();
       // I am the sender
       if (round % 2 == me) {
         // Clear start and end markers for next round
@@ -76,13 +75,11 @@ int main(int argc, char **argv) {
           MPI_Win_unlock(me, window);
         } while (val == 0);
       }
+      MPI_Barrier(MPI_COMM_WORLD);
+      t_stop = MPI_Wtime();
+      if (me == 0)
+        printf("%8d bytes, %12.8f ms\n", msg_length, (t_stop-t_start)*1000);
     }
-
-    MPI_Barrier(MPI_COMM_WORLD);
-    t_stop = MPI_Wtime();
-
-    if (me == 0)
-      printf("%8d bytes \t %12.8f us\n", msg_length, (t_stop-t_start)/NUM_ROUNDS*1.0e6);
   }
 
   MPI_Win_free(&window);
