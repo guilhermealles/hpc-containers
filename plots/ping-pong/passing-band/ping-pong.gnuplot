@@ -129,7 +129,7 @@ set x2label ""
 set x2label  font "" textcolor lt -1 norotate
 set xrange [ * : * ] noreverse nowriteback
 set x2range [ * : * ] noreverse nowriteback
-set ylabel "Latencia media (milisegundos)" 
+set ylabel "Banda passante (MB/s)" 
 set ylabel  font "" textcolor lt -1 rotate
 set y2label "" 
 set y2label  font "" textcolor lt -1 rotate
@@ -169,5 +169,5 @@ set psdir
 set fit brief errorvariables nocovariancevariables errorscaling prescale nowrap v5
 GNUTERM = "x11"
 ## Last datafile plotted: "native.dat"
-plot "docker.dat" using 1:2 with lines dashtype 1 lc rgb 'red' lw 1.5 title 'Docker',      "docker.dat" using 1:2:3:4 with errorbars lc rgb 'red' not,           "singularity.dat" using 1:2 with lines dashtype 4 lc rgb 'green' lw 1.5 title 'Singularity',      "singularity.dat" using 1:2:3:4 with errorbars lc rgb 'green' not,           "native.dat" using 1:2 with lines dashtype 2 lc rgb 'blue' lw 1.5 title 'Native',      "native.dat" using 1:2:3:4 with errorbars lc rgb 'blue' not
+plot "docker.dat" using 1:2 with linespoints dashtype 1 lc rgb 'red' lw 1.5 title 'Docker',"singularity.dat" using 1:2 with linespoints dashtype 4 lc rgb 'green' lw 1.5 title 'Singularity',"native.dat" using 1:2 with linespoints dashtype 2 lc rgb 'blue' lw 1.5 title 'Native'
 #    EOF
