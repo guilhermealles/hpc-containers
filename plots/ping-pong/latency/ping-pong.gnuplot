@@ -10,8 +10,8 @@
 #    	gnuplot home:     http://www.gnuplot.info
 #    	faq, bugs, etc:   type "help FAQ"
 #    	immediate help:   type "help"  (plot window: hit 'h')
-# set terminal x11 
-# set output
+# set terminal pngcairo  background "#ffffff" enhanced font "arial,10" fontscale 1.0 size 500, 300 
+# set output 'ping-pong-latency.png'
 unset clip points
 set clip one
 unset clip two
@@ -102,8 +102,9 @@ set my2tics default
 set mcbtics default
 set mrtics default
 set nomttics
-set xtics border in scale 1,0.5 mirror rotate by 270  autojustify
-set xtics  norangelimit logscale 1.00000,2,1.04858e+06
+set xtics border in scale 1,0.5 mirror rotate by 45  offset character 0, -1.35, 0 autojustify
+set xtics  norangelimit logscale 
+set xtics   ("0" 0.00000, "1" 1.00000, "2" 2.00000, "4" 4.00000, "8" 8.00000, "16" 16.0000, "32" 32.0000, "64" 64.0000, "128" 128.000, "256" 256.000, "512" 512.000, "1K" 1024.00, "2K" 2048.00, "4K" 4096.00, "8K" 8192.00, "16K" 16384.0, "32K" 32768.0, "64K" 65536.0, "128K" 131072., "256K" 262144., "512K" 524288., "1M" 1.04858e+06)
 set ytics border in scale 1,0.5 mirror norotate  autojustify
 set ytics  norangelimit logscale autofreq 
 set ztics border in scale 1,0.5 nomirror norotate  autojustify
@@ -169,5 +170,5 @@ set psdir
 set fit brief errorvariables nocovariancevariables errorscaling prescale nowrap v5
 GNUTERM = "x11"
 ## Last datafile plotted: "native.dat"
-plot "docker.dat" using 1:2 with lines dashtype 1 lc rgb 'orange' lw 1.5 title 'Docker',      "docker.dat" using 1:2:3:4 with errorbars lc rgb 'orange' not,           "singularity.dat" using 1:2 with lines dashtype 4 lc rgb 'red' lw 1.5 title 'Singularity',      "singularity.dat" using 1:2:3:4 with errorbars lc rgb 'red' not,           "native.dat" using 1:2 with lines dashtype 2 lc rgb 'blue' lw 1.5 title 'Native',      "native.dat" using 1:2:3:4 with errorbars lc rgb 'blue' not
+plot "docker.dat" using 1:2 with lines dashtype 1 lc rgb 'red' lw 1.5 title 'Docker',      "docker.dat" using 1:2:3:4 with errorbars lc rgb 'red' not,           "singularity.dat" using 1:2 with lines dashtype 4 lc rgb 'green' lw 1.5 title 'Singularity',      "singularity.dat" using 1:2:3:4 with errorbars lc rgb 'green' not,           "native.dat" using 1:2 with lines dashtype 2 lc rgb 'blue' lw 1.5 title 'Native',      "native.dat" using 1:2:3:4 with errorbars lc rgb 'blue' not
 #    EOF
