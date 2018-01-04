@@ -10,8 +10,8 @@
 #    	gnuplot home:     http://www.gnuplot.info
 #    	faq, bugs, etc:   type "help FAQ"
 #    	immediate help:   type "help"  (plot window: hit 'h')
-# set terminal x11 
-# set output
+# set terminal x11  nopersist enhanced
+# set output 'ping-pong-passing-band.png'
 unset clip points
 set clip one
 unset clip two
@@ -129,7 +129,7 @@ set x2label ""
 set x2label  font "" textcolor lt -1 norotate
 set xrange [ * : * ] noreverse nowriteback
 set x2range [ * : * ] noreverse nowriteback
-set ylabel "Banda passante (MB/s)" 
+set ylabel "Banda passante (KB/s)" 
 set ylabel  font "" textcolor lt -1 rotate
 set y2label "" 
 set y2label  font "" textcolor lt -1 rotate
