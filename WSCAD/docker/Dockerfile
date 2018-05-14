@@ -3,7 +3,7 @@ FROM debian:9.4
 RUN apt-get update && apt-get upgrade -y
 RUN apt-get install build-essential gfortran curl wget sudo -y
 
-RUN adduser -D alles \
+RUN adduser --disabled-password --gecos "" alles \
   && echo "alles   ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 WORKDIR /home/alles
