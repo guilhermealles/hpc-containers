@@ -1,7 +1,7 @@
 FROM debian:9.4
 
 RUN apt-get update && apt-get upgrade -y
-RUN apt-get install build-essential gfortran curl wget sudo -y
+RUN apt-get install build-essential gfortran curl wget openssh-server sudo -y
 
 RUN adduser --disabled-password --gecos "" alles \
   && echo "alles   ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
@@ -16,7 +16,7 @@ RUN wget http://www.mpich.org/static/downloads/${MPICH_VERSION}/mpich-${MPICH_VE
   && tar xvzf mpich-${MPICH_VERSION}.tar.gz  \
   && cd mpich-${MPICH_VERSION}  \
   && ./configure \
-  && make && sudo make install \
+  && make -j 2 && sudo make install \
   && rm -rf /home/alles/mpich
 
 USER alles
