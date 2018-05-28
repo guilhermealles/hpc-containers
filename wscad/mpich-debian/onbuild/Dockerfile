@@ -1,4 +1,4 @@
-FROM guilhermealles/debian9-mpi:base
+FROM guilhermealles/mpich-debian:base
 
 USER root
 
@@ -15,16 +15,12 @@ RUN chmod +x /usr/local/bin/auto_update_hosts
 COPY wait_worker_connections /usr/local/bin/wait_worker_connections
 RUN chmod +x /usr/local/bin/wait_worker_connections
 
-# - Misc stuff for better user experience -
-# Set welcome message to display when user ssh login
-COPY welcome.txt /etc/motd
-
 # Default hostfile location for mpirun. This file will be updated automatically.
 ENV HYDRA_HOST_FILE /etc/opt/hosts
 RUN echo "export HYDRA_HOST_FILE=${HYDRA_HOST_FILE}" >> /etc/profile
 
 # Automatically go to default working directory when user ssh login
-RUN echo "cd $WORKDIR" >> >> ${USER_HOME}/.profile
+RUN echo "cd $WORKDIR" >> ${USER_HOME}/.profile
 
 
 # - Setup SSH Server -
@@ -46,6 +42,9 @@ RUN mkdir -p ${SSHDIR}
 # Default ssh config file that skips (yes/no) question when first login to the host
 RUN echo "StrictHostKeyChecking no" > ${SSHDIR}/config
 # This file can be overwritten by the following onbuild step if ssh/ directory has config file
+
+# Create privilege separation directory: this is necessary for Debian/Ubuntu
+RUN mkdir -p /run/sshd
 
 # Switch back to default user
 USER ${USER}
