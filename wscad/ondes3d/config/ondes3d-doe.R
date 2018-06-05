@@ -1,6 +1,6 @@
 require(DoE.base);
 
-ep_DoE <- fac.design (
+ondes3d_DoE <- fac.design (
     nfactors = 3,
     replications=10,
     repeat.only=FALSE,
@@ -13,7 +13,7 @@ ep_DoE <- fac.design (
         context=c("mpi"),
         parallelism=c(1,4,8,16)));
 
-export.design(ep_DoE, 
+export.design(ondes3d_DoE, 
     path=".", 
     filename=NULL, 
     type="csv", 

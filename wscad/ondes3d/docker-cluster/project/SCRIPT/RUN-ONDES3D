@@ -1,0 +1,25 @@
+#!/bin/bash
+################################
+cp  $OAR_FILE_NODES machine
+module use -a /share/apps/Libraries
+module load $3 
+module load netcdf-gcc/4.1
+
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/:/share/apps/netcdf-4.1/gcc/lib/
+
+
+if [ $5 == 0 ]; then
+	cp  machine machine-final
+else
+
+	export OMP_SCHEDULE=dynamic
+	export GOMP_CPU_AFFINITY=0-$6
+	uniq machine > machine-final
+	tail machine-final
+
+
+fi
+
+mpirun -machinefile machine-final -np $2 $1 $4
+module unload $3
+

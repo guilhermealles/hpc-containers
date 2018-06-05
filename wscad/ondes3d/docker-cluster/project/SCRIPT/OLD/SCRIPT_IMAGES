@@ -1,0 +1,49 @@
+#############################################################"
+##       Fabrice Dupros
+##       Nov 2016
+##	 Gestion des etapes d ecriture pour les fichiers VTK 
+##	 Appel du script python/mayavi
+##	chain1 = a changer
+################################################################
+
+source ~/.bashrc
+
+#cd $1
+echo $PWD
+
+chain1="/home/adminweb/sismo/ondes3d-cpu/Ondes3d-1.0/NICE-OUTPUT/"
+module purge
+module load anaconda
+source activate mayavi
+module load gdal/2.1.0_geos
+
+echo "Iteration - Borne" $2 $3
+
+for i in `seq $2 $2 $3 `;
+do
+        if [ "$i" -lt 1000 ]; then
+                istring=0"$i"
+        fi
+        if [ "$i" -lt 100 ]; then
+                istring=00"$i"
+        fi
+        if [ "$i" -lt 10 ]; then
+                istring=000"$i"
+        fi
+chain2=surfacexyvel"$istring"00.vtk
+totalchain=$chain1$chain2
+echo $totalchain
+
+
+while [ ! -f $totalchain ]
+do
+	sleep 1
+done
+	echo "fichier disponible"
+	cp $chain2 atraiter.vtk
+	echo "lancement python/mayavi"
+	python mayavi_python.py
+	echo "depalcement du fichier"
+	mkdir /mnt/echange_grappe/01/nemesis_resultats/sismo/adminweb/
+	mv nemesis.tiff /mnt/echange_grappe/01/nemesis_resultats/sismo/adminweb/nemesis_"$i".tiff
+done
