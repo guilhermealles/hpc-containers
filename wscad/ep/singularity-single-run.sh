@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ -z $1 ] || [ -z $2 ] || [ -z $3 ] || [ -z $4 ]; then
+if [ -z $1 ] || [ -z $2 ] || [ -z $3 ]; then
     echo "Invalid parameters for $0. Please double check."
     exit
 fi
@@ -12,12 +12,9 @@ HOSTFILE="$EXPERIMENT_HOME_DIR/config/hosts.txt"
 RESULTS_FILE="$EXPERIMENT_HOME_DIR/results/ep-results.csv"
 NAME=$1
 ENVIRONMENT=$2
-CONTEXT=$3
-PARALLELISM=$4
+PARALLELISM=$3
 
-if [ $CONTEXT = "mpi" ]; then
-    EXEC_TIME=$($SOFTWARE_UTILS_DIR/ms-time.sh mpirun --hostfile $HOSTFILE -np $PARALLELISM $SINGULARITY_IMAGES_DIR/mpi-ep-$PARALLELISM.img)
-fi
+EXEC_TIME=$($SOFTWARE_UTILS_DIR/ms-time.sh mpirun --hostfile $HOSTFILE -np $PARALLELISM $SINGULARITY_IMAGES_DIR/mpi-ep-$PARALLELISM.img)
 
-echo ">>>>>>>>>> $NAME,$ENVIRONMENT,$CONTEXT,$PARALLELISM,$EXEC_TIME <<<<<<<<<<"
-echo "$NAME,$ENVIRONMENT,$CONTEXT,$PARALLELISM,$EXEC_TIME" >> $RESULTS_FILE
+echo ">>>>>>>>>> $NAME,$ENVIRONMENT,$PARALLELISM,$EXEC_TIME <<<<<<<<<<"
+echo "$NAME,$ENVIRONMENT,$PARALLELISM,$EXEC_TIME" >> $RESULTS_FILE
