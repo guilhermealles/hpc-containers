@@ -1,8 +1,0 @@
-Bootstrap: docker
-From: guilhermealles/mpich-debian:singularity
-
-%runscript
-cd /home/alles/singularity_images/ondes3d-omp && ./ondes3d $@
-
-%labels
-AUTHOR guilherme.r.alles@gmail.com

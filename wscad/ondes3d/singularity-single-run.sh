@@ -14,7 +14,18 @@ NAME=$1
 ENVIRONMENT=$2
 PARALLELISM=$3
 
-EXEC_TIME=$($SOFTWARE_UTILS_DIR/ms-time.sh mpirun --hostfile $HOSTFILE -np $PARALLELISM $SINGULARITY_IMAGES_DIR/alpine-mpi-ondes3d.img)
+if [ $PARALLELISM = "4" ]; then
+    MPI_NODES="1"
+    THREADS_COUNT="4"
+elif [ $PARALLELISM = "16" ]; then
+    MPI_NODES="4"
+    THREADS_COUNT="4"
+else # parallelism = 1
+    MPI_NODES="1"
+    THREADS_COUNT="1"
+fi
+
+EXEC_TIME=$($SOFTWARE_UTILS_DIR/ms-time.sh mpirun --hostfile $HOSTFILE -np $MPI_NODES $SINGULARITY_IMAGES_DIR/ondes3d.img $THREADS_COUNT)
 
 echo ">>>>>>>>>> $NAME,$ENVIRONMENT,$PARALLELISM,$EXEC_TIME <<<<<<<<<<"
 echo "$NAME,$ENVIRONMENT,$PARALLELISM,$EXEC_TIME" >> $RESULTS_FILE

@@ -16,14 +16,7 @@ COPY project/ .
 # Normal build command
 USER root
 RUN rm ./SRC/options.h && cp ./ESSAI-XML/options.h ./SRC
-RUN sed -i 's/^\(TESTFLAGS.*+=.*-DMPI\)$/#\1/' ./SRC/Makefile
 RUN cd SRC/ && make clean && make
-RUN mv ondes3d ondes3d-omp
-RUN sed -i 's/^#\(TESTFLAGS.*+=.*-DMPI\)$/\1/' ./SRC/Makefile
-RUN sed -i 's/^\(TESTFLAGS.*+=.*-DOMP\)$/#\1/' ./SRC/Makefile
-RUN sed -i 's/^\(OMP_FLAGS.*+=.*-fopenmp\)$/#\1/' ./SRC/Makefile
-RUN cd SRC/ && make clean && make
-RUN mv ondes3d ondes3d-mpi
 RUN chown -R mpi:mpi *
 USER mpi
 
