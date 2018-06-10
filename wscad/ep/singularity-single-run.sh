@@ -7,7 +7,7 @@ fi
 
 SINGULARITY_IMAGES_DIR="$HOME/singularity_images"
 EXPERIMENT_HOME_DIR="$PWD"
-SOFTWARE_UTILS_DIR="$EXPERIMENT_HOME_DIR/../software/utils"
+SOFTWARE_UTILS_DIR="$EXPERIMENT_HOME_DIR/../../software/utils"
 HOSTFILE="$EXPERIMENT_HOME_DIR/config/hosts.txt"
 RESULTS_FILE="$EXPERIMENT_HOME_DIR/results/ep-results.csv"
 NAME=$1

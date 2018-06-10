@@ -7,7 +7,7 @@ fi
 
 DOCKER_CLUSTER_DIR="$PWD/docker-cluster/"
 EXPERIMENT_HOME_DIR="$PWD"
-SOFTWARE_UTILS_DIR="$EXPERIMENT_HOME_DIR/../software/utils"
+SOFTWARE_UTILS_DIR="$EXPERIMENT_HOME_DIR/../../software/utils"
 HOSTFILE="$EXPERIMENT_HOME_DIR/config/hosts.txt"
 SWARM_HOSTFILE="$EXPERIMENT_HOME_DIR/setup/swarm_hosts.txt"
 RESULTS_FILE="$EXPERIMENT_HOME_DIR/results/ep-results.csv"
