@@ -3,7 +3,7 @@ FROM debian:9.4
 RUN apt-get update && apt-get upgrade -y
 
 # Install basic development tools
-RUN apt-get install build-essential gfortran curl wget openssh-server sudo -y
+RUN apt-get install build-essential gfortran curl wget openssh-server sudo net-tools -y
 
 # Install MPICH
 ARG MPICH_VERSION="3.2"
