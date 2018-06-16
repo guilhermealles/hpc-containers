@@ -1,6 +1,7 @@
 FROM debian:9.4
 
-RUN apt-get update && apt-get upgrade -y
+RUN apt-get update -y
+RUN apt-get upgrade -y
 
 # Install basic development tools
 RUN apt-get install build-essential gfortran curl wget openssh-server sudo net-tools -y
