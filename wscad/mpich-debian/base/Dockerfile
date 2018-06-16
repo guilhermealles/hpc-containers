@@ -21,7 +21,7 @@ WORKDIR /
 RUN rm -rf /tmp/*
 
 # Add default user
-ARG USER=mpich
+ARG USER=mpi
 ENV USER=${USER}
 RUN adduser --disabled-password --gecos "" ${USER} \
     && echo "${USER}   ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
