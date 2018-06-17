@@ -1,9 +1,10 @@
 FROM debian:9.4
 
-RUN apt-get update && apt-get upgrade -y
+RUN apt-get update -y
+RUN apt-get upgrade -y
 
 # Install basic development tools
-RUN apt-get install build-essential gfortran curl wget openssh-server sudo -y
+RUN apt-get install build-essential gfortran curl wget openssh-server sudo net-tools -y
 
 # Install MPICH
 ARG MPICH_VERSION="3.2"
@@ -21,7 +22,7 @@ WORKDIR /
 RUN rm -rf /tmp/*
 
 # Add default user
-ARG USER=mpich
+ARG USER=mpi
 ENV USER=${USER}
 RUN adduser --disabled-password --gecos "" ${USER} \
     && echo "${USER}   ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
