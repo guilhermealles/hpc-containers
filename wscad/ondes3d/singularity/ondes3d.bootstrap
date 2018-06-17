@@ -2,7 +2,7 @@ Bootstrap: docker
 From: guilhermealles/mpich-debian:base
 
 %runscript
-cd /home/alles/singularity_images/ondes3d-mpi && ./ondes3d $@
+cd /home/alles/singularity_images/ondes3d && ./ondes3d $@
 
 %labels
 AUTHOR guilherme.r.alles@gmail.com
