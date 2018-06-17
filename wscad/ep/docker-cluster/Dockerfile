@@ -15,8 +15,8 @@ COPY project/ .
 
 COPY ssh/* /home/mpi/.ssh/
 COPY ssh/id_rsa.pub /home/mpi/.ssh/authorized_keys
-RUN chown mpi:mpi /home/mpi/.ssh
-RUN chown mpi:mpi /home/mpi/.ssh/*
+RUN sudo chown mpi:mpi /home/mpi/.ssh
+RUN sudo chown mpi:mpi /home/mpi/.ssh/*
 
 # Normal build command
 USER mpi
