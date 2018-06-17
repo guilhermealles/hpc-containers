@@ -13,9 +13,13 @@ FROM guilhermealles/mpich-debian:onbuild
 # the current working directory in this Docker image
 COPY project/ .
 
+COPY ssh/* /home/mpi/.ssh/
+COPY ssh/id_rsa.pub /home/mpi/.ssh/authorized_keys
+RUN chown mpi:mpi /home/mpi/.ssh
+RUN chown mpi:mpi /home/mpi/.ssh/*
+
 # Normal build command
 USER mpi
-COPY ssh/id_rsa.pub /home/mpi/.ssh/authorized_keys
 RUN curl https://www.nas.nasa.gov/assets/npb/NPB3.3.1.tar.gz > NPB-3.3.1.tar.gz
 RUN tar -xvzf NPB-3.3.1.tar.gz
 RUN cd NPB3.3.1/NPB3.3-MPI/ && cp config/make.def.template config/make.def 
