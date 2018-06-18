@@ -1,10 +1,11 @@
 library(tidyverse);
 
-docker_results <- read_csv('results/ep-results.csv');
-sing_native_results <- read_csv('results/ep-sing-native-results.csv');
+docker_results <- read_csv('./ep-results.csv');
+sing_native_results <- read_csv('./ep-sing-native-results.csv');
 
-results <- bind_rows(sing_native_results, docker_results)
+results <- bind_rows(sing_native_results, docker_results);
 results <- results %>%
+  mutate(time=time/1000) %>%
   group_by(environment, parallelism) %>%
   summarize(
     samples = n(),
