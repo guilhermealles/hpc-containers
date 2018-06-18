@@ -2,10 +2,10 @@
 <dt> 0.008 </dt>			time step
 <ds> 100. </ds>				size of the cell
 
-<tmax> 200 </tmax>			number of time steps
-<xMin> -97 </xMin> <xMax> 100 </xMax>	number of cells in each direction
-<yMin> -100 </yMin> <yMax> 100 </yMax>
-<zMin> -100 </zMin> <zMax> 1 </zMax>
+<tmax> 50 </tmax>			number of time steps
+<xMin> -47 </xMin> <xMax> 50 </xMax>	number of cells in each direction
+<yMin> -50 </yMin> <yMax> 50 </yMax>
+<zMin> -50 </zMin> <zMax> 1 </zMax>
 
 <fd0> 1. </fd0>				CPML main frequency
 

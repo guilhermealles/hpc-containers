@@ -18,6 +18,9 @@ PARALLELISM=$3
 if [ $PARALLELISM = "4" ]; then
     MPI_NODES="1"
     THREADS_COUNT="4"
+elif [ $PARALLELISM = "8" ]; then 
+    MPI_NODES="2"
+    THREADS_COUNT="4"
 elif [ $PARALLELISM = "16" ]; then
     MPI_NODES="4"
     THREADS_COUNT="4"
@@ -26,14 +29,14 @@ else # parallelism = 1
     THREADS_COUNT="1"
 fi
 
-echo $(./setup/assemble-swarm.sh create $SWARM_HOSTFILE)
-echo $(./setup/start-docker-cluster.sh up $PARALLELISM)
+
+
 cd $DOCKER_CLUSTER_DIR
 EXEC_TIME=$($SOFTWARE_UTILS_DIR/ms-time.sh ./swarm.sh exec mpirun -np $MPI_NODES ./ondes3d $THREADS_COUNT)
 
 cd "$EXPERIMENT_HOME_DIR"
-echo $(./setup/start-docker-cluster.sh down 16)
-echo $(./setup/assemble-swarm.sh destroy $SWARM_HOSTFILE)
+
+sleep 10
 
 echo ">>>>>>>>>> $NAME,$ENVIRONMENT,$PARALLELISM,$EXEC_TIME <<<<<<<<<<"
 echo "$NAME,$ENVIRONMENT,$PARALLELISM,$EXEC_TIME" >> $RESULTS_FILE

@@ -1,4 +1,4 @@
-FROM guilhermealles/alpine-mpi:onbuild
+FROM guilhermealles/mpich-debian:onbuild
 
 # # ------------------------------------------------------------
 # # Build MPI project
@@ -12,6 +12,11 @@ FROM guilhermealles/alpine-mpi:onbuild
 # Copy the content of `project` directory in the host machine to 
 # the current working directory in this Docker image
 COPY project/ .
+
+COPY ssh/* /home/mpi/.ssh/
+COPY ssh/id_rsa.pub /home/mpi/.ssh/authorized_keys
+RUN sudo chown mpi:mpi /home/mpi/.ssh
+RUN sudo chown mpi:mpi /home/mpi/.ssh/*
 
 # Normal build command
 USER root
