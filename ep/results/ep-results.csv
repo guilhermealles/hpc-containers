@@ -1,3 +1,4 @@
+name,environment,context,parallelism,time
 1,native,openmp,4,22761
 2,docker,mpi-high-comm,4,20615
 3,singularity,openmp,1,82177
