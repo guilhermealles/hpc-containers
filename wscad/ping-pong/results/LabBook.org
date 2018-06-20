@@ -1,0 +1,109 @@
+#+STARTUP: overview indent
+
+* teste
+
+** teste2
+
+#+begin_src R :results output graphics :file (org-babel-temp-file "figure" ".png") :exports both :width 1200 :height 600 :session
+suppressMessages(library(tidyverse));
+do.call("bind_rows", lapply(list.files(pattern=".csv"),
+       function(file) {
+           read_csv(file) %>%
+               mutate(Environment = gsub(".csv", "", gsub("^.*-", "", file)))
+       })) %>%
+    mutate(Environment = as.factor(Environment)) %>%
+    group_by(Environment, size) %>%
+    summarize(N=n(), M=mean(time), SE = 3*sd(time)/sqrt(N)) %>%
+    ungroup() -> x;
+x %>%
+#    mutate(size = as.factor(size)) +
+    ggplot(aes(x=size, y=M, ymin=M-SE, ymax=M+SE, color=Environment, group=Environment)) +
+    geom_line(alpha=0.3) +
+    geom_point(size=3) +
+    geom_errorbar(width=0.3) +
+    theme_bw(base_size=14) +
+    ylim(0,NA) +
+    scale_x_continuous(trans="log2")
+#+end_src
+
+#+RESULTS:
+[[file:/tmp/babel-18212T0k/figure18212cDY.png]]
+
+
+#+begin_src R :results output :session :exports both
+x %>%
+    filter(Environment == "singularity") %>%
+    arrange(-M)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+# A tibble: 21 x 5
+   Environment    size     N         M          SE
+        <fctr>   <int> <int>     <dbl>       <dbl>
+ 1 singularity 1048576    20 9.7504616  0.14030907
+ 2 singularity  131072    20 5.8505774 11.75655781
+ 3 singularity  524288    20 5.2367806  0.15502094
+ 4 singularity  262144    20 2.9506326  0.14759597
+ 5 singularity   65536    20 1.4336109  0.22612559
+ 6 singularity   32768    20 0.9247661  0.07219461
+ 7 singularity   16384    20 0.7049441  0.07893223
+ 8 singularity    8192    20 0.4757047  0.06922677
+ 9 singularity    4096    20 0.4510045  0.06187138
+10 singularity    2048    20 0.3730178  0.02812566
+# ... with 11 more rows
+#+end_example
+
+#+begin_src R :results output :session :exports both
+suppressMessages(library(tidyverse));
+do.call("bind_rows", lapply(list.files(pattern=".csv"),
+       function(file) {
+           read_csv(file) %>%
+               mutate(Environment = gsub(".csv", "", gsub("^.*-", "", file)))
+       })) %>%
+    mutate(Environment = as.factor(Environment)) %>%
+    filter(Environment == "singularity",
+           size == 131072)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+Parsed with column specification:
+cols(
+  size = col_integer(),
+  time = col_double()
+)
+Parsed with column specification:
+cols(
+  size = col_integer(),
+  time = col_double()
+)
+Parsed with column specification:
+cols(
+  size = col_integer(),
+  time = col_double()
+)
+# A tibble: 20 x 3
+     size      time Environment
+    <int>     <dbl>      <fctr>
+ 1 131072  2.415419 singularity
+ 2 131072  2.047777 singularity
+ 3 131072  1.912355 singularity
+ 4 131072  1.921415 singularity
+ 5 131072  2.035141 singularity
+ 6 131072  1.688004 singularity
+ 7 131072  1.659155 singularity
+ 8 131072  1.722813 singularity
+ 9 131072  1.625538 singularity
+10 131072  1.890659 singularity
+11 131072 80.303192 singularity
+12 131072  2.044201 singularity
+13 131072  2.007008 singularity
+14 131072  2.081394 singularity
+15 131072  1.842499 singularity
+16 131072  2.163887 singularity
+17 131072  1.679182 singularity
+18 131072  2.169371 singularity
+19 131072  1.657009 singularity
+20 131072  2.145529 singularity
+#+end_example
