@@ -30,12 +30,12 @@ default_theme <- function() {
 g <- ggplot(results, aes(x = parallelism, y = average)) + 
   geom_line(aes(col=environment), size = 0.5, alpha=0.2) + 
   geom_point(aes(col=environment), size=2) + 
-  geom_errorbar(aes(ymin=average-stdError, ymax=average+stdError, col=environment), width=0.2) +
+  geom_errorbar(aes(ymin=average-stdError, ymax=average+stdError, col=environment), width=0.15) +
   scale_color_grey() +
   ylim(0, NA) +
   scale_x_continuous(breaks=c(1, 4, 8, 16), trans='sqrt') + 
   xlab("Amount of computing units (count)") +
-  ylab("Execution time(s)") +
+  ylab("Execution time (s)") +
   theme_bw(base_size=12) +
   theme(legend.position = "top", legend.spacing = unit(x=c(0,0,0,0),units="mm")) +
   default_theme();

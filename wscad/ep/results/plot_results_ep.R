@@ -19,7 +19,6 @@ default_theme <- function() {
   ret[[length(ret)+1]] <- theme (
     plot.margin = unit(c(0,0,0,0), "cm"),
     legend.spacing = unit(1, "mm"),
-    panel.grid = element_blank(),
     legend.position = "top",
     legend.justification = "left",
     legend.box.spacing = unit(0, "pt"),
@@ -32,13 +31,24 @@ g <- ggplot(results, aes(x = parallelism, y = average)) +
   scale_x_continuous(breaks=c(1, 4, 8, 16), trans='sqrt') + 
   ylim(0, NA) +
   geom_point(aes(col=environment), size=2) + 
-  geom_line(aes(col=environment), size = 0.5) + 
-  geom_errorbar(aes(ymin=average-stdError, ymax=average+stdError, col=environment), width=0.5) +
-  ggtitle("NAS EP Benchmark", subtitle = "Category B") +
-  xlab("MPI Processes") +
-  ylab("Execution time(s)") +
+  geom_line(aes(col=environment), size = 0.5, alpha = 0.2) + 
+  geom_errorbar(aes(ymin=average-stdError, ymax=average+stdError, col=environment), width=0.2) +
+  scale_color_grey() +
+  xlab("Amount of computing units (count)") +
+  ylab("Execution time (s)") +
+  theme_bw(base_size = 12) +
   theme(legend.position = "top", legend.spacing = unit(x=c(0,0,0,0),units="mm")) +
   default_theme();
 
-plot(g);
+g2 <- g +
+  xlab(NULL) +
+  ylab(NULL) +
+  coord_cartesian(ylim = c(0,15), xlim = c(12, 20)) +
+  theme(legend.position = "none");
+
+p2 <- ggplotGrob(g2);
+g3 <- g + annotation_custom(grob = p2, xmin = 2, xmax = 4, ymin = 30, ymax = 80);
+
+
+plot(g3);
 
