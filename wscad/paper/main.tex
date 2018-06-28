@@ -56,16 +56,19 @@ Furthermore, we intend to demonstrate that virtualization techniques can be used
 
 \section{Background and Experimental Context}
 \subsection{Background}
+\subsubsection{Containers}
 Containers are a mean of achieving virtualization without relying on software to emulate hardware resources. Instead, containers are known as software level virtualization for Linux systems, and they use features that are native to the Linux kernel (namely, \textit{cgroups} and \textit{namespaces}) to isolate the resources managed by the operating system. As a result, software that runs inside of a container can have its own file system, process tree, user space and network stack, giving it the impression of being executed on a completely isolated environment.
+
+By using native kernel features to grant isolation, containers present a theoretically negligible overhead penalty when compared to an application running natively on the host operating system. This happens because the Linux kernel already uses \textit{cgroups} and \textit{namespaces} to manage its resources internally, even when there are not multiple containers on a single machine. Considering this approach, a non-virtualized Linux environment can be seen itself as a single container running on top of the Linux kernel, which means that there is no additional software layer in a container to insert execution overhead.
 
 In spite of being receiving large amounts of attention lately, the core APIs and functionality used to create containers is not new, and have been present in the Linux kernel for more than a decade. However, the popularization of containers took a long time to happen especially because of how difficult it is for an end user to interact with these kernel APIs directly. Conversely, containers only became popular when software (such as Docker and Singularity) was created to interact with the kernel and mediate the creation of containers. 
 
 These container management platfors also introduced new features which were very desirable for many workflows (including software development and HPC), such as the ability to encapsulate an entire environment in an image that can be reproduced on top of different hardware, improving reproducibility and dependency management.
 
-Theoretically negligible overhead when compared to native processes because of the way \textit{cgroups} and \textit{namespaces} are implemented: interesting for HPC.
-
+\subsubsection{Docker}
 Talk about Docker's virtualization model - in a nutshell, virtualize everything that is possible. Communication between client and daemon through UNIX socket owned by the root user.
 
+\subsubsection{Singularity}
 Singularity's virtualization model - virtualize only the essentials (that is, the file system). Anything else must be specified.
 
 \subsection{Experimental Context and Workload Details}
