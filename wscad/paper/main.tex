@@ -12,8 +12,7 @@
 
 \title{Container technologies on HPC applications}
 
-\author{Guilherme Rezende Alles\inst{1}, Alexandre Carissimi\inst{1},
-  Lucas Mello Schnorr\inst{1}}
+\author{Guilherme Rezende Alles\inst{1}, Alexandre Carissimi\inst{1}, Lucas Schnorr\inst{1}}
 
 
 \address{Instituto de Informatica -- Universidade Federal do Rio Grande do Sul
@@ -43,15 +42,18 @@ In fact, this approach has already been used to a great extent in the software d
 Considering the large adoption of containers in software development, we compare and contrast two container technologies, Docker and Singularity, with respect to their performance overhead and ability to solve common HPC workflow problems. For the performance overhead measurements, we will consider the same experiments running on a native environment as the baseline.
 
 \section{Related Work} \label{sec.relatedwork}
-In [REF], the author compares the compute performance of Docker containers to virtual machines, concluding that the former has a considerably lower overhead, when compared to the latter. This study, however, only explores the performance of single node applications, and does not present information on how containers can scale to distributed environments.
+As presented in \cite{7562612}, the virtualization of HPC applications is viable in a low overhead environment such as Docker. In this study, the author compares the compute performance of Docker containers to virtual machines, concluding that the former has a considerably lower overhead when compared to the latter. This study, however, only explores the performance of single node applications, and does not present information on how containers can scale to distributed environments.
 
-For multi node computations, [REF, Nguyen] proposes the creation of an MPI cluster using Docker containers in a distributed environment. In this proposal, the containers are connected through an orchestrator called Docker Swarm, which is responsible for assigning names and providing network connectivity transparently between the containers. \textit{Mention that no performance information is available in this study}.
+For multi node computations, \cite{7868429} proposes the creation of an MPI cluster using Docker containers in a distributed environment. In this proposal, the containers are connected through an orchestrator called Docker Swarm, which is responsible for assigning names and providing an overlay network  for transparent connectivity between the containers. Performance analysis, however, is absent from this study, obscuring the conclusion of whether such an approach is viable in a real world scenario.
 
-In [REF, GMK], the author introduces Singularity. Singularity is a container system designed for scientific research workflows, and it strives to solve some drawbacks of using Docker containers in HPC. The author discusses how Docker was not designed for shared, multi-user environments (such as supercomputers and HPC centers) and thus presents significant security issues when used in this context. As a consequence, it is very hard to find HPC centers that allow users to use Docker containers. Singularity, on the other hand, was built with these problems in mind and solves them in order to make HPC containers accessible and is already accepted and used in many supercomputers around the world.
+In \cite{10.1371/journal.pone.0177459}, the author introduces Singularity. Singularity is a container system designed for scientific research workflows, and it strives to solve some drawbacks of using Docker containers in HPC. The author discusses how Docker was not designed for shared, multi-user environments (such as supercomputers and HPC centers) and thus presents significant security issues when used in this context. As a consequence, it is very hard to find HPC centers that allow users to use Docker containers. Singularity, on the other hand, was built with these problems in mind and solves them in order to make HPC containers accessible to the scientific community. As a consequence, Singularity containers are already accepted and used in many supercomputers around the world.
+
+\section{Contributions}
+In this work, our objective is to measure the performance impact of applying container technologies to execute HPC applications. We present an analysis covering both synthetic benchmarks and a real application comparing the usability of two major container systems - Docker and Singularity - using a traditional approach (with no virtualization) as a baseline. 
 
 \section{Background and Experimental Context}
 \subsection{Background}
-Mention containers as means of achieving software level virtualization and, consequently, process isolation.
+Containers are a mean of achieving virtualization without relying on software to emulate hardware resources. Instead, containers are known as software level virtualization for Linux systems, and they use some features native to the Linux kernel to isolate the resources managed by the operating system. As a result, software that runs inside of a container can have its own file system, process tree, user space and network stack, giving it the impression of being executed on a completely isolated environment.
 
 Configurable (and reproducible) software stacks through the use of container images
 
