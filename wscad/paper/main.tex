@@ -72,9 +72,15 @@ Talk about Docker's virtualization model - in a nutshell, virtualize everything 
 Singularity's virtualization model - virtualize only the essentials (that is, the file system). Anything else must be specified.
 
 \subsection{Experimental Context and Workload Details}
-Talk about the hardware stack: Grid 5000, the cluster environment, kadeploy3
+The experiments were executed in the Grid5000 hardware stack. The Grid5000 is a grid platform used for scientific experiments in parallel computing, HPC and computer science. It provides its users with a large amount of clusters that can be reserved for exclusive use for a limited time. For this paper, we executed the experiments in the Grid5000's \textit{graphene} cluster, which contains 16GB of DDR3 memory and a quad core Intel Xeon X3340 on each node. We used up to \textit{\textbf{INSERT NODES HERE}} nodes for our tests.
 
-Talk about the software stack: Debian9, Docker, Singularity, Ondes3D, NAS, Ping pong
+The nodes were loaded with a Debian 9 image using the \textit{kadeploy3} tool. The same distribution was used for the virtualized environments in both Docker and Singularity containers. For benchmarks, we selected the following set of applications: NAS EP, Ondes3D and Ping Pong. 
+
+The NAS EP is an application included in the NAS Parallel Benchmarks which simulates a parallel random number generator. Its name stands for \textit{embarassingly parallel}, and it was chosen to simulate a highly CPU bound scenario with parallel speedup close to ideal. 
+
+Ondes3D is a fluid dynamics simulation application with characteristics such as load imbalance and frequent communication between MPI nodes. It was chosen to simulate a real world scenario.
+
+Finally, the Ping Pong benchmark was used to measure the network performance and overhead when introducing the container's virtual environment.
 
 The container infrastructure for Docker was built with the cluster proposed by \cite{7868429}: containers were connected using Docker Swarm and an overlay network.
 
