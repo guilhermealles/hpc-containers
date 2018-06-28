@@ -54,15 +54,15 @@ Our motivation and objectives for this work is to study the drawbacks and improv
 
 \section{Background and Experimental Context}
 \subsection{Background}
-Containers are a mean of achieving virtualization without relying on software to emulate hardware resources. Instead, containers are known as software level virtualization for Linux systems, and they use some features native to the Linux kernel to isolate the resources managed by the operating system. As a result, software that runs inside of a container can have its own file system, process tree, user space and network stack, giving it the impression of being executed on a completely isolated environment.
+Containers are a mean of achieving virtualization without relying on software to emulate hardware resources. Instead, containers are known as software level virtualization for Linux systems, and they use some features native to the Linux kernel (namely, \textit{cgroups} and \textit{namespaces}) to isolate the resources managed by the operating system. As a result, software that runs inside of a container can have its own file system, process tree, user space and network stack, giving it the impression of being executed on a completely isolated environment.
 
-Configurable (and reproducible) software stacks through the use of container images
+Although fairly popular, technology for containers is not new. What is new is the software stack that interacts with kernel APIs and create virtualized environments. Allows for additional features: configurable (and reproducible) software stacks through the use of container images, images repositories, etc. These all contribute to the recent popularity of containers.
 
-Explain the theoretically negligible overhead when compared to native processes because of Unix \textit{namespaces} and \textit{cgroups}.
+Theoretically negligible overhead when compared to native processes because of the way \textit{cgroups} and \textit{namespaces} are implemented: interesting for HPC.
 
-Talk about Docker's virtualization model - in a nutshell, virtualize everything that is possible
+Talk about Docker's virtualization model - in a nutshell, virtualize everything that is possible. Communication between client and daemon through UNIX socket owned by the root user.
 
-Singularity's virtualization model - virtualize only the essentials.
+Singularity's virtualization model - virtualize only the essentials (that is, the file system). Anything else must be specified.
 
 \subsection{Experimental Context and Workload Details}
 Talk about the hardware stack: Grid 5000, the cluster environment, kadeploy3
@@ -91,8 +91,6 @@ Why is Docker not suitable for HPC environments and especially distributed MPI a
 
 \section{Future work}
 Working with GPUs and other devices such as InfiniBand
-
-\section{Acknowledgements}
 
 \bibliographystyle{sbc}
 \bibliography{sbc-template}
