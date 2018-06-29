@@ -12,5 +12,5 @@ cd "$SINGULARITY_IMAGES_DIRECTORY"
 git clone https://guilhermealles@bitbucket.org/schnorr/ondes3d-cases.git
 mv ondes3d-cases ondes3d
 cp "$CURRENT_DIRECTORY/compile-ondes3d.sh" ondes3d/
-sudo singularity build --writable "$SINGULARITY_IMAGES_DIRECTORY/ondes3d.img" ../singularity/ondes3d.bootstrap
+sudo singularity build --writable "$SINGULARITY_IMAGES_DIRECTORY/ondes3d.img" "$CURRENT_DIRECTORY/singularity/ondes3d.bootstrap"
 echo "$(cd $SINGULARITY_IMAGES_DIRECTORY && singularity exec ./ondes3d.img ./ondes3d/compile-ondes3d.sh)"
