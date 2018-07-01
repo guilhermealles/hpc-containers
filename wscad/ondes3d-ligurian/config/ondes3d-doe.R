@@ -7,10 +7,10 @@ ondes3d_DoE <- fac.design (
     blocks=1,
     randomize=TRUE,
     seed=72539,
-    nlevels=c(2,3),
+    nlevels=c(2,4),
     factor.names=list(
         environment=c('singularity','native'),
-        parallelism=c(64,128,256)));
+        parallelism=c(64,128,192,256)));
 
 export.design(ondes3d_DoE, 
     path=".", 
