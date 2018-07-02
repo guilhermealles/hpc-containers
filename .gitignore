@@ -1,5 +1,6 @@
 **/.DS_Store
 **/execution_env
+**/.Rhistory
 *.out
 *.img
 *.o

@@ -1,3 +1,4 @@
+name,environment,parallelism,time
 1,native,128,170364
 2,singularity,192,144385
 3,singularity,64,284487
