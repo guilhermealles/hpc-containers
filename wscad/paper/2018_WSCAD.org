@@ -114,8 +114,7 @@ Docker implements a virtualizarion model that, by default, isolates as many aspe
 
 By virtualizing the network stack, Docker relies on a virtual controller that uses Network Address Translation to correlate multiple containers to the host's IP address. This approach forces the user do explicitly specify which ports of the container should be exposed to the host operating system (and the internet), allowing the user to have a finer control over network communication on the container.
 
-
-Talk about Docker's virtualization model - in a nutshell, virtualize everything that is possible. Communication between client and daemon through UNIX socket owned by the root user.
+Additionally, the user space is also separated between container and host. This means that there is a new root user inside the container, which is controlled by the user who starts said container. This makes it easier for the user to customize the container environment, install libraries and packages and make modifications on the virtualized operating system to suit the user's needs. On the other hand, it also presents a security concern on shared environments, because the user might be able to exploit the root privileges to gain access on the host machine, as documented in \cite{DockerEscalation}. Docker mitigates this issue by, in its default configuration, allowing only the root user in the host operating system to create containers.
 
 **** Singularity
 Singularity's virtualization model - virtualize only the essentials (that is, the file system). Anything else must be explicitly specified.
@@ -228,6 +227,12 @@ Tangle this file with C-c C-v t
     publisher = {ACM},
     address = {New York, NY, USA},
     keywords = {IMB: Intel's MPI Benchmark, NEURON: Neuronal Simulation Tool, OSU: Ohio State University Benchmark, Singularity},
+}
+
+@misc{DockerEscalation,
+ title = {Docker Privilege Escalation},
+ year = {2017},
+ url = {https://fosterelli.co/privilege-escalation-via-docker.html}
 }
 
 #+end_src
