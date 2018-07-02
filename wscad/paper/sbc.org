@@ -108,6 +108,13 @@ In spite of being receiving large amounts of attention lately, the core APIs and
 These container management platfors also introduced new features which were very desirable for many workflows (including software development and HPC), such as the ability to encapsulate an entire environment in an image that can be reproduced on top of different hardware, improving reproducibility and dependency management.
 
 **** Docker
+Docker is a very popular container system. Every major cloud infrastructure provider (such as AWS, Google Cloud Platform and Microsoft Azure) supports Docker as a platform for executing software, and companies all over the world rely on it to deploy services.
+
+Docker implements a virtualizarion model that, by default, isolates as many aspects of the underlying operating system as possible. As a result, a Docker container has many aspects that resemble a traditional virtual machine: it has its own network stack, user space and file system.
+
+By virtualizing the network stack, Docker relies on a virtual controller that uses Network Address Translation to correlate multiple containers to the host's IP address. This approach forces the user do explicitly specify which ports of the container should be exposed to the host operating system (and the internet), allowing the user to have a finer control over network communication on the container.
+
+
 Talk about Docker's virtualization model - in a nutshell, virtualize everything that is possible. Communication between client and daemon through UNIX socket owned by the root user.
 
 **** Singularity
