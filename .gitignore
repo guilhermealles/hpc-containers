@@ -2,6 +2,7 @@
 **/execution_env
 **/.Rhistory
 **/sbc.pdf
+**/sbc.tex
 *.out
 *.img
 *.o
