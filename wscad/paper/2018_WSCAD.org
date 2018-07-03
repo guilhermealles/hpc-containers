@@ -71,15 +71,16 @@ Coloque o resumo aqui.
 
 ** Introduction
 
-One fundamental problem of scientific computing research is that, in order for it to be credible, it should be reproducible. This means that the researcher has the responsibility of providing its audience with the resources necessary to run experiments and obtain similar results to the ones provided by the research. Although the concept of reproducibility is well known in the scientific community, it is very hard to put it to practice because of the large amount of variables that comprise an execution environment. Additionally, HPC resources are usually managed under strict usage policies, many of which do not allow the user to customize the environment with an arbitrary software stack (e.g. compilers and device drivers), thus making it very difficult to obtain an uniform execution platform across different clusters.
+One fundamental problem of scientific computing research is that, in order for it to be credible, it should be reproducible. This means that the researcher has the responsibility of providing its readers with the resources necessary to run experiments and obtain similar results to the ones provided by the research. Although the concept of reproducibility is well known in the scientific community, it is very hard to put it to practice because of the large amount of variables that comprise an execution environment. Additionally, HPC resources are usually managed under strict usage policies, many of which do not allow the user to customize the environment with an arbitrary software stack (e.g. compilers and device drivers), thus making it very difficult to obtain an uniform execution platform across different clusters.
 
 Although presented as difficult to deal with, these problems can be solved through the use of traditional hardware virtualization. By abstracting the hardware layer and providing a general, well known API to the software stack, users can run their own operating system and execution environment on top of a hypervisor, ensuring that the software stack will always be the same regardless of any hardware change. The problem with this approach is that, when considering HPC applications, the performance overhead introduced by the hypervisor is too high for this solution to be considered feasible.
 
-Lately, container technologies have gained a lot of attention in the software development industry. This is mainly because containers are presented as a solution to package enterprise software in a controlled, static environment that will run on a wide variety of Linux systems. When compared to traditional virtual machines, containers have the advantage of not needing a hypervisor for virtualization, yielding performance extremely close to native but still providing application and software stack isolation. 
+Lately, container technologies have gained a lot of attention in the software development industry. This is mainly because containers are presented as a solution to package enterprise software in a controlled, static environment that will run on a wide variety of Linux systems. When compared to traditional virtual machines, containers have the advantage of not needing a hypervisor for virtualization, yielding performance that is very close to native but still providing application and software stack isolation. 
 
 By using containers to isolate and package HPC applications, we expect to encourage users to use containers to create reproducible, user configurable environments for their applications, thus diminishing the hassle of managing application dependencies and software stack differences when executing experiments across multiple HPC clusters.
 
-In fact, this approach has already been used to a great extent in the software development industry. Container technologies such as Docker are used daily to deploy software microservices to cloud environments, and cloud providers such as AWS and Google Cloud Platform offer services to manage applications based on containers. In fact, Google announced in 2014 that all of its services run on top of containers, adding to more than 2 billion containers launching every day.
+In fact, this approach has already been used to a great extent in the software development industry. Container technologies such as Docker are used daily to deploy software microservices to cloud environments, and cloud providers such as AWS and Google Cloud Platform offer services to manage applications based on containers.
+
 
 Considering the large adoption of containers in software development, we compare and contrast two container technologies, Docker and Singularity, with respect to their performance overhead and ability to solve common HPC workflow problems. For the performance overhead measurements, we will consider the same experiments running on a native environment as the baseline.
 
@@ -122,7 +123,7 @@ Singularity is a container system developed for scientific research and high per
 Consequently, the only namespace that is isolated between the host and a Singularity container is the file system (meaning that the container can still be a completely different Linux distribution from the host). Every other namespace is not touched by default. Thus, the network stack, process tree and user space are the same between container and host, which leads to the container being seen as a process which is executed in the host operating system. This feature is very important for two reasons. First, Singularity containers can be started and killed by any tool used to manage processes, such as /mpirun/ or even SLURM. Second, because the user space is not touched, the user that executes processes inside the container is the same as the one which started the container. This means that a regular user can start a container without being granted root access to it. In other words, a given user needs to be root in the host operating system in order to be root inside the container.
 
 *** Experimental Context and Workload Details
-The experiments were executed in the Grid5000 hardware stack. The Grid5000 is a grid platform used for scientific experiments in parallel computing, HPC and computer science. It provides its users with a large amount of clusters that can be reserved for exclusive use for a limited time. For this paper, we executed the experiments in the Grid5000's \textit{graphene} cluster, which contains 16GB of DDR3 memory and a quad core Intel Xeon X3340 on each node. We used up to \textit{\textbf{INSERT NODES HERE}} nodes for our tests.
+The experiments were executed in the Grid5000 hardware stack. The Grid5000 is a grid platform used for scientific experiments in parallel computing, HPC and computer science. It provides its users with a large amount of clusters that can be reserved for exclusive use for a limited time. For this paper, we executed the experiments in the Grid5000's \textit{graphene} cluster, which contains 16GB of DDR3 memory and a quad core Intel Xeon X3340 on each node. We used up to 64 compute nodes for our tests.
 
 The nodes were loaded with a Debian 9 image using the \textit{kadeploy3} tool. The same distribution was used for the virtualized environments in both Docker and Singularity containers. For benchmarks, we selected the following set of applications: NAS EP, Ondes3D and Ping Pong.
 
@@ -136,7 +137,13 @@ The container infrastructure for Docker was built with the cluster proposed by \
 
 The container infrastructure for Singularity is pretty much the same as the one with native processes. The only difference is that instead of distributing the application binary, I distributed the container image.
 
-Talk about the experimental design: how were the results obtained and interpreted?
+Two different test suites were run. One containing all of the benchmarks cited above and other considering a real world, large Ondes3D simulation. All of the tests were run in a full factorial design. The first suite had the following factors:
+ - Execution environment: Native, Docker and Singularity
+ - Parallel compute units: 1, 4, 8, 16
+
+The second suite had the following factors:
+ - Execution environment: Native and Singularity
+ - Parallel compute units: 64, 128, 192, 256
 
 ** Results
 Show experiment plots (approx 3 to 4 plots)
@@ -144,13 +151,13 @@ Show experiment plots (approx 3 to 4 plots)
 Discuss come conclusions derived from the results
 
 ** Conclusion
-Summarize what has been discussed: the original problem, why containers might be a relevant solution, which technologies were tested
+In this paper we discussed the problem of reproducibility and user control over HPC environments, and how it can be solved with the usage of container technologies. Containers provide similar features as hardware level virtualization, but with a theoretically negligible performance overhead, making them suitable for high performance applications. In that context, we compared and contrasted two container technologies, Docker and Singularity, against a native environment running with no virtualization.
 
-By looking at the experiment results, what are the conclusions that can be taken with respect to the performance overhead introduced by containers?
+The results for the proposed tests indicate that containers introduce very little (if any) computational overhead in applications, for both Docker and Singularity. This can be verified by the lack of a clear performance difference on the EP NAS Benchmark, in favor of a specific environment.
 
-All things considered, is it okay to use containers for the kinds of application we tested? If it is (yes, it is), then which technology is the best one? (Singularity).
+Communication overhead, on the other hand, has been observed in Docker containers. This is mainly because Docker requires the containers to be connected through an overlay network in order for them to have connectivity across multiple hosts (which was needed for the MPI cluster). This overhead was observed in both the Ping Pong test case as well as the Ondes3D application, which is known to require frequent communication between MPI processes. The same communication overhead could not be ovserved, however, in Singularity containers.
 
-Why is Docker not suitable for HPC environments and especially distributed MPI applications?
+With the experiments conducted in this research, we can conclude that Linux containers are a suitable option for running HPC applications in a virtualized environment, without the drawbacks of traditional hardware level virtualization. In our tests, we concluded that Singularity containers are the most suitable option both in terms of system administration (for not granting every user that starts a container root access to the system) and in terms of performance (for not imposing an overlay network that is a potential bottleneck).
 
 ** Acknowledgments                                                  :ignore:
 #+LATEX:\section*{Acknowledgements}
