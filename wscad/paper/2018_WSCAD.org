@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # -*- mode: org -*-
 
-#+TITLE: Title (appears only in the PDF properties)
+#+TITLE: Assessing the Computation and Communication Overhead of Operating System Containers for HPC Applications
 #+AUTHOR: Lucas Mello Schnorr
 
 #+STARTUP: overview indent
@@ -63,12 +63,6 @@ This paper explores the usage of container technologies to solve two relevant pr
 
 #+LaTeX: \end{abstract}
 
-#+LaTeX: \begin{resumo}
-
-Coloque o resumo aqui.
-
-#+LaTeX: \end{resumo}
-
 ** Introduction
 
 One fundamental problem of scientific computing research is that, in order for it to be credible, it should be reproducible. This means that the researcher has the responsibility of providing its readers with the resources necessary to run experiments and obtain similar results to the ones provided by the research. Although the concept of reproducibility is well known in the scientific community, it is very hard to put it to practice because of the large amount of variables that comprise an execution environment. Additionally, HPC resources are usually managed under strict usage policies, many of which do not allow the user to customize the environment with an arbitrary software stack (e.g. compilers and device drivers), thus making it very difficult to obtain an uniform execution platform across different clusters.
@@ -93,7 +87,7 @@ For multi node computations, \cite{7868429} proposes the creation of an MPI clus
 In \cite{10.1371/journal.pone.0177459}, the author introduces Singularity. Singularity is a container system designed for scientific research workflows, and it strives to solve some drawbacks of using Docker containers in HPC. The author discusses how Docker was not designed for shared, multi-user environments (such as supercomputers and HPC centers) and thus presents significant security issues when used in this context. As a consequence, it is very hard to find HPC centers that allow users to use Docker containers. Singularity, on the other hand, was built with these problems in mind and solves them in order to make HPC containers accessible to the scientific community. As a consequence, Singularity containers are already accepted and used in many supercomputers around the world. Additionally, \cite{Le:2017:PAA:3093338.3106737} presents some performance analysis of applications running on top of Singularity containers. It concludes that while some overhead do exist, the reported values are negligible for most use cases. 
 
 *** Motivation
-Our objectives for this work is to study the drawbacks and improvements that occur by applying virtualization techniques to high performance computing workflows. As concluded by previous work, using virtual machines is not a feasible approach because of the performance overhead that comes along with this strategy. Thus, our goal is to measure the performance impact of applying virtualization in the form of container technologies to these workloads. We present an analysis covering both synthetic benchmarks and a real application comparing the usability of two major container systems - Docker and Singularity - using a traditional approach (with no virtualization) as a baseline.
+Our objectives for this work is to study the drawbacks and improvements that occur by applying virtualization techniques to high performance computing workflows. As concluded by previous work, using virtual machines is not a feasible approach because of the performance and communication overhead that comes along with this strategy. Thus, our goal is to measure the performance impact of applying virtualization in the form of container technologies to these workloads. We present an analysis covering both synthetic benchmarks and a real application comparing the usability of two major container systems - Docker and Singularity - using a traditional approach (with no virtualization) as a baseline.
 
 Furthermore, we intend to demonstrate that virtualization techniques can be used in HPC without the massive overhead of traditional virtual machines. By using containers, cluster administrators can provide flexibility, portability and enhanced reproducibility to its users without sacrificing performance and security.
 
@@ -123,20 +117,25 @@ Singularity is a container system developed for scientific research and high per
 Consequently, the only namespace that is isolated between the host and a Singularity container is the file system (meaning that the container can still be a completely different Linux distribution from the host). Every other namespace is not touched by default. Thus, the network stack, process tree and user space are the same between container and host, which leads to the container being seen as a process which is executed in the host operating system. This feature is very important for two reasons. First, Singularity containers can be started and killed by any tool used to manage processes, such as /mpirun/ or even SLURM. Second, because the user space is not touched, the user that executes processes inside the container is the same as the one which started the container. This means that a regular user can start a container without being granted root access to it. In other words, a given user needs to be root in the host operating system in order to be root inside the container.
 
 *** Experimental Context and Workload Details
-The experiments were executed in the Grid5000 hardware stack. The Grid5000 is a grid platform used for scientific experiments in parallel computing, HPC and computer science. It provides its users with a large amount of clusters that can be reserved for exclusive use for a limited time. For this paper, we executed the experiments in the Grid5000's \textit{graphene} cluster, which contains 16GB of DDR3 memory and a quad core Intel Xeon X3340 on each node. We used up to 64 compute nodes for our tests.
 
-The nodes were loaded with a Debian 9 image using the \textit{kadeploy3} tool. The same distribution was used for the virtualized environments in both Docker and Singularity containers. For benchmarks, we selected the following set of applications: NAS EP, Ondes3D and Ping Pong.
+**** Experimental environment
+The experiments were conducted in the Grid5000 hardware stack. The Grid5000 is a grid platform used for scientific experiments in parallel computing, HPC and computer science. It provides its users with a large amount of clusters that can be reserved for exclusive use for a limited time. For this paper, we executed the experiments in the Grid5000's \textit{graphene} cluster, which contains 16GB of DDR3 memory and a quad core Intel Xeon X3340 on each node. We used up to 64 compute nodes for our tests. Because of the number of cores, each node received a maximum of 4 MPI processes.
 
-The NAS EP is an application included in the NAS Parallel Benchmarks which simulates a parallel random number generator. Its name stands for \textit{embarassingly parallel}, and it was chosen to simulate a highly CPU bound scenario with parallel speedup close to ideal. 
+The nodes were loaded with a Debian 9 image using the \textit{kadeploy3} tool. To ensure consistency between test cases, the same distribution was used for the virtualized environments in both Docker and Singularity containers. We benchmarked the execution environments with three different applications: NAS EP, Ondes3D and Ping Pong.
 
-Ondes3D is a fluid dynamics simulation application with characteristics such as load imbalance and frequent communication between MPI nodes. It was chosen to simulate a real world scenario. 
+**** Benchmarks
+The NAS EP is an application included in the NAS Parallel Benchmarks which simulates a parallel random number generator. It is an embarassingly parallel problem (hence its name), and it was chosen to simulate a highly CPU bound scenario with parallel speedup close to ideal.
 
-Finally, the Ping Pong benchmark was used to measure the network performance and overhead when introducing the container's virtual environment.
+Ondes3D is a fluid dynamics simulation application. Its execution signature contains characteristics such as load imbalance and frequent communication between MPI nodes. It was chosen as a mean to include a real world scenario in this research.
 
-The container infrastructure for Docker was built with the cluster proposed by \cite{7868429}: containers were connected using Docker Swarm and an overlay network.
+Finally, the Ping Pong benchmark was used to measure the network and communication performance when introducing the container's virtual environment. The experiments in this case were conducted between two nodes that exchange MPI messages between each other. The message size was varied from 1 Byte to 1 MByte.
+
+**** Container clusters
+The container infrastructure for Docker was built with the cluster proposed by \cite{7868429}. The physical nodes were connected using the Docker Swarm utility, which is responsible for spawning containers on all the nodes and connecting them via an overlay network.
 
 The container infrastructure for Singularity is pretty much the same as the one with native processes. The only difference is that instead of distributing the application binary, I distributed the container image.
 
+**** Workload details
 Two different test suites were run. One containing all of the benchmarks cited above and other considering a real world, large Ondes3D simulation. All of the tests were run in a full factorial design. The first suite had the following factors:
  - Execution environment: Native, Docker and Singularity
  - Parallel compute units: 1, 4, 8, 16
