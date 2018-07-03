@@ -145,11 +145,56 @@ The second suite had the following factors:
  - Execution environment: Native and Singularity
  - Parallel compute units: 64, 128, 192, 256
 
-** Results
+** TODO Results
+ - How to ignore R source?
+ - How to export images into generated tex?
+#+begin_src R
+  library(tidyverse)
+  
+  results <- read_csv('./results/nas/results.csv')
+  results <- results %>%
+    mutate(time = time/1000) %>%
+    group_by(environment, parallelism) %>%
+    summarize(
+      samples = n(),
+      average = mean(time),
+      stdDeviation = sd(time),
+      stdError = 3*stdDeviation/sqrt(samples)
+    )
+  results
+
+  custom_theme <- function() {
+    ret <- list();
+    ret[[length(ret)+1]] <- theme (
+      plot.margin = unit(c(0,0,0,0), "cm"),
+      legend.spacing = unit(1, "mm"),
+      legend.position = "top",
+      legend.justification = "left",
+      legend.box.spacing = unit(0, "pt"),
+      legend.box.margin = margin(0,0,0,0),
+      legend.title = element_blank());
+    return(ret);
+  }
+
+  ggplot(results, aes(x = parallelism, y = average)) +
+    scale_x_continuous(breaks = c(1, 4, 8, 16), trans = 'sqrt') +
+    ylim(0, NA) +
+    geom_point(aes(col = environment), size = 2) +
+    geom_line(aes(col = environment), size = 0.5, alpha = 0.2) + 
+    geom_errorbar(aes(ymin = average - stdError, ymax = average + stdError, col = environment), width = 0.2) +
+    scale_color_grey() + 
+    xlab('Amount of computing units (count)') + 
+    ylab('Execution time (s)') +
+    theme_bw(base_size = 12) +
+    theme(legend.position = 'top', legend.spacing = unit(x = c(0, 0, 0, 0), units = 'mm')) +
+    custom_theme()
+#+end_src
+
+#+RESULTS:
+
 Show experiment plots (approx 3 to 4 plots)
 
 Discuss come conclusions derived from the results
-
 ** Conclusion
 In this paper we discussed the problem of reproducibility and user control over HPC environments, and how it can be solved with the usage of container technologies. Containers provide similar features as hardware level virtualization, but with a theoretically negligible performance overhead, making them suitable for high performance applications. In that context, we compared and contrasted two container technologies, Docker and Singularity, against a native environment running with no virtualization.
 
