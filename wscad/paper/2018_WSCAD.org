@@ -155,11 +155,16 @@ Plot (ref) shows the execution time of an Ondes3D simulation of a test case scen
 
 Plot (ref) presents the Ping Pong benchmark, which was used to measure the communication overhead between nodes. From this experiment, we can see that the network performance on Docker containers is considerably lower when compared to both the native and singularity test cases. This evidence confirms that, as ovserved in the Ondes3D experiment, the virtual network used by Docker introduces significant overhead to communication. Singularity containers, on the other hand, use the same network stack as the host operating system, resulting on non observable performance differences.
 
-/*Placeholder for the Ping Pong plot*/  
+/*Placeholder for the Ping Pong plot*/
+
+The next plot, (ref), shows a large scale simulation of the Ligurian earthquake on Ondes3D. This experiment was conducted considering the native execution and Singularity containers, and its main objective is to assess the aggregated overhead of spawning a large number of containers across multiple nodes. As the plot indicates, there is no observable difference in execution time between the two approaches, which indicates that the additional cost of executing applications in a Singularity environment is negligible even when spawning a high number of containers.
+
+/*Placeholder for the Ondes3D Ligurian plot*/
 
  - How to ignore R source?
  - How to export images into generated tex?
  - Should I add the debian vs alpine experiment? (can support the argument on flexibility, etc)
+
 #+begin_src R
   library(tidyverse)
   
@@ -203,10 +208,6 @@ Plot (ref) presents the Ping Pong benchmark, which was used to measure the commu
 #+end_src
 
 #+RESULTS:
-
-Show experiment plots (approx 3 to 4 plots)
-
-Discuss come conclusions derived from the results
 
 ** Conclusion
 In this paper we discussed the problem of reproducibility and user control over HPC environments, and how it can be solved with the usage of container technologies. Containers provide similar features as hardware level virtualization, but with a theoretically negligible performance overhead, making them suitable for high performance applications. In that context, we compared and contrasted two container technologies, Docker and Singularity, against a native environment running with no virtualization.
