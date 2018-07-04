@@ -59,7 +59,7 @@
 
 #+LaTeX: \begin{abstract}
 
-This paper explores the usage of container technologies to solve two relevant problems in high performance computing (HPC) applications. The first problem is reproducibility, expressed by the difficulty of precisely reproducing an execution environment to verify, validate or build on previous work. Because of the amount of potential dependencies and external variables an application depends upon, it can be extremely difficult to simulate the same software environment to reproduce previous research. The second problem is derived from the fact that HPC resources (e.g. clusters and grids) usually have very strict usage policies, that do not allow users to install arbitrary software to run their applications.
+This paper explores the usage of container technologies to solve two relevant problems in high performance computing (HPC) applications. The first problem is reproducibility, expressed by the difficulty of precisely reproducing an execution environment to verify, validate or build on previous work. The second problem relates to the lack of flexibility of traditional HPC resources - such as clusters and grids - upon its software stack, which prevents users to easily configure an execution environment with arbitrary software such as specific versions of libraries or drivers.
 
 #+LaTeX: \end{abstract}
 
@@ -67,11 +67,11 @@ This paper explores the usage of container technologies to solve two relevant pr
 
 One fundamental problem of scientific computing research is that, in order for it to be credible, it should be reproducible. This means that the researcher has the responsibility of providing its readers with the resources necessary to run experiments and obtain similar results to the ones provided by the research. Although the concept of reproducibility is well known in the scientific community, it is very hard to put it to practice because of the large amount of variables that comprise an execution environment. Additionally, HPC resources are usually managed under strict usage policies, many of which do not allow the user to customize the environment with an arbitrary software stack (e.g. compilers and device drivers), thus making it very difficult to obtain an uniform execution platform across different clusters.
 
-Although being intuitively difficult to deal with, these problems can be solved through the use of traditional hardware virtualization. By abstracting the hardware layer and providing a general, well known API to the software stack, users can run their own operating system and execution environment on top of a hypervisor, ensuring that the software stack will always be the same regardless of any hardware change. The problem with this approach is that, when considering HPC applications, the performance overhead introduced by the hypervisor is too high for this solution to be considered feasible.
+Although being intuitively difficult to deal with, these problems can be solved through the use of traditional hardware virtualization. By abstracting the hardware layer and providing a general, well known API to the software stack, users can run their own operating system and execution environment on top of a hypervisor, ensuring that the user can configure the exact software stack that is needed for a given experiment. The problem with this approach is that, when considering HPC applications, the performance overhead introduced by the hypervisor and an entire virtual machine is too high for this solution to be considered feasible.
 
 Lately, container technologies have gained a lot of attention in the software development industry. This is mainly because containers are presented as a solution to package enterprise software in a controlled, static environment that will run on a wide variety of Linux systems. When compared to traditional virtual machines, containers have the advantage of not needing a hypervisor for virtualization, yielding performance that is very close to native while still providing application and software stack isolation. 
 
-By using containers to isolate and package HPC applications, we expect to encourage users to apply container technology to create reproducible, user configurable environments for their applications, thus diminishing the hassle of managing application dependencies and software stack differences when executing experiments across multiple HPC clusters.
+By using containers to isolate and package applications, users are able to create reproducible, configurable environments for their applications, thus diminishing the hassle of managing application dependencies and software stack differences when executing experiments across different Linux environments.
 
 In fact, this approach has already been used to great extents in the software development industry. Container technologies such as Docker are used daily to deploy software microservices to cloud environments, and cloud infrastructure providers such as AWS and Google Cloud Platform offer services to manage applications based on containers.
 
@@ -165,7 +165,7 @@ The next plot, (ref), shows a large scale simulation of the Ligurian earthquake 
  - How to export images into generated tex?
  - Should I add the debian vs alpine experiment? (can support the argument on flexibility, etc)
 
-#+begin_src R 
+#+begin_src R        
   library(tidyverse)
   
   results <- read_csv('./results/nas/results.csv')
