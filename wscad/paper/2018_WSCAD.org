@@ -126,14 +126,14 @@ The nodes were loaded with a Debian 9 image using the \textit{kadeploy3} tool. T
 **** Benchmarks
 The NAS EP is an application included in the NAS Parallel Benchmarks which simulates a parallel random number generator. It is an embarassingly parallel problem (hence its name), and it was chosen to simulate a highly CPU bound scenario with parallel speedup close to ideal.
 
-Ondes3D is a fluid dynamics simulation application. Its execution signature contains characteristics such as load imbalance and frequent communication between MPI nodes. It was chosen as a mean to include a real world scenario in this research.
+Ondes3D is a fluid dynamics simulation application. Its execution signature contains characteristics such as load imbalance and frequent communication between MPI nodes. It was chosen as a mean to add a real world application signature in this research.
 
 Finally, the Ping Pong benchmark was used to measure the network and communication performance when introducing the container's virtual environment. The experiments in this case were conducted between two nodes that exchange MPI messages between each other. The message size was varied from 1 Byte to 1 MByte.
 
 **** Container clusters
-The container infrastructure for Docker was built with the cluster proposed by \cite{7868429}. The physical nodes were connected using the Docker Swarm utility, which is responsible for spawning containers on all the nodes and connecting them via an overlay network.
+The container infrastructure for Docker was built with the cluster proposed by \cite{7868429}. The physical nodes were connected using the Docker Swarm utility, which is responsible for spawning containers on all the nodes and connecting them via an overlay network, so that every container (which will execute an MPI process) can be addressed by the MPI runtime.
 
-The container infrastructure for Singularity is pretty much the same as the one with native processes. The only difference is that instead of distributing the application binary, I distributed the container image.
+The container infrastructure for Singularity is pretty much the same as the one with native processes. Because Singularity containers share the network stack with its host, there is no need for a virtual network between the containers (all the hosts are accessible through the physical network). 
 
 **** Workload details
 Two different test suites were run. The first batch covered a smaller problem size of EP and Ondes3D, with 1 to 4 compute nodes. This experiment was executed following a full factorial experimental design with the following factors:
@@ -145,8 +145,21 @@ The second test suite was aimed at covering a real world scenario, with a comput
  - Parallel compute units: 64, 128, 192, 256
 
 ** TODO Results
+The plot (ref) shows the execution time of the NAS EP Benchmark, with respect to the number of parallel executors. Although indicating a slight advantage in the native execution, the plot shows that the virtualized approaches perform very close to the native baseline. This indicates that, when CPU calculation is regarded, none of the container technologies introduce significant overhead. In fact, the difference in execution time can be related to the time needed to spin up the containers. Such an operation does not exist when executing processes in the native operating system.
+
+/*Placeholder for the ep experiment plot*/
+
+Plot (ref) shows the execution time of an Ondes3D simulation of a test case scenario, with respect to the number of parallel executors. This plot shows that the performance on the three environments is similar for 1 and 4 executors. However, the Docker performance degrades when considering 8 and 16 processing units. This behavior happens exactly when more physical nodes are added to the experiment, which indicates that the network communication might be impacting the performance of Docker containers. This hypothesis is further supported by the virtual network that is needed to provide connectivity between Docker containers. Such a virtual network is non existant in the other two environments.
+
+/*Placeholder for the Ondes3D Essai plot*/
+
+Plot (ref) presents the Ping Pong benchmark, which was used to measure the communication overhead between nodes. From this experiment, we can see that the network performance on Docker containers is considerably lower when compared to both the native and singularity test cases. This evidence confirms that, as ovserved in the Ondes3D experiment, the virtual network used by Docker introduces significant overhead to communication. Singularity containers, on the other hand, use the same network stack as the host operating system, resulting on non observable performance differences.
+
+/*Placeholder for the Ping Pong plot*/  
+
  - How to ignore R source?
  - How to export images into generated tex?
+ - Should I add the debian vs alpine experiment? (can support the argument on flexibility, etc)
 #+begin_src R
   library(tidyverse)
   
@@ -194,6 +207,7 @@ The second test suite was aimed at covering a real world scenario, with a comput
 Show experiment plots (approx 3 to 4 plots)
 
 Discuss come conclusions derived from the results
+
 ** Conclusion
 In this paper we discussed the problem of reproducibility and user control over HPC environments, and how it can be solved with the usage of container technologies. Containers provide similar features as hardware level virtualization, but with a theoretically negligible performance overhead, making them suitable for high performance applications. In that context, we compared and contrasted two container technologies, Docker and Singularity, against a native environment running with no virtualization.
 
