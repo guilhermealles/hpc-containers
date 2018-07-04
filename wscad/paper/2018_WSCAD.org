@@ -165,7 +165,7 @@ The next plot, (ref), shows a large scale simulation of the Ligurian earthquake 
  - How to export images into generated tex?
  - Should I add the debian vs alpine experiment? (can support the argument on flexibility, etc)
 
-#+begin_src R
+#+begin_src R 
   library(tidyverse)
   
   results <- read_csv('./results/nas/results.csv')
@@ -210,11 +210,11 @@ The next plot, (ref), shows a large scale simulation of the Ligurian earthquake 
 #+RESULTS:
 
 ** Conclusion
-In this paper we discussed the problem of reproducibility and user control over HPC environments, and how it can be solved with the usage of container technologies. Containers provide similar features as hardware level virtualization, but with a theoretically negligible performance overhead, making them suitable for high performance applications. In that context, we compared and contrasted two container technologies, Docker and Singularity, against a native environment running with no virtualization.
+In this paper we discussed about the use of virtualization technologies in the form of Linux containers to help solving problems such as reproducibility and user control over HPC environments. Containers provide similar features as hardware level virtualization, but with a theoretically negligible performance overhead, making them suitable for high performance applications. In that context, we compared and contrasted two container technologies, Docker and Singularity, against a native environment running with no virtualization.
 
 The results for the proposed tests indicate that containers introduce very little (if any) computational overhead in applications, for both Docker and Singularity. This can be verified by the lack of a clear performance difference on the EP NAS Benchmark, in favor of a specific environment.
 
-Communication overhead, on the other hand, has been observed in Docker containers. This is mainly because Docker requires the containers to be connected through an overlay network in order for them to have connectivity across multiple hosts (which was needed for the MPI cluster). This overhead was observed in both the Ping Pong test case as well as the Ondes3D application, which is known to require frequent communication between MPI processes. The same communication overhead could not be ovserved, however, in Singularity containers.
+Communication overhead, on the other hand, has been observed in Docker containers. This is mainly because the Docker architecture requires the containers to be connected through an overlay network in order for them to have connectivity across multiple hosts (which was needed for the MPI cluster). This overhead was observed in both the Ping Pong test case as well as the Ondes3D application, which is known to require frequent communication between MPI processes. The same communication overhead could not be ovserved, however, in Singularity containers.
 
 With the experiments conducted in this research, we can conclude that Linux containers are a suitable option for running HPC applications in a virtualized environment, without the drawbacks of traditional hardware level virtualization. In our tests, we concluded that Singularity containers are the most suitable option both in terms of system administration (for not granting every user that starts a container root access to the system) and in terms of performance (for not imposing an overlay network that is a potential bottleneck).
 
