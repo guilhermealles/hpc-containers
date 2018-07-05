@@ -165,7 +165,8 @@ The next plot, (ref), shows a large scale simulation of the Ligurian earthquake 
  - How to export images into generated tex?
  - Should I add the debian vs alpine experiment? (can support the argument on flexibility, etc)
 
-#+begin_src R
+*** EP experiment plot                                           :noexport:
+#+begin_src R 
   library(tidyverse)
   
   results <- read_csv('./results/nas/results.csv')
@@ -197,7 +198,7 @@ The next plot, (ref), shows a large scale simulation of the Ligurian earthquake 
     scale_x_continuous(breaks = c(1, 4, 8, 16), trans = 'sqrt') +
     ylim(0, NA) +
     geom_point(aes(col = environment), size = 2) +
-    geom_line(aes(col = environment), size = 0.5, alpha = 0.2) + 
+    geom_line(aes(col = environment), size = 0.5, alpha = 0.3) + 
     geom_errorbar(aes(ymin = average - stdError, ymax = average + stdError, col = environment), width = 0.2) +
     scale_color_grey() + 
     xlab('Amount of computing units (count)') + 
@@ -205,6 +206,131 @@ The next plot, (ref), shows a large scale simulation of the Ligurian earthquake 
     theme_bw(base_size = 12) +
     theme(legend.position = 'top', legend.spacing = unit(x = c(0, 0, 0, 0), units = 'mm')) +
     custom_theme()
+#+end_src
+
+*** Ondes3D ESSAI experiment plot                                :noexport:
+#+begin_src R
+library(tidyverse);
+
+results <- read_csv('./results/ondes3d/results.csv');
+
+results <- results %>%
+  mutate(time = time/1000) %>%
+  group_by(environment, parallelism) %>%
+  summarize(
+    samples = n(),
+    average = mean(time),
+    stdDeviation = sd(time),
+    stdError = 3*stdDeviation/sqrt(samples)
+  );
+
+custom_theme <- function() {
+  ret <- list();
+  ret[[length(ret)+1]] <- theme (
+    plot.margin = unit(c(0,0,0,0), "cm"),
+    legend.spacing = unit(1, "mm"),
+    legend.position = "top",
+    legend.justification = "left",
+    legend.box.spacing = unit(0, "pt"),
+    legend.box.margin = margin(0,0,0,0),
+    legend.title = element_blank());
+  return(ret);
+}
+
+ggplot(results, aes(x = parallelism, y = average)) + 
+  geom_line(aes(col=environment), size = 0.5, alpha=0.2) + 
+  geom_point(aes(col=environment), size=2) + 
+  geom_errorbar(aes(ymin=average-stdError, ymax=average+stdError, col=environment), width=0.15) +
+  scale_color_grey() +
+  ylim(0, NA) +
+  scale_x_continuous(breaks=c(1, 4, 8, 16), trans='sqrt') + 
+  xlab("Amount of computing units (count)") +
+  ylab("Execution time (s)") +
+  theme_bw(base_size=12) +
+  theme(legend.position = "top", legend.spacing = unit(x=c(0,0,0,0),units="mm")) +
+  custom_theme();
+#+end_src
+
+*** Ping Pong plot                                               :noexport:
+#+begin_src R
+library(tidyverse)
+
+results <- read_csv('./results/ping-pong/results.csv')
+results <- results %>% 
+  group_by(environment, size) %>%
+  summarize(
+    samples = n(),
+    average = mean(time),
+    stdDeviation = sd(time),
+    stdError = 3*stdDeviation/sqrt(samples))
+
+default_theme <- function() {
+  ret <- list();
+  ret[[length(ret)+1]] <- theme (
+    plot.margin = unit(c(0,0,0,0), "cm"),
+    legend.spacing = unit(1, "mm"),
+    legend.position = "top",
+    legend.justification = "left",
+    legend.box.spacing = unit(0, "pt"),
+    legend.box.margin = margin(0,0,0,0),
+    legend.title = element_blank());
+  return(ret);
+}
+
+ggplot(results,aes(x=size, y=average)) +
+  geom_line(aes(col = environment), alpha = 0.2) +
+  geom_point(aes(col = environment), size = 3) +
+  geom_errorbar(aes(ymin=average-stdError, ymax=average+stdError, color=environment, group=environment), width = 0.3) +
+  theme_bw(base_size=12) +
+  scale_y_continuous(trans='log2') + 
+  #ylim(0,NA) +
+  scale_x_continuous(trans="log2") + 
+  ylab('Average latency (ms)') +
+  xlab('Message size (bytes)') +
+  scale_color_grey() +
+  default_theme()
+#+end_src
+
+*** Ondes3D Ligurian plot                                        :noexport:
+#+begin_src R
+library(tidyverse);
+
+results <- read_csv('./results/ondes3d-ligurian/results.csv');
+results <- results %>%
+  mutate(time = time/1000) %>%
+  group_by(environment, parallelism) %>%
+  summarize(
+    samples = n(),
+    average = mean(time),
+    stdDeviation = sd(time),
+    stdError = 3*stdDeviation/sqrt(samples)
+  );
+
+default_theme <- function() {
+  ret <- list();
+  ret[[length(ret)+1]] <- theme (
+    plot.margin = unit(c(0,0,0,0), "cm"),
+    legend.spacing = unit(1, "mm"),
+    legend.position = "top",
+    legend.justification = "left",
+    legend.box.spacing = unit(0, "pt"),
+    legend.box.margin = margin(0,0,0,0),
+    legend.title = element_blank());
+  return(ret);
+}
+
+ggplot(results, aes(x = parallelism, y = average)) + 
+  geom_line(aes(col=environment), size = 0.5, alpha=0.2) + 
+  geom_point(aes(col=environment), size=2) + 
+  geom_errorbar(aes(ymin=average-stdError, ymax=average+stdError, col=environment), width=20) +
+  scale_color_grey() +
+  scale_x_continuous(breaks=seq(64,256,64)) +
+  ylim(0, NA) +
+  xlab("Amount of computing units (count)") +
+  ylab("Execution time (s)") +
+  theme_bw(base_size=12) +
+  theme(legend.position = "top", legend.spacing = unit(x=c(0,0,0,0),units="mm")) +
+  default_theme();
 #+end_src
 
 #+RESULTS:
@@ -217,12 +343,6 @@ The results for the proposed tests indicate that containers introduce very littl
 Communication overhead, on the other hand, has been observed in Docker containers. This is mainly because the Docker architecture requires the containers to be connected through an overlay network in order for them to have connectivity across multiple hosts (which was needed for the MPI cluster). This overhead was observed in both the Ping Pong test case as well as the Ondes3D application, which is known to require frequent communication between MPI processes. The same communication overhead could not be ovserved, however, in Singularity containers.
 
 With the experiments conducted in this research, we can conclude that Linux containers are a suitable option for running HPC applications in a virtualized environment, without the drawbacks of traditional hardware level virtualization. In our tests, we concluded that Singularity containers are the most suitable option both in terms of system administration (for not granting every user that starts a container root access to the system) and in terms of performance (for not imposing an overlay network that is a potential bottleneck).
-
-** Acknowledgments                                                  :ignore:
-#+LATEX:\section*{Acknowledgements}
-
-Who paid for this?
-
 ** References                                                        :ignore:
 # See next section to understand how refs.bib file is created.
 
