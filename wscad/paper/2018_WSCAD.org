@@ -117,12 +117,10 @@ Singularity is a container system developed for scientific research and high per
 Consequently, the only namespace that is isolated between the host and a Singularity container is the file system (meaning that the container can still be a completely different Linux distribution from the host). Every other namespace is not touched by default. Thus, the network stack, process tree and user space are the same between container and host, which leads to the container being seen as a process which is executed in the host operating system. This feature is very important for two reasons. First, Singularity containers can be started and killed by any tool used to manage processes, such as /mpirun/ or even SLURM. Second, because the user space is not touched, the user that executes processes inside the container is the same as the one which started the container. This means that a regular user can start a container without being granted root access to it. In other words, a given user needs to be root in the host operating system in order to be root inside the container.
 
 *** Experimental Context and Workload Details
-
 **** Experimental environment
 The experiments were conducted in the Grid5000 hardware stack. The Grid5000 is a grid platform used for scientific experiments in parallel computing, HPC and computer science. It provides its users with a large amount of clusters that can be reserved for exclusive use for a limited time. For this paper, we executed the experiments in the Grid5000's \textit{graphene} cluster, which contains 16GB of DDR3 memory and a quad core Intel Xeon X3340 on each node. We used up to 64 compute nodes for our tests. Because of the number of cores, each node received a maximum of 4 MPI processes.
 
 The nodes were loaded with a Debian 9 image using the \textit{kadeploy3} tool. To ensure consistency between test cases, the same distribution was used for the virtualized environments in both Docker and Singularity containers. We benchmarked the execution environments with three different applications: NAS EP, Ondes3D and Ping Pong.
-
 **** Benchmarks
 The NAS EP is an application included in the NAS Parallel Benchmarks which simulates a parallel random number generator. It is an embarassingly parallel problem (hence its name), and it was chosen to simulate a highly CPU bound scenario with parallel speedup close to ideal.
 
@@ -164,6 +162,10 @@ The next plot, (ref), shows a large scale simulation of the Ligurian earthquake 
  - How to ignore R source?
  - How to export images into generated tex?
  - Should I add the debian vs alpine experiment? (can support the argument on flexibility, etc)
+*** TODO Should we include this argument?
+To ilustrate the advantages in flexibility for environment configuration, we also conducted an experiment running an Alpine Linux image on the container environments. The Alpine Linux is a lightweight Linux distribution that strives for efficiency and security. It is based on Busybox and provides an alternative set of standard libraries that can yield better performance in some applications. Although installing a completely different Linux distribution on multiple hosts for a single experiment is not feasible (especially in a shared cluster environment), it can be easily done when using containers. The plot (ref) shows how Docker and Singularity (running the Alpine Linux distribution) compare to the native operating system (running Debian). These results show that, by modifying the execution environment, it is possible for the virtualized execution to outperform the native one.
+
+/*Placeholder for the Alpine vs. Debian plot*/
 
 *** EP experiment plot                                           :noexport:
 #+begin_src R 
@@ -341,6 +343,8 @@ In this paper we discussed about the use of virtualization technologies in the f
 The results for the proposed tests indicate that containers introduce very little (if any) computational overhead in applications, for both Docker and Singularity. This can be verified by the lack of a clear performance difference on the EP NAS Benchmark, in favor of a specific environment.
 
 Communication overhead, on the other hand, has been observed in Docker containers. This is mainly because the Docker architecture requires the containers to be connected through an overlay network in order for them to have connectivity across multiple hosts (which was needed for the MPI cluster). This overhead was observed in both the Ping Pong test case as well as the Ondes3D application, which is known to require frequent communication between MPI processes. The same communication overhead could not be ovserved, however, in Singularity containers.
+
+Additionally, we conducted experiments that leveraged the potential flexibility that a virtualized workflow provides. Because containers allow users to fine tune the execution environment, it was possible to use a different Linux distribution without having root access to the host operating system. This approach yielded better performance than the native execution, which means that it is possible to use these fine tuning capabilities to considerably enhance the performance of HPC applications.
 
 With the experiments conducted in this research, we can conclude that Linux containers are a suitable option for running HPC applications in a virtualized environment, without the drawbacks of traditional hardware level virtualization. In our tests, we concluded that Singularity containers are the most suitable option both in terms of system administration (for not granting every user that starts a container root access to the system) and in terms of performance (for not imposing an overlay network that is a potential bottleneck).
 ** References                                                        :ignore:
