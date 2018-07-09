@@ -21,6 +21,43 @@
 # You need at least Org 9 and Emacs 24 to make this work.
 # If you do, just type make (thanks Luka Stanisic for this).
 
+* WSCAD 2018 Submission Rules
+
+WSCAD Simpósio em Sistemas Computacionais de Alto Desempenho
+
+O Simpósio em Sistemas Computacionais de Alto Desempenho (WSCAD) é um
+evento anual que apresenta as principais aplicações, desenvolvimentos
+e tendências nas áreas de arquitetura de computadores, processamento
+de alto desempenho e sistemas distribuídos. Na sua décima nona edição
+o WSCAD será realizado na cidade de São Paulo.
+
+Em paralelo ao WSCAD ocorre, o Concurso de Teses e Dissertações em
+Arquitetura de Computadores e Computação de Alto Desempenho
+(WSCAD-CTD), o Workshop de Iniciação Científica em Arquitetura de
+Computadores e Computação de Alto Desempenho (WSCAD-WIC), o Workshop
+sobre Educação em Arquitetura de Computadores (WEAC), o Workshop em
+Computação Heterogênea (WCH) e a Maratona Internacional de Programação
+Paralela, entre outros eventos a serem anunciados.
+
+Os(as) autores(as) interessados(as) em apresentar seus trabalhos na
+trilha principal do WSCAD deverão submeter seus artigos em português
+ou inglês em formato PDF através da plataforma JEMS.
+
+Os artigos serão avaliados pelos membros do comitê de programa e por
+revisores externos ao comitê. Os anais serão publicados na BDBComp da
+SBC e os melhores trabalhos serão convidados a submeter para uma
+edição especial de um periódico internacional.
+
+A submissão de artigos para a trilha principal do WSCAD em breve
+estará aberta. Os artigos submetidos poderão ser escritos em lingua
+portuguesa ou inglesa e deverão ter um limite de 12 páginas (incluindo
+figuras, tabelas e referências) seguindo o formato da SBC para
+submissão de artigos.  Datas importantes:
+
+    Submissão de trabalhos: 13/07/2018
+    Notificação de aceitação: 20/08/2018
+    Envio da versão final: 30/08/2018
+
 * IEEETran configuration for org export + ignore tag (Start Here)  :noexport:
 
 #+begin_src emacs-lisp :results output :session :exports both
