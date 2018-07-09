@@ -21,7 +21,7 @@
 # You need at least Org 9 and Emacs 24 to make this work.
 # If you do, just type make (thanks Luka Stanisic for this).
 
-* WSCAD 2018 Submission Rules
+* WSCAD 2018 Submission Rules                                      :noexport:
 
 WSCAD Simpósio em Sistemas Computacionais de Alto Desempenho
 
