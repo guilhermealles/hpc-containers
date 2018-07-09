@@ -86,8 +86,7 @@ submissão de artigos.  Datas importantes:
    Alexandre Carissimi,
    Lucas Mello Schnorr}
 
-\address{
-   Graduate Program in Computer Science (PPGC/UFRGS), Porto Alegre, Brazil}
+\address{Graduate Program in Computer Science (PPGC/UFRGS), Porto Alegre, Brazil}
 #+END_EXPORT
 
 #+LaTeX: \maketitle
