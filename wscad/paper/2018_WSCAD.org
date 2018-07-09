@@ -86,7 +86,10 @@ submissão de artigos.  Datas importantes:
    Alexandre Carissimi,
    Lucas Mello Schnorr}
 
-\address{Graduate Program in Computer Science (PPGC/UFRGS), Porto Alegre, Brazil}
+\address{Instituto de Informática -- Universidade Federal do Rio Grande do Sul (UFRGS)\\
+  Caixa Postal 15.064 -- 91.501-970 -- Porto Alegre -- RS -- Brazil
+  \email{\{gralles,asc,schnorr\}@inf.ufrgs.br}
+  }
 #+END_EXPORT
 
 #+LaTeX: \maketitle
