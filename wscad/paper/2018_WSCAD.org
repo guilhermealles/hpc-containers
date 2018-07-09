@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # -*- mode: org -*-
 
-#+TITLE: Assessing the Computation and Communication Overhead of Operating System Containers for HPC Applications
+#+TITLE: Assessing the Computation and Communication Overhead of Linux Containers for HPC Applications
 #+AUTHOR: Lucas Mello Schnorr
 
 #+STARTUP: overview indent
@@ -42,7 +42,7 @@
 ** Frontpage                                                        :ignore:
 
 #+BEGIN_EXPORT latex
-\title{Assessing the Computation and Communication Overhead of Operating System Containers for HPC Applications}
+\title{Assessing the Computation and Communication Overhead of Linux Containers for HPC Applications}
 
 \author{
    Guilherme Rezende Alles\inst{1},
@@ -78,8 +78,7 @@ In fact, this approach has already been used to great extents in the software de
 Considering the large adoption of containers in software development, we compare and contrast two container technologies, Docker and Singularity, with respect to their performance overhead and ability to solve common HPC workflow problems. For the performance measurements, we will consider the same experiments running on a native environment as the baseline.
 
 ** Related Work and Motivation
-*** TODO Related Work
- - */Citations are not showing up. Still have to figure this out.../*
+*** Related Work
 As presented in \cite{7562612}, the virtualization of HPC applications is viable in a low overhead environment such as Docker. In this study, the author compares the compute performance of Docker containers to virtual machines, concluding that the former has a considerably lower overhead when compared to the latter. This study, however, only explores the performance of single node applications, and does not present information on how containers can scale to distributed environments which are usually the case for high-performance applications.
 
 For multi-node computations, \cite{7868429} proposes the creation of an MPI cluster using Docker containers in a distributed environment. In this proposal, the containers are connected through an orchestrator called Docker Swarm, which is responsible for assigning names and providing an overlay network for transparent connectivity between the containers. Performance analysis, however, is absent from this study, obscuring the conclusion of whether such an approach is viable in a real-world scenario.
@@ -109,7 +108,7 @@ Docker implements a virtualization model that, by default, isolates as many aspe
 
 By virtualizing the network stack, Docker relies on a virtual controller that uses Network Address Translation to correlate multiple containers to the host's IP address. This approach forces the user to explicitly specify which ports of the container should be exposed to the host operating system (and the internet), allowing the user to have a finer control over network communication on the container.
 
-Additionally, the user space is also separated between container and host. This means that there is a new root user inside the container, which is controlled by the user who starts it. This makes it easier for the user to customize the container environment, install libraries and packages and make modifications to the virtualized operating system in order to suit the user's needs. On the other hand, it also presents a security concern on shared environments, because the user might be able to exploit the root privileges to gain access on the host machine, as documented in \cite{DockerEscalation}. Docker mitigates this issue by, in its default configuration, allowing only the root user in the host operating system to create containers.
+Additionally, the user space is also separated between container and host. This means that there is a new root user inside the container, which is controlled by the user who starts it. This makes it easier for the user to customize the container environment, install libraries and packages and make modifications to the virtualized operating system in order to suit the user's needs. On the other hand, it also presents a security concern on shared environments, because it is possible for the user to mount the root directory from the host operating system as a volume in the container, thus granting access to all the files in the host machine. Docker mitigates this issue by, in its default configuration, allowing only the root user in the host operating system to create containers.
 
 **** Singularity
 Singularity is a container system developed for scientific research and high-performance computing applications. Contrary to Docker, Singularity does not aim to create completely isolated environments. It relies on a more conservative virtualization model, with the objective of providing integration with existing tools installed on the host operating system.
@@ -142,30 +141,46 @@ The second test suite was aimed at covering a real-world scenario, with a comput
  - Execution environment: Native and Singularity
  - Parallel compute units (up to 4 per node): 64, 128, 192, 256
 
-** TODO Results
+** Results
 The plot (ref) shows the execution time of the NAS EP Benchmark, with respect to the number of parallel executors. Although indicating a slight advantage in the native execution, the plot shows that the virtualized approaches perform very close to the native baseline. This indicates that, when CPU calculation is regarded, none of the container technologies introduce significant overhead. In fact, the difference in execution time can be related to the time needed to spin up the containers. Such an operation does not exist when executing processes in the native operating system.
 
-/*Placeholder for the ep experiment plot*/
+#+LATEX: \begin{figure}[h]
+#+LATEX: \centering
+#+LATEX: \includegraphics[width=.8\textwidth]{./img/ep-b.png}
+#+LATEX: \caption{Execution time for the NAS EP benchmark}
+#+LATEX: \end{figure}
 
 Plot (ref) shows the execution time of an Ondes3D simulation of a small scale test, with respect to the number of parallel executors. This plot shows that the performance on the three environments is similar for 1 and 4 executors. However, the Docker performance degrades when considering 8 and 16 processing units. This behavior happens exactly when more physical nodes are added to the experiment, which indicates that the network communication might be impacting the performance of Docker containers. This hypothesis is further supported by the virtual network that is needed to provide connectivity between Docker containers. Such a virtual network does not exist in the other two environments.
 
-/*Placeholder for the Ondes3D Essai plot*/
+#+LATEX: \begin{figure}[h]
+#+LATEX: \centering
+#+LATEX: \includegraphics[width=.8\textwidth]{./img/ondes3d-essai-50ts.png}
+#+LATEX: \caption{Execution time for the Ondes3D ESSAI simulation}
+#+LATEX: \end{figure}
 
 Plot (ref) presents the Ping Pong benchmark, which was used to measure the communication overhead between nodes. From this experiment, we can see that the network performance on Docker containers is considerably lower when compared to both the native and singularity test cases. This evidence confirms that, as observed in the Ondes3D experiment, the virtual network used by Docker introduces significant overhead to communication. Singularity containers, on the other hand, use the same network stack as the host operating system, resulting in non-observable performance differences.
 
-/*Placeholder for the Ping Pong plot*/
+#+LATEX: \begin{figure}[h]
+#+LATEX: \centering
+#+LATEX: \includegraphics[width=.8\textwidth]{./img/ping-pong.png}
+#+LATEX: \caption{Average network latency measured with the Ping Pong benchmark}
+#+LATEX: \end{figure}
 
 The next plot, (ref), shows a large-scale simulation of the Ligurian earthquake on Ondes3D. This experiment was conducted considering the native execution and Singularity containers, and its main objective is to assess the aggregated overhead of spawning a large number of containers across multiple nodes. As the plot indicates, there is no observable difference in execution time between the two approaches, which indicates that the additional cost of executing applications in a Singularity environment is negligible even when spawning a high number of containers.
 
-/*Placeholder for the Ondes3D Ligurian plot*/
+#+LATEX: \begin{figure}[h]
+#+LATEX: \centering
+#+LATEX: \includegraphics[width=.8\textwidth]{./img/ondes3d-ligurian.png}
+#+LATEX: \caption{Execution time for the simulation of the Ligurian enathquake using Ondes3D}
+#+LATEX: \end{figure}
 
- - How to ignore R source?
- - How to export images into generated tex?
- - Should I add the debian vs alpine experiment? (can support the argument on flexibility, etc)
-*** TODO Should we include this argument?
 To illustrate the advantages in flexibility for environment configuration, we also conducted an experiment running an Alpine Linux image on the container environments. The Alpine Linux is a lightweight Linux distribution that strives for efficiency and security. It is based on Busybox and provides an alternative set of standard libraries that can yield better performance in some applications. Although installing a completely different Linux distribution on multiple hosts for a single experiment is not feasible (especially in a shared cluster environment), it can be easily done when using containers. The plot (ref) shows how Docker and Singularity (running the Alpine Linux distribution) compare to the native operating system (running Debian). These results show that, by modifying the execution environment, it is possible for the virtualized execution to outperform the native one.
 
-/*Placeholder for the Alpine vs. Debian plot*/
+#+LATEX: \begin{figure}[h]
+#+LATEX: \centering
+#+LATEX: \includegraphics[width=.8\textwidth]{./img/ep-b-alpine.png}
+#+LATEX: \caption{Execution time for the NAS EP benchmark with containers running Alpine Linux and the host running Debian}
+#+LATEX: \end{figure}
 
 *** EP experiment plot                                           :noexport:
 #+begin_src R 
@@ -420,11 +435,4 @@ Tangle this file with C-c C-v t
     address = {New York, NY, USA},
     keywords = {IMB: Intel's MPI Benchmark, NEURON: Neuronal Simulation Tool, OSU: Ohio State University Benchmark, Singularity},
 }
-
-@misc{DockerEscalation,
- title = {Docker Privilege Escalation},
- year = {2017},
- url = {https://fosterelli.co/privilege-escalation-via-docker.html}
-}
-
 #+end_src
