@@ -102,6 +102,14 @@ This paper explores the use of container technologies to solve two relevant prob
 
 #+LaTeX: \end{abstract}
 
+#+BEGIN_COMMENT LUCAS
+I think it would be nice to give some context information in the
+beginning of the abstract. First phrase is also disconnected with
+the "assessing the computation and comm. overhead ...". Additionally,
+you can include some details about the methodology and the main
+results. It is okay to reveal this from the start.
+#+END_COMMENT
+
 ** Introduction
 
 One fundamental aspect of scientific computing research is that, in order for it to be credible, it should be reproducible. This means that the researcher has the responsibility of providing its readers with the resources necessary to run experiments and obtain similar results to the ones provided by the research. Although the concept of reproducibility is well known in the scientific community, it is very hard to put it to practice because of the large number of variables that comprise an execution environment. Additionally, HPC resources are usually managed under strict usage policies, many of which do not allow the user to customize the environment with an arbitrary software stack (e.g. compilers, libraries or device drivers), thus making it very difficult to obtain a uniform execution platform across different clusters.
