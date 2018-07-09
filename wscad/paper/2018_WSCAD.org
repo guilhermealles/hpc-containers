@@ -68,7 +68,7 @@ submissão de artigos.  Datas importantes:
 
 #+RESULTS:
 
-* *The Paper*                                                       :ignore:
+* *The Paper*                                                          :ignore:
 ** Latex configurations                                             :ignore:
 
 #+BEGIN_EXPORT latex
