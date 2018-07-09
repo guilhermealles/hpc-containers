@@ -79,7 +79,7 @@ submissão de artigos.  Datas importantes:
 ** Frontpage                                                        :ignore:
 
 #+BEGIN_EXPORT latex
-\title{Assessing the Computation and Communication Overhead of Linux Containers for HPC Applications}
+\title{Assessing the Computation and Communication \\ Overhead of Linux Containers for HPC Applications}
 
 \author{
    Guilherme Rezende Alles,
