@@ -495,4 +495,5 @@ Tangle this file with C-c C-v t
 # eval: (setq org-latex-to-pdf-process '("pdflatex -interaction nonstopmode -output-directory %o %f ; bibtex `basename %f | sed 's/\.tex//'` ; pdflatex -interaction nonstopmode -output-directory  %o %f ; pdflatex -interaction nonstopmode -output-directory %o %f"))
 # eval: (setq ispell-local-dictionary "american")
 # eval: (eval (flyspell-mode t))
+# eval: (setq org-latex-with-hyperref nil)
 # End:
