@@ -1,9 +1,7 @@
-
-
 # -*- coding: utf-8 -*-
 # -*- mode: org -*-
 
-#+TITLE: Assessing the Computation and Communication Overhead of Linux Containers for HPC Applications
+#+TITLE:
 #+AUTHOR: Lucas Mello Schnorr
 
 #+STARTUP: overview indent
