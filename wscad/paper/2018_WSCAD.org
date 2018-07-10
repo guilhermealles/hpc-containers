@@ -1,3 +1,4 @@
+
 # -*- coding: utf-8 -*-
 # -*- mode: org -*-
 
@@ -5,7 +6,7 @@
 #+AUTHOR: Lucas Mello Schnorr
 
 #+STARTUP: overview indent
-#+LANGUAGE: pt-br
+#+LANGUAGE: en-us
 #+OPTIONS: H:3 creator:nil timestamp:nil skip:nil toc:nil num:t ^:nil ~:~
 #+OPTIONS: author:nil title:nil date:nil
 #+TAGS: noexport(n) deprecated(d) ignore(i)
@@ -96,11 +97,9 @@ submissão de artigos.  Datas importantes:
 
 ** Abstract                                                         :ignore:
 
-#+LaTeX: \begin{abstract}
-
-This paper explores the use of container technologies to solve two relevant problems in high-performance computing (HPC) applications. The first problem is reproducibility, expressed by the difficulty of precisely reproducing an execution environment to verify, validate or build on previous work. The second problem relates to the lack of flexibility of traditional HPC resources such as clusters and grids upon its software stack, which prevents users to easily configure an execution environment with arbitrary software such as specific versions of libraries or drivers.
-
-#+LaTeX: \end{abstract}
+#+LATEX: \begin{abstract}
+This paper explores the performance implication of applying container technologies in high-performance computing (HPC) workflows. The motivation for using containers as a platform for executing parallel applications is that virtualization technology provides features that are desirable for HPC, such as enhanced reproducibility for scientific experiments and better flexibility for customizing the execution environment. We compare two container technologies, Docker and Singularity, to a native baseline with no virtualization, using synthetic workloads and Ondes3D as benchmarks.
+#+LATEX: \end{abstract}
 
 #+BEGIN_COMMENT LUCAS
 I think it would be nice to give some context information in the
