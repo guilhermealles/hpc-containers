@@ -716,12 +716,26 @@ system administration (for not granting every user that starts a
 container root access to the system) and in terms of performance (for
 not imposing an overlay network that is a potential bottleneck).
 
+** Acknowledgments                                                  :ignore:
+
+#+LATEX:\section*{Acknowledgements}
+
+We thank these projects for supporting this investigation: FAPERGS
+GreenCloud (16/488-9), the FAPERGS MultiGPU (16/354-8), the CNPq
+447311/2014-0, the CAPES/Brafitec EcoSud 182/15, and the CAPES/Cofecub
+899/18. Experiments were carried out at the Grid'5000 platform
+#+Latex: ({\texttt{https://www.grid5000.fr}}),
+with support from Inria, CNRS, RENATER and several other french
+organizations. The companion material is hosted by CERN's Zenodo for
+which we are also grateful.
 
 ** References                                                        :ignore:
+
 # See next section to understand how refs.bib file is created.
 
 #+LATEX: \bibliographystyle{sbc}
 #+LATEX: \bibliography{refs}
+
 
 * Bib file is here                                                 :noexport:
 
