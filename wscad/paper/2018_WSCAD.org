@@ -99,7 +99,7 @@ submissão de artigos.  Datas importantes:
 ** Abstract                                                         :ignore:
 
 #+LATEX: \begin{abstract}
-This paper explores the performance implication of applying container technologies in high-performance computing (HPC) workflows. The motivation for using containers as a platform for executing parallel applications is that virtualization technology provides features that are desirable for HPC, such as enhanced reproducibility for scientific experiments and better flexibility for customizing the execution environment. We compare two container technologies, Docker and Singularity, to a native baseline with no virtualization, using synthetic workloads and Ondes3D as benchmarks.
+This paper explores the performance implications of applying container technologies in high-performance computing (HPC) workflows. The motivation for using containers as a platform for executing parallel applications is that virtualization technology provides features that are desirable for HPC, such as enhanced reproducibility for scientific experiments and better flexibility for customizing the execution environment. We compare two container technologies, Docker and Singularity, to a native baseline with no virtualization, using synthetic workloads and Ondes3D as benchmarks.
 #+LATEX: \end{abstract}
 
 #+BEGIN_COMMENT LUCAS
@@ -184,8 +184,8 @@ Two different test suites were run. The first batch covered a smaller problem si
  - Execution environment: Native, Docker and Singularity
  - Parallel compute units (up to 4 per node): 1, 4, 8, 16
 
-The second test suite was aimed at covering a real-world scenario, with a computationally intensive application distributed across many compute nodes. Because of the results obtained in the first test suite, the Docker execution environment was excluded from this simulation (*/I haven't presented the results yet... How should I put this?/*). The experiment was also executed following a full factorial design, with the following factors:
- - Execution environment: Native and Singularity
+The second test suite was aimed at covering a real-world scenario, with a computationally intensive application distributed across many compute nodes. We used Ondes3D as a platform to simulate the propagation of the Ligurian earthquake, which happened in 1887. The experiment was also executed following a full factorial design, with the following factors:
+ - Execution environment: Native, Docker and Singularity
  - Parallel compute units (up to 4 per node): 64, 128, 192, 256
 
 ** Results
@@ -215,7 +215,7 @@ Plot (ref) presents the Ping Pong benchmark, which was used to measure the commu
 #+LATEX: \caption{Average network latency measured with the Ping Pong benchmark}
 #+LATEX: \end{figure}
 
-The next plot, (ref), shows a large-scale simulation of the Ligurian earthquake on Ondes3D. This experiment was conducted considering the native execution and Singularity containers, and its main objective is to assess the aggregated overhead of spawning a large number of containers across multiple nodes. As the plot indicates, there is no observable difference in execution time between the two approaches, which indicates that the additional cost of executing applications in a Singularity environment is negligible even when spawning a high number of containers.
+The next plot, (ref), shows a large-scale simulation of the Ligurian earthquake on Ondes3D. This experiment was conducted to put container technologies in a highly-distributed computing scenario, and its main objective is to assess the aggregated overhead of spawning a large number of containers across multiple nodes. Unfortunately, the container infrastructure for Docker using its overlay network and Docker Swarm as an orchestrator failed to spawn containers in such a high number of nodes, and thus Docker was excluded from this test case. As the plot indicates, there is no observable difference in execution time between the two approaches (Singularity and Native), which indicates that the additional cost of executing applications in a Singularity environment is negligible even when spawning a high number of containers.
 
 #+LATEX: \begin{figure}[h]
 #+LATEX: \centering
