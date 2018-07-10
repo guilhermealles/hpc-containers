@@ -1,4 +1,5 @@
 
+
 # -*- coding: utf-8 -*-
 # -*- mode: org -*-
 
@@ -188,6 +189,8 @@ The second test suite was aimed at covering a real-world scenario, with a comput
  - Parallel compute units (up to 4 per node): 64, 128, 192, 256
 
 ** Results
+All the experiments were executed with multiple replications. In the following plots, the reported values are the average obtained across 10 executions of each experiment, and the error bars indicate the confidence interval for 99% confidence.
+
 The plot (ref) shows the execution time of the NAS EP Benchmark, with respect to the number of parallel executors. Although indicating a slight advantage in the native execution, the plot shows that the virtualized approaches perform very close to the native baseline. This indicates that, when CPU calculation is regarded, none of the container technologies introduce significant overhead. In fact, the difference in execution time can be related to the time needed to spin up the containers. Such an operation does not exist when executing processes in the native operating system.
 
 #+LATEX: \begin{figure}[h]
@@ -217,7 +220,7 @@ The next plot, (ref), shows a large-scale simulation of the Ligurian earthquake 
 #+LATEX: \begin{figure}[h]
 #+LATEX: \centering
 #+LATEX: \includegraphics[width=.8\textwidth]{./img/ondes3d-ligurian.png}
-#+LATEX: \caption{Execution time for the simulation of the Ligurian enathquake using Ondes3D}
+#+LATEX: \caption{Execution time for the simulation of the Ligurian earthquake using Ondes3D}
 #+LATEX: \end{figure}
 
 To illustrate the advantages in flexibility for environment configuration, we also conducted an experiment running an Alpine Linux image on the container environments. The Alpine Linux is a lightweight Linux distribution that strives for efficiency and security. It is based on Busybox and provides an alternative set of standard libraries that can yield better performance in some applications. Although installing a completely different Linux distribution on multiple hosts for a single experiment is not feasible (especially in a shared cluster environment), it can be easily done when using containers. The plot (ref) shows how Docker and Singularity (running the Alpine Linux distribution) compare to the native operating system (running Debian). These results show that, by modifying the execution environment, it is possible for the virtualized execution to outperform the native one.
