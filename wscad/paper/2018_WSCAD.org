@@ -176,7 +176,15 @@ solve common HPC workflow problems. For the performance measurements,
 we will consider the same experiments running on a native environment
 as the baseline.
 
+Section [[#sec.relatedwork]] discusses ...
+
+*** TODO paper sturcture
 ** Related Work and Motivation
+:PROPERTIES:
+:CUSTOM_ID: sec.relatedwork
+:END:
+
+
 *** Related Work
 
 As presented in \cite{7562612}, the virtualization of HPC applications
@@ -217,10 +225,12 @@ negligible for most use cases.
 
 *** Motivation
 
+Wrap up the state of the art mentioned in previous work, mention what is missing, present objectives and motivation.
+
 Our objectives for this work is to study the drawbacks and
 improvements that occur by applying virtualization techniques to
 high-performance computing workflows. As concluded by previous work,
-using virtual machines is not a feasible approach because of the
+using virtual machines is unfeasible approach because of the
 performance and communication overhead that comes along with this
 strategy. Thus, our goal is to measure the performance impact of
 applying virtualization in the form of container technologies to these
@@ -409,6 +419,8 @@ the following factors:
 
 ** Results
 
+Separate in communication, compute and the alpine experiments
+
 All the experiments were executed with multiple replications. In the
 following plots, the reported values are the average obtained across
 10 executions of each experiment, and the error bars indicate the
@@ -506,7 +518,7 @@ outperform the native one.
 #+LATEX: \end{figure}
 
 *** EP experiment plot                                           :noexport:
-#+begin_src R 
+#+begin_src R :results output graphics :file img/ep-b.png :width 600 :height 400
   library(tidyverse)
   
   results <- read_csv('./results/nas/results.csv')
@@ -538,7 +550,7 @@ outperform the native one.
     scale_x_continuous(breaks = c(1, 4, 8, 16), trans = 'sqrt') +
     ylim(0, NA) +
     geom_point(aes(col = environment), size = 2) +
-    geom_line(aes(col = environment), size = 0.5, alpha = 0.3) + 
+    geom_line(aes(col = environment), size = 1, alpha = 0.3) + 
     geom_errorbar(aes(ymin = average - stdError, ymax = average + stdError, col = environment), width = 0.2) +
     scale_color_grey() + 
     xlab('Amount of computing units (count)') + 
@@ -547,6 +559,9 @@ outperform the native one.
     theme(legend.position = 'top', legend.spacing = unit(x = c(0, 0, 0, 0), units = 'mm')) +
     custom_theme()
 #+end_src
+
+#+RESULTS:
+[[file:img/ep-b.png]]
 
 *** Ondes3D ESSAI experiment plot                                :noexport:
 #+begin_src R
