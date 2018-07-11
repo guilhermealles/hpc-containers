@@ -1,3 +1,4 @@
+
 # -*- coding: utf-8 -*-
 # -*- mode: org -*-
 
@@ -107,7 +108,9 @@ experiments and better flexibility for customizing the execution
 environment. We compare two container technologies, Docker and
 Singularity, to a native baseline with no virtualization, using
 synthetic workloads and Ondes3D as benchmarks. Our experiments
-indicate that .... TODO (complete this phrase).
+indicate that Singularity containers do not introduce any relevant 
+performance overhead, and that Docker containers do suffer from 
+increased network latency.
 #+LATEX: \end{abstract}
 
 #+BEGIN_COMMENT LUCAS
