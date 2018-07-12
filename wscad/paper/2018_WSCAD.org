@@ -485,7 +485,7 @@ maximum of 4 MPI processes due to the 4-core availability of processor
 cores. All compute nodes are deployed (using =kadeploy3=
 \cite{jeanvoine2013kadeploy3}) with the default Debian9 OS image.
 
-To ensure consistency between test cases against the native OS, the
+To ensure consistency between test cases against the Native OS, the
 same Debian9 Linux distribution was used for the virtualized
 environments in both Docker and Singularity containers.  We have used
 a previously proposed \cite{7868429} multi-node container
