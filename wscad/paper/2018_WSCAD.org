@@ -569,11 +569,13 @@ difference in execution time can be related to the time needed to spin
 up the containers. Such an operation does not exist when executing
 processes in the native operating system.
 
-#+LATEX: \begin{figure}[h]
-#+LATEX: \centering
-#+LATEX: \includegraphics[width=.8\textwidth]{./img/ep-b.png}
-#+LATEX: \caption{Execution time for the NAS EP benchmark}
-#+LATEX: \end{figure}
+#+BEGIN_EXPORT latex
+\begin{figure}[h]
+\centering
+\includegraphics[width=.8\textwidth]{./img/ep-b.png}
+\caption{Execution time for the NAS EP benchmark}
+\end{figure}
+#+END_EXPORT
 
 Plot (ref) shows the execution time of an Ondes3D simulation of a
 small scale test, with respect to the number of parallel
@@ -587,11 +589,13 @@ further supported by the virtual network that is needed to provide
 connectivity between Docker containers. Such a virtual network does
 not exist in the other two environments.
 
-#+LATEX: \begin{figure}[h]
-#+LATEX: \centering
-#+LATEX: \includegraphics[width=.8\textwidth]{./img/ondes3d-essai-50ts.png}
-#+LATEX: \caption{Execution time for the Ondes3D ESSAI simulation}
-#+LATEX: \end{figure}
+#+BEGIN_EXPORT latex
+\begin{figure}[h]
+\centering
+\includegraphics[width=.8\textwidth]{./img/ondes3d-essai-50ts.png}
+\caption{Execution time for the Ondes3D ESSAI simulation}
+\end{figure}
+#+END_EXPORT
 
 Plot (ref) presents the Ping Pong benchmark, which was used to measure
 the communication overhead between nodes. From this experiment, we can
@@ -603,11 +607,13 @@ overhead to communication. Singularity containers, on the other hand,
 use the same network stack as the host operating system, resulting in
 non-observable performance differences.
 
-#+LATEX: \begin{figure}[h]
-#+LATEX: \centering
-#+LATEX: \includegraphics[width=.8\textwidth]{./img/ping-pong.png}
-#+LATEX: \caption{Average network latency measured with the Ping Pong benchmark}
-#+LATEX: \end{figure}
+#+BEGIN_EXPORT latex
+\begin{figure}[h]
+\centering
+\includegraphics[width=.8\textwidth]{./img/ping-pong.png}
+\caption{Average network latency measured with the Ping Pong benchmark}
+\end{figure}
+#+END_EXPORT
 
 The next plot, (ref), shows a large-scale simulation of the Ligurian
 earthquake on Ondes3D. This experiment was conducted to put container
@@ -623,11 +629,13 @@ which indicates that the additional cost of executing applications in
 a Singularity environment is negligible even when spawning a high
 number of containers.
 
-#+LATEX: \begin{figure}[h]
-#+LATEX: \centering
-#+LATEX: \includegraphics[width=.8\textwidth]{./img/ondes3d-ligurian.png}
-#+LATEX: \caption{Execution time for the simulation of the Ligurian earthquake using Ondes3D}
-#+LATEX: \end{figure}
+#+BEGIN_EXPORT latex
+\begin{figure}[h]
+\centering
+\includegraphics[width=.8\textwidth]{./img/ondes3d-ligurian.png}
+\caption{Execution time for the simulation of the Ligurian earthquake using Ondes3D}
+\end{figure}
+#+END_EXPORT
 
 To illustrate the advantages in flexibility for environment
 configuration, we also conducted an experiment running an Alpine Linux
@@ -644,11 +652,14 @@ Debian). These results show that, by modifying the execution
 environment, it is possible for the virtualized execution to
 outperform the native one.
 
-#+LATEX: \begin{figure}[h]
-#+LATEX: \centering
-#+LATEX: \includegraphics[width=.8\textwidth]{./img/ep-b-alpine.png}
-#+LATEX: \caption{Execution time for the NAS EP benchmark with containers running Alpine Linux and the host running Debian}
-#+LATEX: \end{figure}
+#+BEGIN_EXPORT latex
+\begin{figure}[h]
+\centering
+\includegraphics[width=.8\textwidth]{./img/ep-b-alpine.png}
+\caption{Execution time for the NAS EP benchmark with containers running Alpine Linux and the host running Debian}
+\end{figure}
+#+END_EXPORT
+
 *** (Support Section) PLOTS and STATS                            :noexport:
 **** Some stats
 ***** Check Number of repetitions
