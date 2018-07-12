@@ -493,7 +493,7 @@ infrastructure for Docker where physical nodes are connected using the
 Docker Swarm utility. This tool is responsible for spawning containers
 on all the nodes and connecting them via an overlay network, so that
 every container (which will execute an MPI process) can be addressed
-by the MPI runtime. The multi-node container infrastructure for
+by the MPI middleware. The multi-node container infrastructure for
 Singularity is similar to the one with native processes. Because
 Singularity containers share the network stack with its host, there is
 no need for a virtual network between the containers. Therefore, all
