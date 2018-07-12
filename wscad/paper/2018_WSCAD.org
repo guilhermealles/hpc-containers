@@ -546,7 +546,7 @@ Class B workload and Ondes3D with the default test case. The second
 larger batch of experiments are conducted with Ondes3D using the
 Ligurian workload. The reported makespan measurements are averages from 10 to
 30 replications of each experiment parameter configuration; error bars
-are calculated considering a confidence level of 99% assuming a
+are calculated considering a confidence level of 99.7% assuming a
 Gaussian distribution.
 # Some histograms are slightly skewed 
 
