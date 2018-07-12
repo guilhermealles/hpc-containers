@@ -295,6 +295,11 @@ without sacrificing performance and security.
 :CUSTOM_ID: sec.background
 :END:
 
+#+BEGIN_COMMENT LUCAS
+This section should be just after the introduction. It would help to
+understand the related work.
+#+END_COMMENT
+
 **** Containers
 
 Containers are a mean of achieving virtualization without relying on
@@ -333,6 +338,14 @@ development and HPC), such as the ability to encapsulate an entire
 environment in an image that can be distributed and reproduced on top
 of different hardware, improving reproducibility and dependency
 management.
+
+#+BEGIN_COMMENT LUCAS
+Are there only two container technologies (Docker and Singularity)?
+Cite all of them and describe what they have in common. Justify why
+only two of them are adopted in this work. While you could argue that
+they have more acceptance by the community, a technical argument would
+be better.
+#+END_COMMENT
 
 **** Docker
 
