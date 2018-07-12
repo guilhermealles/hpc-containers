@@ -592,14 +592,16 @@ operating system.
 \label{fig1:right}]{\begin{minipage}[c]{.47\linewidth}
 \includegraphics[width=.90\linewidth]{./img/computation-overhead-small.pdf} \\
 \end{minipage}}\hfill%
-\caption{(a) Makespan as a function of the number of MPI processes
+\caption{(a) Execution time as a function of the number of MPI ranks
          for the three environments (Native, Docker, and Singularity)
-         and the applications (NAS-EP, and Ondes3D with the default workload).
-         We can notice how docker poses higher overhead as soon as
+         and the applications (NAS-EP/ClassB, and Ondes3D/Default),
+         and (b), the execution overhead of the container environments
+         against the native environment with respect to the number of
+         MPI ranks. We can notice how Docker poses higher overhead
+         (up to $\approx$55\%) as soon as
          MPI ranks of the Ondes3D application communicate through the
          network interconnection (from 8 processes and on).
-         And (b), same but using the Ligurian workload for Ondes3D with
-         the Native and Singularity environments.}
+}
 \end{figure}
 #+END_EXPORT
 
