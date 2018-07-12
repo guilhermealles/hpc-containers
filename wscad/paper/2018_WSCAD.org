@@ -482,12 +482,24 @@ exclusively the 1Gigabit Ethernet because of limitations in the
 container configuration. In all experiments, each node received a
 maximum of 4 MPI processes due to the 4-core availability of processor
 cores. All compute nodes are deployed (using =kadeploy3=
-\cite{jeanvoine2013kadeploy3}) with the default Debian9 OS image. To
-ensure consistency between test cases against the native OS, the same
-Debian9 Linux distribution was used for the virtualized environments
-in both Docker and Singularity containers.  Three different parallel
-applications have been used to evaluate the performance in the three
-OS options Native, Docker and Singularity: NAS-EP, Ondes3D, and
+\cite{jeanvoine2013kadeploy3}) with the default Debian9 OS image.
+
+To ensure consistency between test cases against the native OS, the
+same Debian9 Linux distribution was used for the virtualized
+environments in both Docker and Singularity containers.  We have used
+a previously proposed \cite{7868429} multi-node container
+infrastructure for Docker where physical nodes are connected using the
+Docker Swarm utility. This tool is responsible for spawning containers
+on all the nodes and connecting them via an overlay network, so that
+every container (which will execute an MPI process) can be addressed
+by the MPI runtime. The multi-node container infrastructure for
+Singularity is similar to the one with native processes. Because
+Singularity containers share the network stack with its host, there is
+no need for a virtual network between the containers. Therefore, all
+the hosts are accessible through the physical network.
+
+Three parallel applications are used to evaluate the performance in
+the OS options (Native, Docker and Singularity): NAS-EP, Ondes3D, and
 Ping-Pong, detailed as follows.
 
 **** Benchmarks and Workload Details
@@ -542,30 +554,6 @@ experiment was also executed following a full factorial design, with
 the following factors:
  - Execution environment: Native, Docker and Singularity
  - Parallel compute units (up to 4 per node): 64, 128, 192, 256
-
-**** Container clusters
-:PROPERTIES:
-:UNNUMBERED: t
-:END:
-
-#+BEGIN_COMMENT LUCAS
-Citations are not part of phrases.
-#+END_COMMENT
-
-The container infrastructure for Docker was built with the cluster
-proposed by \cite{7868429}. The physical nodes were connected using
-the Docker Swarm utility, which is responsible for spawning containers
-on all the nodes and connecting them via an overlay network, so that
-every container (which will execute an MPI process) can be addressed
-by the MPI runtime.
-
-The container infrastructure for Singularity is pretty much the same
-as the one with native processes. Because Singularity containers share
-the network stack with its host, there is no need for a virtual
-network between the containers (all the hosts are accessible through
-the physical network).
-
-
 
 *** Computation Overhead Analysis
 
