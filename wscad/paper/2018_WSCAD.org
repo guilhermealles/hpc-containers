@@ -517,6 +517,12 @@ environment. The experiments, in this case, were conducted between two
 nodes that exchange MPI messages, with the message size varying from 1
 Byte to 1 MByte.
 
+#+BEGIN_COMMENT LUCAS
+Say "in-house Ping-Pong benchmark developed with MPI?...". Mention
+that the source-code is available in the companion material along with
+measurements (note that this has been said in the introduction).
+#+END_COMMENT
+
 **** Container clusters
 
 The container infrastructure for Docker was built with the cluster
