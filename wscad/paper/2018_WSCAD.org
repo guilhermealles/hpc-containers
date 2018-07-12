@@ -576,7 +576,8 @@ processes in the native operating system.
          We can notice how docker poses higher overhead as soon as
          MPI ranks of the Ondes3D application communicate through the
          network interconnection (from 8 processes and on).
-         And (b), same but using the Ligurian workload for Ondes3D.}
+         And (b), same but using the Ligurian workload for Ondes3D with
+         the Native and Singularity environments.}
 \end{figure}
 #+END_EXPORT
 
