@@ -464,10 +464,6 @@ This empty space is considered to be a bad style choice.
 #+END_COMMENT
 
 **** The Grid5000 Experimental Environment
-#+BEGIN_COMMENT LUCAS
-I suggest this section to be included in the beginning of Section [[#sec.results]].
-#+END_COMMENT
-
 
 #+BEGIN_COMMENT LUCAS
 Cite the G5K paper. See:
