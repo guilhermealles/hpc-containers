@@ -835,6 +835,11 @@ which we are also grateful.
 
 ** References                                                        :ignore:
 
+#+BEGIN_COMMENT LUCAS
+You have too few references. You need to more or less triple that
+number to more related and context work.
+#+END_COMMENT
+
 # See next section to understand how refs.bib file is created.
 
 #+LATEX: \bibliographystyle{sbc}
