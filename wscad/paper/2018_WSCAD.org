@@ -484,13 +484,15 @@ network. We used up to 64 compute nodes for our tests using
 exclusively the 1Gigabit Ethernet because of limitations in the
 container configuration. In all experiments, each node received a
 maximum of 4 MPI processes due to the 4-core availability of processor
-cores. All compute nodes are deployed (using =kadeploy3=
-\cite{jeanvoine2013kadeploy3}) with the default Debian9 OS image.
+cores. All compute nodes are initially deployed (using =kadeploy3=
+\cite{jeanvoine2013kadeploy3}) with the default Debian9 OS image,
+before laying the Docker or Singularity environment on top of it.
 
-To ensure consistency between test cases against the Native OS, the
-same Debian9 Linux distribution was used for the virtualized
-environments in both Docker and Singularity containers.  We have used
-a previously proposed \cite{7868429} multi-node container
+Three execution environments are configured: Native, Docker, and
+Singularity.  To ensure consistency between the container environments
+against the Native case, the same Debian9 Linux distribution was used for
+such environments in both Docker and Singularity containers.  We have
+used a previously proposed \cite{7868429} multi-node container
 infrastructure for Docker where physical nodes are connected using the
 Docker Swarm utility. This tool is responsible for spawning containers
 on all the nodes and connecting them via an overlay network, so that
