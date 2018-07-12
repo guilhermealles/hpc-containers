@@ -458,6 +458,7 @@ without sacrificing performance and security.
 :CUSTOM_ID: sec.results
 :END:
 
+*** Introduction                                                   :ignore:
 Results are based on measurements obtained from experiments with
 multiple compute nodes of the Grid5000 platform \cite{grid5000}, in a
 controlled HW/SW environment. In what follows, we present (a) the
@@ -554,111 +555,8 @@ to 30 replications of each experiment parameter configuration; error
 bars are calculated considering a confidence level of 99.7% assuming a
 Gaussian distribution.
 # Some histograms are slightly skewed 
-
-*** Check Number of repetitions                                  :noexport:
-
-#+begin_src R :results output :session :exports both
-results <- read_csv('./results/ondes3d/results.csv', col_types=cols(
-                                                         name = col_integer(),
-                                                         environment = col_character(),
-                                                         parallelism = col_integer(),
-                                                         time = col_integer()
-                                                     ));
-
-results <- results %>%
-  mutate(time = time/1000) %>%
-  group_by(environment, parallelism) %>%
-  summarize(
-    samples = n(),
-    average = mean(time),
-    stdDeviation = sd(time),
-    stdError = 3*stdDeviation/sqrt(samples)
-  );
-results %>% pull(samples) %>% unique
-
-  results <- read_csv('./results/nas/results.csv', col_types=cols(
-                                                         name = col_integer(),
-                                                         environment = col_character(),
-                                                         parallelism = col_integer(),
-                                                         time = col_integer()
-                                                     ));
-  results <- results %>%
-    mutate(time = time/1000) %>%
-    group_by(environment, parallelism) %>%
-    summarize(
-      samples = n(),
-      average = mean(time),
-      stdDeviation = sd(time),
-      stdError = 3*stdDeviation/sqrt(samples)
-    )
-results %>% pull(samples) %>% unique
-
-results <- read_csv('./results/ping-pong/results.csv', col_types=cols(
-                                                         size = col_integer(),
-                                                         time = col_double(),
-                                                         environment = col_character()
-                                                     ));
-results <- results %>% 
-  group_by(environment, size) %>%
-  summarize(
-    samples = n(),
-    average = mean(time),
-    stdDeviation = sd(time),
-    stdError = 3*stdDeviation/sqrt(samples))
-results %>% pull(samples) %>% unique
-
-#+end_src
-
-#+RESULTS:
-: [1] 10
-: [1] 30
-: [1] 20 19
-
-*** Check some stats about ping-pong                             :noexport:
-
-#+begin_src R :results output :session :exports both
-results <- read_csv('./results/ping-pong/results.csv', col_types=cols(
-                                                         size = col_integer(),
-                                                         time = col_double(),
-                                                         environment = col_character()
-                                                     ));
-results <- results %>% 
-  group_by(environment, size) %>%
-  summarize(
-    samples = n(),
-    average = mean(time),
-    stdDeviation = sd(time),
-    stdError = 3*stdDeviation/sqrt(samples))
-summary(results)
-unique(results$size)
-length(unique(results$size))
-#+end_src
-
-#+RESULTS:
-#+begin_example
- environment             size            samples         average       
- Length:63          Min.   :      1   Min.   :19.00   Min.   : 0.2890  
- Class :character   1st Qu.:     32   1st Qu.:20.00   1st Qu.: 0.3158  
- Mode  :character   Median :   1024   Median :20.00   Median : 0.5160  
-                    Mean   :  99864   Mean   :19.97   Mean   : 1.9008  
-                    3rd Qu.:  32768   3rd Qu.:20.00   3rd Qu.: 1.0688  
-                    Max.   :1048576   Max.   :20.00   Max.   :26.4120  
-  stdDeviation        stdError      
- Min.   :0.03387   Min.   :0.02272  
- 1st Qu.:0.04832   1st Qu.:0.03241  
- Median :0.06023   Median :0.04040  
- Mean   :0.12308   Mean   :0.08271  
- 3rd Qu.:0.14899   3rd Qu.:0.09995  
- Max.   :1.00651   Max.   :0.67518
- [1]       1       2       4       8      16      32      64     128     256
-[10]     512    1024    2048    4096    8192   16384   32768   65536  131072
-[19]  262144  524288 1048576
-[1] 21
-#+end_example
-
 *** Computation Overhead Analysis
 *** Verification of Increased Communication Latency
-
 *** Performance Gains due to Optimized Container
 *** Previous text
 
@@ -757,9 +655,112 @@ outperform the native one.
 #+LATEX: \includegraphics[width=.8\textwidth]{./img/ep-b-alpine.png}
 #+LATEX: \caption{Execution time for the NAS EP benchmark with containers running Alpine Linux and the host running Debian}
 #+LATEX: \end{figure}
+*** PLOTS and STATS for this section                             :noexport:
+**** Some stats
+***** Check Number of repetitions
 
-*** EP experiment plot                                           :noexport:
-#+begin_src R :results output graphics :file img/ep-b.png :width 600 :height 400
+#+begin_src R :results output :session :exports both
+results <- read_csv('./results/ondes3d/results.csv', col_types=cols(
+                                                         name = col_integer(),
+                                                         environment = col_character(),
+                                                         parallelism = col_integer(),
+                                                         time = col_integer()
+                                                     ));
+
+results <- results %>%
+  mutate(time = time/1000) %>%
+  group_by(environment, parallelism) %>%
+  summarize(
+    samples = n(),
+    average = mean(time),
+    stdDeviation = sd(time),
+    stdError = 3*stdDeviation/sqrt(samples)
+  );
+results %>% pull(samples) %>% unique
+
+  results <- read_csv('./results/nas/results.csv', col_types=cols(
+                                                         name = col_integer(),
+                                                         environment = col_character(),
+                                                         parallelism = col_integer(),
+                                                         time = col_integer()
+                                                     ));
+  results <- results %>%
+    mutate(time = time/1000) %>%
+    group_by(environment, parallelism) %>%
+    summarize(
+      samples = n(),
+      average = mean(time),
+      stdDeviation = sd(time),
+      stdError = 3*stdDeviation/sqrt(samples)
+    )
+results %>% pull(samples) %>% unique
+
+results <- read_csv('./results/ping-pong/results.csv', col_types=cols(
+                                                         size = col_integer(),
+                                                         time = col_double(),
+                                                         environment = col_character()
+                                                     ));
+results <- results %>% 
+  group_by(environment, size) %>%
+  summarize(
+    samples = n(),
+    average = mean(time),
+    stdDeviation = sd(time),
+    stdError = 3*stdDeviation/sqrt(samples))
+results %>% pull(samples) %>% unique
+
+#+end_src
+
+#+RESULTS:
+: [1] 10
+: [1] 30
+: [1] 20 19
+
+***** Check some stats about ping-pong
+
+#+begin_src R :results output :session :exports both
+results <- read_csv('./results/ping-pong/results.csv', col_types=cols(
+                                                         size = col_integer(),
+                                                         time = col_double(),
+                                                         environment = col_character()
+                                                     ));
+results <- results %>% 
+  group_by(environment, size) %>%
+  summarize(
+    samples = n(),
+    average = mean(time),
+    stdDeviation = sd(time),
+    stdError = 3*stdDeviation/sqrt(samples))
+summary(results)
+unique(results$size)
+length(unique(results$size))
+#+end_src
+
+#+RESULTS:
+#+begin_example
+ environment             size            samples         average       
+ Length:63          Min.   :      1   Min.   :19.00   Min.   : 0.2890  
+ Class :character   1st Qu.:     32   1st Qu.:20.00   1st Qu.: 0.3158  
+ Mode  :character   Median :   1024   Median :20.00   Median : 0.5160  
+                    Mean   :  99864   Mean   :19.97   Mean   : 1.9008  
+                    3rd Qu.:  32768   3rd Qu.:20.00   3rd Qu.: 1.0688  
+                    Max.   :1048576   Max.   :20.00   Max.   :26.4120  
+  stdDeviation        stdError      
+ Min.   :0.03387   Min.   :0.02272  
+ 1st Qu.:0.04832   1st Qu.:0.03241  
+ Median :0.06023   Median :0.04040  
+ Mean   :0.12308   Mean   :0.08271  
+ 3rd Qu.:0.14899   3rd Qu.:0.09995  
+ Max.   :1.00651   Max.   :0.67518
+ [1]       1       2       4       8      16      32      64     128     256
+[10]     512    1024    2048    4096    8192   16384   32768   65536  131072
+[19]  262144  524288 1048576
+[1] 21
+#+end_example
+**** Plots
+***** EP experiment plot
+
+#+begin_src R :results output graphics :file img/ep-b.png :width 600 :height 400 :session
   library(tidyverse)
   
   results <- read_csv('./results/nas/results.csv')
@@ -804,7 +805,7 @@ outperform the native one.
 #+RESULTS:
 [[file:img/ep-b.png]]
 
-*** Ondes3D ESSAI experiment plot                                :noexport:
+***** Ondes3D ESSAI experiment plot
 #+begin_src R
 library(tidyverse);
 
@@ -847,7 +848,7 @@ ggplot(results, aes(x = parallelism, y = average)) +
   custom_theme();
 #+end_src
 
-*** Ping Pong plot                                               :noexport:
+***** Ping Pong plot
 #+begin_src R
 library(tidyverse)
 
@@ -887,7 +888,7 @@ ggplot(results,aes(x=size, y=average)) +
   default_theme()
 #+end_src
 
-*** Ondes3D Ligurian plot                                        :noexport:
+***** Ondes3D Ligurian plot
 #+begin_src R
 library(tidyverse);
 
