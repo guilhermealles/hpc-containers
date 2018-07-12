@@ -1354,9 +1354,9 @@ df.pingpong %>%
 63 Singularity 1048576  9.7504616
 #+end_example
 
-****** Plot
+****** Plot raw data (after averages)
 
-#+begin_src R :results output graphics :file img/pingpong-latency.pdf :exports both :width 6 :height 3 :session
+#+begin_src R :results output graphics :file img/pingpong-latency.pdf :exports both :width 4 :height 3.8 :session
 #Create a custom color scale
 library(RColorBrewer)
 myColors <- brewer.pal(5,"Set1")
@@ -1382,11 +1382,132 @@ df.pingpong %>%
            legend.box.spacing = unit(0, "pt"),
            legend.box.margin = margin(0,0,0,0),
            legend.title = element_blank(),
-           axis.text.x = element_text(angle=30, hjust=1))
+           axis.text.x = element_text(angle=55, hjust=1))
 #+end_src
 
 #+RESULTS:
 [[file:img/pingpong-latency.pdf]]
+
+****** Plot percentages
+
+#+begin_src R :results output :session :exports both
+df.pingpong %>%
+    select(environment, size, average) %>%
+    spread(environment, average) %>%
+    mutate(
+        Docker.Overhead = round((Docker - Native)/Native * 100, 2),
+        Singularity.Overhead = round((Singularity - Native)/Native * 100, 2)) %>%
+    select(size, Docker.Overhead, Singularity.Overhead) %>%
+    gather(environment, Overhead, -size) -> df.pingpong.overhead;
+df.pingpong.overhead %>%
+    as.data.frame   
+#+end_src
+
+#+RESULTS:
+#+begin_example
+      size          environment Overhead
+1        1      Docker.Overhead    66.56
+2        2      Docker.Overhead    75.56
+3        4      Docker.Overhead    66.69
+4        8      Docker.Overhead    76.34
+5       16      Docker.Overhead    77.82
+6       32      Docker.Overhead    75.91
+7       64      Docker.Overhead    70.90
+8      128      Docker.Overhead    65.39
+9      256      Docker.Overhead    63.95
+10     512      Docker.Overhead    65.73
+11    1024      Docker.Overhead    73.14
+12    2048      Docker.Overhead    66.63
+13    4096      Docker.Overhead    56.39
+14    8192      Docker.Overhead    65.06
+15   16384      Docker.Overhead    37.63
+16   32768      Docker.Overhead    93.21
+17   65536      Docker.Overhead   126.54
+18  131072      Docker.Overhead   133.88
+19  262144      Docker.Overhead   143.06
+20  524288      Docker.Overhead   150.22
+21 1048576      Docker.Overhead   170.62
+22       1 Singularity.Overhead     1.58
+23       2 Singularity.Overhead     4.76
+24       4 Singularity.Overhead    -2.51
+25       8 Singularity.Overhead     2.12
+26      16 Singularity.Overhead     8.67
+27      32 Singularity.Overhead     3.16
+28      64 Singularity.Overhead    -4.26
+29     128 Singularity.Overhead     0.05
+30     256 Singularity.Overhead    -0.38
+31     512 Singularity.Overhead    -1.98
+32    1024 Singularity.Overhead    -0.36
+33    2048 Singularity.Overhead     1.21
+34    4096 Singularity.Overhead     4.49
+35    8192 Singularity.Overhead    -3.51
+36   16384 Singularity.Overhead     0.32
+37   32768 Singularity.Overhead     1.88
+38   65536 Singularity.Overhead    22.48
+39  131072 Singularity.Overhead    -1.86
+40  262144 Singularity.Overhead    -2.67
+41  524288 Singularity.Overhead     0.21
+42 1048576 Singularity.Overhead    -0.10
+#+end_example
+
+#+begin_src R :results output graphics :file img/pingpong-overhead.pdf :exports both :width 4 :height 3.8 :session
+df.pingpong.overhead %>%
+    mutate(environment = factor(gsub(".Overhead", "", environment),
+                                levels=c("Singularity", "Docker"))) -> df.sel;
+df.sel %>%
+    ggplot(aes(x=size,
+               y=Overhead,
+               color=environment)) +
+    scale_x_log10(breaks=2^seq(0,20)) +
+    colScale +
+    geom_point(size=1) +
+    geom_line(alpha = 0.3) +
+    xlab('Message size (bytes)') + 
+    ylab('Latency Overhead against Native (%)') +
+    theme_bw(base_size = 13) +
+    theme (plot.margin = unit(c(0,0,0,0), "cm"),
+           legend.spacing = unit(x = c(0, 0, 0, 0), units = 'mm'),
+           legend.position = "top",
+           legend.justification = "left",
+           legend.box.spacing = unit(0, "pt"),
+           legend.box.margin = margin(0,0,0,0),
+           legend.title = element_blank(),
+           axis.text.x = element_text(angle=55, hjust=1))
+#+end_src
+
+#+RESULTS:
+[[file:img/pingpong-overhead.pdf]]
+
+
+
+#+begin_src R :results output graphics :file img/pingpong-latency.pdf :exports both :width 6 :height 3 :session
+#Create a custom color scale
+library(RColorBrewer)
+myColors <- brewer.pal(5,"Set1")
+names(myColors) <- levels(df.pingpong$environment)
+colScale <- scale_colour_manual(name = "environment",values = myColors)
+
+df.pingpong.overhead %>%
+    ggplot(aes(x=size, y=average)) +
+    geom_line(aes(col = environment), alpha = 0.2) +
+    geom_point(aes(col = environment), size = 1) +
+    geom_errorbar(aes(ymin=average-stdError, ymax=average+stdError, color=environment, group=environment), width = 0.1) +
+    theme_bw(base_size=12) +
+    colScale +
+    scale_y_log10(breaks=c(0.1, 1, 2, 4, 8, 16, 32)) +
+    scale_x_log10(breaks=2^seq(0,20)) +
+    ylab('Average latency (ms)') +
+    xlab('Message size (bytes)') +
+    theme_bw(base_size = 13) +
+    theme (plot.margin = unit(c(0,0,0,0), "cm"),
+           legend.spacing = unit(x = c(0, 0, 0, 0), units = 'mm'),
+           legend.position = "top",
+           legend.justification = "left",
+           legend.box.spacing = unit(0, "pt"),
+           legend.box.margin = margin(0,0,0,0),
+           legend.title = element_blank(),
+           axis.text.x = element_text(angle=30, hjust=1))
+#+end_src
 
 ** Conclusion
 
