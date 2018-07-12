@@ -457,6 +457,7 @@ a comprehensive analysis to verify how performance gains can be used
 solely in applying an optimized container on top of an optimized OS.
 
 *** SW/HW Environment, Benchmarks, and Workload Details
+**** Introduction                                                 :ignore:
 
 The Grid5000 is a platform used for scientific experiments in parallel
 computing, HPC, and computer science. It provides its users with many
@@ -471,32 +472,25 @@ OS image. To ensure consistency between test cases against the native
 OS, the same Debian9 Linux distribution was used for the virtualized
 environments in both Docker and Singularity containers.
 
-**** Benchmarks
+**** Benchmarks and Workload Details                              :ignore:
+:PROPERTIES:
+:UNNUMBERED: t
+:END:
 
 #+BEGIN_COMMENT LUCAS
 Cite NAS: https://dl.acm.org/citation.cfm?id=125925
 Cite Ondes3D: 
 
-@article{dupros:10,
-title = "High-performance finite-element simulations of seismic wave propagation in three-dimensional nonlinear inelastic geological media",
-journal = "Parallel Comput",
-volume = "36",
-number = "5",
-pages = "308 - 325",
-year = "2010",
-issn = "0167-8191",
-author = "Fabrice Dupros and Florent De Martin and Evelyne Foerster and Dimitri Komatitsch and Jean Roman",
-keywords = "Seismic numerical simulation, Finite-element method, Parallel sparse direct solver, Nonlinear soil behaviour"
-}
 #+END_COMMENT
 
-The NAS EP is an application included in the NAS Parallel Benchmarks
-which simulates a parallel random number generator. It is an
-embarrassingly parallel problem (hence its name), and it was chosen to
-simulate a highly CPU bound scenario with parallel speedup close to
-ideal.
+The Embarrassingly Parallel (EP) is an application included in the NAS
+Parallel Benchmarks \cite{bailey1991parallel} which generates
+independent Gaussian random numbers using the polar method.  It was
+chosen to simulate a highly CPU bound scenario with parallel speedup
+close to ideal because there is very few communication among processes
+belonging to the computation.
 
-Ondes3D is a fluid dynamics simulation application. Its execution
+Ondes3D \cite{dupros:10} is a fluid dynamics simulation application. Its execution
 signature contains characteristics such as load imbalance and frequent
 communication between MPI nodes. It was chosen as a mean to add a
 real-world application signature in this research.
@@ -515,28 +509,6 @@ measurements (note that this has been said in the introduction).
 
 We benchmarked the execution environments with three different
 applications: NAS EP, Ondes3D and Ping Pong.
-
-
-**** Container clusters
-
-#+BEGIN_COMMENT LUCAS
-Citations are not part of phrases.
-#+END_COMMENT
-
-The container infrastructure for Docker was built with the cluster
-proposed by \cite{7868429}. The physical nodes were connected using
-the Docker Swarm utility, which is responsible for spawning containers
-on all the nodes and connecting them via an overlay network, so that
-every container (which will execute an MPI process) can be addressed
-by the MPI runtime.
-
-The container infrastructure for Singularity is pretty much the same
-as the one with native processes. Because Singularity containers share
-the network stack with its host, there is no need for a virtual
-network between the containers (all the hosts are accessible through
-the physical network).
-
-**** Workload details
 
 #+BEGIN_COMMENT LUCAS
 Cite Jain 1991 when talking about the "full factorial design". A table
@@ -559,6 +531,29 @@ experiment was also executed following a full factorial design, with
 the following factors:
  - Execution environment: Native, Docker and Singularity
  - Parallel compute units (up to 4 per node): 64, 128, 192, 256
+
+**** Container clusters
+:PROPERTIES:
+:UNNUMBERED: t
+:END:
+
+#+BEGIN_COMMENT LUCAS
+Citations are not part of phrases.
+#+END_COMMENT
+
+The container infrastructure for Docker was built with the cluster
+proposed by \cite{7868429}. The physical nodes were connected using
+the Docker Swarm utility, which is responsible for spawning containers
+on all the nodes and connecting them via an overlay network, so that
+every container (which will execute an MPI process) can be addressed
+by the MPI runtime.
+
+The container infrastructure for Singularity is pretty much the same
+as the one with native processes. Because Singularity containers share
+the network stack with its host, there is no need for a virtual
+network between the containers (all the hosts are accessible through
+the physical network).
+
 
 
 *** Computation Overhead Analysis
