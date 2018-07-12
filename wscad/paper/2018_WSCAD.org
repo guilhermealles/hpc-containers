@@ -763,7 +763,7 @@ length(unique(results$size))
 [19]  262144  524288 1048576
 [1] 21
 #+end_example
-**** Plots
+**** Plots (Guilherme)
 ***** EP experiment plot
 
 #+begin_src R :results output graphics :file img/ep-b.png :width 600 :height 400 :session
@@ -909,6 +909,176 @@ results <- results %>%
     stdError = 3*stdDeviation/sqrt(samples)
   );
 
+default_theme <- function() {
+  ret <- list();
+  ret[[length(ret)+1]] <- theme (
+    plot.margin = unit(c(0,0,0,0), "cm"),
+    legend.spacing = unit(1, "mm"),
+    legend.position = "top",
+    legend.justification = "left",
+    legend.box.spacing = unit(0, "pt"),
+    legend.box.margin = margin(0,0,0,0),
+    legend.title = element_blank());
+  return(ret);
+}
+
+ggplot(results, aes(x = parallelism, y = average)) + 
+  geom_line(aes(col=environment), size = 0.5, alpha=0.2) + 
+  geom_point(aes(col=environment), size=2) + 
+  geom_errorbar(aes(ymin=average-stdError, ymax=average+stdError, col=environment), width=20) +
+  scale_color_grey() +
+  scale_x_continuous(breaks=seq(64,256,64)) +
+  ylim(0, NA) +
+  xlab("Amount of computing units (count)") +
+  ylab("Execution time (s)") +
+  theme_bw(base_size=12) +
+  theme(legend.position = "top", legend.spacing = unit(x=c(0,0,0,0),units="mm")) +
+  default_theme();
+#+end_src
+
+#+RESULTS:
+
+**** Plots (Lucas)
+***** Computation Analysis (pure makespan)
+****** Read and merge data
+
+#+begin_src R :results output :session :exports both
+suppressMessages(library(tidyverse))
+files <- list("./results/nas/results.csv",
+              "./results/ondes3d/results.csv",
+              "./results/ondes3d-ligurian/results.csv")
+df.makespan <- do.call("bind_rows", lapply(files, function(file) {
+    read_csv(file, col_types=cols(
+                       name = col_integer(),
+                       environment = col_character(),
+                       parallelism = col_integer(),
+                       time = col_integer()
+                   )) %>%
+        mutate(time = time/1000) %>%
+        group_by(environment, parallelism) %>%
+        summarize(
+            samples = n(),
+            average = mean(time),
+            stdDeviation = sd(time),
+            stdError = 3*stdDeviation/sqrt(samples)
+        ) %>%
+        mutate(Origin = file) %>%
+        separate(Origin, into=c("X0", "X1", "TYPE", "X2"), sep="/", remove=FALSE) %>% select(-X0, -X1, -X2) %>%
+        mutate(Application = ifelse(grepl("ondes3d", TYPE), "Ondes3D", "NAS-EP")) %>%
+        mutate(Input = case_when(TYPE == "nas" ~ "Class B",
+                                 grepl("ligurian", TYPE) ~ "Ligurian",
+                                 TRUE ~ "Default")) %>% select(-TYPE, -Origin) %>%
+        ungroup()
+}))
+#+end_src
+
+#+RESULTS:
+
+****** Plot
+
+
+#+begin_src R :results output :session :exports both
+
+
+
+results <- 
+
+results <- results %>%
+  mutate(time = time/1000) %>%
+  group_by(environment, parallelism) %>%
+  summarize(
+    samples = n(),
+    average = mean(time),
+    stdDeviation = sd(time),
+    stdError = 3*stdDeviation/sqrt(samples)
+  );
+results %>% pull(samples) %>% unique
+
+  results <- read_csv('./results/nas/results.csv', col_types=cols(
+                                                         name = col_integer(),
+                                                         environment = col_character(),
+                                                         parallelism = col_integer(),
+                                                         time = col_integer()
+                                                     ));
+  results <- results %>%
+    mutate(time = time/1000) %>%
+    group_by(environment, parallelism) %>%
+    summarize(
+      samples = n(),
+      average = mean(time),
+      stdDeviation = sd(time),
+      stdError = 3*stdDeviation/sqrt(samples)
+    )
+results %>% pull(samples) %>% unique
+
+
+#+end_src
+
+
+
+#+begin_src R :results output graphics :file img/ep-b.png :width 600 :height 400 :session
+  custom_theme <- function() {
+    ret <- list();
+    ret[[length(ret)+1]] <- theme (
+      plot.margin = unit(c(0,0,0,0), "cm"),
+      legend.spacing = unit(1, "mm"),
+      legend.position = "top",
+      legend.justification = "left",
+      legend.box.spacing = unit(0, "pt"),
+      legend.box.margin = margin(0,0,0,0),
+      legend.title = element_blank());
+    return(ret);
+  }
+
+  ggplot(results, aes(x = parallelism, y = average)) +
+    scale_x_continuous(breaks = c(1, 4, 8, 16), trans = 'sqrt') +
+    ylim(0, NA) +
+    geom_point(aes(col = environment), size = 2) +
+    geom_line(aes(col = environment), size = 1, alpha = 0.3) + 
+    geom_errorbar(aes(ymin = average - stdError, ymax = average + stdError, col = environment), width = 0.2) +
+    scale_color_grey() + 
+    xlab('Amount of computing units (count)') + 
+    ylab('Execution time (s)') +
+    theme_bw(base_size = 12) +
+    theme(legend.position = 'top', legend.spacing = unit(x = c(0, 0, 0, 0), units = 'mm')) +
+    custom_theme()
+#+end_src
+
+#+RESULTS:
+[[file:img/ep-b.png]]
+
+***** Ondes3D ESSAI experiment plot
+#+begin_src R
+custom_theme <- function() {
+  ret <- list();
+  ret[[length(ret)+1]] <- theme (
+    plot.margin = unit(c(0,0,0,0), "cm"),
+    legend.spacing = unit(1, "mm"),
+    legend.position = "top",
+    legend.justification = "left",
+    legend.box.spacing = unit(0, "pt"),
+    legend.box.margin = margin(0,0,0,0),
+    legend.title = element_blank());
+  return(ret);
+}
+
+ggplot(results, aes(x = parallelism, y = average)) + 
+  geom_line(aes(col=environment), size = 0.5, alpha=0.2) + 
+  geom_point(aes(col=environment), size=2) + 
+  geom_errorbar(aes(ymin=average-stdError, ymax=average+stdError, col=environment), width=0.15) +
+  scale_color_grey() +
+  ylim(0, NA) +
+  scale_x_continuous(breaks=c(1, 4, 8, 16), trans='sqrt') + 
+  xlab("Amount of computing units (count)") +
+  ylab("Execution time (s)") +
+  theme_bw(base_size=12) +
+  theme(legend.position = "top", legend.spacing = unit(x=c(0,0,0,0),units="mm")) +
+  custom_theme();
+#+end_src
+
+***** Ondes3D Ligurian plot
+#+begin_src R
+library(tidyverse);
 default_theme <- function() {
   ret <- list();
   ret[[length(ret)+1]] <- theme (
