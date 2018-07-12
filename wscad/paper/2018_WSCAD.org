@@ -260,7 +260,7 @@ negligible for most use cases.
 
 Wrap up the state of the art mentioned in previous work, mention what is missing, present objectives and motivation.
 
-Our objectives for this work is to study the drawbacks and
+The goal of this work is to study the drawbacks and
 improvements that occur by applying virtualization techniques to
 high-performance computing workflows. As concluded by previous work,
 using virtual machines is unfeasible approach because of the
