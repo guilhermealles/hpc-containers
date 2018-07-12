@@ -466,7 +466,7 @@ Nancy), which contains 16GB of DDR3 memory and a quad-core Intel Xeon
 X3340 on each node. We used up to 64 compute nodes for our tests. In
 all experiments, each node received a maximum of 4 MPI processes due
 to the 4-core availability of processor cores. All compute nodes are
-deployed (using =kadeploy3= \cite{kadeploy3}) with the default Debian9
+deployed (using =kadeploy3= \cite{jeanvoine2013kadeploy3}) with the default Debian9
 OS image. To ensure consistency between test cases against the native
 OS, the same Debian9 Linux distribution was used for the virtualized
 environments in both Docker and Singularity containers.
