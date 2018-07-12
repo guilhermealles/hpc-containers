@@ -575,19 +575,35 @@ respect to the number of MPI ranks for the Native (left facets) and
 the Containers (right) -- Singularity and Docker. Figure
 \ref{fig1:right} depicts the execution time overhead with respect to
 the number of MPI ranks, calculated for each container environment
-against the native runs, also for both applications. For the
-*NAS-EP/ClassB* case, although indicating an advantage in the native
-execution, the plot shows that the virtualized approaches perform very
-close to each other and to the native baseline. The overhead of any
-container is less than \approx10% for up to 16 cores, but with an increasing
-trend. This indicates that regarding CPU calculation, none of the
-container technologies introduce significant overhead. In fact, the
+against the native runs, also for both applications.
+
+For the *NAS-EP/ClassB* case, although indicating an advantage in the
+native execution, Figure \ref{fig1} (top facets) shows that the
+virtualized approaches perform very close to each other and to the
+native baseline. For 16 MPI ranks, the Docker overhead is of 8%
+while the Singularity imposes a slightly higher overhead of 9%.
+Although limited, both indicate an alarming increasing trend. This
 difference in execution time can be related to the time needed to spin
 up the containers and should increase as the number of containers (and
-MPI ranks) increases. Since these runs lasted for not so long -- about
-15s for NAS-EP/ClassB, and 10s for Ondes3D/Default -- such overhead
-may be absorbed with longer CPU-bound executions that make a limited
-use of the communications.
+MPI ranks) increases. However, since these runs were short -- about
+15s for NAS-EP/ClassB (see Figure \ref{fig1:left}) -- such overhead
+may be absorbed with longer CPU-bound runs that make a limited use of
+the communications.
+#+latex: %
+For the *Ondes3D/Default* case (bottom facets of Figures
+\ref{fig1:left} and \ref{fig1:right}), we observe that the performance
+on the three environments is similar for 1 and 4 MPI ranks. However,
+the Docker performance degrades when going up to 8 and 16 ranks with
+execution time overhead of \approx33% for 8 MPI ranks and \approx53% for 16.  This
+behavior surfaces exactly when more physical nodes are added to the
+experiment, which indicates that the network communication might be
+impacting the performance of Docker containers. This hypothesis is
+further supported by the virtual network (Docker Swarm) that is
+required to provide connectivity between Docker containers. Such a
+virtual network does not exist in the other two environments. Although
+the Singularity container poses some overhead (\approx6% for 16 ranks), we
+believe it has the same reason for the NAS-EP/ClassB case, so
+unrelated to the network.
 
 #+BEGIN_EXPORT latex
 \begin{figure}[!htb]
@@ -611,20 +627,11 @@ use of the communications.
          MPI ranks of the Ondes3D application communicate through the
          network interconnection (from 8 processes and on).
 }
+\label{fig1}
 \end{figure}
 #+END_EXPORT
 
-Plot (ref) shows the execution time of an Ondes3D simulation of a
-small scale test, with respect to the number of parallel
-executors. This plot shows that the performance on the three
-environments is similar for 1 and 4 executors. However, the Docker
-performance degrades when considering 8 and 16 processing units. This
-behavior happens exactly when more physical nodes are added to the
-experiment, which indicates that the network communication might be
-impacting the performance of Docker containers. This hypothesis is
-further supported by the virtual network that is needed to provide
-connectivity between Docker containers. Such a virtual network does
-not exist in the other two environments.
+
 
 #+BEGIN_EXPORT latex
 \begin{figure}[!htb]
