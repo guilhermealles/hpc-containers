@@ -471,8 +471,7 @@ application performance; and (d) a comprehensive analysis to verify
 how performance gains can be used solely in applying an optimized
 container on top of an optimized OS.
 
-*** SW/HW Environment, Benchmarks, and Workload Details
-**** Introduction                                                 :ignore:
+*** Software/Hardware Environment, Benchmarks, and Workload Details
 
 The Grid5000 is a platform used for scientific experiments in parallel
 computing, HPC, and computer science. It provides its users with many
@@ -508,12 +507,7 @@ processes in Singularity containers communicate through the physical network.
 Three parallel applications are used to evaluate the performance in
 the OS options (Native, Docker and Singularity): NAS-EP, Ondes3D, and
 Ping-Pong, detailed as follows.
-
-**** Benchmarks, Workload Details, and Design of Experiments
-:PROPERTIES:
-:UNNUMBERED: t
-:END:
-
+#+latex: %
 The NAS Embarrassingly Parallel -- *NAS-EP* -- is part of the NAS
 Parallel Benchmarks (NPB) \cite{bailey1991parallel}. NAS-EP generates
 independent Gaussian random numbers using the polar method, being
@@ -558,7 +552,7 @@ Gaussian distribution.
 *** Computation Overhead Analysis
 *** Verification of Increased Communication Latency
 *** Performance Gains due to Optimized Container
-*** Previous text
+*** Previous text                                                :noexport:
 
 All the experiments were executed with multiple replications. In the
 following plots, the reported values are the average obtained across
