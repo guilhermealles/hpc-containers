@@ -137,6 +137,12 @@ stack (e.g. compilers, libraries or device drivers), thus making it
 very difficult to obtain a uniform execution platform across different
 clusters.
 
+#+BEGIN_COMMENT LUCAS
+I don't understand why a "uniform execution platform across different
+clusters" would be necessary in HPC. Do you mean having a single
+software stack to manage ALL experiments in HPC?
+#+END_COMMENT
+
 Although being intuitively difficult to deal with, these problems can
 be solved through the use of traditional hardware virtualization. By
 abstracting the hardware layer and providing a generic, well-known API
@@ -147,6 +153,13 @@ given experiment. The problem with this approach is that, when
 considering HPC applications, the performance overhead introduced by
 the hypervisor and an entire virtual machine is too high for this
 solution to be considered feasible.
+
+#+BEGIN_COMMENT LUCAS
+It is interesting to include some citations that help the flow.  There
+are no citations so far and until the end of the introduction. All
+motivation and problem definition need to be based on context that can
+be cited.
+#+END_COMMENT
 
 Lately, container technologies have gained a lot of attention in the
 software development industry. This is mainly because containers are
@@ -175,6 +188,26 @@ Singularity, with respect to their performance overhead and ability to
 solve common HPC workflow problems. For the performance measurements,
 we will consider the same experiments running on a native environment
 as the baseline.
+
+#+BEGIN_COMMENT Lucas
+This introduction lacks to clearly define the problem. Why such
+comparison is necessary? Why it is important to evaluate performance?
+Is there a performance problem? Do you want to make sure others can
+re-use containers without suffering from performance penalties?
+
+At some point (perhaps rephrasing the last paragraph -- see above),
+you should start a phrase with "This paper ..." to explicitly tell the
+reader what this paper is about. We can also itemize the three
+contributions and a similar way done in the abstract, but with further
+details.
+
+Most of the introduction introduces historical and basic concepts
+about virtualization techniques, and IMHO fail to bring the reader
+quickly to the problem addressed in the paper and its
+contribution. More emphasis is given to such basic concepts to what
+this paper is about (context, problem, solution, contributions). Some
+text here could be reused in the Section [[#sec.background]].
+#+END_COMMENT
 
 Section [[#sec.relatedwork]] discusses ...
 
