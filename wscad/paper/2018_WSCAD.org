@@ -75,7 +75,7 @@ submissão de artigos.  Datas importantes:
 
 #+BEGIN_EXPORT latex
 %\usepackage[brazil]{babel}   
-\sloppy
+\def\COMPANION{{\scriptsize\url{https://github.com/guilhermealles/hpc-containers/}}}
 #+END_EXPORT
 
 ** Frontpage                                                        :ignore:
@@ -207,6 +207,11 @@ quickly to the problem addressed in the paper and its
 contribution. More emphasis is given to such basic concepts to what
 this paper is about (context, problem, solution, contributions). Some
 text here could be reused in the Section [[#sec.background]].
+
+Write this at the very end of the introduction (end of paper structure
+paragraph): "The companion material of this work, including the source
+code, analysis scripts, and raw measurements, is publicly available
+at \COMPANION."
 #+END_COMMENT
 
 Section [[#sec.relatedwork]] discusses ...
