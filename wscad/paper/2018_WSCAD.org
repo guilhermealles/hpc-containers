@@ -121,7 +121,7 @@ you can include some details about the methodology and the main
 results. It is okay to reveal this from the start.
 #+END_COMMENT
 
-** Introduction
+** TODO Introduction
 
 One fundamental aspect of scientific computing research is that, in
 order for it to be credible, it should be reproducible. This means
@@ -143,6 +143,15 @@ clusters" would be necessary in HPC. Do you mean having a single
 software stack to manage ALL experiments in HPC?
 #+END_COMMENT
 
+#+BEGIN_COMMENT ALLES
+No, I mean having a single software stack for an experiment 
+regardless of the hardware (cluster/supercomputer/whatever) that 
+executes it. Say you run your experiments on a  Debian cluster and 
+all I have available is a CentOS cluster. The uniform execution platform 
+would be relevant because it would not matter which distribution is 
+installed natively.
+#+END_COMMENT
+
 Although being intuitively difficult to deal with, these problems can
 be solved through the use of traditional hardware virtualization. By
 abstracting the hardware layer and providing a generic, well-known API
@@ -161,14 +170,15 @@ motivation and problem definition need to be based on context that can
 be cited.
 #+END_COMMENT
 
-Lately, container technologies have gained a lot of attention in the
-software development industry. This is mainly because containers are
-presented as a solution to package enterprise software in a
-controlled, static environment that will run on a wide variety of
-Linux systems. When compared to traditional virtual machines,
-containers turn unnecessary any hypervisor for virtualization,
-yielding performance that is very close to native
-while still providing application and software stack isolation.
+#+BEGIN_COMMENT ALLES
+Okay, agreed. I will look into that.
+#+END_COMMENT
+
+As an alternative to virtual machines, container technologies have 
+gained a lot of attention in the software development industry. This 
+is mainly because containers offer the benefits of virtualization 
+at a fraction of the performance overhead introduced by virtual 
+machines, as observed by \cite{7562612}.
 
 By using containers to isolate and package software, users are able to
 create reproducible, configurable environments for their applications,
@@ -176,14 +186,16 @@ thus diminishing the hassle of managing application dependencies and
 software stack differences when executing experiments across different
 Linux environments.
 
+#+BEGIN_COMMENT TO-REMOVE
 In fact, this approach has already been used to great extents in the
 software development industry. Container technologies such as Docker
 are used daily to deploy software microservices to cloud environments,
 and cloud infrastructure providers such as AWS and Google Cloud
 Platform offer services to manage applications based on containers.
+#+END_COMMENT
 
 Considering the large adoption of containers in software development,
-we compare and contrast two container technologies, Docker and
+this paper compares and contrast two container technologies, Docker and
 Singularity, with respect to their performance overhead and ability to
 solve common HPC workflow problems. For the performance measurements,
 we will consider the same experiments running on a native environment
@@ -214,9 +226,17 @@ code, analysis scripts, and raw measurements, is publicly available
 at \COMPANION."
 #+END_COMMENT
 
-Section [[#sec.relatedwork]] discusses ...
+Section [[#sec.background]] presents some basic concepts regarding 
+container technologies, Docker, and Singularity. Section
+[[#sec.relatedwork]] discusses related work in the field of containers 
+and virtualization in high-performance computing contexts. Section 
+[[#sec.experiments]] presents the experimental design and benchmarks that 
+were used for the tests conducted in this paper. Section [[#sec.results]] 
+presents the results and brief conclusions obtained from the 
+experiments. The companion material of this work, including the source 
+code, analysis scripts, and raw measurements, is publicly available 
+at \COMPANION.
 
-*** TODO paper structure
 ** Basic Concepts
 
 :PROPERTIES:
