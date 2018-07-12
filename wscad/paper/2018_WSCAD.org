@@ -570,7 +570,15 @@ processes in the native operating system.
 #+BEGIN_EXPORT latex
 \begin{figure}[!htb]
 \centering
-\includegraphics[height=4in]{./img/computation.pdf}
+\subfloat[Smaller experiment (up to 4 nodes, 16 cores)
+\label{fig1:left}]{\begin{minipage}[b]{.47\linewidth}
+\includegraphics[width=\linewidth]{./img/computation.pdf} \hfill
+\end{minipage}}\hfill%
+%
+\subfloat[Larger experiment (up to 64 nodes, 256 cores)
+\label{fig1:right}]{\begin{minipage}[b]{.47\linewidth}
+\includegraphics[width=\linewidth]{./img/computation-ligurian.pdf} \\
+\end{minipage}}\hfill%
 \caption{(a) Makespan as a function of the number of MPI processes
          for the three environments (Native, Docker, and Singularity)
          and the applications (NAS-EP, and Ondes3D with the default workload).
