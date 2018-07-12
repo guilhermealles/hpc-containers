@@ -968,115 +968,47 @@ df.makespan <- do.call("bind_rows", lapply(files, function(file) {
         mutate(Input = case_when(TYPE == "nas" ~ "Class B",
                                  grepl("ligurian", TYPE) ~ "Ligurian",
                                  TRUE ~ "Default")) %>% select(-TYPE, -Origin) %>%
+        mutate(Native = environment == "native") %>%
         ungroup()
-}))
+})) %>%
+    mutate(environment = factor(environment, levels=c("native", "docker", "singularity")))
 #+end_src
 
 #+RESULTS:
+****** (left) Plot computation of NAS-EP/ClassB and Ondes3D/Default
 
-****** Plot
-
-
-#+begin_src R :results output :session :exports both
-
-
-
-results <- 
-
-results <- results %>%
-  mutate(time = time/1000) %>%
-  group_by(environment, parallelism) %>%
-  summarize(
-    samples = n(),
-    average = mean(time),
-    stdDeviation = sd(time),
-    stdError = 3*stdDeviation/sqrt(samples)
-  );
-results %>% pull(samples) %>% unique
-
-  results <- read_csv('./results/nas/results.csv', col_types=cols(
-                                                         name = col_integer(),
-                                                         environment = col_character(),
-                                                         parallelism = col_integer(),
-                                                         time = col_integer()
-                                                     ));
-  results <- results %>%
-    mutate(time = time/1000) %>%
-    group_by(environment, parallelism) %>%
-    summarize(
-      samples = n(),
-      average = mean(time),
-      stdDeviation = sd(time),
-      stdError = 3*stdDeviation/sqrt(samples)
-    )
-results %>% pull(samples) %>% unique
-
-
-#+end_src
-
-
-
-#+begin_src R :results output graphics :file img/ep-b.png :width 600 :height 400 :session
-  custom_theme <- function() {
-    ret <- list();
-    ret[[length(ret)+1]] <- theme (
-      plot.margin = unit(c(0,0,0,0), "cm"),
-      legend.spacing = unit(1, "mm"),
-      legend.position = "top",
-      legend.justification = "left",
-      legend.box.spacing = unit(0, "pt"),
-      legend.box.margin = margin(0,0,0,0),
-      legend.title = element_blank());
-    return(ret);
-  }
-
-  ggplot(results, aes(x = parallelism, y = average)) +
-    scale_x_continuous(breaks = c(1, 4, 8, 16), trans = 'sqrt') +
+#+begin_src R :results output graphics :file img/computation.pdf :width 3 :height 4 :session
+df.makespan %>%
+    mutate(Native = factor(Native, levels=c(TRUE, FALSE), labels=c("Native", "Container"))) %>%
+    mutate(Application = paste(Application, Input, sep="/")) %>%
+    filter(Input %in% c("Class B", "Default")) %>%
+    ggplot(aes(x = parallelism, y = average, col=environment)) +
+    scale_x_continuous(breaks = c(1, 4, 8, 16), trans="sqrt") +
     ylim(0, NA) +
-    geom_point(aes(col = environment), size = 2) +
-    geom_line(aes(col = environment), size = 1, alpha = 0.3) + 
-    geom_errorbar(aes(ymin = average - stdError, ymax = average + stdError, col = environment), width = 0.2) +
-    scale_color_grey() + 
-    xlab('Amount of computing units (count)') + 
+    geom_point(size=.5) +
+    geom_line(alpha = 0.2) + 
+    geom_errorbar(aes(ymin = average - stdError, ymax = average + stdError, col = environment), 
+                  width = .15) +
+    scale_colour_brewer(palette = "Set1") +
+    xlab('Number of MPI processes (count)') + 
     ylab('Execution time (s)') +
-    theme_bw(base_size = 12) +
     theme(legend.position = 'top', legend.spacing = unit(x = c(0, 0, 0, 0), units = 'mm')) +
-    custom_theme()
+    theme_bw(base_size = 13) +
+    custom_theme() +
+    theme (plot.margin = unit(c(0,0,0,0), "cm"),
+           legend.spacing = unit(1, "mm"),
+           legend.position = "top",
+           legend.justification = "left",
+           legend.box.spacing = unit(0, "pt"),
+           legend.box.margin = margin(0,0,0,0),
+           legend.title = element_blank()) +
+    facet_grid (Application~Native, scales="free_y")
 #+end_src
 
 #+RESULTS:
-[[file:img/ep-b.png]]
-
-***** Ondes3D ESSAI experiment plot
-#+begin_src R
-custom_theme <- function() {
-  ret <- list();
-  ret[[length(ret)+1]] <- theme (
-    plot.margin = unit(c(0,0,0,0), "cm"),
-    legend.spacing = unit(1, "mm"),
-    legend.position = "top",
-    legend.justification = "left",
-    legend.box.spacing = unit(0, "pt"),
-    legend.box.margin = margin(0,0,0,0),
-    legend.title = element_blank());
-  return(ret);
-}
-
-ggplot(results, aes(x = parallelism, y = average)) + 
-  geom_line(aes(col=environment), size = 0.5, alpha=0.2) + 
-  geom_point(aes(col=environment), size=2) + 
-  geom_errorbar(aes(ymin=average-stdError, ymax=average+stdError, col=environment), width=0.15) +
-  scale_color_grey() +
-  ylim(0, NA) +
-  scale_x_continuous(breaks=c(1, 4, 8, 16), trans='sqrt') + 
-  xlab("Amount of computing units (count)") +
-  ylab("Execution time (s)") +
-  theme_bw(base_size=12) +
-  theme(legend.position = "top", legend.spacing = unit(x=c(0,0,0,0),units="mm")) +
-  custom_theme();
-#+end_src
-
-***** Ondes3D Ligurian plot
+[[file:img/computation.pdf]]
+****** (right) Plot computation of the Ondes3D/Ligurian
+****** Ondes3D Ligurian plot
 #+begin_src R
 library(tidyverse);
 default_theme <- function() {
