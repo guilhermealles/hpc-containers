@@ -152,15 +152,14 @@ installed natively.
 #+END_COMMENT
 
 Although being intuitively difficult to deal with, these problems can
-be solved through the use of traditional hardware virtualization. By
-abstracting the hardware layer and providing a generic, well-known API
-to the software stack, users can run their own operating system and
-execution environment on top of a hypervisor, ensuring that the
-virtual environment can be configured to the exact requirements for a
-given experiment. The problem with this approach is that, when
-considering HPC applications, the performance overhead introduced by
-the hypervisor and an entire virtual machine is too high for this
-solution to be considered feasible.
+be solved through the use of traditional hardware virtualization, in 
+which users can run their own operating system and execution 
+environment on top of a hypervisor, ensuring that the software stack 
+can be configured to the exact requirements for a given experiment. 
+The problem with this approach is that, when considering HPC 
+applications, the performance overhead introduced by the hypervisor 
+and an entire virtual machine is too high for this solution to be 
+considered feasible.
 
 #+BEGIN_COMMENT LUCAS
 It is interesting to include some citations that help the flow.  There
