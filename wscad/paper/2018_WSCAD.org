@@ -544,6 +544,12 @@ the physical network).
 
 **** Workload details
 
+#+BEGIN_COMMENT LUCAS
+Cite Jain 1991 when talking about the "full factorial design". A table
+here could help to create a summary. Further details about workload
+are necessary.
+#+END_COMMENT
+
 Two different test suites were run. The first batch covered a smaller
 problem size of EP and Ondes3D, with 1 to 4 compute nodes. This
 experiment was executed following a full factorial experimental design
