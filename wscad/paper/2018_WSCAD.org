@@ -451,6 +451,14 @@ I suggest this section to be included in the beginning of Section [[#sec.results
 
 **** Experimental environment
 
+#+BEGIN_COMMENT LUCAS
+Cite the G5K paper. See:
+https://www.grid5000.fr/mediawiki/index.php/Publications to get the
+appropriate bibtex entry. Cite kadeploy3 as well. Note the last phrase
+here, talking about benchmarks, that should be placed in the
+appropriate section.
+#+END_COMMENT
+
 The experiments were conducted in the Grid5000 hardware stack. The
 Grid5000 is a grid platform used for scientific experiments in
 parallel computing, HPC and computer science. It provides its users
