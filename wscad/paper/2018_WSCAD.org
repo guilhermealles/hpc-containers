@@ -569,16 +569,25 @@ the larger scenario with the Ondes3D/Ligurian case, using 64 nodes and
 :UNNUMBERED: true
 :END:
 
-Figure \ref{fig1:left} depicts the execution time of the NAS-EP/ClassB
-Benchmark along with the Ondes3D/Default, with respect to the number
-of MPI ranks. Although indicating a slight advantage in the native
+Figure \ref{fig1:left} shows the makespans of the NAS-EP/ClassB (the
+top facets in the first row) and the Ondes3D/Default (bottom), with
+respect to the number of MPI ranks for the Native (left facets) and
+the Containers (right) -- Singularity and Docker. Figure
+\ref{fig1:right} depicts the execution time overhead with respect to
+the number of MPI ranks, calculated for each container environment
+against the native runs, also for both applications. For the
+*NAS-EP/ClassB* case, although indicating an advantage in the native
 execution, the plot shows that the virtualized approaches perform very
-close to the native baseline. This indicates that, when CPU
-calculation is regarded, none of the container technologies introduce
-significant overhead. In fact, the difference in execution time can be
-related to the time needed to spin up the containers. Such an
-operation does not exist when executing processes in the native
-operating system.
+close to each other and to the native baseline. The overhead of any
+container is less than \approx10% for up to 16 cores, but with an increasing
+trend. This indicates that regarding CPU calculation, none of the
+container technologies introduce significant overhead. In fact, the
+difference in execution time can be related to the time needed to spin
+up the containers and should increase as the number of containers (and
+MPI ranks) increases. Since these runs lasted for not so long -- about
+15s for NAS-EP/ClassB, and 10s for Ondes3D/Default -- such overhead
+may be absorbed with longer CPU-bound executions that make a limited
+use of the communications.
 
 #+BEGIN_EXPORT latex
 \begin{figure}[!htb]
