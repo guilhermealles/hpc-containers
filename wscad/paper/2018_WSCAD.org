@@ -529,11 +529,11 @@ application is also evaluated to verify if it is impacted by OS
 containers. Finally, an in-house *Ping-Pong* benchmark developed with
 MPI (see the companion material for the source code) was used to
 assess the bandwidth and latency performance when introducing the
-container's virtual environment.
+container's virtual environment. This evaluation is conducted between
+two nodes that exchange MPI messages, with message sizes varying from
+1Byte to 1MByte.
 
-The experiments, in this case, were conducted between two nodes that
-exchange MPI messages, with the message size varying from 1 Byte to 1
-MByte.
+\cite{jain1991art}
 
 We benchmarked the execution environments with three different
 applications: NAS EP, Ondes3D and Ping Pong.
