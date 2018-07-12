@@ -490,9 +490,7 @@ received a maximum of 4 MPI processes.
 The nodes were loaded with a Debian 9 image using the
 \textit{kadeploy3} tool. To ensure consistency between test cases, the
 same distribution was used for the virtualized environments in both
-Docker and Singularity containers. We benchmarked the execution
-environments with three different applications: NAS EP, Ondes3D and
-Ping Pong.
+Docker and Singularity containers.
 
 **** Benchmarks
 
@@ -535,6 +533,10 @@ Say "in-house Ping-Pong benchmark developed with MPI?...". Mention
 that the source-code is available in the companion material along with
 measurements (note that this has been said in the introduction).
 #+END_COMMENT
+
+We benchmarked the execution environments with three different
+applications: NAS EP, Ondes3D and Ping Pong.
+
 
 **** Container clusters
 
