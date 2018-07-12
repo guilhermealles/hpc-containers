@@ -559,6 +559,16 @@ Perhaps add a table to give a summary of all this
 
 *** Computation Overhead Analysis
 
+We present the results of the computation overhead for the small case
+scenarios (up to 16 cores) of NAS-EP/ClassB and Ondes3D/Default, then
+the larger scenario with the Ondes3D/Ligurian case, using 64 nodes and
+256 cores.
+
+**** Small case (4 nodes, 16 cores) with NAS-EP/ClassB and Ondes3D/Default
+:PROPERTIES:
+:UNNUMBERED: true
+:END:
+
 Figure \ref{fig1:left} depicts the execution time of the NAS-EP/ClassB
 Benchmark along with the Ondes3D/Default, with respect to the number
 of MPI ranks. Although indicating a slight advantage in the native
