@@ -572,12 +572,12 @@ operating system.
 \begin{figure}[!htb]
 \centering
 \subfloat[Execution Time
-\label{fig1:left}]{\begin{minipage}[t]{.47\linewidth}
+\label{fig1:left}]{\begin{minipage}[c]{.47\linewidth}
 \includegraphics[width=.90\linewidth]{./img/computation.pdf} \hfill
 \end{minipage}}\hfill%
 %
 \subfloat[Overhead against Native
-\label{fig1:right}]{\begin{minipage}[t]{.47\linewidth}
+\label{fig1:right}]{\begin{minipage}[c]{.47\linewidth}
 \includegraphics[width=.90\linewidth]{./img/computation-overhead-small.pdf} \\
 \end{minipage}}\hfill%
 \caption{(a) Makespan as a function of the number of MPI processes
