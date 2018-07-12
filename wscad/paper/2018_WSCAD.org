@@ -658,10 +658,26 @@ number of containers.
 #+BEGIN_EXPORT latex
 \begin{figure}[!htb]
 \centering
-\includegraphics[width=.8\textwidth]{./img/ondes3d-ligurian.png}
-\caption{Execution time for the simulation of the Ligurian earthquake using Ondes3D}
+\subfloat[Execution Time
+\label{fig1:left}]{\begin{minipage}[c]{.47\linewidth}
+\includegraphics[width=.90\linewidth]{./img/computation-ligurian.pdf} \hfill
+\end{minipage}}\hfill%
+%
+\subfloat[Overhead against Native
+\label{fig1:right}]{\begin{minipage}[c]{.47\linewidth}
+\includegraphics[width=.90\linewidth]{./img/computation-overhead-large.pdf} \\
+\end{minipage}}\hfill%
+\caption{(a) Execution time as a function of the number of MPI ranks
+         for the three environments (Native and Singularity) with the Ondes3D/Ligurian application,
+         and (b), the Singularity overhead with respect to the number of
+         MPI ranks. We can notice how Singularity poses a minor overhead
+         (less than $\approx$1\%) despite the peak with 192 MPI ranks.
+}
+\label{fig1}
 \end{figure}
 #+END_EXPORT
+
+
 
 *** Verification of Increased Communication Latency
 
@@ -1223,7 +1239,7 @@ df.sel %>%
     xlab('Number of MPI ranks (count)') + 
     ylab('Overhead of Execution \nTime against Native (%)') +
     facet_grid(Case~.) +
-    ylim(0,60) +
+    ylim(0,10) +
     theme_bw(base_size = 13) +
     theme (plot.margin = unit(c(0,0,0,0), "cm"),
            legend.spacing = unit(x = c(0, 0, 0, 0), units = 'mm'),
