@@ -483,6 +483,23 @@ Ping Pong.
 
 **** Benchmarks
 
+#+BEGIN_COMMENT LUCAS
+Cite NAS: https://dl.acm.org/citation.cfm?id=125925
+Cite Ondes3D: 
+
+@article{dupros:10,
+title = "High-performance finite-element simulations of seismic wave propagation in three-dimensional nonlinear inelastic geological media",
+journal = "Parallel Comput",
+volume = "36",
+number = "5",
+pages = "308 - 325",
+year = "2010",
+issn = "0167-8191",
+author = "Fabrice Dupros and Florent De Martin and Evelyne Foerster and Dimitri Komatitsch and Jean Roman",
+keywords = "Seismic numerical simulation, Finite-element method, Parallel sparse direct solver, Nonlinear soil behaviour"
+}
+#+END_COMMENT
+
 The NAS EP is an application included in the NAS Parallel Benchmarks
 which simulates a parallel random number generator. It is an
 embarrassingly parallel problem (hence its name), and it was chosen to
