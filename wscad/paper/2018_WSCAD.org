@@ -634,8 +634,6 @@ evaluation.
 \end{figure}
 #+END_EXPORT
 
-
-
 **** Large case (64 nodes, 256 cores) with Ondes3D/Ligurian
 :PROPERTIES:
 :UNNUMBERED: true
@@ -713,7 +711,7 @@ non-observable performance differences.
 \end{minipage}}\hfill%
 \caption{(a) Average network latency (on Y log scale) measured with the Ping Pong benchmark
          for the three environments (color) as a function of message size (on X log scale),
-         and (b), the latency overhead (on Y) as a function of message size (on X log scale).
+         and (b), the same but showing the derived latency overhead against native (on Y).
 }
 \label{fig3}
 \end{figure}
