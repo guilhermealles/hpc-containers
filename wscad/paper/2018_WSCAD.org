@@ -557,27 +557,28 @@ Perhaps add a table to give a summary of all this
 
 *** Computation Overhead Analysis
 
-The plot (ref) shows the execution time of the NAS EP Benchmark, with
-respect to the number of parallel executors. Although indicating a
-slight advantage in the native execution, the plot shows that the
-virtualized approaches perform very close to the native baseline. This
-indicates that, when CPU calculation is regarded, none of the
-container technologies introduce significant overhead. In fact, the
-difference in execution time can be related to the time needed to spin
-up the containers. Such an operation does not exist when executing
-processes in the native operating system.
+Figure \ref{fig1:left} depicts the execution time of the NAS-EP/ClassB
+Benchmark along with the Ondes3D/Default, with respect to the number
+of MPI ranks. Although indicating a slight advantage in the native
+execution, the plot shows that the virtualized approaches perform very
+close to the native baseline. This indicates that, when CPU
+calculation is regarded, none of the container technologies introduce
+significant overhead. In fact, the difference in execution time can be
+related to the time needed to spin up the containers. Such an
+operation does not exist when executing processes in the native
+operating system.
 
 #+BEGIN_EXPORT latex
 \begin{figure}[!htb]
 \centering
-\subfloat[Smaller experiment (up to 4 nodes, 16 cores)
-\label{fig1:left}]{\begin{minipage}[b]{.47\linewidth}
+\subfloat[Execution Time
+\label{fig1:left}]{\begin{minipage}[t]{.47\linewidth}
 \includegraphics[width=.90\linewidth]{./img/computation.pdf} \hfill
 \end{minipage}}\hfill%
 %
-\subfloat[Larger experiment (up to 64 nodes, 256 cores)
-\label{fig1:right}]{\begin{minipage}[b]{.47\linewidth}
-\includegraphics[width=.90\linewidth]{./img/computation-ligurian.pdf} \\
+\subfloat[Overhead against Native
+\label{fig1:right}]{\begin{minipage}[t]{.47\linewidth}
+\includegraphics[width=.90\linewidth]{./img/computation-overhead-small.pdf} \\
 \end{minipage}}\hfill%
 \caption{(a) Makespan as a function of the number of MPI processes
          for the three environments (Native, Docker, and Singularity)
@@ -955,7 +956,7 @@ ggplot(results, aes(x = parallelism, y = average)) +
 #+RESULTS:
 
 **** Plots (Lucas)
-***** Computation Analysis (pure makespan)
+***** Small case: Computation Analysis (pure makespan and compute overhead)
 ****** Read and merge data
 
 #+begin_src R :results output :session :exports both
@@ -1010,9 +1011,9 @@ colScale <- scale_colour_manual(name = "environment",values = myColors)
 
 df.sel %>%
     ggplot(aes(x = parallelism, y = average, col=environment)) +
-    scale_x_continuous(breaks = c(1, 4, 8, 16), trans="sqrt") +
+#    scale_x_continuous(breaks = breaks, trans="sqrt") +
     ylim(0, NA) +
-    geom_point(size=.5) +
+    geom_point(size=1) +
     geom_line(alpha = 0.2) + 
     geom_errorbar(aes(ymin = average - stdError, ymax = average + stdError, col = environment), 
                   width = .15) +
@@ -1021,7 +1022,6 @@ df.sel %>%
     ylab('Execution time (s)') +
     theme(legend.position = 'top', legend.spacing = unit(x = c(0, 0, 0, 0), units = 'mm')) +
     theme_bw(base_size = 13) +
-    custom_theme() +
     theme (plot.margin = unit(c(0,0,0,0), "cm"),
            legend.spacing = unit(1, "mm"),
            legend.position = "top",
@@ -1034,7 +1034,77 @@ df.sel %>%
 
 #+RESULTS:
 [[file:img/computation.pdf]]
-****** (right) Plot computation of the Ondes3D/Ligurian
+****** (right) Computation Overhead
+
+#+begin_src R :results output :session :exports both
+df.makespan %>%
+    mutate(Case = paste(Application, Input, sep="/")) %>%
+    select(environment, parallelism, average, Case) %>%
+    spread(environment, average) %>%
+    mutate(
+        Docker.Overhead = round((Docker - Native)/Native * 100, 2),
+        Singularity.Overhead = round((Singularity - Native)/Native * 100, 2)) %>%
+    arrange(Case, parallelism) %>%
+    select(parallelism, Case, Docker.Overhead, Singularity.Overhead) %>%
+    gather(environment, Overhead, -parallelism, -Case) -> df.makespan.overhead;
+df.makespan.overhead
+#+end_src
+
+#+RESULTS:
+#+begin_example
+# A tibble: 24 x 4
+   parallelism             Case     environment Overhead
+         <int>            <chr>           <chr>    <dbl>
+ 1           1   NAS-EP/Class B Docker.Overhead     0.05
+ 2           4   NAS-EP/Class B Docker.Overhead     0.31
+ 3           8   NAS-EP/Class B Docker.Overhead     1.05
+ 4          16   NAS-EP/Class B Docker.Overhead     7.93
+ 5           1  Ondes3D/Default Docker.Overhead     0.69
+ 6           4  Ondes3D/Default Docker.Overhead     1.32
+ 7           8  Ondes3D/Default Docker.Overhead    33.55
+ 8          16  Ondes3D/Default Docker.Overhead    53.42
+ 9          64 Ondes3D/Ligurian Docker.Overhead       NA
+10         128 Ondes3D/Ligurian Docker.Overhead       NA
+# ... with 14 more rows
+#+end_example
+
+Let's plot this:
+
+#+begin_src R :results output graphics :file img/computation-overhead-small.pdf :exports both :width 3 :height 3.8 :session
+df.makespan.overhead %>%
+    filter(parallelism <= 16) %>%
+    mutate(environment = factor(gsub(".Overhead", "", environment),
+                                levels=c("Singularity", "Docker"))) -> df.sel;
+# Breaks in X
+breaks <- df.sel %>% pull(parallelism) %>% unique;
+
+df.sel %>%
+    ggplot(aes(x=parallelism,
+               y=Overhead,
+               color=environment)) +
+    scale_x_continuous(breaks = breaks, trans="sqrt") +
+    colScale +
+    geom_point(size=1) +
+    geom_line(alpha = 0.3) +
+    xlab('Number of MPI ranks (count)') + 
+    ylab('Overhead of Execution \nTime against Native (%)') +
+    facet_grid(Case~.) +
+    ylim(0,60) +
+    theme_bw(base_size = 13) +
+    theme (plot.margin = unit(c(0,0,0,0), "cm"),
+           legend.spacing = unit(x = c(0, 0, 0, 0), units = 'mm'),
+           legend.position = "top",
+           legend.justification = "left",
+           legend.box.spacing = unit(0, "pt"),
+           legend.box.margin = margin(0,0,0,0),
+           legend.title = element_blank())
+#           axis.text.x = element_text(angle=30, hjust=1))
+#+end_src
+
+#+RESULTS:
+[[file:img/computation-overhead-small.pdf]]
+***** Larger case (Ligurian)
+****** (left) Plot computation of the Ondes3D/Ligurian
 
 #+begin_src R :results output graphics :file img/computation-ligurian.pdf :width 3 :height 3 :session
 df.makespan %>%
@@ -1061,7 +1131,6 @@ df.sel %>%
     xlab('Number of MPI ranks (count)') + 
     ylab('Execution time (s)') +
     theme_bw(base_size = 13) +
-    custom_theme() +
     theme (plot.margin = unit(c(0,0,0,0), "cm"),
            legend.spacing = unit(x = c(0, 0, 0, 0), units = 'mm'),
            legend.position = "top",
@@ -1075,38 +1144,6 @@ df.sel %>%
 
 #+RESULTS:
 [[file:img/computation-ligurian.pdf]]
-
-****** Ondes3D Ligurian plot
-#+begin_src R
-library(tidyverse);
-default_theme <- function() {
-  ret <- list();
-  ret[[length(ret)+1]] <- theme (
-    plot.margin = unit(c(0,0,0,0), "cm"),
-    legend.spacing = unit(1, "mm"),
-    legend.position = "top",
-    legend.justification = "left",
-    legend.box.spacing = unit(0, "pt"),
-    legend.box.margin = margin(0,0,0,0),
-    legend.title = element_blank());
-  return(ret);
-}
-
-ggplot(results, aes(x = parallelism, y = average)) + 
-  geom_line(aes(col=environment), size = 0.5, alpha=0.2) + 
-  geom_point(aes(col=environment), size=2) + 
-  geom_errorbar(aes(ymin=average-stdError, ymax=average+stdError, col=environment), width=20) +
-  scale_color_grey() +
-  scale_x_continuous(breaks=seq(64,256,64)) +
-  ylim(0, NA) +
-  xlab("Amount of computing units (count)") +
-  ylab("Execution time (s)") +
-  theme_bw(base_size=12) +
-  theme(legend.position = "top", legend.spacing = unit(x=c(0,0,0,0),units="mm")) +
-  default_theme();
-#+end_src
-
-#+RESULTS:
 
 ** Conclusion
 
