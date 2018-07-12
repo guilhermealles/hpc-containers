@@ -555,9 +555,6 @@ Perhaps add a table to give a summary of all this
 #+END_COMMENT
 
 *** Computation Overhead Analysis
-*** Verification of Increased Communication Latency
-*** Performance Gains due to Optimized Container
-*** Previous text                                                :noexport:
 
 The plot (ref) shows the execution time of the NAS EP Benchmark, with
 respect to the number of parallel executors. Although indicating a
@@ -597,24 +594,6 @@ not exist in the other two environments.
 \end{figure}
 #+END_EXPORT
 
-Plot (ref) presents the Ping Pong benchmark, which was used to measure
-the communication overhead between nodes. From this experiment, we can
-see that the network performance on Docker containers is considerably
-lower when compared to both the native and singularity test
-cases. This evidence confirms that, as observed in the Ondes3D
-experiment, the virtual network used by Docker introduces significant
-overhead to communication. Singularity containers, on the other hand,
-use the same network stack as the host operating system, resulting in
-non-observable performance differences.
-
-#+BEGIN_EXPORT latex
-\begin{figure}[h]
-\centering
-\includegraphics[width=.8\textwidth]{./img/ping-pong.png}
-\caption{Average network latency measured with the Ping Pong benchmark}
-\end{figure}
-#+END_EXPORT
-
 The next plot, (ref), shows a large-scale simulation of the Ligurian
 earthquake on Ondes3D. This experiment was conducted to put container
 technologies in a highly-distributed computing scenario, and its main
@@ -636,6 +615,28 @@ number of containers.
 \caption{Execution time for the simulation of the Ligurian earthquake using Ondes3D}
 \end{figure}
 #+END_EXPORT
+
+*** Verification of Increased Communication Latency
+
+Plot (ref) presents the Ping Pong benchmark, which was used to measure
+the communication overhead between nodes. From this experiment, we can
+see that the network performance on Docker containers is considerably
+lower when compared to both the native and singularity test
+cases. This evidence confirms that, as observed in the Ondes3D
+experiment, the virtual network used by Docker introduces significant
+overhead to communication. Singularity containers, on the other hand,
+use the same network stack as the host operating system, resulting in
+non-observable performance differences.
+
+#+BEGIN_EXPORT latex
+\begin{figure}[h]
+\centering
+\includegraphics[width=.8\textwidth]{./img/ping-pong.png}
+\caption{Average network latency measured with the Ping Pong benchmark}
+\end{figure}
+#+END_EXPORT
+
+*** Performance Gains due to Optimized Container
 
 To illustrate the advantages in flexibility for environment
 configuration, we also conducted an experiment running an Alpine Linux
