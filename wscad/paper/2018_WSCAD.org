@@ -218,7 +218,6 @@ Section [[#sec.relatedwork]] discusses ...
 
 *** TODO paper structure
 ** Basic Concepts
-
 :PROPERTIES:
 :CUSTOM_ID: sec.background
 :END:
@@ -457,36 +456,20 @@ communication latency leading to bad application performance; and (d)
 a comprehensive analysis to verify how performance gains can be used
 solely in applying an optimized container on top of an optimized OS.
 
-*** Software/Hardware Experimental environment and Workload Details
+*** SW/HW Environment, Benchmarks, and Workload Details
 
-#+BEGIN_COMMENT LUCAS
-This empty space is considered to be a bad style choice.
-#+END_COMMENT
-
-**** The Grid5000 Experimental Environment
-
-#+BEGIN_COMMENT LUCAS
-Cite the G5K paper. See:
-https://www.grid5000.fr/mediawiki/index.php/Publications to get the
-appropriate bibtex entry. Cite kadeploy3 as well. Note the last phrase
-here, talking about benchmarks, that should be placed in the
-appropriate section.
-#+END_COMMENT
-
-The experiments were conducted in the Grid5000 hardware stack. The
-Grid5000 is a grid platform used for scientific experiments in
-parallel computing, HPC and computer science. It provides its users
-with a large number of clusters that can be reserved for exclusive use
-for a limited time. For this paper, we executed the experiments in the
-Grid5000's \textit{graphene} cluster, which contains 16GB of DDR3
-memory and a quad-core Intel Xeon X3340 on each node. We used up to 64
-compute nodes for our tests. Because of the number of cores, each node
-received a maximum of 4 MPI processes.
-
-The nodes were loaded with a Debian 9 image using the
-\textit{kadeploy3} tool. To ensure consistency between test cases, the
-same distribution was used for the virtualized environments in both
-Docker and Singularity containers.
+The Grid5000 is a platform used for scientific experiments in parallel
+computing, HPC, and computer science. It provides its users with many
+clusters that can be reserved for exclusive use for a limited time. We
+executed the experiments in the Grid5000's =graphene= cluster (at
+Nancy), which contains 16GB of DDR3 memory and a quad-core Intel Xeon
+X3340 on each node. We used up to 64 compute nodes for our tests. In
+all experiments, each node received a maximum of 4 MPI processes due
+to the 4-core availability of processor cores. All compute nodes are
+deployed (using =kadeploy3= \cite{kadeploy3}) with the default Debian9
+OS image. To ensure consistency between test cases against the native
+OS, the same Debian9 Linux distribution was used for the virtualized
+environments in both Docker and Singularity containers.
 
 **** Benchmarks
 
