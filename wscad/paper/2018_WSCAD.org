@@ -360,7 +360,7 @@ This empty space is considered to be a bad style choice.
 
 *** Related Work
 
-#+BEGIN_COMMENT
+#+BEGIN_COMMENT LUCAS
 Instead of jumping in directly to the citations; give some general
 context information about related work. Explicitely tell the reader
 that you will list other works that /evaluate performance/ in container
