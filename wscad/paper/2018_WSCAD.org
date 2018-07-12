@@ -978,7 +978,9 @@ df.makespan <- do.call("bind_rows", lapply(files, function(file) {
         mutate(Native = environment == "native") %>%
         ungroup()
 })) %>%
-    mutate(environment = factor(environment, levels=c("native", "docker", "singularity")))
+    mutate(environment = factor(environment,
+                                levels=c("native", "docker", "singularity"),
+                                labels=c("Native", "Docker", "Singularity")))
 #+end_src
 
 #+RESULTS:
