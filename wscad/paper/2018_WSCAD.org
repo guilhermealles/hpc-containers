@@ -175,7 +175,7 @@ As an alternative to virtual machines, container technologies have
 gained a lot of attention in the software development industry. This 
 is mainly because containers offer the benefits of virtualization 
 at a fraction of the performance overhead introduced by virtual 
-machines, as observed by \cite{7562612}.
+machines \cite{7562612}.
 
 By using containers to isolate and package software, users are able to
 create reproducible, configurable environments for their applications,
