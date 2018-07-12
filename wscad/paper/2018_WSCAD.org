@@ -603,7 +603,10 @@ required to provide connectivity between Docker containers. Such a
 virtual network does not exist in the other two environments. Although
 the Singularity container poses some overhead (\approx6% for 16 ranks), we
 believe it has the same reason for the NAS-EP/ClassB case, so
-unrelated to the network.
+unrelated to the network. Because of the higher overhead of the Docker
+environment in the Ondes3D/Default, we decide to exclude it from
+larger scale scenarios, and focus only in the Singularity environment
+evaluation.
 
 #+BEGIN_EXPORT latex
 \begin{figure}[!htb]
