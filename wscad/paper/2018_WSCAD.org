@@ -220,8 +220,8 @@ Section [[#sec.relatedwork]] discusses ...
 
 *** Related Work
 
-As presented in \cite{7562612}, the virtualization of HPC applications
-is viable in a low overhead environment such as Docker. In this study,
+The virtualization of HPC applications is viable in a low overhead
+environment such as Docker \cite{7562612}. In this study,
 the author compares the compute performance of Docker containers to
 virtual machines, concluding that the former has a considerably lower
 overhead when compared to the latter. This study, however, only
@@ -230,7 +230,8 @@ present information on how containers can scale to distributed
 environments which are often the case for high-performance
 applications.
 
-For multi-node computations, \cite{7868429} proposes the creation of
+For multi-node computations, another investigation \cite{7868429}
+work proposes the creation of
 an MPI cluster using Docker containers in a distributed
 environment. In this proposal, the containers are connected through an
 orchestrator called Docker Swarm, which is responsible for assigning
@@ -239,8 +240,7 @@ between the containers. Performance analysis, however, is absent from
 this study, obscuring the conclusion of whether such an approach is
 viable in a real-world scenario.
 
-In \cite{10.1371/journal.pone.0177459}, the author introduces
-Singularity. Singularity is a container system designed for scientific
+Singularity \cite{10.1371/journal.pone.0177459} is a container system designed for scientific
 research workflows, and it strives to solve some drawbacks of using
 Docker containers in HPC. The author discusses how Docker is not
 designed for shared, multi-user environments (such as supercomputers
@@ -251,10 +251,11 @@ the other hand, is built with these problems in mind and solves them
 in order to make HPC containers accessible to the scientific
 community. Consequently, Singularity containers are already accepted
 and used in many supercomputers around the world. Additionally,
-\cite{Le:2017:PAA:3093338.3106737} presents some performance analysis
-of applications running on top of Singularity containers. It concludes
-that while some overhead does exist, the reported values are
-negligible for most use cases.
+a performance analysis of applications running on top of Singularity
+containers has also been carried out
+\cite{Le:2017:PAA:3093338.3106737}. It concludes that while some
+overhead does exist, the reported values are negligible for most use
+cases.
 
 *** Motivation
 
