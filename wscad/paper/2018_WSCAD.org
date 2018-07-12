@@ -134,15 +134,14 @@ that comprise an execution environment. Additionally, HPC resources
 are usually managed under strict usage policies, many of which do not
 allow the user to customize the environment with an arbitrary software
 stack (e.g. compilers, libraries or device drivers), thus making it
-very difficult to obtain a uniform execution platform across different
-clusters.
+very difficult to obtain a uniform execution platform for a given 
+experiment across different clusters.
 
 #+BEGIN_COMMENT LUCAS
 I don't understand why a "uniform execution platform across different
 clusters" would be necessary in HPC. Do you mean having a single
 software stack to manage ALL experiments in HPC?
 #+END_COMMENT
-
 #+BEGIN_COMMENT ALLES
 No, I mean having a single software stack for an experiment 
 regardless of the hardware (cluster/supercomputer/whatever) that 
@@ -169,7 +168,6 @@ are no citations so far and until the end of the introduction. All
 motivation and problem definition need to be based on context that can
 be cited.
 #+END_COMMENT
-
 #+BEGIN_COMMENT ALLES
 Okay, agreed. I will look into that.
 #+END_COMMENT
@@ -185,14 +183,6 @@ create reproducible, configurable environments for their applications,
 thus diminishing the hassle of managing application dependencies and
 software stack differences when executing experiments across different
 Linux environments.
-
-#+BEGIN_COMMENT TO-REMOVE
-In fact, this approach has already been used to great extents in the
-software development industry. Container technologies such as Docker
-are used daily to deploy software microservices to cloud environments,
-and cloud infrastructure providers such as AWS and Google Cloud
-Platform offer services to manage applications based on containers.
-#+END_COMMENT
 
 Considering the large adoption of containers in software development,
 this paper compares and contrast two container technologies, Docker and
