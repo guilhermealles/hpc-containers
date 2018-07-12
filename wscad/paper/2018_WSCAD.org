@@ -472,43 +472,49 @@ The Grid5000 is a platform used for scientific experiments in parallel
 computing, HPC, and computer science. It provides its users with many
 clusters that can be reserved for exclusive use for a limited time. We
 executed the experiments in the Grid5000's =graphene= cluster (at
-Nancy), which contains 16GB of DDR3 memory and a quad-core Intel Xeon
-X3340 on each node. We used up to 64 compute nodes for our tests. In
-all experiments, each node received a maximum of 4 MPI processes due
-to the 4-core availability of processor cores. All compute nodes are
-deployed (using =kadeploy3= \cite{jeanvoine2013kadeploy3}) with the default Debian9
-OS image. To ensure consistency between test cases against the native
-OS, the same Debian9 Linux distribution was used for the virtualized
-environments in both Docker and Singularity containers.
+Nancy), which contains 131 nodes, each one equipped with 16GB of DDR3
+memory and a quad-core Intel Xeon X3340 (Lynnfield, 2.53GHz), and
+interconnected by a 1Gigabit Ethernet and a 20Gbps Infiniband
+network. We used up to 64 compute nodes for our tests using
+exclusively the 1Gigabit Ethernet because of limitations in the
+container configuration. In all experiments, each node received a
+maximum of 4 MPI processes due to the 4-core availability of processor
+cores. All compute nodes are deployed (using =kadeploy3=
+\cite{jeanvoine2013kadeploy3}) with the default Debian9 OS image. To
+ensure consistency between test cases against the native OS, the same
+Debian9 Linux distribution was used for the virtualized environments
+in both Docker and Singularity containers.  Three different parallel
+applications have been used to evaluate the performance in the three
+OS options Native, Docker and Singularity: NAS-EP, Ondes3D, and
+Ping-Pong, detailed as follows.
 
-**** Benchmarks and Workload Details                              :ignore:
+**** Benchmarks and Workload Details
 :PROPERTIES:
 :UNNUMBERED: t
 :END:
 
-The Embarrassingly Parallel (EP) is an application included in the NAS
-Parallel Benchmarks \cite{bailey1991parallel} which generates
-independent Gaussian random numbers using the polar method.  It was
-chosen to simulate a highly CPU bound scenario with parallel speedup
-close to ideal because there is very few communication among processes
-belonging to the computation.
+The NAS Embarrassingly Parallel -- *NAS-EP* -- is part of the NAS
+Parallel Benchmarks (NPB) \cite{bailey1991parallel}. NAS-EP generates
+independent Gaussian random numbers using the polar method, being
+considered a CPU-bound case with parallel speedup close to ideal since
+communication takes place in the beginning and end of the
+execution. EP is executed with the class B workload using one to four
+hosts (4 to 16 cores) in preliminary tests. *Ondes3D* \cite{dupros:10}
+is developed at the BRGM (French Geological Survey) as an
+implementation of the finite-differences method (FDM) to simulate the
+propagation of seismic waves in three-dimensional media. As previously
+observed \cite{tesser2017using}, its signature contains
+characteristics such as load imbalance and frequent asynchronous
+small-message communications among MPI ranks. So, this real-world
+application is also evaluated to verify if it is impacted by OS
+containers. Finally, an in-house *Ping-Pong* benchmark developed with
+MPI (see the companion material for the source code) was used to
+assess the bandwidth and latency performance when introducing the
+container's virtual environment.
 
-Ondes3D \cite{dupros:10} is a fluid dynamics simulation application. Its execution
-signature contains characteristics such as load imbalance and frequent
-communication between MPI nodes. It was chosen as a mean to add a
-real-world application signature in this research.
-
-Finally, the Ping Pong benchmark was used to measure the network and
-communication performance when introducing the container's virtual
-environment. The experiments, in this case, were conducted between two
-nodes that exchange MPI messages, with the message size varying from 1
-Byte to 1 MByte.
-
-#+BEGIN_COMMENT LUCAS
-Say "in-house Ping-Pong benchmark developed with MPI?...". Mention
-that the source-code is available in the companion material along with
-measurements (note that this has been said in the introduction).
-#+END_COMMENT
+The experiments, in this case, were conducted between two nodes that
+exchange MPI messages, with the message size varying from 1 Byte to 1
+MByte.
 
 We benchmarked the execution environments with three different
 applications: NAS EP, Ondes3D and Ping Pong.
@@ -911,6 +917,15 @@ number to more related and context work.
 Tangle this file with C-c C-v t
 
 #+begin_src bib :tangle refs.bib
+@inproceedings{tesser2017using,
+  title={Using Simulation to Evaluate and Tune the Performance of Dynamic Load Balancing of an Over-decomposed Geophysics Application},
+  author={Tesser, Rafael Keller and Schnorr, Lucas Mello and Legrand, Arnaud and Dupros, Fabrice and Navaux, Philippe Olivier Alexandre},
+  booktitle={European Conference on Parallel Processing},
+  pages={192--205},
+  year={2017},
+  organization={Springer}
+}
+
 @article{dupros:10,
 title = "High-performance finite-element simulations of seismic wave propagation in three-dimensional nonlinear inelastic geological media",
 journal = "Parallel Comput",
