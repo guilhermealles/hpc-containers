@@ -1165,7 +1165,7 @@ df.sel %>%
     ggplot(aes(x = parallelism, y = average, col=environment)) +
     scale_x_continuous(breaks = breaks) +
     ylim(0, NA) +
-    geom_point(size=.5) +
+    geom_point(size=1) +
     geom_line(alpha = 0.2) + 
     geom_errorbar(aes(ymin = average - stdError, ymax = average + stdError, col = environment), 
                   width = 1) +
@@ -1186,6 +1186,57 @@ df.sel %>%
 
 #+RESULTS:
 [[file:img/computation-ligurian.pdf]]
+
+****** (right) Computation Overhead of Ondes3D/Ligurian
+
+#+begin_src R :results output :session :exports both
+df.makespan.overhead %>%
+    filter(Case == "Ondes3D/Ligurian") %>%
+    na.omit() %>%
+    as.data.frame
+#+end_src
+
+#+RESULTS:
+:   parallelism             Case          environment Overhead
+: 1          64 Ondes3D/Ligurian Singularity.Overhead     0.07
+: 2         128 Ondes3D/Ligurian Singularity.Overhead     0.37
+: 3         192 Ondes3D/Ligurian Singularity.Overhead     0.62
+: 4         256 Ondes3D/Ligurian Singularity.Overhead     0.41
+
+#+begin_src R :results output graphics :file img/computation-overhead-large.pdf :exports both :width 3 :height 2.5 :session
+df.makespan.overhead %>%
+    filter(Case == "Ondes3D/Ligurian") %>%
+    mutate(environment = factor(gsub(".Overhead", "", environment),
+                                levels=c("Singularity", "Docker"))) %>%
+    filter(environment == "Singularity") -> df.sel;
+# Breaks in X
+breaks <- df.sel %>% pull(parallelism) %>% unique;
+
+df.sel %>%
+    ggplot(aes(x=parallelism,
+               y=Overhead,
+               color=environment)) +
+    scale_x_continuous(breaks = breaks, trans="sqrt") +
+    colScale +
+    geom_point(size=1) +
+    geom_line(alpha = 0.3) +
+    xlab('Number of MPI ranks (count)') + 
+    ylab('Overhead of Execution \nTime against Native (%)') +
+    facet_grid(Case~.) +
+    ylim(0,60) +
+    theme_bw(base_size = 13) +
+    theme (plot.margin = unit(c(0,0,0,0), "cm"),
+           legend.spacing = unit(x = c(0, 0, 0, 0), units = 'mm'),
+           legend.position = "top",
+           legend.justification = "left",
+           legend.box.spacing = unit(0, "pt"),
+           legend.box.margin = margin(0,0,0,0),
+           legend.title = element_blank())
+#           axis.text.x = element_text(angle=30, hjust=1))
+#+end_src
+
+#+RESULTS:
+[[file:img/computation-overhead-large.pdf]]
 
 ** Conclusion
 
