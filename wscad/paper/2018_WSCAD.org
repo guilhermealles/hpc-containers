@@ -19,6 +19,7 @@
 #+LATEX_HEADER: \usepackage[utf8]{inputenc}
 #+LATEX_HEADER: \usepackage[T1]{fontenc}
 #+LATEX_HEADER: \usepackage{graphicx}
+#+LATEX_HEADER: \usepackage{hyperref}
 
 # You need at least Org 9 and Emacs 24 to make this work.
 # If you do, just type make (thanks Luka Stanisic for this).
