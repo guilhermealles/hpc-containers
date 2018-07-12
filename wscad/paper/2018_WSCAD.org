@@ -211,7 +211,7 @@ text here could be reused in the Section [[#sec.background]].
 
 Section [[#sec.relatedwork]] discusses ...
 
-*** TODO paper sturcture
+*** TODO paper structure
 ** Related Work and Motivation
 :PROPERTIES:
 :CUSTOM_ID: sec.relatedwork
