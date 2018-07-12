@@ -633,14 +633,6 @@ unrelated to the network.
 
 
 
-#+BEGIN_EXPORT latex
-\begin{figure}[!htb]
-\centering
-\includegraphics[width=.8\textwidth]{./img/ondes3d-essai-50ts.png}
-\caption{Execution time for the Ondes3D ESSAI simulation}
-\end{figure}
-#+END_EXPORT
-
 **** Large case (64 nodes, 256 cores) with Ondes3D/Ligurian
 :PROPERTIES:
 :UNNUMBERED: true
