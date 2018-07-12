@@ -217,108 +217,6 @@ at \COMPANION."
 Section [[#sec.relatedwork]] discusses ...
 
 *** TODO paper structure
-** Related Work and Motivation
-:PROPERTIES:
-:CUSTOM_ID: sec.relatedwork
-:END:
-
-#+BEGIN_COMMENT LUCAS
-This empty space is considered to be a bad style choice.
-#+END_COMMENT
-
-*** Related Work
-
-#+BEGIN_COMMENT
-Instead of jumping in directly to the citations; give some general
-context information about related work. Explicitely tell the reader
-that you will list other works that /evaluate performance/ in container
-environments in the HPC context. A very brief historical perspective
-is also welcome, sometimes.
-#+END_COMMENT
-
-The virtualization of HPC applications is viable in a low overhead
-environment such as Docker \cite{7562612}. In this study,
-the author compares the compute performance of Docker containers to
-virtual machines, concluding that the former has a considerably lower
-overhead when compared to the latter. This study, however, only
-explores the performance of single node applications, and does not
-present information on how containers can scale to distributed
-environments which are often the case for high-performance
-applications.
-
-For multi-node computations, another investigation \cite{7868429}
-work proposes the creation of
-an MPI cluster using Docker containers in a distributed
-environment. In this proposal, the containers are connected through an
-orchestrator called Docker Swarm, which is responsible for assigning
-names and providing an overlay network for transparent connectivity
-between the containers. Performance analysis, however, is absent from
-this study, obscuring the conclusion of whether such an approach is
-viable in a real-world scenario.
-
-#+BEGIN_COMMENT LUCAS
-The first part of this paragraph (around
-\cite{10.1371/journal.pone.0177459}) looks like basic concepts and
-historical perspective to be included in Section [[#sec.background]]. Only
-at the end you talk about another work that carried out a performance
-analysis of Singularity; but no details are given about platform,
-workload.
-#+END_COMMENT
-
-Singularity \cite{10.1371/journal.pone.0177459} is a container system designed for scientific
-research workflows, and it strives to solve some drawbacks of using
-Docker containers in HPC. The author discusses how Docker is not
-designed for shared, multi-user environments (such as supercomputers
-and HPC centers) and thus presents significant security issues when
-used in this context. As a consequence, it is very hard to find HPC
-centers that allow users to execute Docker containers. Singularity, on
-the other hand, is built with these problems in mind and solves them
-in order to make HPC containers accessible to the scientific
-community. Consequently, Singularity containers are already accepted
-and used in many supercomputers around the world. Additionally,
-a performance analysis of applications running on top of Singularity
-containers has also been carried out
-\cite{Le:2017:PAA:3093338.3106737}. It concludes that while some
-overhead does exist, the reported values are negligible for most use
-cases.
-
-*** Motivation
-
-Wrap up the state of the art mentioned in previous work, mention what is missing, present objectives and motivation.
-
-#+BEGIN_COMMENT LUCAS
-Perhaps a table like this could be useful. Other criteria could be added.
-
-| Related Work                       | Container         | Nodes     | Workload | Conclusions                 |
-|------------------------------------+-------------------+-----------+----------+-----------------------------|
-| \cite{7562612}                     | Docker            | Single    | ?        | Docker more viable than VM  |
-| \cite{7868429}                     | Docker with swarm | How many? | ?        | Perf. Analysis inconclusive |
-| \cite{Le:2017:PAA:3093338.3106737} | Singularity       | ?         | ?        | ?                           |
-| ?                                  |                   |           |          |                             |
-| ?                                  |                   |           |          |                             |
-
-Notice the two empty rows to tell you that more is necessary.
-#+END_COMMENT
-
-
-The goal of this work is to study the drawbacks and
-improvements that occur by applying virtualization techniques to
-high-performance computing workflows. As concluded by previous work,
-using virtual machines is unfeasible approach because of the
-performance and communication overhead that comes along with this
-strategy. Thus, our goal is to measure the performance impact of
-applying virtualization in the form of container technologies to these
-workloads. We present an analysis covering both synthetic benchmarks
-and a real application comparing the usability of two major container
-systems - Docker and Singularity - and using a traditional approach
-(with no virtualization) as a baseline.
-
-Furthermore, we intend to demonstrate that virtualization techniques
-can be used in HPC without the massive overhead of traditional virtual
-machines. By using containers, cluster administrators can provide
-flexibility, portability and enhanced reproducibility to its users
-without sacrificing performance and security.
-
 ** Basic Concepts
 
 :PROPERTIES:
@@ -443,7 +341,107 @@ the one which started the container. This means that a regular user
 can start a container without being granted root access to it. In
 other words, a given user needs to be root in the host operating
 system in order to be root inside the container.
+** Related Work and Motivation
+:PROPERTIES:
+:CUSTOM_ID: sec.relatedwork
+:END:
 
+#+BEGIN_COMMENT LUCAS
+This empty space is considered to be a bad style choice.
+#+END_COMMENT
+
+*** Related Work
+
+#+BEGIN_COMMENT
+Instead of jumping in directly to the citations; give some general
+context information about related work. Explicitely tell the reader
+that you will list other works that /evaluate performance/ in container
+environments in the HPC context. A very brief historical perspective
+is also welcome, sometimes.
+#+END_COMMENT
+
+The virtualization of HPC applications is viable in a low overhead
+environment such as Docker \cite{7562612}. In this study,
+the author compares the compute performance of Docker containers to
+virtual machines, concluding that the former has a considerably lower
+overhead when compared to the latter. This study, however, only
+explores the performance of single node applications, and does not
+present information on how containers can scale to distributed
+environments which are often the case for high-performance
+applications.
+
+For multi-node computations, another investigation \cite{7868429}
+work proposes the creation of
+an MPI cluster using Docker containers in a distributed
+environment. In this proposal, the containers are connected through an
+orchestrator called Docker Swarm, which is responsible for assigning
+names and providing an overlay network for transparent connectivity
+between the containers. Performance analysis, however, is absent from
+this study, obscuring the conclusion of whether such an approach is
+viable in a real-world scenario.
+
+#+BEGIN_COMMENT LUCAS
+The first part of this paragraph (around
+\cite{10.1371/journal.pone.0177459}) looks like basic concepts and
+historical perspective to be included in Section [[#sec.background]]. Only
+at the end you talk about another work that carried out a performance
+analysis of Singularity; but no details are given about platform,
+workload.
+#+END_COMMENT
+
+Singularity \cite{10.1371/journal.pone.0177459} is a container system designed for scientific
+research workflows, and it strives to solve some drawbacks of using
+Docker containers in HPC. The author discusses how Docker is not
+designed for shared, multi-user environments (such as supercomputers
+and HPC centers) and thus presents significant security issues when
+used in this context. As a consequence, it is very hard to find HPC
+centers that allow users to execute Docker containers. Singularity, on
+the other hand, is built with these problems in mind and solves them
+in order to make HPC containers accessible to the scientific
+community. Consequently, Singularity containers are already accepted
+and used in many supercomputers around the world. Additionally,
+a performance analysis of applications running on top of Singularity
+containers has also been carried out
+\cite{Le:2017:PAA:3093338.3106737}. It concludes that while some
+overhead does exist, the reported values are negligible for most use
+cases.
+
+*** Motivation
+
+Wrap up the state of the art mentioned in previous work, mention what is missing, present objectives and motivation.
+
+#+BEGIN_COMMENT LUCAS
+Perhaps a table like this could be useful. Other criteria could be added.
+
+| Related Work                       | Container         | Nodes     | Workload | Conclusions                 |
+|------------------------------------+-------------------+-----------+----------+-----------------------------|
+| \cite{7562612}                     | Docker            | Single    | ?        | Docker more viable than VM  |
+| \cite{7868429}                     | Docker with swarm | How many? | ?        | Perf. Analysis inconclusive |
+| \cite{Le:2017:PAA:3093338.3106737} | Singularity       | ?         | ?        | ?                           |
+| ?                                  |                   |           |          |                             |
+| ?                                  |                   |           |          |                             |
+
+Notice the two empty rows to tell you that more is necessary.
+#+END_COMMENT
+
+
+The goal of this work is to study the drawbacks and
+improvements that occur by applying virtualization techniques to
+high-performance computing workflows. As concluded by previous work,
+using virtual machines is unfeasible approach because of the
+performance and communication overhead that comes along with this
+strategy. Thus, our goal is to measure the performance impact of
+applying virtualization in the form of container technologies to these
+workloads. We present an analysis covering both synthetic benchmarks
+and a real application comparing the usability of two major container
+systems - Docker and Singularity - and using a traditional approach
+(with no virtualization) as a baseline.
+
+Furthermore, we intend to demonstrate that virtualization techniques
+can be used in HPC without the massive overhead of traditional virtual
+machines. By using containers, cluster administrators can provide
+flexibility, portability and enhanced reproducibility to its users
+without sacrificing performance and security.
 ** Results and Evaluation of the Performance Overhead
 :PROPERTIES:
 :CUSTOM_ID: sec.results
