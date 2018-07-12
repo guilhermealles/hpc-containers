@@ -709,7 +709,7 @@ non-observable performance differences.
 \end{figure}
 #+END_EXPORT
 
-*** Performance Gains due to Optimized Container
+*** Performance Gains with an Optimized Container
 
 To illustrate the advantages in flexibility for environment
 configuration, we also conducted an experiment running an Alpine Linux
