@@ -539,15 +539,17 @@ to drive experiments and collect measurements for NAS-EP and
 Ondes3D. The first design targets a smaller scale test using up to
 four nodes, with 1, 4, 8, and 16 processes; the second design uses 64
 nodes, with 64, 128, 192, and 256 processes. The first batch uses
-NAS-EP executed with the Class B workload and Ondes3D with the default
-test case. The second batch of experiments considers the Ondes3D
-application using the Ligurian workload. The Ping-Pong application has
-been used in a separated batch since it uses only two compute nodes of
-the graphene cluster. Messages size corresponding to powers of two
-from 1B to 1MBytes (21 data points) has been sequentially measured.
-All reported makespan and ping-pong measurements are averages from 10
-to 30 replications of each experiment parameter configuration; error
-bars are calculated considering a confidence level of 99.7% assuming a
+NAS-EP executed with the Class B workload (identified by
+NAS-EP/ClassB) and Ondes3D with the default test case
+(Ondes3D/Default). The second batch of experiments considers the
+Ondes3D application using the Ligurian workload
+(Ondes3D/Ligurian). The Ping-Pong application has been used in a
+separated batch since it uses only two compute nodes of the graphene
+cluster. Messages size corresponding to powers of two from 1B to
+1MBytes (21 data points) has been sequentially measured.  All reported
+makespan and ping-pong measurements are averages from 10 to 30
+replications of each experiment parameter configuration; error bars
+are calculated considering a confidence level of 99.7% assuming a
 Gaussian distribution.
 # Some histograms are slightly skewed 
 
