@@ -999,7 +999,16 @@ df.makespan <- do.call("bind_rows", lapply(files, function(file) {
 df.makespan %>%
     mutate(Native = factor(Native, levels=c(TRUE, FALSE), labels=c("Native", "Container"))) %>%
     mutate(Application = paste(Application, Input, sep="/")) %>%
-    filter(Input %in% c("Class B", "Default")) %>%
+    filter(Input %in% c("Class B", "Default")) -> df.sel;
+# Breask in X
+breaks <- df.sel %>% pull(parallelism) %>% unique;
+#Create a custom color scale
+library(RColorBrewer)
+myColors <- brewer.pal(5,"Set1")
+names(myColors) <- levels(df.sel$environment)
+colScale <- scale_colour_manual(name = "environment",values = myColors)
+
+df.sel %>%
     ggplot(aes(x = parallelism, y = average, col=environment)) +
     scale_x_continuous(breaks = c(1, 4, 8, 16), trans="sqrt") +
     ylim(0, NA) +
@@ -1007,8 +1016,8 @@ df.makespan %>%
     geom_line(alpha = 0.2) + 
     geom_errorbar(aes(ymin = average - stdError, ymax = average + stdError, col = environment), 
                   width = .15) +
-    scale_colour_brewer(palette = "Set1") +
-    xlab('Number of MPI processes (count)') + 
+    colScale +
+    xlab('Number of MPI ranks (count)') + 
     ylab('Execution time (s)') +
     theme(legend.position = 'top', legend.spacing = unit(x = c(0, 0, 0, 0), units = 'mm')) +
     theme_bw(base_size = 13) +
@@ -1026,6 +1035,47 @@ df.makespan %>%
 #+RESULTS:
 [[file:img/computation.pdf]]
 ****** (right) Plot computation of the Ondes3D/Ligurian
+
+#+begin_src R :results output graphics :file img/computation-ligurian.pdf :width 3 :height 3 :session
+df.makespan %>%
+    mutate(Native = factor(Native, levels=c(TRUE, FALSE), labels=c("Native", "Container"))) %>%
+    mutate(Application = paste(Application, Input, sep="/")) %>%
+    filter(Input == "Ligurian") -> df.sel;
+# Breask in X
+breaks <- df.sel %>% pull(parallelism) %>% unique;
+#Create a custom color scale
+library(RColorBrewer)
+myColors <- brewer.pal(5,"Set1")
+names(myColors) <- levels(df.sel$environment)
+colScale <- scale_colour_manual(name = "environment",values = myColors)
+
+df.sel %>%
+    ggplot(aes(x = parallelism, y = average, col=environment)) +
+    scale_x_continuous(breaks = breaks) +
+    ylim(0, NA) +
+    geom_point(size=.5) +
+    geom_line(alpha = 0.2) + 
+    geom_errorbar(aes(ymin = average - stdError, ymax = average + stdError, col = environment), 
+                  width = 1) +
+    colScale +
+    xlab('Number of MPI ranks (count)') + 
+    ylab('Execution time (s)') +
+    theme_bw(base_size = 13) +
+    custom_theme() +
+    theme (plot.margin = unit(c(0,0,0,0), "cm"),
+           legend.spacing = unit(x = c(0, 0, 0, 0), units = 'mm'),
+           legend.position = "top",
+           legend.justification = "left",
+           legend.box.spacing = unit(0, "pt"),
+           legend.box.margin = margin(0,0,0,0),
+           legend.title = element_blank(),
+           axis.text.x = element_text(angle=30, hjust=1)) +
+    facet_grid (Application~Native, scales="free_y")
+#+end_src
+
+#+RESULTS:
+[[file:img/computation-ligurian.pdf]]
+
 ****** Ondes3D Ligurian plot
 #+begin_src R
 library(tidyverse);
