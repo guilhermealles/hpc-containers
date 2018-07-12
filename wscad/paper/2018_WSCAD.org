@@ -477,12 +477,6 @@ environments in both Docker and Singularity containers.
 :UNNUMBERED: t
 :END:
 
-#+BEGIN_COMMENT LUCAS
-Cite NAS: https://dl.acm.org/citation.cfm?id=125925
-Cite Ondes3D: 
-
-#+END_COMMENT
-
 The Embarrassingly Parallel (EP) is an application included in the NAS
 Parallel Benchmarks \cite{bailey1991parallel} which generates
 independent Gaussian random numbers using the polar method.  It was
