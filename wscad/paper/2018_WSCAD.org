@@ -1356,7 +1356,7 @@ df.pingpong %>%
 
 ****** Plot raw data (after averages)
 
-#+begin_src R :results output graphics :file img/pingpong-latency.pdf :exports both :width 4 :height 3.8 :session
+#+begin_src R :results output graphics :file img/pingpong-latency.pdf :exports both :width 4 :height 4 :session
 #Create a custom color scale
 library(RColorBrewer)
 myColors <- brewer.pal(5,"Set1")
@@ -1450,7 +1450,7 @@ df.pingpong.overhead %>%
 42 1048576 Singularity.Overhead    -0.10
 #+end_example
 
-#+begin_src R :results output graphics :file img/pingpong-overhead.pdf :exports both :width 4 :height 3.8 :session
+#+begin_src R :results output graphics :file img/pingpong-overhead.pdf :exports both :width 4 :height 4 :session
 df.pingpong.overhead %>%
     mutate(environment = factor(gsub(".Overhead", "", environment),
                                 levels=c("Singularity", "Docker"))) -> df.sel;
@@ -1463,7 +1463,7 @@ df.sel %>%
     geom_point(size=1) +
     geom_line(alpha = 0.3) +
     xlab('Message size (bytes)') + 
-    ylab('Latency Overhead against Native (%)') +
+    ylab('Latency Overhead\nagainst Native (%)') +
     theme_bw(base_size = 13) +
     theme (plot.margin = unit(c(0,0,0,0), "cm"),
            legend.spacing = unit(x = c(0, 0, 0, 0), units = 'mm'),
@@ -1477,8 +1477,6 @@ df.sel %>%
 
 #+RESULTS:
 [[file:img/pingpong-overhead.pdf]]
-
-
 
 #+begin_src R :results output graphics :file img/pingpong-latency.pdf :exports both :width 6 :height 3 :session
 #Create a custom color scale
