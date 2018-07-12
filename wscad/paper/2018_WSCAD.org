@@ -567,7 +567,7 @@ up the containers. Such an operation does not exist when executing
 processes in the native operating system.
 
 #+BEGIN_EXPORT latex
-\begin{figure}[h]
+\begin{figure}[!htb]
 \centering
 \includegraphics[width=.8\textwidth]{./img/ep-b.png}
 \caption{Execution time for the NAS EP benchmark}
@@ -587,7 +587,7 @@ connectivity between Docker containers. Such a virtual network does
 not exist in the other two environments.
 
 #+BEGIN_EXPORT latex
-\begin{figure}[h]
+\begin{figure}[!htb]
 \centering
 \includegraphics[width=.8\textwidth]{./img/ondes3d-essai-50ts.png}
 \caption{Execution time for the Ondes3D ESSAI simulation}
@@ -609,7 +609,7 @@ a Singularity environment is negligible even when spawning a high
 number of containers.
 
 #+BEGIN_EXPORT latex
-\begin{figure}[h]
+\begin{figure}[!htb]
 \centering
 \includegraphics[width=.8\textwidth]{./img/ondes3d-ligurian.png}
 \caption{Execution time for the simulation of the Ligurian earthquake using Ondes3D}
@@ -629,7 +629,7 @@ use the same network stack as the host operating system, resulting in
 non-observable performance differences.
 
 #+BEGIN_EXPORT latex
-\begin{figure}[h]
+\begin{figure}[!htb]
 \centering
 \includegraphics[width=.8\textwidth]{./img/ping-pong.png}
 \caption{Average network latency measured with the Ping Pong benchmark}
@@ -654,7 +654,7 @@ environment, it is possible for the virtualized execution to
 outperform the native one.
 
 #+BEGIN_EXPORT latex
-\begin{figure}[h]
+\begin{figure}[!htb]
 \centering
 \includegraphics[width=.8\textwidth]{./img/ep-b-alpine.png}
 \caption{Execution time for the NAS EP benchmark with containers running Alpine Linux and the host running Debian}
