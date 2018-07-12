@@ -702,7 +702,7 @@ non-observable performance differences.
 #+BEGIN_EXPORT latex
 \begin{figure}[!htb]
 \centering
-\includegraphics[width=.8\textwidth]{./img/ping-pong.png}
+\includegraphics[width=\textwidth]{./img/pingpong-latency.pdf}
 \caption{Average network latency measured with the Ping Pong benchmark}
 \end{figure}
 #+END_EXPORT
@@ -1356,7 +1356,7 @@ df.pingpong %>%
 
 ****** Plot
 
-#+begin_src R :results output graphics :file img/pingpong-latency.pdf :exports both :width 6 :height 4 :session
+#+begin_src R :results output graphics :file img/pingpong-latency.pdf :exports both :width 6 :height 3 :session
 #Create a custom color scale
 library(RColorBrewer)
 myColors <- brewer.pal(5,"Set1")
@@ -1367,11 +1367,11 @@ df.pingpong %>%
     ggplot(aes(x=size, y=average)) +
     geom_line(aes(col = environment), alpha = 0.2) +
     geom_point(aes(col = environment), size = 1) +
-    geom_errorbar(aes(ymin=average-stdError, ymax=average+stdError, color=environment, group=environment), width = 0.3) +
+    geom_errorbar(aes(ymin=average-stdError, ymax=average+stdError, color=environment, group=environment), width = 0.1) +
     theme_bw(base_size=12) +
     colScale +
     scale_y_log10(breaks=c(0.1, 1, 2, 4, 8, 16, 32)) +
-    scale_x_continuous(trans="log2") + 
+    scale_x_log10(breaks=2^seq(0,20)) +
     ylab('Average latency (ms)') +
     xlab('Message size (bytes)') +
     theme_bw(base_size = 13) +
@@ -1381,7 +1381,8 @@ df.pingpong %>%
            legend.justification = "left",
            legend.box.spacing = unit(0, "pt"),
            legend.box.margin = margin(0,0,0,0),
-           legend.title = element_blank())
+           legend.title = element_blank(),
+           axis.text.x = element_text(angle=30, hjust=1))
 #+end_src
 
 #+RESULTS:
