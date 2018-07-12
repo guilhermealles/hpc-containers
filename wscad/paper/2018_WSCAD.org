@@ -549,6 +549,11 @@ to 30 replications of each experiment parameter configuration; error
 bars are calculated considering a confidence level of 99.7% assuming a
 Gaussian distribution.
 # Some histograms are slightly skewed 
+
+#+BEGIN_COMMENT LUCAS
+Perhaps add a table to give a summary of all this
+#+END_COMMENT
+
 *** Computation Overhead Analysis
 *** Verification of Increased Communication Latency
 *** Performance Gains due to Optimized Container
