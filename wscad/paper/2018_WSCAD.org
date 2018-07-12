@@ -218,9 +218,11 @@ at \COMPANION."
 Section [[#sec.background]] presents some basic concepts regarding 
 container technologies, Docker, and Singularity. Section
 [[#sec.relatedwork]] discusses related work in the field of containers 
-and virtualization in high-performance computing contexts. Section 
-[[#sec.experiments]] presents the experimental design and benchmarks that 
-were used for the tests conducted in this paper. Section [[#sec.results]] 
+and virtualization in high-performance computing contexts. 
+# Section 
+# [[#sec.experiments]] presents the experimental design and benchmarks that 
+# were used for the tests conducted in this paper.
+Section [[#sec.results]] 
 presents the results and brief conclusions obtained from the 
 experiments. The companion material of this work, including the source 
 code, analysis scripts, and raw measurements, is publicly available 
