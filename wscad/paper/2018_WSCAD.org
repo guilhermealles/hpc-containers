@@ -641,30 +641,40 @@ evaluation.
 :UNNUMBERED: true
 :END:
 
-The next plot, (ref), shows a large-scale simulation of the Ligurian
-earthquake on Ondes3D. This experiment was conducted to put container
-technologies in a highly-distributed computing scenario, and its main
+#+BEGIN_COMMENT LUCAS
+- Guilherme, could you please add a plausible reason in the TODO note below.
+#+END_COMMENT
+
+Figure \ref{fig2} shows a large-scale simulation of the Ligurian
+earthquake on Ondes3D. This experiment was conducted to put
+Singularity in a highly-distributed computing scenario, and its main
 objective is to assess the aggregated overhead of spawning a large
 number of containers across multiple nodes. Unfortunately, the
 container infrastructure for Docker using its overlay network and
 Docker Swarm as an orchestrator failed to spawn containers in such a
 high number of nodes, and thus Docker was excluded from this test
-case. As the plot indicates, there is no observable difference in
-execution time between the two approaches (Singularity and Native),
-which indicates that the additional cost of executing applications in
-a Singularity environment is negligible even when spawning a high
-number of containers.
+case. As the plot indicates (see Figure \ref{fig2:left}, there is no
+observable difference in execution time between the two approaches
+(Singularity and Native), which indicates that the additional cost of
+executing applications in a Singularity environment is negligible even
+when spawning a high number of containers. The Figure \ref{fig2:right}
+shows the computed overhead as a function of the number of MPI
+ranks. We believe the overhead is minor because of the longer run
+(more than 100s), so any initialization time imposed by the container
+is more easily absorbed by the run. Surprisingly, the overhead is
+smaller with 256 ranks, breaking the upward trend from 64 to 192. This
+is probably due to TODO...
 
 #+BEGIN_EXPORT latex
 \begin{figure}[!htb]
 \centering
 \subfloat[Execution Time
-\label{fig1:left}]{\begin{minipage}[c]{.47\linewidth}
+\label{fig2:left}]{\begin{minipage}[c]{.47\linewidth}
 \includegraphics[width=.90\linewidth]{./img/computation-ligurian.pdf} \hfill
 \end{minipage}}\hfill%
 %
 \subfloat[Overhead against Native
-\label{fig1:right}]{\begin{minipage}[c]{.47\linewidth}
+\label{fig2:right}]{\begin{minipage}[c]{.47\linewidth}
 \includegraphics[width=.90\linewidth]{./img/computation-overhead-large.pdf} \\
 \end{minipage}}\hfill%
 \caption{(a) Execution time as a function of the number of MPI ranks
@@ -673,7 +683,7 @@ number of containers.
          MPI ranks. We can notice how Singularity poses a minor overhead
          (less than $\approx$1\%) despite the peak with 192 MPI ranks.
 }
-\label{fig1}
+\label{fig2}
 \end{figure}
 #+END_EXPORT
 
