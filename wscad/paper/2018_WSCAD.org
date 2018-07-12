@@ -319,16 +319,15 @@ machines. By using containers, cluster administrators can provide
 flexibility, portability and enhanced reproducibility to its users
 without sacrificing performance and security.
 
-** Background and Experimental Context
+** Basic Concepts
+
+:PROPERTIES:
+:CUSTOM_ID: sec.background
+:END:
 
 #+BEGIN_COMMENT LUCAS
 This empty space is considered to be a bad style choice.
 #+END_COMMENT
-
-*** Background
-:PROPERTIES:
-:CUSTOM_ID: sec.background
-:END:
 
 #+BEGIN_COMMENT LUCAS
 This empty space is considered to be a bad style choice.
@@ -339,7 +338,7 @@ This section should be just after the introduction. It would help to
 understand the related work.
 #+END_COMMENT
 
-**** Containers
+*** Containers
 
 Containers are a mean of achieving virtualization without relying on
 software to emulate hardware resources. Instead, containers are known
@@ -386,7 +385,7 @@ they have more acceptance by the community, a technical argument would
 be better.
 #+END_COMMENT
 
-**** Docker
+*** Docker
 
 Docker is a very popular container system for software development and
 service deployment. Every major cloud infrastructure provider (such as
@@ -420,7 +419,7 @@ all the files in the host machine. Docker mitigates this issue by, in
 its default configuration, allowing only the root user in the host
 operating system to create containers.
 
-**** Singularity
+*** Singularity
 
 Singularity is a container system developed for scientific research
 and high-performance computing applications. Contrary to Docker,
@@ -445,7 +444,15 @@ can start a container without being granted root access to it. In
 other words, a given user needs to be root in the host operating
 system in order to be root inside the container.
 
-*** Experimental Context and Workload Details
+** Results and Evaluation of the Performance Overhead
+:PROPERTIES:
+:CUSTOM_ID: sec.results
+:END:
+
+Separate in communication, compute and the alpine experiments
+
+*** Software/Hardware Experimental environment and Workload Details
+
 #+BEGIN_COMMENT LUCAS
 This empty space is considered to be a bad style choice.
 #+END_COMMENT
@@ -566,14 +573,6 @@ the following factors:
  - Execution environment: Native, Docker and Singularity
  - Parallel compute units (up to 4 per node): 64, 128, 192, 256
 
-** Results and Evaluation of the Performance Overhead
-:PROPERTIES:
-:CUSTOM_ID: sec.results
-:END:
-
-Separate in communication, compute and the alpine experiments
-
-*** Software and Hardware Experimental environment
 
 *** Computation Overhead Analysis
 
