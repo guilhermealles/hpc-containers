@@ -566,12 +566,22 @@ the following factors:
  - Execution environment: Native, Docker and Singularity
  - Parallel compute units (up to 4 per node): 64, 128, 192, 256
 
-** Results
+** Results and Evaluation of the Performance Overhead
 :PROPERTIES:
 :CUSTOM_ID: sec.results
 :END:
 
 Separate in communication, compute and the alpine experiments
+
+*** Software and Hardware Experimental environment
+
+*** Computation Overhead Analysis
+
+*** Verification of Increased Communication Latency
+
+*** Performance Gains due to Optimized Container
+
+*** Previous text                                                :noexport:
 
 All the experiments were executed with multiple replications. In the
 following plots, the reported values are the average obtained across
