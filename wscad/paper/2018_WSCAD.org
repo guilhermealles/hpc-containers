@@ -634,6 +634,11 @@ not exist in the other two environments.
 \end{figure}
 #+END_EXPORT
 
+**** Large case (64 nodes, 256 cores) with Ondes3D/Ligurian
+:PROPERTIES:
+:UNNUMBERED: true
+:END:
+
 The next plot, (ref), shows a large-scale simulation of the Ligurian
 earthquake on Ondes3D. This experiment was conducted to put container
 technologies in a highly-distributed computing scenario, and its main
