@@ -569,8 +569,14 @@ processes in the native operating system.
 #+BEGIN_EXPORT latex
 \begin{figure}[!htb]
 \centering
-\includegraphics[width=.8\textwidth]{./img/ep-b.png}
-\caption{Execution time for the NAS EP benchmark}
+\includegraphics[height=4in]{./img/computation.pdf}
+\caption{(a) Makespan as a function of the number of MPI processes
+         for the three environments (Native, Docker, and Singularity)
+         and the applications (NAS-EP, and Ondes3D with the default workload).
+         We can notice how docker poses higher overhead as soon as
+         MPI ranks of the Ondes3D application communicate through the
+         network interconnection (from 8 processes and on).
+         And (b), same but using the Ligurian workload for Ondes3D.}
 \end{figure}
 #+END_EXPORT
 
