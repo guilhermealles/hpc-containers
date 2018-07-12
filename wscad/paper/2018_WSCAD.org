@@ -524,10 +524,12 @@ implementation of the finite-differences method (FDM) to simulate the
 propagation of seismic waves in three-dimensional media. As previously
 observed \cite{tesser2017using}, its signature contains
 characteristics such as load imbalance and frequent asynchronous
-small-message communications among MPI ranks. So, this real-world
-application is also evaluated to verify if it is impacted by OS
-containers. Finally, an in-house *Ping-Pong* benchmark developed with
-MPI (see the companion material for the source code) was used to
+small-message communications among MPI ranks. This is also valid for
+the Ligurian earthquake (from 1887) \cite{aochi2011ligurian} with 300
+timesteps, which has been used as workload for our tests. So, this
+real-world application is also evaluated to verify if it is impacted
+by OS containers. Finally, an in-house *Ping-Pong* benchmark developed
+with MPI (see the companion material for the source code) was used to
 assess the bandwidth and latency performance when introducing the
 container's virtual environment. This evaluation is conducted between
 two nodes that exchange MPI messages, with message sizes varying from
@@ -553,10 +555,12 @@ with the following factors:
 
 The second test suite was aimed at covering a real-world scenario,
 with a computationally intensive application distributed across many
-compute nodes. We used Ondes3D as a platform to simulate the
-propagation of the Ligurian earthquake, which happened in 1887. The
-experiment was also executed following a full factorial design, with
-the following factors:
+compute nodes. 
+
+
+
+The experiment was also executed following a full factorial
+design, with the following factors:
  - Execution environment: Native, Docker and Singularity
  - Parallel compute units (up to 4 per node): 64, 128, 192, 256
 
