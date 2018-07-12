@@ -655,7 +655,7 @@ outperform the native one.
 #+LATEX: \includegraphics[width=.8\textwidth]{./img/ep-b-alpine.png}
 #+LATEX: \caption{Execution time for the NAS EP benchmark with containers running Alpine Linux and the host running Debian}
 #+LATEX: \end{figure}
-*** PLOTS and STATS for this section                             :noexport:
+*** (Support Section) PLOTS and STATS                            :noexport:
 **** Some stats
 ***** Check Number of repetitions
 
