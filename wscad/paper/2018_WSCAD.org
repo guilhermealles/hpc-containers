@@ -217,6 +217,10 @@ Section [[#sec.relatedwork]] discusses ...
 :CUSTOM_ID: sec.relatedwork
 :END:
 
+#+BEGIN_COMMENT LUCAS
+This empty space is considered to be a bad style choice.
+#+END_COMMENT
+
 *** Related Work
 
 #+BEGIN_COMMENT
@@ -311,10 +315,19 @@ flexibility, portability and enhanced reproducibility to its users
 without sacrificing performance and security.
 
 ** Background and Experimental Context
+
+#+BEGIN_COMMENT LUCAS
+This empty space is considered to be a bad style choice.
+#+END_COMMENT
+
 *** Background
 :PROPERTIES:
 :CUSTOM_ID: sec.background
 :END:
+
+#+BEGIN_COMMENT LUCAS
+This empty space is considered to be a bad style choice.
+#+END_COMMENT
 
 #+BEGIN_COMMENT LUCAS
 This section should be just after the introduction. It would help to
@@ -428,6 +441,9 @@ other words, a given user needs to be root in the host operating
 system in order to be root inside the container.
 
 *** Experimental Context and Workload Details
+#+BEGIN_COMMENT LUCAS
+This empty space is considered to be a bad style choice.
+#+END_COMMENT
 **** Experimental environment
 
 The experiments were conducted in the Grid5000 hardware stack. The
