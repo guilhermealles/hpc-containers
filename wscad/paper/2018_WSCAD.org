@@ -572,12 +572,12 @@ processes in the native operating system.
 \centering
 \subfloat[Smaller experiment (up to 4 nodes, 16 cores)
 \label{fig1:left}]{\begin{minipage}[b]{.47\linewidth}
-\includegraphics[width=\linewidth]{./img/computation.pdf} \hfill
+\includegraphics[width=.90\linewidth]{./img/computation.pdf} \hfill
 \end{minipage}}\hfill%
 %
 \subfloat[Larger experiment (up to 64 nodes, 256 cores)
 \label{fig1:right}]{\begin{minipage}[b]{.47\linewidth}
-\includegraphics[width=\linewidth]{./img/computation-ligurian.pdf} \\
+\includegraphics[width=.90\linewidth]{./img/computation-ligurian.pdf} \\
 \end{minipage}}\hfill%
 \caption{(a) Makespan as a function of the number of MPI processes
          for the three environments (Native, Docker, and Singularity)
