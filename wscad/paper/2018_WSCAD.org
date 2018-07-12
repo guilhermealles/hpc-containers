@@ -153,8 +153,8 @@ software development industry. This is mainly because containers are
 presented as a solution to package enterprise software in a
 controlled, static environment that will run on a wide variety of
 Linux systems. When compared to traditional virtual machines,
-containers have the advantage of not needing a hypervisor for
-virtualization, yielding performance that is very close to native
+containers turn unnecessary any hypervisor for virtualization,
+yielding performance that is very close to native
 while still providing application and software stack isolation.
 
 By using containers to isolate and package software, users are able to
