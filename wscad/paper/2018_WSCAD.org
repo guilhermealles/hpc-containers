@@ -217,8 +217,15 @@ Section [[#sec.relatedwork]] discusses ...
 :CUSTOM_ID: sec.relatedwork
 :END:
 
-
 *** Related Work
+
+#+BEGIN_COMMENT
+Instead of jumping in directly to the citations; give some general
+context information about related work. Explicitely tell the reader
+that you will list other works that /evaluate performance/ in container
+environments in the HPC context. A very brief historical perspective
+is also welcome, sometimes.
+#+END_COMMENT
 
 The virtualization of HPC applications is viable in a low overhead
 environment such as Docker \cite{7562612}. In this study,
@@ -239,6 +246,15 @@ names and providing an overlay network for transparent connectivity
 between the containers. Performance analysis, however, is absent from
 this study, obscuring the conclusion of whether such an approach is
 viable in a real-world scenario.
+
+#+BEGIN_COMMENT LUCAS
+The first part of this paragraph (around
+\cite{10.1371/journal.pone.0177459}) looks like basic concepts and
+historical perspective to be included in Section [[#sec.background]]. Only
+at the end you talk about another work that carried out a performance
+analysis of Singularity; but no details are given about platform,
+workload.
+#+END_COMMENT
 
 Singularity \cite{10.1371/journal.pone.0177459} is a container system designed for scientific
 research workflows, and it strives to solve some drawbacks of using
