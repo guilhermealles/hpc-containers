@@ -507,7 +507,7 @@ Three parallel applications are used to evaluate the performance in
 the OS options (Native, Docker and Singularity): NAS-EP, Ondes3D, and
 Ping-Pong, detailed as follows.
 
-**** Benchmarks and Workload Details
+**** Benchmarks, Workload Details, and Design of Experiments
 :PROPERTIES:
 :UNNUMBERED: t
 :END:
