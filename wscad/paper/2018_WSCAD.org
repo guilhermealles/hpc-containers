@@ -759,7 +759,6 @@ which we are also grateful.
 #+LATEX: \bibliographystyle{sbc}
 #+LATEX: \bibliography{refs}
 
-
 * Bib file is here                                                 :noexport:
 
 Tangle this file with C-c C-v t
