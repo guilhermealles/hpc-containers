@@ -444,6 +444,11 @@ system in order to be root inside the container.
 #+BEGIN_COMMENT LUCAS
 This empty space is considered to be a bad style choice.
 #+END_COMMENT
+
+#+BEGIN_COMMENT LUCAS
+I suggest this section to be included in the beginning of Section [[#sec.results]].
+#+END_COMMENT
+
 **** Experimental environment
 
 The experiments were conducted in the Grid5000 hardware stack. The
