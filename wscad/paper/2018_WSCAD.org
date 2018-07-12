@@ -607,7 +607,7 @@ use of the communications.
          and (b), the execution overhead of the container environments
          against the native environment with respect to the number of
          MPI ranks. We can notice how Docker poses higher overhead
-         (up to $\approx$55\%) as soon as
+         (up to $\approx$53\%) as soon as
          MPI ranks of the Ondes3D application communicate through the
          network interconnection (from 8 processes and on).
 }
