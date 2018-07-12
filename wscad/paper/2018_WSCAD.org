@@ -525,6 +525,10 @@ measurements (note that this has been said in the introduction).
 
 **** Container clusters
 
+#+BEGIN_COMMENT LUCAS
+Citations are not part of phrases.
+#+END_COMMENT
+
 The container infrastructure for Docker was built with the cluster
 proposed by \cite{7868429}. The physical nodes were connected using
 the Docker Swarm utility, which is responsible for spawning containers
