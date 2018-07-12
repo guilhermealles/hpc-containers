@@ -554,11 +554,6 @@ Gaussian distribution.
 *** Performance Gains due to Optimized Container
 *** Previous text                                                :noexport:
 
-All the experiments were executed with multiple replications. In the
-following plots, the reported values are the average obtained across
-10 executions of each experiment, and the error bars indicate the
-confidence interval for 99% confidence.
-
 The plot (ref) shows the execution time of the NAS EP Benchmark, with
 respect to the number of parallel executors. Although indicating a
 slight advantage in the native execution, the plot shows that the
