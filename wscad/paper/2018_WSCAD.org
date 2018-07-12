@@ -1194,6 +1194,11 @@ df.sel %>%
 
 ** Conclusion
 
+#+BEGIN_COMMENT LUCAS
+- Say that a possible solution to Docker overhead (Ondes3D/Default) is
+  to disable the Docker Swarm if that is even possible
+#+END_COMMENT
+
 In this paper, we discussed the use of virtualization technologies in
 the form of Linux containers to help to solve problems such as
 reproducibility and user control over HPC environments. Containers
