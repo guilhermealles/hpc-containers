@@ -687,8 +687,6 @@ is probably due to TODO...
 \end{figure}
 #+END_EXPORT
 
-
-
 *** Verification of Increased Communication Latency
 
 Plot (ref) presents the Ping Pong benchmark, which was used to measure
@@ -1263,6 +1261,131 @@ df.sel %>%
 
 #+RESULTS:
 [[file:img/computation-overhead-large.pdf]]
+
+***** Average Latency
+****** Read data
+
+#+begin_src R :results output :session :exports both
+df.pingpong <- read_csv('./results/ping-pong/results.csv', col_types=cols(
+                                                           size = col_integer(),
+                                                           time = col_double(),
+                                                           environment = col_character()
+                                                       )) %>% 
+    group_by(environment, size) %>%
+    summarize(
+        samples = n(),
+        average = mean(time),
+        stdDeviation = sd(time),
+        stdError = 3*stdDeviation/sqrt(samples)) %>%
+    ungroup() %>%
+    mutate(environment = factor(environment,
+                                levels=c("native", "singularity", "docker"),
+                                labels=c("Native", "Singularity", "Docker")))
+df.pingpong %>%
+    select(environment, size, average) %>%
+    as.data.frame
+#+end_src
+
+#+RESULTS:
+#+begin_example
+   environment    size    average
+1       Docker       1  0.5168438
+2       Docker       2  0.5089402
+3       Docker       4  0.5159974
+4       Docker       8  0.5118132
+5       Docker      16  0.5178094
+6       Docker      32  0.5084038
+7       Docker      64  0.5191684
+8       Docker     128  0.5172968
+9       Docker     256  0.5267978
+10      Docker     512  0.5319715
+11      Docker    1024  0.5743146
+12      Docker    2048  0.6141424
+13      Docker    4096  0.6750107
+14      Docker    8192  0.8137345
+15      Docker   16384  0.9671330
+16      Docker   32768  1.7537951
+17      Docker   65536  2.6515841
+18      Docker  131072  4.6041965
+19      Docker  262144  7.3685646
+20      Docker  524288 13.0757213
+21      Docker 1048576 26.4120102
+22      Native       1  0.3103137
+23      Native       2  0.2898932
+24      Native       4  0.3095508
+25      Native       8  0.2902389
+26      Native      16  0.2912045
+27      Native      32  0.2890110
+28      Native      64  0.3037810
+29      Native     128  0.3127694
+30      Native     256  0.3213167
+31      Native     512  0.3209829
+32      Native    1024  0.3316998
+33      Native    2048  0.3685594
+34      Native    4096  0.4316330
+35      Native    8192  0.4929900
+36      Native   16384  0.7027268
+37      Native   32768  0.9077072
+38      Native   65536  1.1704922
+39      Native  131072  1.9686097
+40      Native  262144  3.0316234
+41      Native  524288  5.2256107
+42      Native 1048576  9.7598553
+43 Singularity       1  0.3152132
+44 Singularity       2  0.3036857
+45 Singularity       4  0.3017783
+46 Singularity       8  0.2963781
+47 Singularity      16  0.3164530
+48 Singularity      32  0.2981544
+49 Singularity      64  0.2908349
+50 Singularity     128  0.3129125
+51 Singularity     256  0.3201008
+52 Singularity     512  0.3146410
+53 Singularity    1024  0.3304958
+54 Singularity    2048  0.3730178
+55 Singularity    4096  0.4510045
+56 Singularity    8192  0.4757047
+57 Singularity   16384  0.7049441
+58 Singularity   32768  0.9247661
+59 Singularity   65536  1.4336109
+60 Singularity  131072  1.9320187
+61 Singularity  262144  2.9506326
+62 Singularity  524288  5.2367806
+63 Singularity 1048576  9.7504616
+#+end_example
+
+****** Plot
+
+#+begin_src R :results output graphics :file img/pingpong-latency.pdf :exports both :width 6 :height 4 :session
+#Create a custom color scale
+library(RColorBrewer)
+myColors <- brewer.pal(5,"Set1")
+names(myColors) <- levels(df.pingpong$environment)
+colScale <- scale_colour_manual(name = "environment",values = myColors)
+
+df.pingpong %>%
+    ggplot(aes(x=size, y=average)) +
+    geom_line(aes(col = environment), alpha = 0.2) +
+    geom_point(aes(col = environment), size = 1) +
+    geom_errorbar(aes(ymin=average-stdError, ymax=average+stdError, color=environment, group=environment), width = 0.3) +
+    theme_bw(base_size=12) +
+    colScale +
+    scale_y_log10(breaks=c(0.1, 1, 2, 4, 8, 16, 32)) +
+    scale_x_continuous(trans="log2") + 
+    ylab('Average latency (ms)') +
+    xlab('Message size (bytes)') +
+    theme_bw(base_size = 13) +
+    theme (plot.margin = unit(c(0,0,0,0), "cm"),
+           legend.spacing = unit(x = c(0, 0, 0, 0), units = 'mm'),
+           legend.position = "top",
+           legend.justification = "left",
+           legend.box.spacing = unit(0, "pt"),
+           legend.box.margin = margin(0,0,0,0),
+           legend.title = element_blank())
+#+end_src
+
+#+RESULTS:
+[[file:img/pingpong-latency.pdf]]
 
 ** Conclusion
 
