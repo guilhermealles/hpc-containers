@@ -290,11 +290,11 @@ flexibility, portability and enhanced reproducibility to its users
 without sacrificing performance and security.
 
 ** Background and Experimental Context
+*** Background
 :PROPERTIES:
 :CUSTOM_ID: sec.background
 :END:
 
-*** Background
 **** Containers
 
 Containers are a mean of achieving virtualization without relying on
