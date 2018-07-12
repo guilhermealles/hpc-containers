@@ -1075,25 +1075,37 @@ df.makespan %>%
     arrange(Case, parallelism) %>%
     select(parallelism, Case, Docker.Overhead, Singularity.Overhead) %>%
     gather(environment, Overhead, -parallelism, -Case) -> df.makespan.overhead;
-df.makespan.overhead
+df.makespan.overhead %>%
+    as.data.frame
 #+end_src
 
 #+RESULTS:
 #+begin_example
-# A tibble: 24 x 4
-   parallelism             Case     environment Overhead
-         <int>            <chr>           <chr>    <dbl>
- 1           1   NAS-EP/Class B Docker.Overhead     0.05
- 2           4   NAS-EP/Class B Docker.Overhead     0.31
- 3           8   NAS-EP/Class B Docker.Overhead     1.05
- 4          16   NAS-EP/Class B Docker.Overhead     7.93
- 5           1  Ondes3D/Default Docker.Overhead     0.69
- 6           4  Ondes3D/Default Docker.Overhead     1.32
- 7           8  Ondes3D/Default Docker.Overhead    33.55
- 8          16  Ondes3D/Default Docker.Overhead    53.42
- 9          64 Ondes3D/Ligurian Docker.Overhead       NA
-10         128 Ondes3D/Ligurian Docker.Overhead       NA
-# ... with 14 more rows
+   parallelism             Case          environment Overhead
+1            1   NAS-EP/Class B      Docker.Overhead     0.05
+2            4   NAS-EP/Class B      Docker.Overhead     0.31
+3            8   NAS-EP/Class B      Docker.Overhead     1.05
+4           16   NAS-EP/Class B      Docker.Overhead     7.93
+5            1  Ondes3D/Default      Docker.Overhead     0.69
+6            4  Ondes3D/Default      Docker.Overhead     1.32
+7            8  Ondes3D/Default      Docker.Overhead    33.55
+8           16  Ondes3D/Default      Docker.Overhead    53.42
+9           64 Ondes3D/Ligurian      Docker.Overhead       NA
+10         128 Ondes3D/Ligurian      Docker.Overhead       NA
+11         192 Ondes3D/Ligurian      Docker.Overhead       NA
+12         256 Ondes3D/Ligurian      Docker.Overhead       NA
+13           1   NAS-EP/Class B Singularity.Overhead     0.20
+14           4   NAS-EP/Class B Singularity.Overhead     0.59
+15           8   NAS-EP/Class B Singularity.Overhead     2.17
+16          16   NAS-EP/Class B Singularity.Overhead     9.35
+17           1  Ondes3D/Default Singularity.Overhead     0.55
+18           4  Ondes3D/Default Singularity.Overhead     1.85
+19           8  Ondes3D/Default Singularity.Overhead     3.75
+20          16  Ondes3D/Default Singularity.Overhead     6.52
+21          64 Ondes3D/Ligurian Singularity.Overhead     0.07
+22         128 Ondes3D/Ligurian Singularity.Overhead     0.37
+23         192 Ondes3D/Ligurian Singularity.Overhead     0.62
+24         256 Ondes3D/Ligurian Singularity.Overhead     0.41
 #+end_example
 
 Let's plot this:
