@@ -651,7 +651,7 @@ number of containers across multiple nodes. Unfortunately, the
 container infrastructure for Docker using its overlay network and
 Docker Swarm as an orchestrator failed to spawn containers in such a
 high number of nodes, and thus Docker was excluded from this test
-case. As the plot indicates (see Figure \ref{fig2:left}, there is no
+case. As the plot indicates (see Figure \ref{fig2:left}), there is no
 observable difference in execution time between the two approaches
 (Singularity and Native), which indicates that the additional cost of
 executing applications in a Singularity environment is negligible even
@@ -687,13 +687,16 @@ is probably due to TODO...
 
 *** Verification of Increased Communication Latency
 
+The results obtained with Ondes3D/Default using the Docker environment
+(see previous Subsection) led us to design an experiment to
+demonstrate that the bad performance is caused by network issues.
 Figure \ref{fig3} presents the Ping Pong benchmark measure the
 communication latency from the application point of view.  Figure
-\ref{fig3:left} depicts the average latency (on Y axis) between two
+\ref{fig3:left} depicts the average latency (on the logarithmic scale Y axis) between two
 nodes for the three environments (color) as a function of the message
-size (on X). From these results, we can see that the network
-performance on Docker containers is considerably lower when compared
-to both the native and singularity test cases. This evidence confirms
+size (on X, also log. scale). From these results, we can see that the
+Docker network latency is much higher when compared to both the native and
+singularity environments, therefore with poorer performance. This evidence confirms
 that, as observed in the Ondes3D/Default experiment, the virtual
 network (Docker Swarm) used by Docker introduces significant overhead
 to communication. Singularity containers, on the other hand, use the
@@ -701,9 +704,9 @@ same network stack as the host operating system, resulting in
 non-observable performance differences since most of the average
 latency is within the confidence interval of native measurements. The
 Figure \ref{fig3:right} shows the latency overhead of each container
-environment against the native OS. We can see that the overhead
+environment against the native physical interconnection. We can see that the overhead
 imposed by Singularity in the communication latency remains stable no
-matter which message size, which is something desirable.  In some
+matter the message size, which is something desirable.  In some
 cases the Singularity overhead is negative, meaning that average
 latency measured within Singularity is smaller than the average with
 the native OS. This is just an artifact since we show (see Figure
@@ -711,10 +714,11 @@ the native OS. This is just an artifact since we show (see Figure
 overlap, indicating no statistical difference. The case for Docker is
 much worse because (a) the overhead is \approx75% against native, and (b) it
 dramatically increases after the message size 32KBytes. This indicates
-that low scalability of the approach, especially for those
-applications with larger message sizes. For instance, in the case of
-Ondes3D that we previously studied, processes exchange multiple small
-message sizes (depending on the domain decomposition). Even if most
+the low scalability of the approach, especially for those
+applications with larger message sizes, but also impacting
+applications that mostly used smaller messages. For instance, in the case of
+Ondes3D previously studied, ranks exchange multiple small
+message according to the domain decomposition. Even if most
 messages are exchanged asynchronously, the latency impact on the
 application is easily observed (see Figure \ref{fig1:right}).
 
