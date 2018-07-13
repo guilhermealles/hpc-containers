@@ -339,7 +339,7 @@ root inside the container.
 :CUSTOM_ID: sec.relatedwork
 :END:
 
-*** Related Work
+*** Related Work                                                   :ignore:
 
 #+BEGIN_COMMENT LUCAS
 Instead of jumping in directly to the citations; give some general
@@ -403,9 +403,9 @@ running on top of Singularity containers has also been carried out
 overhead does exist, the reported values are negligible for most use
 cases.
 
-*** Motivation
+*** Motivation                                                     :ignore:
 
-Wrap up the state of the art mentioned in previous work, mention what is missing, present objectives and motivation.
+# Wrap up the state of the art mentioned in previous work, mention what is missing, present objectives and motivation.
 
 #+BEGIN_COMMENT LUCAS
 Perhaps a table like this could be useful. Other criteria could be added.
@@ -421,7 +421,7 @@ Perhaps a table like this could be useful. Other criteria could be added.
 Notice the two empty rows to tell you that more is necessary.
 #+END_COMMENT
 
-
+#+Latex: \noindent{\bf Motivation:}
 The goal of this work is to study the drawbacks and
 improvements that occur by applying virtualization techniques to
 high-performance computing workflows. As concluded by previous work,
