@@ -1679,7 +1679,7 @@ df.sel %>%
     geom_point(size=1) +
     geom_line(alpha = 0.3) +
     xlab('Number of MPI ranks (count)') + 
-    ylab('Performance Difference \nTime against Native (%)') +
+    ylab('Performance against Native (%)') +
     facet_grid(Case~.) +
     coord_cartesian(ylim=c(-20,20)) +
 #    ylim(-30,30) +
