@@ -430,10 +430,12 @@ application comparing the performance implications of Docker and
 Singularity, two major container systems, and using a traditional
 approach (with no virtualization) as baseline. Furthermore, we intend
 to demonstrate that virtualization techniques can be used in HPC
-without the massive overhead of traditional virtual machines. By using
-containers, cluster administrators can provide flexibility,
-portability and enhanced reproducibility to its users without
-sacrificing performance.
+without the massive overhead of traditional virtual machines. Next
+section details our results toward these goals.
+
+# By using containers, cluster administrators can provide flexibility,
+# portability and enhanced reproducibility to its users without
+# sacrificing performance.
 
 ** Results and Evaluation of the Performance Overhead
 :PROPERTIES:
