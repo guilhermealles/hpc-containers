@@ -279,9 +279,9 @@ Among all alternatives, we describe below two of them:
 Docker and Singularity since they are the more prominent and widely
 used in the OS and HPC communities.
 
-*** Docker
+*** Docker                                                         :ignore:
 
-Docker \cite{merkel2014docker} is a very popular container system for
+*Docker* \cite{merkel2014docker} is a very popular container system for
 software development and service deployment. Every major cloud
 infrastructure provider (such as AWS, Google Cloud Platform, and
 Microsoft Azure) supports Docker as a platform for executing software,
@@ -309,12 +309,12 @@ volume in the container, thus granting access to all the files in the
 host machine. Docker mitigates this issue by allowing only the root
 user in the host operating system to create containers.
 
-*** Singularity
+*** Singularity                                                    :ignore:
 
 # This implies that the container can still be a completely
 # different Linux distribution from the host. 
 
-Singularity \cite{10.1371/journal.pone.0177459} is a container system
+*Singularity* \cite{10.1371/journal.pone.0177459} is a container system
 developed for scientific research and high-performance computing
 applications. Contrary to Docker, Singularity does not aim to create
 completely isolated environments. It relies on a more open model, with
