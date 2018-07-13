@@ -235,6 +235,12 @@ measurements, is publicly available at \COMPANION.
 :CUSTOM_ID: sec.background
 :END:
 
+#+BEGIN_COMMENT LUCAS
+- [ ] Cite the appropriate paper at the phrase "Containers present a
+      theoretically negligible overhead penalty when compared to an
+      application running natively on the host operating system"
+#+END_COMMENT
+
 Operating System (OS) Containers \cite{soltesz2007container} are a
 mean of achieving virtualization without relying on software to
 emulate hardware resources. Therefore, containers are known as
