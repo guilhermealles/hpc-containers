@@ -23,7 +23,6 @@
 #+LATEX_HEADER: \usepackage[export]{adjustbox}
 #+LATEX_HEADER: \usepackage[labelformat=parens]{subfig}
 
-
 # You need at least Org 9 and Emacs 24 to make this work.
 # If you do, just type make (thanks Luka Stanisic for this).
 
