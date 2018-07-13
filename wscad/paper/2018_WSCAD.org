@@ -125,7 +125,7 @@ you can include some details about the methodology and the main
 results. It is okay to reveal this from the start.
 #+END_COMMENT
 
-** TODO Introduction
+** Introduction
 
 #+BEGIN_COMMENT ALLES
 - [ ] Okay, agreed. I will look into that (add more citations).
