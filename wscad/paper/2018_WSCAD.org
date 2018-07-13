@@ -1805,6 +1805,17 @@ number to more related and context work.
 Tangle this file with C-c C-v t
 
 #+begin_src bib :tangle refs.bib
+@article{merkel2014docker,
+  title={Docker: lightweight linux containers for consistent development and deployment},
+  author={Merkel, Dirk},
+  journal={Linux Journal},
+  volume={2014},
+  number={239},
+  pages={2},
+  year={2014},
+  publisher={Belltown Media}
+}
+
 @article{soltesz2007container,
  author = {Soltesz, Stephen and P\"{o}tzl, Herbert and Fiuczynski, Marc E. and Bavier, Andy and Peterson, Larry},
  title = {Container-based Operating System Virtualization: A Scalable, High-performance Alternative to Hypervisors},
