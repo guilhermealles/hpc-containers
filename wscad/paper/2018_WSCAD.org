@@ -742,7 +742,7 @@ To illustrate the advantages in flexibility for environment
 configuration, we also conducted an experiment running an Alpine Linux
 image on the container environments (Singularity and Docker). The
 Alpine Linux is a lightweight Linux distribution that strives for
-efficiency and security. It is based on Busybox and provides an
+efficiency and isolation. It is based on Busybox and provides an
 alternate set of standard libraries that can yield better performance
 for some applications. Installing a completely different Linux
 distribution on multiple hosts of a cluster for a single experiment is
