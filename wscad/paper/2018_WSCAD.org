@@ -1542,6 +1542,158 @@ df.pingpong.overhead %>%
            axis.text.x = element_text(angle=30, hjust=1))
 #+end_src
 
+***** Alpine
+****** Read data
+
+#+begin_src R :results output :session :exports both
+files <- list('./results/nas-alpine/results.csv',
+              './results/ondes3d-alpine/results.csv')
+df.alpine <- do.call("bind_rows", lapply(files, function(file) {
+    read_csv(file, col_types=cols(
+                       name = col_integer(),
+                       environment = col_character(),
+                       parallelism = col_integer(),
+                       time = col_integer()
+                   )) %>%
+        mutate(time = time/1000) %>%
+        group_by(environment, parallelism) %>%
+        summarize(
+            samples = n(),
+            average = mean(time),
+            stdDeviation = sd(time),
+            stdError = 3*stdDeviation/sqrt(samples)
+        ) %>%
+        mutate(Origin = file) %>%
+        separate(Origin, into=c("X0", "X1", "TYPE", "X2"), sep="/", remove=FALSE) %>% select(-X0, -X1, -X2) %>%
+        mutate(Application = ifelse(grepl("ondes3d", TYPE), "Ondes3D", "NAS-EP")) %>%
+        mutate(Input = case_when(TYPE == "nas-alpine" ~ "Class B",
+                                 TYPE == "ondes3d-alpine" ~ "Ligurian",
+                                 TRUE ~ "Default")) %>% select(-Origin) %>%
+        mutate(Native = environment == "native") %>%
+        ungroup()
+})) %>%
+    mutate(environment = factor(environment,
+                                levels=c("native", "singularity", "docker"),
+                                labels=c("Native", "Singularity", "Docker")))
+#+end_src
+
+#+RESULTS:
+
+****** (left) Plot
+
+#+begin_src R :results output graphics :file img/alpine.pdf :width 3 :height 4 :session
+df.alpine %>%
+    mutate(Native = factor(Native, levels=c(TRUE, FALSE), labels=c("Native", "Container"))) %>%
+    mutate(Application = paste(Application, Input, sep="/")) %>%
+    filter(Input %in% c("Class B", "Ligurian")) -> df.sel;
+# Breask in X
+breaks <- df.sel %>% pull(parallelism) %>% unique;
+#Create a custom color scale
+library(RColorBrewer)
+myColors <- brewer.pal(5,"Set1")
+names(myColors) <- levels(df.sel$environment)
+colScale <- scale_colour_manual(name = "environment",values = myColors)
+
+df.sel %>%
+    ggplot(aes(x = parallelism, y = average, col=environment)) +
+    scale_x_continuous(breaks = breaks, trans="sqrt") +
+    ylim(0, NA) +
+    geom_point(size=1) +
+    geom_line(alpha = 0.2) + 
+    geom_errorbar(aes(ymin = average - stdError, ymax = average + stdError, col = environment), 
+                  width = .35) +
+    colScale +
+    xlab('Number of MPI ranks (count)') + 
+    ylab('Execution time (s)') +
+    theme(legend.position = 'top', legend.spacing = unit(x = c(0, 0, 0, 0), units = 'mm')) +
+    theme_bw(base_size = 13) +
+    theme (plot.margin = unit(c(0,0,0,0), "cm"),
+           legend.spacing = unit(1, "mm"),
+           legend.position = "top",
+           legend.justification = "left",
+           legend.box.spacing = unit(0, "pt"),
+           legend.box.margin = margin(0,0,0,0),
+           legend.title = element_blank()) +
+    facet_grid (Application~Native, scales="free_y")
+#+end_src
+
+#+RESULTS:
+[[file:img/alpine.pdf]]
+
+****** (right) Computation Overhead
+
+#+begin_src R :results output :session :exports both
+df.alpine %>%
+    mutate(Case = paste(Application, Input, sep="/")) %>%
+    select(environment, parallelism, average, Case) %>%
+    spread(environment, average) %>%
+    mutate(
+        Docker.Gain = round((Docker - Native)/Native * 100, 2),
+        Singularity.Gain = round((Singularity - Native)/Native * 100, 2)) %>%
+    arrange(Case, parallelism) %>%
+    select(parallelism, Case, Docker.Gain, Singularity.Gain) %>%
+    gather(environment, Gain, -parallelism, -Case) -> df.alpine.overhead;
+df.alpine.overhead %>%
+    as.data.frame
+#+end_src
+
+#+RESULTS:
+#+begin_example
+   parallelism             Case      environment   Gain
+1            1   NAS-EP/Class B      Docker.Gain  -9.50
+2            4   NAS-EP/Class B      Docker.Gain  -9.63
+3            8   NAS-EP/Class B      Docker.Gain  -6.32
+4           16   NAS-EP/Class B      Docker.Gain  -4.62
+5            1 Ondes3D/Ligurian      Docker.Gain  -3.58
+6            4 Ondes3D/Ligurian      Docker.Gain  11.42
+7            8 Ondes3D/Ligurian      Docker.Gain  78.97
+8           16 Ondes3D/Ligurian      Docker.Gain 137.08
+9            1   NAS-EP/Class B Singularity.Gain  -9.48
+10           4   NAS-EP/Class B Singularity.Gain  -9.56
+11           8   NAS-EP/Class B Singularity.Gain  -7.12
+12          16   NAS-EP/Class B Singularity.Gain  -4.65
+13           1 Ondes3D/Ligurian Singularity.Gain  -3.55
+14           4 Ondes3D/Ligurian Singularity.Gain  -4.12
+15           8 Ondes3D/Ligurian Singularity.Gain  -3.68
+16          16 Ondes3D/Ligurian Singularity.Gain  -3.62
+#+end_example
+
+Let's plot this:
+
+#+begin_src R :results output graphics :file img/alpine-negative-overhead.pdf :exports both :width 3 :height 3.8 :session
+df.alpine.overhead %>%
+    filter(parallelism <= 16) %>%
+    mutate(environment = factor(gsub(".Gain", "", environment),
+                                levels=c("Singularity", "Docker"))) -> df.sel;
+# Breaks in X
+breaks <- df.sel %>% pull(parallelism) %>% unique;
+
+df.sel %>%
+    ggplot(aes(x=parallelism,
+               y=Gain,
+               color=environment)) +
+    scale_x_continuous(breaks = breaks, trans="sqrt") +
+    colScale +
+    geom_point(size=1) +
+    geom_line(alpha = 0.3) +
+    xlab('Number of MPI ranks (count)') + 
+    ylab('Performance Difference \nTime against Native (%)') +
+    facet_grid(Case~.) +
+    coord_cartesian(ylim=c(-20,20)) +
+#    ylim(-30,30) +
+    theme_bw(base_size = 13) +
+    theme (plot.margin = unit(c(0,0,0,0), "cm"),
+           legend.spacing = unit(x = c(0, 0, 0, 0), units = 'mm'),
+           legend.position = "top",
+           legend.justification = "left",
+           legend.box.spacing = unit(0, "pt"),
+           legend.box.margin = margin(0,0,0,0),
+           legend.title = element_blank())
+#           axis.text.x = element_text(angle=30, hjust=1))
+#+end_src
+
+#+RESULTS:
+[[file:img/alpine-negative-overhead.pdf]]
 ** Conclusion
 
 #+BEGIN_COMMENT LUCAS
