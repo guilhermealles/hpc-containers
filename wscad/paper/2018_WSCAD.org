@@ -747,18 +747,31 @@ application is easily observed (see Figure \ref{fig1:right}).
 
 To illustrate the advantages in flexibility for environment
 configuration, we also conducted an experiment running an Alpine Linux
-image on the container environments. The Alpine Linux is a lightweight
-Linux distribution that strives for efficiency and security. It is
-based on Busybox and provides an alternative set of standard libraries
-that can yield better performance in some applications. Although
-installing a completely different Linux distribution on multiple hosts
-for a single experiment is not feasible (especially in a shared
-cluster environment), it can be easily done when using containers. The
-plot (ref) shows how Docker and Singularity (running the Alpine Linux
-distribution) compare to the native operating system (running
-Debian). These results show that, by modifying the execution
-environment, it is possible for the virtualized execution to
-outperform the native one.
+image on the container environments (Singularity and Docker). The
+Alpine Linux is a lightweight Linux distribution that strives for
+efficiency and security. It is based on Busybox and provides an
+alternate set of standard libraries that can yield better performance
+for some applications. Installing a completely different Linux
+distribution on multiple hosts of a cluster for a single experiment is
+generally a very hard task, sometimes even considered unfeasible
+(especially in a shared cluster environment). However, this task can
+be easily done when using containers. Figure \ref{fig4} shows how
+Docker and Singularity (running the Alpine Linux distribution) compare
+to the native operating system (running Debian) both in terms of
+average execution time (Figure \ref{fig4:left}) and performance
+difference against the native host (Figure \ref{fig4:right}) as a
+function of the number of MPI ranks. These results show that, by
+modifying the execution environment, it is possible for the
+virtualized execution to outperform the native one. In the
+Ondes3D/Ligurian case, Singularity/Alpine is \approx5% faster than native,
+while in the NAS-EP/ClassB, both Docker and Singularity running Alpine
+are from \approx5% (with 16 cores) to \approx10% (sequential) faster than the
+native host when equipped with Debian9. Such results are not so
+surprisingly but still unconventional. The Linux container support is
+designed to have the offer the virtualized environment the smallest
+possible footprint from the native OS. Such feature combined with a
+HPC-tailored container, can bring performance advantages combined with
+a reproducible environment.
 
 #+BEGIN_EXPORT latex
 \begin{figure}[!htb]
