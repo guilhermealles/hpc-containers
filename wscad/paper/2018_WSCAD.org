@@ -419,23 +419,22 @@ Notice the two empty rows to tell you that more is necessary.
 #+END_COMMENT
 
 #+Latex: \noindent{\bf Motivation:}
-The goal of this work is to study the drawbacks and
-improvements that occur by applying virtualization techniques to
-high-performance computing workflows. As concluded by previous work,
-using virtual machines is unfeasible approach because of the
-performance and communication overhead that comes along with this
-strategy. Thus, our goal is to measure the performance impact of
-applying virtualization in the form of container technologies to these
-workloads. We present an analysis covering both synthetic benchmarks
-and a real application comparing the usability of two major container
-systems - Docker and Singularity - and using a traditional approach
-(with no virtualization) as a baseline.
+The goal of this work is to study the drawbacks and improvements that
+occur by applying virtualization techniques to high-performance
+computing workflows. As concluded by previous work, using virtual
+machines is unfeasible because of the overheads that comes along with
+this strategy. Thus, our goal is to measure the performance impact of
+applying container-based virtualization to these HPC workloads. We
+present an analysis covering both synthetic benchmarks and a real
+application comparing the performance implications of Docker and
+Singularity, two major container systems, and using a traditional
+approach (with no virtualization) as baseline. Furthermore, we intend
+to demonstrate that virtualization techniques can be used in HPC
+without the massive overhead of traditional virtual machines. By using
+containers, cluster administrators can provide flexibility,
+portability and enhanced reproducibility to its users without
+sacrificing performance.
 
-Furthermore, we intend to demonstrate that virtualization techniques
-can be used in HPC without the massive overhead of traditional virtual
-machines. By using containers, cluster administrators can provide
-flexibility, portability and enhanced reproducibility to its users
-without sacrificing performance and security.
 ** Results and Evaluation of the Performance Overhead
 :PROPERTIES:
 :CUSTOM_ID: sec.results
