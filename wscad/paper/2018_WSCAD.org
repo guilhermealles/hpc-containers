@@ -339,10 +339,6 @@ root inside the container.
 :CUSTOM_ID: sec.relatedwork
 :END:
 
-#+BEGIN_COMMENT LUCAS
-This empty space is considered to be a bad style choice.
-#+END_COMMENT
-
 *** Related Work
 
 #+BEGIN_COMMENT LUCAS
