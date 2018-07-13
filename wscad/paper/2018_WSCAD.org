@@ -1805,6 +1805,26 @@ number to more related and context work.
 Tangle this file with C-c C-v t
 
 #+begin_src bib :tangle refs.bib
+@article{soltesz2007container,
+ author = {Soltesz, Stephen and P\"{o}tzl, Herbert and Fiuczynski, Marc E. and Bavier, Andy and Peterson, Larry},
+ title = {Container-based Operating System Virtualization: A Scalable, High-performance Alternative to Hypervisors},
+ journal = {SIGOPS Oper. Syst. Rev.},
+ issue_date = {June 2007},
+ volume = {41},
+ number = {3},
+ month = mar,
+ year = {2007},
+ issn = {0163-5980},
+ pages = {275--287},
+ numpages = {13},
+ url = {http://doi.acm.org/10.1145/1272998.1273025},
+ doi = {10.1145/1272998.1273025},
+ acmid = {1273025},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+ keywords = {Linux-VServer, Xen, alternative, container, hypervisor, operating, system, virtualization},
+} 
+
 @inproceedings{aochi2011ligurian,
   title={Investigation of historical earthquake by seismic wave propagation simulation: Source parameters of the 1887 M6. 3 Ligurian, north-western Italy, earthquake},
   author={Aochi, Hideo and Ducellier, Ariane and Dupros, Fabrice and Terrier, Monique and Lambert, J{\'e}r{\^o}me},
