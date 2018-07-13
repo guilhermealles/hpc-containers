@@ -1729,31 +1729,31 @@ df.sel %>%
 :CUSTOM_ID: sec.conclusion
 :END:
 
-In this paper, we discussed the use of virtualization technologies in
-the form of Linux containers to help to solve problems such as
-reproducibility and user control over HPC environments. Containers
-provide similar features as hardware level virtualization with a
-theoretically negligible performance overhead, making them suitable
-for high-performance applications. In that context, we compared and
-contrasted two container technologies, Docker and Singularity, against
-a native environment running with no virtualization.
+In this paper, we assess the performance implications of the adoption
+of Linux Containers for HPC applications with different workloads.
+While containers provide similar features as hardware level
+virtualization with a theoretically negligible performance overhead,
+making them suitable for high-performance applications has to be
+evaluated prior using in production environments. Therefore, we
+compared two container technologies, Docker and Singularity, against a
+native environment running with no virtualization.
 
 The results for the proposed tests indicate that containers introduce
-very little (if any) computational overhead in applications, for both
-Docker and Singularity. This can be verified by the lack of a clear
-performance difference on the EP NAS Benchmark, in favor of a specific
-environment.
-
+very little (if any) computation overhead in CPU-bound applications,
+for both Docker and Singularity. This can be verified by the lack of a
+clear performance difference on the EP-NAS/ClassB Benchmark among the
+container and native environments. Although we observed penalties up
+to \approx9%, they are completely absorbed if the applications last longer.
+#+latex: %
 Communication overhead, on the other hand, has been observed in Docker
 containers. This is mainly because the Docker architecture requires
 the containers to be connected through an overlay network in order for
 them to have connectivity across multiple hosts (which was needed for
 the MPI cluster). This overhead was observed in both the Ping Pong
 test case as well as the Ondes3D application, which is known to
-require frequent communication between MPI processes. The same
-communication overhead could not be observed, however, in Singularity
-containers.
-
+require frequent communication between MPI processes. Singularity is
+free from such overheads.
+#+Latex: %
 Additionally, we conducted experiments that leveraged the potential
 flexibility that a virtualized workflow provides. Because containers
 allow users to fine-tune the execution environment more easily, it was
@@ -1763,14 +1763,20 @@ performance than the native execution, which means that it is possible
 to use these fine-tuning capabilities to considerably enhance the
 performance of HPC applications.
 
-With the experiments conducted in this research, we can conclude that
-Linux containers are a suitable option for running HPC applications in
-a virtualized environment, without the drawbacks of traditional
-hardware-level virtualization. In our tests, we concluded that
-Singularity containers are the most suitable option both in terms of
-system administration (for not granting every user that starts a
-container root access to the system) and in terms of performance (for
-not imposing an overlay network that is a potential bottleneck).
+With our experiments, we can conclude that Linux containers are a
+suitable option for running HPC applications in a virtualized
+environment, without the drawbacks of traditional hardware-level
+virtualization. In our tests, we concluded that Singularity containers
+are the most suitable option both in terms of system administration
+(for not granting every user that starts a container root access to
+the system) and in terms of performance (for not imposing an overlay
+network that is a potential bottleneck).
+
+As future work, we plan to investigate HPC applications within
+containers that make use of low-latency Infiniband networks and
+multi-GPU systems. We also intend to verify in further details if the
+computation signature of HPC codes are the same outside and inside the
+container.
 
 ** Acknowledgments                                                  :ignore:
 
