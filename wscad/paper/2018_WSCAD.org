@@ -127,6 +127,10 @@ results. It is okay to reveal this from the start.
 
 ** TODO Introduction
 
+#+BEGIN_COMMENT ALLES
+- [ ] Okay, agreed. I will look into that (add more citations).
+#+END_COMMENT
+
 One fundamental aspect of scientific computing research is that, in
 order for it to be credible, it should be reproducible. This means
 that the researcher has the responsibility of providing its readers
@@ -141,20 +145,6 @@ stack (e.g. compilers, libraries or device drivers), thus making it
 very difficult to obtain a uniform execution platform for a given 
 experiment across different clusters.
 
-#+BEGIN_COMMENT LUCAS
-I don't understand why a "uniform execution platform across different
-clusters" would be necessary in HPC. Do you mean having a single
-software stack to manage ALL experiments in HPC?
-#+END_COMMENT
-#+BEGIN_COMMENT ALLES
-No, I mean having a single software stack for an experiment 
-regardless of the hardware (cluster/supercomputer/whatever) that 
-executes it. Say you run your experiments on a  Debian cluster and 
-all I have available is a CentOS cluster. The uniform execution platform 
-would be relevant because it would not matter which distribution is 
-installed natively.
-#+END_COMMENT
-
 Although being intuitively difficult to deal with, these problems can
 be solved through the use of traditional hardware virtualization, in 
 which users can run their own operating system and execution 
@@ -164,35 +154,45 @@ The problem with this approach is that, when considering HPC
 applications, the performance overhead introduced by the hypervisor 
 and an entire virtual machine is too high for this solution to be 
 considered feasible.
-
-#+BEGIN_COMMENT LUCAS
-It is interesting to include some citations that help the flow.  There
-are no citations so far and until the end of the introduction. All
-motivation and problem definition need to be based on context that can
-be cited.
-#+END_COMMENT
-#+BEGIN_COMMENT ALLES
-Okay, agreed. I will look into that.
-#+END_COMMENT
-
+#+latex: %
 As an alternative to virtual machines, container technologies have 
 gained a lot of attention in the software development industry. This 
 is mainly because containers offer the benefits of virtualization 
 at a fraction of the performance overhead introduced by virtual 
 machines \cite{7562612}.
-
+#+latex: %
 By using containers to isolate and package software, users are able to
-create reproducible, configurable environments for their applications,
-thus diminishing the hassle of managing application dependencies and
-software stack differences when executing experiments across different
-Linux environments.
+create reproducible, configurable environments for their
+applications. This diminishes the hassle of managing application
+dependencies and software stack differences when executing experiments
+across different Linux environments. The problem is that the
+performance implications of applying Operating System (OS) containers
+in parallel applications remains relatively unexplored in the HPC
+community. 
 
-Considering the large adoption of containers in software development,
-this paper compares and contrast two container technologies, Docker and
-Singularity, with respect to their performance overhead and ability to
-solve common HPC workflow problems. For the performance measurements,
-we will consider the same experiments running on a native environment
-as the baseline.
+This paper compares and contrast two container technologies, Docker
+and Singularity, with respect to their performance overhead and
+ability to solve common HPC workflow problems.  We will consider the
+same experiments running on a native environment as the baseline for
+performance comparison using multiple nodes (up to 64 hosts, 256
+cores). The main contributions of this paper are:
+
+- We employ three cases: the NAS-EP \cite{bailey1991parallel}, the
+  earthquake simulator Ondes3D \cite{dupros:10} and a in-house
+  MPI-based Ping-Pong application to evaluate network latency (Section
+  [[#sec.benchs]]);
+- We demonstrate that Singularity containers have minor computation
+  overhead because of extra work during initialization; and that this
+  overhead is absorbed for longer runs independent of the number of
+  MPI ranks (Section [[#sec.compute]]);
+- Docker containers with network virtualization (using the Docker
+  Swarm) suffer from increased network latency that
+  strongly penalizes communication-bound applications such as Ondes3D
+  (Section [[#sec.latency]]);
+- Performance gains are attainable with an optimized container on top
+  of a regular OS such as our comparison of a Singularity container
+  based on Alpine Linux that reduces the Ondes3D execution time of up
+  to \approx5% in parallel runs (Section [[#sec.alpine]]).
 
 #+BEGIN_COMMENT Lucas
 This introduction lacks to clearly define the problem. Why such
