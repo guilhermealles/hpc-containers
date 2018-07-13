@@ -1788,7 +1788,7 @@ GreenCloud (16/488-9), the FAPERGS MultiGPU (16/354-8), the CNPq
 899/18. Experiments were carried out at the Grid'5000 platform
 #+Latex: ({\texttt{https://www.grid5000.fr}}),
 with support from Inria, CNRS, RENATER and several other french
-organizations. The companion material is hosted by CERN's Zenodo for
+organizations. The companion material is hosted by GitHub for
 which we are also grateful.
 
 ** References                                                        :ignore:
