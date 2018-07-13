@@ -235,19 +235,6 @@ measurements, is publicly available at \COMPANION.
 :CUSTOM_ID: sec.background
 :END:
 
-#+BEGIN_COMMENT LUCAS
-This empty space is considered to be a bad style choice.
-#+END_COMMENT
-
-#+BEGIN_COMMENT LUCAS
-This empty space is considered to be a bad style choice.
-#+END_COMMENT
-
-#+BEGIN_COMMENT LUCAS
-This section should be just after the introduction. It would help to
-understand the related work.
-#+END_COMMENT
-
 *** Containers
 
 Containers are a mean of achieving virtualization without relying on
