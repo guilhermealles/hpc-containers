@@ -364,18 +364,16 @@ execution time of applications on top of containers to applications in
 the native environment (with no virtualization)
 \cite{10.1007/978-3-319-27308-2_65}.
 
-Addressing the drawbacks in network management that occur with Docker
-containers for multiple nodes, an investigation work proposed a model
-of MPI cluster in a distributed environment \cite{7868429}. In this
-study, Docker containers are connected through an orchestrator called
-Docker Swarm, which is responsible for assigning names and providing
-network connectivity between the containers, leveraging the overlay
-networking capabilities provided by Docker. Performance analysis,
-however, is absent from this study, obscuring the conclusion of
-whether such an approach is viable in a real-world scenario.
-Furthermore, it has been shown that the performance of network
-operations can be affected by the use of Docker containers, especially
-in latency-sensitive scenarios \cite{7095802}.
+An investigation work proposed a model of MPI cluster in a distributed
+environment \cite{7868429}. In this study, Docker containers are
+connected through an orchestrator called Docker Swarm, which is
+responsible for assigning names and providing network connectivity
+between the containers, leveraging Docker's overlay networking
+capabilities.  Performance analysis, however, is absent from this
+study, obscuring the conclusion of whether such an approach is viable
+in a real-world scenario.  Furthermore, it has been shown that the
+performance of network operations can be affected by the use of Docker
+containers, especially in latency-sensitive scenarios \cite{7095802}.
 
 #+BEGIN_COMMENT LUCAS
 The first part of this paragraph (around
@@ -388,17 +386,16 @@ workload.
 
 Singularity \cite{10.1371/journal.pone.0177459} is a container system
 designed for scientific research workflows, and it strives to solve
-some drawbacks of using Docker containers in HPC. The author discusses
-how Docker is not designed for shared, multi-user environments (such
-as supercomputers and HPC centers) and thus presents significant
-security issues when used in this context. As a consequence, it is
-very hard to find HPC centers that allow users to execute Docker
-containers. Singularity, on the other hand, is built with these
-problems in mind and solves them in order to make HPC containers
-accessible to the scientific community. Consequently, Singularity
-containers are already accepted and used in many supercomputers around
-the world. Additionally, a performance analysis of applications
-running on top of Singularity containers has also been carried out
+some drawbacks of using Docker in HPC. Author argues that Docker is
+not designed for shared, multi-user environments, something very
+common in supercomputers.  As a consequence, it is very hard to find
+HPC centers that allow users to execute Docker
+containers. Singularity, on the other hand, solves these problems to
+make HPC containers more accessible to the scientific
+community. Consequently, Singularity containers are already accepted
+and used in many supercomputers around the world. Additionally, a
+performance analysis of applications running on top of Singularity
+containers has also been carried out
 \cite{Le:2017:PAA:3093338.3106737}. It concludes that while some
 overhead does exist, the reported values are negligible for most use
 cases.
