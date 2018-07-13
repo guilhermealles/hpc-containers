@@ -372,25 +372,33 @@ environments in the HPC context. A very brief historical perspective
 is also welcome, sometimes.
 #+END_COMMENT
 
-The virtualization of HPC applications is viable in a low overhead
-environment such as Docker \cite{7562612}. In this study,
-the author compares the compute performance of Docker containers to
-virtual machines, concluding that the former has a considerably lower
-overhead when compared to the latter. This study, however, only
-explores the performance of single node applications, and does not
-present information on how containers can scale to distributed
-environments which are often the case for high-performance
-applications.
+Experiments to measure and evaluate the performance of virtualized
+environments for HPC have already been done in the past. One
+particular study compared the performance of Docker containers to
+traditional virtual machines for single-node applications, concluding
+that the former has a considerably lower overhead when compared to the
+latter \cite{7562612}. The same conclusions were drawn when
+considering experiments that run on multiple physical nodes
+\cite{10.1007/978-3-319-20119-1_36} and with more complex application
+signatures that are common in HPC, such as load imbalance and
+communication with other processes \cite{7185212}. Additional work has
+also shown that there is some additional overhead when comparing the
+execution time of applications on top of containers to applications in
+the native environment (with no virtualization)
+\cite{10.1007/978-3-319-27308-2_65}.
 
-For multi-node computations, another investigation \cite{7868429}
-work proposes the creation of
-an MPI cluster using Docker containers in a distributed
-environment. In this proposal, the containers are connected through an
-orchestrator called Docker Swarm, which is responsible for assigning
-names and providing an overlay network for transparent connectivity
-between the containers. Performance analysis, however, is absent from
-this study, obscuring the conclusion of whether such an approach is
-viable in a real-world scenario.
+Addressing the drawbacks in network management that occur with Docker
+containers for multiple nodes, an investigation work proposed a model
+of MPI cluster in a distributed environment \cite{7868429}. In this
+study, Docker containers are connected through an orchestrator called
+Docker Swarm, which is responsible for assigning names and providing
+network connectivity between the containers, leveraging the overlay
+networking capabilities provided by Docker. Performance analysis,
+however, is absent from this study, obscuring the conclusion of
+whether such an approach is viable in a real-world scenario.
+Furthermore, it has been shown that the performance of network
+operations can be affected by the use of Docker containers, especially
+in latency-sensitive scenarios \cite{7095802}.
 
 #+BEGIN_COMMENT LUCAS
 The first part of this paragraph (around
@@ -401,19 +409,19 @@ analysis of Singularity; but no details are given about platform,
 workload.
 #+END_COMMENT
 
-Singularity \cite{10.1371/journal.pone.0177459} is a container system designed for scientific
-research workflows, and it strives to solve some drawbacks of using
-Docker containers in HPC. The author discusses how Docker is not
-designed for shared, multi-user environments (such as supercomputers
-and HPC centers) and thus presents significant security issues when
-used in this context. As a consequence, it is very hard to find HPC
-centers that allow users to execute Docker containers. Singularity, on
-the other hand, is built with these problems in mind and solves them
-in order to make HPC containers accessible to the scientific
-community. Consequently, Singularity containers are already accepted
-and used in many supercomputers around the world. Additionally,
-a performance analysis of applications running on top of Singularity
-containers has also been carried out
+Singularity \cite{10.1371/journal.pone.0177459} is a container system
+designed for scientific research workflows, and it strives to solve
+some drawbacks of using Docker containers in HPC. The author discusses
+how Docker is not designed for shared, multi-user environments (such
+as supercomputers and HPC centers) and thus presents significant
+security issues when used in this context. As a consequence, it is
+very hard to find HPC centers that allow users to execute Docker
+containers. Singularity, on the other hand, is built with these
+problems in mind and solves them in order to make HPC containers
+accessible to the scientific community. Consequently, Singularity
+containers are already accepted and used in many supercomputers around
+the world. Additionally, a performance analysis of applications
+running on top of Singularity containers has also been carried out
 \cite{Le:2017:PAA:3093338.3106737}. It concludes that while some
 overhead does exist, the reported values are negligible for most use
 cases.
@@ -1910,6 +1918,76 @@ keywords = "Seismic numerical simulation, Finite-element method, Parallel sparse
     doi={10.1109/CCE.2016.7562612}, 
     ISSN={}, 
     month={July}
+}
+
+@InProceedings{10.1007/978-3-319-27308-2_65,
+    author="Ruiz, Cristian
+      and Jeanvoine, Emmanuel
+      and Nussbaum, Lucas",
+    editor="Hunold, Sascha
+      and Costan, Alexandru
+      and Gim{\'e}nez, Domingo
+      and Iosup, Alexandru
+      and Ricci, Laura
+      and G{\'o}mez Requena, Mar{\'i}a Engracia
+      and Scarano, Vittorio
+      and Varbanescu, Ana Lucia
+      and Scott, Stephen L.
+      and Lankes, Stefan
+      and Weidendorfer, Josef
+      and Alexander, Michael",
+    title="Performance Evaluation of Containers for HPC",
+    booktitle="Euro-Par 2015: Parallel Processing Workshops",
+    year="2015",
+    publisher="Springer International Publishing",
+    address="Cham",
+    pages="813--824",
+    abstract="Container-based virtualization technologies such as LXC or Docker have gained a lot of interest recently, especially in the HPC context where they could help to address a number of long-running issues. Even if they have proven to perform better than full-fledged, hypervisor-based, virtualization solutions, there are still a lot of questions about the use of container solutions in the HPC context. This paper evaluates the performance of Linux-based container solutions that rely on cgroups and namespaces using the NAS parallel benchmarks, in various configurations. We show that containers technology has matured over the years, and that performance issues are being solved.",
+    isbn="978-3-319-27308-2"
+}
+
+@InProceedings{10.1007/978-3-319-20119-1_36,
+    author="Higgins, Joshua
+        and Holmes, Violeta
+        and Venters, Colin",
+    editor="Kunkel, Julian M.
+        and Ludwig, Thomas",
+    title="Orchestrating Docker Containers in the HPC Environment",
+    booktitle="High Performance Computing",
+    year="2015",
+    publisher="Springer International Publishing",
+    address="Cham",
+    pages="506--513",
+    abstract="Linux container technology has more than proved itself useful in cloud computing as a lightweight alternative to virtualisation, whilst still offering good enough resource isolation. Docker is emerging as a popular runtime for managing Linux containers, providing both management tools and a simple file format. Research into the performance of containers compared to traditional Virtual Machines and bare metal shows that containers can achieve near native speeds in processing, memory and network throughput. A technology born in the cloud, it is making inroads into scientific computing both as a format for sharing experimental applications and as a paradigm for cloud based execution. However, it has unexplored uses in traditional cluster and grid computing. It provides a run time environment in which there is an opportunity for typical cluster and parallel applications to execute at native speeds, whilst being bundled with their own specific (or legacy) library versions and support software. This offers a solution to the Achilles heel of cluster and grid computing that requires the user to hold intimate knowledge of the local software infrastructure. Using Docker brings us a step closer to more effective job and resource management within the cluster by providing both a common definition format and a repeatable execution environment. In this paper we present the results of our work in deploying Docker containers in the cluster environment and an evaluation of its suitability as a runtime for high performance parallel execution. Our findings suggest that containers can be used to tailor the run time environment for an MPI application without compromising performance, and would provide better Quality of Service for users of scientific computing.",
+    isbn="978-3-319-20119-1"
+}
+
+@INPROCEEDINGS{7185212, 
+    author={D. Beserra and E. D. Moreno and P. T. Endo and J. Barreto and D. Sadok and S. Fernandes}, 
+    booktitle={2015 Ninth International Conference on Complex, Intelligent, and Software Intensive Systems}, 
+    title={Performance Analysis of LXC for HPC Environments}, 
+    year={2015}, 
+    volume={}, 
+    number={}, 
+    pages={358-363}, 
+    keywords={Linux;cloud computing;parallel processing;HPC environments;KVM;LXC;Linux container;container-based virtualizers;high performance computing;hyper visor-based virtualization solution;virtualization overhead;Bandwidth;Benchmark testing;Containers;Kernel;Program processors;Servers;Virtualization;Cloud Computing;Container-based virtualization;HPC;Performance evaluation}, 
+    doi={10.1109/CISIS.2015.53}, 
+    ISSN={}, 
+    month={July}
+}
+
+@INPROCEEDINGS{7095802, 
+    author={W. Felter and A. Ferreira and R. Rajamony and J. Rubio}, 
+    booktitle={2015 IEEE International Symposium on Performance Analysis of Systems and Software (ISPASS)}, 
+    title={An updated performance comparison of virtual machines and Linux containers}, 
+    year={2015}, 
+    volume={}, 
+    number={}, 
+    pages={171-172}, 
+    keywords={Linux;cloud computing;virtual machines;Docker;KVM;Linux containers;cloud architectures;cloud computing;container manager;representative hypervisor;virtual machines;Containers;Hardware;Linux;Random access memory;Servers;Throughput;Virtual machining}, 
+    doi={10.1109/ISPASS.2015.7095802}, 
+    ISSN={}, 
+    month={March}
 }
 
 @INPROCEEDINGS{7868429, 
