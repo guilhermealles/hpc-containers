@@ -614,13 +614,13 @@ evaluation.
 \begin{figure}[!htb]
 \centering
 \subfloat[Execution Time
-\label{fig1:left}]{\begin{minipage}[c]{.47\linewidth}
-\includegraphics[width=.90\linewidth]{./img/computation.pdf} \hfill
+\label{fig1:left}]{\begin{minipage}{.47\linewidth}
+\includegraphics[width=.90\linewidth,valign=t]{./img/computation.pdf} \hfill
 \end{minipage}}\hfill%
 %
 \subfloat[Overhead against Native
-\label{fig1:right}]{\begin{minipage}[c]{.47\linewidth}
-\includegraphics[width=.90\linewidth]{./img/computation-overhead-small.pdf} \\
+\label{fig1:right}]{\begin{minipage}{.47\linewidth}
+\includegraphics[width=.90\linewidth,valign=t]{./img/computation-overhead-small.pdf} \\
 \end{minipage}}\hfill%
 \caption{(a) Execution time as a function of the number of MPI ranks
          for the three environments (Native, Docker, and Singularity)
@@ -669,13 +669,13 @@ is probably due to TODO...
 \begin{figure}[!htb]
 \centering
 \subfloat[Execution Time
-\label{fig2:left}]{\begin{minipage}[c]{.47\linewidth}
-\includegraphics[width=.90\linewidth]{./img/computation-ligurian.pdf} \hfill
+\label{fig2:left}]{\begin{minipage}{.47\linewidth}
+\includegraphics[width=.90\linewidth,valign=t]{./img/computation-ligurian.pdf} \hfill
 \end{minipage}}\hfill%
 %
 \subfloat[Overhead against Native
-\label{fig2:right}]{\begin{minipage}[c]{.47\linewidth}
-\includegraphics[width=.90\linewidth]{./img/computation-overhead-large.pdf} \\
+\label{fig2:right}]{\begin{minipage}{.47\linewidth}
+\includegraphics[width=.90\linewidth,valign=t]{./img/computation-overhead-large.pdf} \\
 \end{minipage}}\hfill%
 \caption{(a) Execution time as a function of the number of MPI ranks
          for the three environments (Native and Singularity) with the Ondes3D/Ligurian application,
@@ -728,13 +728,13 @@ application is easily observed (see Figure \ref{fig1:right}).
 \begin{figure}[!htb]
 \centering
 \subfloat[Average Latency (ms)
-\label{fig3:left}]{\begin{minipage}[c]{.49\linewidth}
-\includegraphics[width=.97\linewidth]{./img/pingpong-latency.pdf} \hfill
+\label{fig3:left}]{\begin{minipage}{.49\linewidth}
+\includegraphics[width=.97\linewidth,valign=t]{./img/pingpong-latency.pdf} \hfill
 \end{minipage}}\hfill%
 %
 \subfloat[Latency Overhead
-\label{fig3:right}]{\begin{minipage}[c]{.49\linewidth}
-\includegraphics[width=.97\linewidth]{./img/pingpong-overhead.pdf} \\
+\label{fig3:right}]{\begin{minipage}{.49\linewidth}
+\includegraphics[width=.97\linewidth,valign=t]{./img/pingpong-overhead.pdf} \\
 \end{minipage}}\hfill%
 \caption{(a) Average network latency (on Y log scale) measured with the Ping Pong benchmark
          for the three environments (color) as a function of message size (on X log scale),
