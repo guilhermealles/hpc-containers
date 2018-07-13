@@ -1839,7 +1839,7 @@ Tangle this file with C-c C-v t
 
 @article{dupros:10,
 title = "High-performance finite-element simulations of seismic wave propagation in three-dimensional nonlinear inelastic geological media",
-journal = "Parallel Comput",
+journal = "Par. Comput",
 volume = "36",
 number = "5",
 pages = "308 - 325",
