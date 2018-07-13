@@ -475,6 +475,9 @@ how performance gains can be used solely in applying an optimized
 container on top of an optimized OS.
 
 *** Software/Hardware Environment, Benchmarks, and Workload Details
+:PROPERTIES:
+:CUSTOM_ID: sec.benchs
+:END:
 
 The Grid5000 is a platform used for scientific experiments in parallel
 computing, HPC, and computer science. It provides its users with many
@@ -560,6 +563,9 @@ Perhaps add a table to give a summary of all this
 #+END_COMMENT
 
 *** Computation Overhead Analysis
+:PROPERTIES:
+:CUSTOM_ID: sec.compute
+:END:
 
 We present the results of the computation overhead for the small case
 scenarios (up to 16 cores) of NAS-EP/ClassB and Ondes3D/Default, then
@@ -688,6 +694,9 @@ is probably due to TODO...
 #+END_EXPORT
 
 *** Verification of Increased Communication Latency
+:PROPERTIES:
+:CUSTOM_ID: sec.latency
+:END:
 
 The results obtained with Ondes3D/Default using the Docker environment
 (see previous Subsection) led us to design an experiment to
@@ -744,7 +753,10 @@ application is easily observed (see Figure \ref{fig1:right}).
 \end{figure}
 #+END_EXPORT
 
-*** Performance Gains with an Optimized Container
+*** Performance Gains with an Optimized Container based on Alpine Linux
+:PROPERTIES:
+:CUSTOM_ID: sec.alpine
+:END:
 
 To illustrate the advantages in flexibility for environment
 configuration, we also conducted an experiment running an Alpine Linux
@@ -1726,6 +1738,9 @@ df.sel %>%
 #+RESULTS:
 [[file:img/alpine-negative-overhead.pdf]]
 ** Conclusion
+:PROPERTIES:
+:CUSTOM_ID: sec.conclusion
+:END:
 
 #+BEGIN_COMMENT LUCAS
 - Say that a possible solution to Docker overhead (Ondes3D/Default) is
