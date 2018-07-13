@@ -106,7 +106,7 @@ submissão de artigos.  Datas importantes:
 Virtualization technology provides features that are desirable for
 high-performance computing (HPC), such as enhanced reproducibility for
 scientific experiments and flexible execution environment
-customization. The paper explores the performance implications of
+customization. This paper explores the performance implications of
 applying Operating System (OS) containers in HPC applications. Docker and
 Singularity are compared to a native baseline with no virtualization,
 using synthetic workloads and an earthquake simulator called Ondes3D
