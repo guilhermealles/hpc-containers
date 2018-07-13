@@ -12,6 +12,7 @@
 #+TAGS: noexport(n) deprecated(d) ignore(i)
 #+EXPORT_SELECT_TAGS: export
 #+EXPORT_EXCLUDE_TAGS: noexport
+#+PROPERTY: header-args :eval never-export
 
 #+LATEX_CLASS: article
 #+LATEX_CLASS_OPTIONS: [12pt]
