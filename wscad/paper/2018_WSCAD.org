@@ -260,7 +260,7 @@ non-virtualized Linux environment can be seen itself as a single
 container running on top of the Linux kernel, which means that there
 is no additional software layer in a container that should insert
 execution overhead.
-
+#+latex: %
 The core APIs and functionality used to create containers are old, and
 have been present in the Linux kernel for more than a
 decade. Containers become mainstream after a long time especially
@@ -274,7 +274,7 @@ desirable for many workflows (including software development and HPC),
 such as the ability to encapsulate an entire environment in an image
 that can be distributed and reproduced on top of different hardware,
 improving reproducibility and dependency management.
-
+#+latex: %
 Among all alternatives, we describe below two of them:
 Docker and Singularity since they are the more prominent and widely
 used in the OS and HPC communities.
