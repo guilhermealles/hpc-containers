@@ -235,111 +235,99 @@ measurements, is publicly available at \COMPANION.
 :CUSTOM_ID: sec.background
 :END:
 
-*** Containers
+Operating System (OS) Containers \cite{soltesz2007container} are a
+mean of achieving virtualization without relying on software to
+emulate hardware resources. Therefore, containers are known as
+software level virtualization for Linux systems, and they orchestrate
+features (/cgroups/ and /namespaces/) that are native to the Linux kernel
+to isolate the resources managed by the OS. As of result, software
+that runs inside of a container can have its own file system, process
+tree, user space and network stack, giving it the impression of being
+executed on an isolated environment.
+#+latex: %
+Containers present a theoretically negligible overhead penalty when
+compared to an application running natively on the host operating
+system. This happens because the Linux kernel already uses /cgroups/ and
+/namespaces/ to manage its resources internally, even when there are not
+multiple containers on a single machine. Considering this approach, a
+non-virtualized Linux environment can be seen itself as a single
+container running on top of the Linux kernel, which means that there
+is no additional software layer in a container that should insert
+execution overhead.
 
-Containers are a mean of achieving virtualization without relying on
-software to emulate hardware resources. Instead, containers are known
-as software level virtualization for Linux systems, and they use
-features that are native to the Linux kernel (namely, \textit{cgroups}
-and \textit{namespaces}) to isolate the resources managed by the
-operating system. As a result, software that runs inside of a
-container can have its own file system, process tree, user space and
-network stack, giving it the impression of being executed on a
-completely isolated environment.
-
-By using native kernel features to grant isolation, containers present
-a theoretically negligible overhead penalty when compared to an
-application running natively on the host operating system. This
-happens because the Linux kernel already uses \textit{cgroups} and
-\textit{namespaces} to manage its resources internally, even when
-there are not multiple containers on a single machine. Considering
-this approach, a non-virtualized Linux environment can be seen itself
-as a single container running on top of the Linux kernel, which means
-that there is no additional software layer in a container that should
-insert execution overhead.
-
-In spite of being receiving large amounts of attention lately, the
-core APIs and functionality used to create containers is not new, and
-have been present in the Linux kernel for more than a decade. However,
-the popularization of containers took a long time to happen especially
+The core APIs and functionality used to create containers are old, and
+have been present in the Linux kernel for more than a
+decade. Containers become mainstream after a long time especially
 because of how difficult it is for an end user to interact with these
 kernel APIs directly. Conversely, containers only became popular when
-software (such as Docker and Singularity) was created to interact with
-the kernel and mediate the creation of containers.
+software (such as LXC, OpenVZ, Systemd-nspawn, Docker, rocket
+container runtime -- rkt, and Singularity) was created to interact with
+the kernel and mediate the creation of containers. These container
+management platforms also introduced new features which are very
+desirable for many workflows (including software development and HPC),
+such as the ability to encapsulate an entire environment in an image
+that can be distributed and reproduced on top of different hardware,
+improving reproducibility and dependency management.
 
-These container management platforms also introduced new features
-which were very desirable for many workflows (including software
-development and HPC), such as the ability to encapsulate an entire
-environment in an image that can be distributed and reproduced on top
-of different hardware, improving reproducibility and dependency
-management.
-
-#+BEGIN_COMMENT LUCAS
-Are there only two container technologies (Docker and Singularity)?
-Cite all of them and describe what they have in common. Justify why
-only two of them are adopted in this work. While you could argue that
-they have more acceptance by the community, a technical argument would
-be better.
-#+END_COMMENT
+Among all alternatives, we describe below two of them:
+Docker and Singularity since they are the more prominent and widely
+used in the OS and HPC communities.
 
 *** Docker
 
-Docker is a very popular container system for software development and
-service deployment. Every major cloud infrastructure provider (such as
-AWS, Google Cloud Platform, and Microsoft Azure) supports Docker as a
-platform for executing software, and companies all over the world rely
-on it to deploy its services.
-
+Docker \cite{merkel2014docker} is a very popular container system for
+software development and service deployment. Every major cloud
+infrastructure provider (such as AWS, Google Cloud Platform, and
+Microsoft Azure) supports Docker as a platform for executing software,
+and companies all over the world rely on it to deploy its services.
+#+latex: %
 Docker implements a virtualization model that, by default, isolates as
 many aspects of the underlying operating system as possible. As a
 result, a Docker container has many aspects that resemble a
 traditional virtual machine: it has its own network stack, user space,
-and file system.
-
-By virtualizing the network stack, Docker relies on a virtual
-controller that uses Network Address Translation to correlate multiple
-containers to the host's IP address. This approach forces the user to
-explicitly specify which ports of the container should be exposed to
-the host operating system (and the internet), allowing the user to
+and file system.  By virtualizing the network stack, Docker relies on
+a virtual controller that uses Network Address Translation (NAT) to
+correlate multiple containers to the host's IP address. This approach
+forces the user to explicitly specify which ports of the container
+should be exposed to the host operating system, allowing the user to
 have a finer control over network communication on the container.
 
 Additionally, the user space is also separated between container and
 host. This means that there is a new root user inside the container,
-which is controlled by the user who starts it. This makes it easier
-for the user to customize the container environment, install libraries
-and packages and make modifications to the virtualized operating
-system in order to suit the user's needs. On the other hand, it also
-presents a security concern on shared environments, because it is
-possible for the user to mount the root directory from the host
-operating system as a volume in the container, thus granting access to
-all the files in the host machine. Docker mitigates this issue by, in
-its default configuration, allowing only the root user in the host
-operating system to create containers.
+which is controlled by the user who starts it. This turn customization
+easier, for example to install libraries and packages and make
+modifications to the virtualized operating system. On the other hand,
+it also presents a security concern on shared environments, because a
+user can mount the root directory from the host operating system as a
+volume in the container, thus granting access to all the files in the
+host machine. Docker mitigates this issue by allowing only the root
+user in the host operating system to create containers.
 
 *** Singularity
 
-Singularity is a container system developed for scientific research
-and high-performance computing applications. Contrary to Docker,
-Singularity does not aim to create completely isolated
-environments. It relies on a more conservative virtualization model,
-with the objective of providing integration with existing tools
-installed on the host operating system.
+# This implies that the container can still be a completely
+# different Linux distribution from the host. 
 
-Consequently, the only namespace that is isolated between the host and
-a Singularity container is the file system (meaning that the container
-can still be a completely different Linux distribution from the
-host). Every other namespace is not touched by default. Thus, the
+Singularity \cite{10.1371/journal.pone.0177459} is a container system
+developed for scientific research and high-performance computing
+applications. Contrary to Docker, Singularity does not aim to create
+completely isolated environments. It relies on a more open model, with
+the objective of providing integration with existing tools installed
+on the host operating system.  Consequently, the only namespace that
+is isolated between the host and a Singularity container is the file
+system. Other namespaces remain untouched by default. Thus, the
 network stack, process tree, and user space are the same between
-container and host, which leads to the container being seen as a
+container and host, which lead to the container being seen as a
 process which is executed in the host operating system. This feature
 is very important for two reasons. First, Singularity containers can
 be started and killed by any tool used to manage processes, such as
-/mpirun/ or even SLURM. Second, because the user space is not touched,
-the user that executes processes inside the container is the same as
-the one which started the container. This means that a regular user
-can start a container without being granted root access to it. In
-other words, a given user needs to be root in the host operating
-system in order to be root inside the container.
+/mpirun/ or even SLURM. Second, because the user space is untouched, the
+user that executes processes inside the container is the same as the
+one which started the container. This means that a regular user can
+start a container without being granted root access to it. In other
+words, only the root user in the host operating system can become
+root inside the container.
+
 ** Related Work and Motivation
 :PROPERTIES:
 :CUSTOM_ID: sec.relatedwork
