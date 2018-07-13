@@ -329,7 +329,7 @@ is very important for two reasons. First, Singularity containers can
 be started and killed by any tool used to manage processes, such as
 /mpirun/ or even SLURM. Second, because the user space is untouched, the
 user that executes processes inside the container is the same as the
-one which started the container. This means that a regular user can
+one which started the container. A regular user can
 start a container without being granted root access to it. In other
 words, only the root user in the host operating system can become
 root inside the container.
