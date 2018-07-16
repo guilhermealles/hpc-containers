@@ -1,5 +1,3 @@
-
-
 # -*- coding: utf-8 -*-
 # -*- mode: org -*-
 
@@ -593,10 +591,7 @@ required to provide connectivity between Docker containers. Such a
 virtual network does not exist in the other two environments. Although
 the Singularity container poses some overhead (\approx6% for 16 ranks), we
 believe it has the same reason for the NAS-EP/ClassB case, so
-unrelated to the network. Because of the higher overhead of the Docker
-environment in the Ondes3D/Default, we decide to exclude it from
-larger scale scenarios, and focus only in the Singularity environment
-evaluation.
+unrelated to the network.
 
 #+BEGIN_EXPORT latex
 \begin{figure}[!htb]
@@ -651,7 +646,10 @@ ranks. We believe the overhead is minor because of the longer run
 (more than 100s), so any initialization time imposed by the container
 is more easily absorbed by the run. Surprisingly, the overhead is
 smaller with 256 ranks, breaking the upward trend from 64 to 192. This
-is probably due to TODO...
+is probably due to the diminishing returns on speedup as the number of
+cores increase, which can mask the container initialization time with
+other overheads that are the constant in both environments, such as
+network communication.
 
 #+BEGIN_EXPORT latex
 \begin{figure}[!htb]
@@ -762,11 +760,11 @@ Ondes3D/Ligurian case, Singularity/Alpine is \approx5% faster than native,
 while in the NAS-EP/ClassB, both Docker and Singularity running Alpine
 are from \approx5% (with 16 cores) to \approx10% (sequential) faster than the
 native host when equipped with Debian9. Such results are not so
-surprisingly but still unconventional. The Linux container support is
-designed to have the offer the virtualized environment the smallest
-possible footprint from the native OS. Such feature combined with a
-HPC-tailored container, can bring performance advantages combined with
-a reproducible environment.
+surprising but are still unconventional. The Linux container support
+is designed to offer the virtualized environment the smallest possible
+footprint from the native OS. Such a feature, combined with an
+HPC-tailored container, can bring performance advantages as well as a
+reproducible environment.
 
 #+BEGIN_EXPORT latex
 \begin{figure}[!htb]
