@@ -260,19 +260,19 @@ container running on top of the Linux kernel, which means that there
 is no additional software layer in a container that should insert
 execution overhead.
 #+latex: %
-The core APIs and functionality used to create containers are old, and
-have been present in the Linux kernel for more than a
+The core APIs and functionality used to create containers are not new,
+and have been present in the Linux kernel for more than a
 decade. Containers become mainstream after a long time especially
 because of how difficult it is for an end user to interact with these
 kernel APIs directly. Conversely, containers only became popular when
 software (such as LXC, OpenVZ, Systemd-nspawn, Docker, rocket
-container runtime -- rkt, and Singularity) was created to interact with
-the kernel and mediate the creation of containers. These container
-management platforms also introduced new features which are very
-desirable for many workflows (including software development and HPC),
-such as the ability to encapsulate an entire environment in an image
-that can be distributed and reproduced on top of different hardware,
-improving reproducibility and dependency management.
+container runtime -- rkt, and Singularity) was created to interact
+with the kernel and mediate the creation of containers. These
+container management platforms also introduced new features which are
+very desirable for many workflows (including software development and
+HPC), such as the ability to encapsulate an entire environment in an
+image that can be distributed and reproduced on top of different
+hardware, improving reproducibility and dependency management.
 #+latex: %
 Among all alternatives, we describe below two of them:
 Docker and Singularity since they are the more prominent and widely
@@ -305,8 +305,11 @@ modifications to the virtualized operating system. On the other hand,
 it also presents a security concern on shared environments, because a
 user can mount the root directory from the host operating system as a
 volume in the container, thus granting access to all the files in the
-host machine. Docker mitigates this issue by allowing only the root
-user in the host operating system to create containers.
+host machine. Docker mitigates this issue by requiring root privileges
+in the host operating system for a user to create containers. Although
+efficient, this limitation imposes a barrier in adopting Docker as a
+standard container platform for shared environments in which not every
+user is granted with root privileges.
 
 *** Singularity                                                    :ignore:
 
@@ -328,10 +331,8 @@ is very important for two reasons. First, Singularity containers can
 be started and killed by any tool used to manage processes, such as
 /mpirun/ or even SLURM. Second, because the user space is untouched, the
 user that executes processes inside the container is the same as the
-one which started the container. A regular user can
-start a container without being granted root access to it. In other
-words, only the root user in the host operating system can become
-root inside the container.
+one which started the container, which means that regular users can
+start a container without needing root access in the host OS.
 
 ** Related Work and Motivation
 :PROPERTIES:
@@ -386,15 +387,15 @@ workload.
 Singularity \cite{10.1371/journal.pone.0177459} is a container system
 designed for scientific research workflows, and it strives to solve
 some drawbacks of using Docker in HPC. Author argues that Docker is
-not designed for shared, multi-user environments, something very
-common in supercomputers.  As a consequence, it is very hard to find
-HPC centers that allow users to execute Docker
-containers. Singularity, on the other hand, solves these problems to
-make HPC containers more accessible to the scientific
-community. Consequently, Singularity containers are already accepted
-and used in many supercomputers around the world. Additionally, a
-performance analysis of applications running on top of Singularity
-containers has also been carried out
+not designed for shared, multi-user environments (as discussed in
+Section [[#sec.background]]), something very common in supercomputers.  As
+a consequence, it is very hard to find HPC centers that allow users to
+execute Docker containers. Singularity, on the other hand, solves
+these problems to make HPC containers more accessible to the
+scientific community. Consequently, Singularity containers are already
+accepted and used in many supercomputers around the
+world. Additionally, a performance analysis of applications running on
+top of Singularity containers has also been carried out
 \cite{Le:2017:PAA:3093338.3106737}. It concludes that while some
 overhead does exist, the reported values are negligible for most use
 cases.
@@ -463,11 +464,11 @@ The Grid5000 is a platform used for scientific experiments in parallel
 computing, HPC, and computer science. It provides its users with many
 clusters that can be reserved for exclusive use for a limited time. We
 executed the experiments in the Grid5000's =graphene= cluster (at
-Nancy), which contains 131 nodes, each one equipped with 16GB of DDR3
-memory and a quad-core Intel Xeon X3340 (Lynnfield, 2.53GHz), and
-interconnected by a 1Gigabit Ethernet and a 20Gbps Infiniband
+Nancy - France), which contains 131 nodes, each one equipped with 16GB
+of DDR3 memory and a quad-core Intel Xeon X3340 (Lynnfield, 2.53GHz),
+and interconnected by a 1 Gigabit Ethernet and a 20 Gbps Infiniband
 network. We used up to 64 compute nodes for our tests using
-exclusively the 1Gigabit Ethernet because of limitations in the
+exclusively the 1 Gigabit Ethernet because of limitations in the
 container configuration. In all experiments, each node received a
 maximum of 4 MPI processes due to the 4-core availability of processor
 cores. All compute nodes are initially deployed (using =kadeploy3=
@@ -565,18 +566,17 @@ the Containers (right) -- Singularity and Docker. Figure
 the number of MPI ranks, calculated for each container environment
 against the native runs, also for both applications.
 
-For the *NAS-EP/ClassB* case, although indicating an advantage in the
-native execution, Figure \ref{fig1} (top facets) shows that the
-virtualized approaches perform very close to each other and to the
-native baseline. For 16 MPI ranks, the Docker overhead is of 8%
-while the Singularity imposes a slightly higher overhead of 9%.
-Although limited, both indicate an alarming increasing trend. This
-difference in execution time can be related to the time needed to spin
-up the containers and should increase as the number of containers (and
-MPI ranks) increases. However, since these runs were short -- about
-15s for NAS-EP/ClassB (see Figure \ref{fig1:left}) -- such overhead
-may be absorbed with longer CPU-bound runs that make a limited use of
-the communications.
+For the *NAS-EP/ClassB* case, Figure \ref{fig1} (top facets) shows that
+the virtualized approaches perform very close to each other and to the
+native baseline. For 16 MPI ranks, the Docker overhead is of 8% while
+the Singularity imposes a slightly higher overhead of 9%.  Although
+limited, both indicate an alarming increasing trend. This difference
+in execution time can be related to the time needed to spin up the
+containers and should increase as the number of containers (and MPI
+ranks) increases. However, since these runs were short -- less than 7s
+for 16 processes in NAS-EP/ClassB (see Figure \ref{fig1:left}) -- such
+overhead may be absorbed with longer CPU-bound runs that make a
+limited use of the communications.
 #+latex: %
 For the *Ondes3D/Default* case (bottom facets of Figures
 \ref{fig1:left} and \ref{fig1:right}), we observe that the performance
@@ -610,10 +610,7 @@ unrelated to the network.
          and the applications (NAS-EP/ClassB, and Ondes3D/Default),
          and (b), the execution overhead of the container environments
          against the native environment with respect to the number of
-         MPI ranks. We can notice how Docker poses higher overhead
-         (up to $\approx$53\%) as soon as
-         MPI ranks of the Ondes3D application communicate through the
-         network interconnection (from 8 processes and on).
+         MPI ranks.
 }
 \label{fig1}
 \end{figure}
@@ -641,15 +638,16 @@ observable difference in execution time between the two approaches
 (Singularity and Native), which indicates that the additional cost of
 executing applications in a Singularity environment is negligible even
 when spawning a high number of containers. The Figure \ref{fig2:right}
-shows the computed overhead as a function of the number of MPI
-ranks. We believe the overhead is minor because of the longer run
-(more than 100s), so any initialization time imposed by the container
-is more easily absorbed by the run. Surprisingly, the overhead is
-smaller with 256 ranks, breaking the upward trend from 64 to 192. This
-is probably due to the diminishing returns on speedup as the number of
-cores increase, which can mask the container initialization time with
-other overheads that are the constant in both environments, such as
-network communication.
+shows the computed overhead as a function of the number of MPI ranks,
+revealing a minor overhead of less than $\approx$1\% in all cases. We
+believe the overhead is minor because of the longer run (more than
+100s), so any initialization time imposed by the container is more
+easily absorbed by the run. Surprisingly, the overhead is smaller with
+256 ranks, breaking the upward trend from 64 to 192. This is probably
+due to the diminishing returns on speedup as the number of cores
+increase, which can mask the container initialization time with other
+overheads that are the constant in both environments, such as network
+communication.
 
 #+BEGIN_EXPORT latex
 \begin{figure}[!htb]
@@ -666,8 +664,7 @@ network communication.
 \caption{(a) Execution time as a function of the number of MPI ranks
          for the three environments (Native and Singularity) with the Ondes3D/Ligurian application,
          and (b), the Singularity overhead with respect to the number of
-         MPI ranks. We can notice how Singularity poses a minor overhead
-         (less than $\approx$1\%) despite the peak with 192 MPI ranks.
+         MPI ranks.
 }
 \label{fig2}
 \end{figure}
@@ -683,35 +680,37 @@ The results obtained with Ondes3D/Default using the Docker environment
 demonstrate that the bad performance is caused by network issues.
 Figure \ref{fig3} presents the Ping Pong benchmark measure the
 communication latency from the application point of view.  Figure
-\ref{fig3:left} depicts the average latency (on the logarithmic scale Y axis) between two
-nodes for the three environments (color) as a function of the message
-size (on X, also log. scale). From these results, we can see that the
-Docker network latency is much higher when compared to both the native and
-singularity environments, therefore with poorer performance. This evidence confirms
-that, as observed in the Ondes3D/Default experiment, the virtual
-network (Docker Swarm) used by Docker introduces significant overhead
-to communication. Singularity containers, on the other hand, use the
-same network stack as the host operating system, resulting in
-non-observable performance differences since most of the average
-latency is within the confidence interval of native measurements. The
-Figure \ref{fig3:right} shows the latency overhead of each container
-environment against the native physical interconnection. We can see that the overhead
-imposed by Singularity in the communication latency remains stable no
-matter the message size, which is something desirable.  In some
-cases the Singularity overhead is negative, meaning that average
-latency measured within Singularity is smaller than the average with
-the native OS. This is just an artifact since we show (see Figure
-\ref{fig3:left}), that confidence intervals of Singularity and Native
-overlap, indicating no statistical difference. The case for Docker is
-much worse because (a) the overhead is \approx75% against native, and (b) it
-dramatically increases after the message size 32KBytes. This indicates
-the low scalability of the approach, especially for those
-applications with larger message sizes, but also impacting
-applications that mostly used smaller messages. For instance, in the case of
-Ondes3D previously studied, ranks exchange multiple small
-message according to the domain decomposition. Even if most
-messages are exchanged asynchronously, the latency impact on the
-application is easily observed (see Figure \ref{fig1:right}).
+\ref{fig3:left} depicts the average latency (on the logarithmic scale
+Y axis) between two nodes for the three environments (differentiated
+by color) as a function of the message size (on X, also
+log scale). From these results, we can see that the Docker network
+latency is much higher when compared to both the native and
+singularity environments, therefore with poorer performance. This
+evidence confirms that, as observed in the Ondes3D/Default experiment,
+the virtual network (Docker Swarm) used by Docker introduces
+significant overhead to communication. Singularity containers, on the
+other hand, use the same network stack as the host operating system,
+resulting in non-observable performance differences since most of the
+average latency is within the confidence interval of native
+measurements. The Figure \ref{fig3:right} shows the latency overhead
+of each container environment against the native physical
+interconnection. We can see that the overhead imposed by Singularity
+in the communication latency remains stable no matter the message
+size, which is something desirable.  In some cases the Singularity
+overhead is negative, meaning that average latency measured within
+Singularity is smaller than the average with the native OS. This is
+just an artifact since we show (see Figure \ref{fig3:left}), that
+confidence intervals of Singularity and Native overlap, indicating no
+statistical difference. The case for Docker is much worse because (a)
+the overhead is \approx75% against native, and (b) it dramatically increases
+after the message size 32KBytes. This indicates the low scalability of
+the approach, especially for those applications with larger message
+sizes, but also impacting applications that mostly used smaller
+messages. For instance, in the case of Ondes3D previously studied,
+ranks exchange multiple small message according to the domain
+decomposition. Even if most messages are exchanged asynchronously, the
+latency impact on the application is easily observed (see Figure
+\ref{fig1:right}).
 
 #+BEGIN_EXPORT latex
 \begin{figure}[!htb]
@@ -742,29 +741,28 @@ To illustrate the advantages in flexibility for environment
 configuration, we also conducted an experiment running an Alpine Linux
 image on the container environments (Singularity and Docker). The
 Alpine Linux is a lightweight Linux distribution that strives for
-efficiency and isolation. It is based on Busybox and provides an
-alternate set of standard libraries that can yield better performance
-for some applications. Installing a completely different Linux
-distribution on multiple hosts of a cluster for a single experiment is
-generally a very hard task, sometimes even considered unfeasible
-(especially in a shared cluster environment). However, this task can
-be easily done when using containers. Figure \ref{fig4} shows how
-Docker and Singularity (running the Alpine Linux distribution) compare
-to the native operating system (running Debian) both in terms of
-average execution time (Figure \ref{fig4:left}) and performance
-difference against the native host (Figure \ref{fig4:right}) as a
-function of the number of MPI ranks. These results show that, by
-modifying the execution environment, it is possible for the
-virtualized execution to outperform the native one. In the
-Ondes3D/Ligurian case, Singularity/Alpine is \approx5% faster than native,
-while in the NAS-EP/ClassB, both Docker and Singularity running Alpine
-are from \approx5% (with 16 cores) to \approx10% (sequential) faster than the
-native host when equipped with Debian9. Such results are not so
-surprising but are still unconventional. The Linux container support
-is designed to offer the virtualized environment the smallest possible
-footprint from the native OS. Such a feature, combined with an
-HPC-tailored container, can bring performance advantages as well as a
-reproducible environment.
+efficiency and isolation. It is based on Busybox
+\cite{Wells:2000:BSA:364412.364422} and provides an alternate set of
+standard libraries that can yield better performance for some
+applications. Installing a completely different Linux distribution on
+multiple hosts of a cluster for a single experiment is generally a
+very hard task, sometimes even considered unfeasible (especially in a
+shared cluster environment). However, this task can be easily done
+when using containers. Figure \ref{fig4} shows how Docker and
+Singularity (running the Alpine Linux distribution) compare to the
+native operating system (running Debian) both in terms of average
+execution time (Figure \ref{fig4:left}) and performance difference
+against the native host (Figure \ref{fig4:right}) as a function of the
+number of MPI ranks. These results show that, by modifying the
+execution environment, it is possible for the virtualized execution to
+outperform the native one. In the Ondes3D/Ligurian case,
+Singularity/Alpine is \approx5% faster than native, while in the
+NAS-EP/ClassB, both Docker and Singularity running Alpine are from \approx5%
+(with 16 cores) to \approx10% (sequential) faster than the native host when
+equipped with Debian9. Such results are not so surprising but are
+still unconventional. This experiment shows that using a fine-tuned,
+HPC-tailored container in experiments can bring performance advantages
+as well as a reproducible environment.
 
 #+BEGIN_EXPORT latex
 \begin{figure}[!htb]
@@ -774,7 +772,7 @@ reproducible environment.
 \includegraphics[width=.90\linewidth,valign=t]{./img/alpine.pdf} \hfill
 \end{minipage}}\hfill%
 %
-\subfloat[Performance Difference against Native
+\subfloat[Performance against Native
 \label{fig4:right}]{\begin{minipage}{.47\linewidth}
 \includegraphics[width=.90\linewidth,valign=t]{./img/alpine-negative-overhead.pdf} \\
 \end{minipage}}\hfill%
@@ -783,8 +781,7 @@ reproducible environment.
              Debian9, and (b), performance difference of Alpine Linux
              containers (Singularity and Docker) against the Debian9 Native
              environment. Negative percentages in (b) indicate the performance 
-             gains of the containers; the Singularity container demonstrates
-             gains for all four scenarios (with 1, 4, 8, and 16 ranks).
+             gains of the containers.
 }
 \label{fig4}
 \end{figure}
@@ -1428,7 +1425,7 @@ df.pingpong %>%
     ggplot(aes(x=size, y=average)) +
     geom_line(aes(col = environment), alpha = 0.2) +
     geom_point(aes(col = environment), size = 1) +
-    geom_errorbar(aes(ymin=average-stdError, ymax=average+stdError, color=environment, group=environment), width = 0.1) +
+    geom_errorbar(aes(ymin=average-stdError, ymax=average+stdError, col=environment, group=environment), width = 0.2) +
     theme_bw(base_size=12) +
     colScale +
     scale_y_log10(breaks=c(0.1, 1, 2, 4, 8, 16, 32)) +
@@ -2018,6 +2015,23 @@ keywords = "Seismic numerical simulation, Finite-element method, Parallel sparse
     address = {New York, NY, USA},
     keywords = {IMB: Intel's MPI Benchmark, NEURON: Neuronal Simulation Tool, OSU: Ohio State University Benchmark, Singularity},
 }
+
+@article{Wells:2000:BSA:364412.364422,
+ author = {Wells, Nicholas},
+ title = {BusyBox: A Swiss Army Knife for Linux},
+ journal = {Linux J.},
+ issue_date = {October 2000},
+ volume = {2000},
+ number = {78es},
+ month = oct,
+ year = {2000},
+ issn = {1075-3583},
+ articleno = {10},
+ url = {http://dl.acm.org/citation.cfm?id=364412.364422},
+ acmid = {364422},
+ publisher = {Belltown Media},
+ address = {Houston, TX},
+} 
 #+end_src
 * Emacs setup                                                      :noexport:
 
