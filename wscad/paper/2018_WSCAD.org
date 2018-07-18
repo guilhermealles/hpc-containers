@@ -678,13 +678,13 @@ communication.
 The results obtained with Ondes3D/Default using the Docker environment
 (see previous Subsection) led us to design an experiment to
 demonstrate that the bad performance is caused by network issues.
-Figure \ref{fig3} presents the Ping Pong benchmark measure the
-communication latency from the application point of view.  Figure
-\ref{fig3:left} depicts the average latency (on the logarithmic scale
-Y axis) between two nodes for the three environments (differentiated
-by color) as a function of the message size (on X, also
-log scale). From these results, we can see that the Docker network
-latency is much higher when compared to both the native and
+Figure \ref{fig3} presents the Ping Pong benchmark which was used to
+measure the communication latency from the application point of view.
+Figure \ref{fig3:left} depicts the average latency (on the logarithmic
+scale Y axis) between two nodes for the three environments
+(differentiated by color) as a function of the message size (on X,
+also log scale). From these results, we can see that the Docker
+network latency is much higher when compared to both the native and
 singularity environments, therefore with poorer performance. This
 evidence confirms that, as observed in the Ondes3D/Default experiment,
 the virtual network (Docker Swarm) used by Docker introduces
@@ -707,7 +707,7 @@ after the message size 32KBytes. This indicates the low scalability of
 the approach, especially for those applications with larger message
 sizes, but also impacting applications that mostly used smaller
 messages. For instance, in the case of Ondes3D previously studied,
-ranks exchange multiple small message according to the domain
+ranks exchange multiple small messages according to the domain
 decomposition. Even if most messages are exchanged asynchronously, the
 latency impact on the application is easily observed (see Figure
 \ref{fig1:right}).
