@@ -639,7 +639,7 @@ observable difference in execution time between the two approaches
 executing applications in a Singularity environment is negligible even
 when spawning a high number of containers. The Figure \ref{fig2:right}
 shows the computed overhead as a function of the number of MPI ranks,
-revealing a minor overhead of less than $\approx$1\% in all cases. We
+revealing a minor overhead of less than \approx1% in all cases. We
 believe the overhead is minor because of the longer run (more than
 100s), so any initialization time imposed by the container is more
 easily absorbed by the run. Surprisingly, the overhead is smaller with
