@@ -14,8 +14,10 @@ SIZEEXP=$3
 
 cd $DOCKER_CLUSTER_DIR
 echo $(./swarm.sh up size=3)
+sleep 5
 EXEC_TIME=$(./swarm.sh exec mpirun -np 2 /project/ping-pong-mpi $SIZEEXP)
 echo $(./swarm.sh down)
+sleep 10
 
 cd "$EXPERIMENT_HOME_DIR"
 echo ">>>>>>>>>> $NAME,$ENVIRONMENT,$SIZEEXP,$EXEC_TIME <<<<<<<<<<"
