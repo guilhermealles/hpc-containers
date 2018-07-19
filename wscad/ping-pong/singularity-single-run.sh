@@ -13,7 +13,7 @@ NAME=$1
 ENVIRONMENT=$2
 SIZEEXP=$3
 
-EXEC_TIME=$(mpirun --hostfile $HOSTFILE -np 2 $SINGULARITY_IMAGES_DIR/ping-pong-sing.img)
+EXEC_TIME=$(mpirun --hostfile $HOSTFILE -np 2 $SINGULARITY_IMAGES_DIR/ping-pong-sing.img $SIZEEXP)
 
 echo ">>>>>>>>>> $NAME,$ENVIRONMENT,$SIZEEXP,$EXEC_TIME <<<<<<<<<<"
 echo "$NAME,$ENVIRONMENT,$SIZEEXP,$EXEC_TIME" >> $RESULTS_FILE
