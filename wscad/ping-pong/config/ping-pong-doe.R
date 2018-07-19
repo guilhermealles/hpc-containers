@@ -2,7 +2,7 @@ require(DoE.base);
 
 ping_pong_doe <- fac.design (
     nfactors = 2,
-    replications=30,
+    replications=10,
     repeat.only=FALSE,
     blocks=1,
     randomize=TRUE,
