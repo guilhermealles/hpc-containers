@@ -48,7 +48,7 @@ int main(int argc, char **argv) {
   MPI_Barrier(MPI_COMM_WORLD);
 
   // Perform NUM_ROUNDS ping-pongs
-  for (round = 0; round < NUM_ROUNDS*2; round++) {
+  for (round = 0; round < NUM_ROUNDS; round++) {
     t_start = MPI_Wtime();
     // I am the sender
     if (round % 2 == me) {
@@ -84,7 +84,7 @@ int main(int argc, char **argv) {
     MPI_Barrier(MPI_COMM_WORLD);
     t_stop = MPI_Wtime();
     if (me == 0)
-      printf("%8d,%12.8f\n", msg_length, (t_stop-t_start)*1000);
+      printf("%12.8f\n", (t_stop-t_start)*1000);
   }
   
   MPI_Win_free(&window);
