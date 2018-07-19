@@ -1,0 +1,13 @@
+Bootstrap: docker
+From: guilhermealles/ping-pong-mpi
+
+%runscript
+/project/ping-pong-mpi $@
+
+%files
+
+%environment
+# LD_LIBRARY_PATH=$LD_LIBRARY_PATH:'/usr/local/lib'
+
+%labels
+AUTHOR guilherme.r.alles@gmail.com
