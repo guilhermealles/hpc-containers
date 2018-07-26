@@ -1,0 +1,2047 @@
+# -*- coding: utf-8 -*-
+# -*- mode: org -*-
+
+#+TITLE:
+#+AUTHOR: Lucas Mello Schnorr
+
+#+STARTUP: overview indent
+#+LANGUAGE: en-us
+#+OPTIONS: H:3 creator:nil timestamp:nil skip:nil toc:nil num:t ^:nil ~:~
+#+OPTIONS: author:nil title:nil date:nil
+#+TAGS: noexport(n) deprecated(d) ignore(i)
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+PROPERTY: header-args :eval never-export
+
+#+LATEX_CLASS: article
+#+LATEX_CLASS_OPTIONS: [12pt]
+#+LATEX_HEADER: \usepackage{sbc-template}
+#+LATEX_HEADER: \usepackage[utf8]{inputenc}
+#+LATEX_HEADER: \usepackage[T1]{fontenc}
+#+LATEX_HEADER: \usepackage{graphicx}
+#+LATEX_HEADER: \usepackage{hyperref}
+#+LATEX_HEADER: \usepackage[export]{adjustbox}
+#+LATEX_HEADER: \usepackage[labelformat=parens]{subfig}
+
+# You need at least Org 9 and Emacs 24 to make this work.
+# If you do, just type make (thanks Luka Stanisic for this).
+
+* WSCAD 2018 Submission Rules                                      :noexport:
+
+WSCAD Simpósio em Sistemas Computacionais de Alto Desempenho
+
+O Simpósio em Sistemas Computacionais de Alto Desempenho (WSCAD) é um
+evento anual que apresenta as principais aplicações, desenvolvimentos
+e tendências nas áreas de arquitetura de computadores, processamento
+de alto desempenho e sistemas distribuídos. Na sua décima nona edição
+o WSCAD será realizado na cidade de São Paulo.
+
+Em paralelo ao WSCAD ocorre, o Concurso de Teses e Dissertações em
+Arquitetura de Computadores e Computação de Alto Desempenho
+(WSCAD-CTD), o Workshop de Iniciação Científica em Arquitetura de
+Computadores e Computação de Alto Desempenho (WSCAD-WIC), o Workshop
+sobre Educação em Arquitetura de Computadores (WEAC), o Workshop em
+Computação Heterogênea (WCH) e a Maratona Internacional de Programação
+Paralela, entre outros eventos a serem anunciados.
+
+Os(as) autores(as) interessados(as) em apresentar seus trabalhos na
+trilha principal do WSCAD deverão submeter seus artigos em português
+ou inglês em formato PDF através da plataforma JEMS.
+
+Os artigos serão avaliados pelos membros do comitê de programa e por
+revisores externos ao comitê. Os anais serão publicados na BDBComp da
+SBC e os melhores trabalhos serão convidados a submeter para uma
+edição especial de um periódico internacional.
+
+A submissão de artigos para a trilha principal do WSCAD em breve
+estará aberta. Os artigos submetidos poderão ser escritos em lingua
+portuguesa ou inglesa e deverão ter um limite de 12 páginas (incluindo
+figuras, tabelas e referências) seguindo o formato da SBC para
+submissão de artigos.  Datas importantes:
+
+    Submissão de trabalhos: 13/07/2018
+    Notificação de aceitação: 20/08/2018
+    Envio da versão final: 30/08/2018
+
+* IEEETran configuration for org export + ignore tag (Start Here)  :noexport:
+
+#+begin_src emacs-lisp :results output :session :exports both
+(add-to-list 'load-path ".")
+(require 'ox-extra)
+(ox-extras-activate '(ignore-headlines))
+#+end_src
+
+#+RESULTS:
+
+* *The Paper*                                                          :ignore:
+** Latex configurations                                             :ignore:
+
+#+BEGIN_EXPORT latex
+%\usepackage[brazil]{babel}   
+\def\COMPANION{{\scriptsize\url{https://github.com/guilhermealles/hpc-containers/}}}
+#+END_EXPORT
+
+** Frontpage                                                        :ignore:
+
+#+BEGIN_EXPORT latex
+\title{Assessing the Computation and Communication \\ Overhead of Linux Containers for HPC Applications}
+
+\author{
+   Guilherme Rezende Alles,
+   Alexandre Carissimi,
+   Lucas Mello Schnorr}
+
+\address{Instituto de Informática -- Universidade Federal do Rio Grande do Sul (UFRGS)\\
+  Caixa Postal 15.064 -- 91.501-970 -- Porto Alegre -- RS -- Brazil
+  \email{\{gralles,asc,schnorr\}@inf.ufrgs.br}
+  }
+#+END_EXPORT
+
+#+LaTeX: \maketitle
+
+** Abstract                                                         :ignore:
+
+#+LATEX: \begin{abstract}
+Virtualization technology provides features that are desirable for
+high-performance computing (HPC), such as enhanced reproducibility for
+scientific experiments and flexible execution environment
+customization. This paper explores the performance implications of
+applying Operating System (OS) containers in HPC applications. Docker and
+Singularity are compared to a native baseline with no virtualization,
+using synthetic workloads and an earthquake simulator called Ondes3D
+as benchmarks. Our evaluation using up to 256 cores indicate that (a)
+Singularity containers have minor performance overhead, (b) Docker
+containers do suffer from increased network latency, and (c)
+performance gains are attainable with an optimized container on top of
+a regular OS.
+#+LATEX: \end{abstract}
+
+#+BEGIN_COMMENT LUCAS
+I think it would be nice to give some context information in the
+beginning of the abstract. First phrase is also disconnected with
+the "assessing the computation and comm. overhead ...". Additionally,
+you can include some details about the methodology and the main
+results. It is okay to reveal this from the start.
+#+END_COMMENT
+
+** Introduction
+
+#+BEGIN_COMMENT ALLES
+- [ ] Okay, agreed. I will look into that (add more citations).
+#+END_COMMENT
+
+One fundamental aspect of scientific computing research is that, in
+order for it to be credible, it should be reproducible. This means
+that the researcher has the responsibility of providing its readers
+with the resources necessary to run experiments and obtain similar
+results to the ones provided by the research. Although the concept of
+reproducibility is well known in the scientific community, it is very
+hard to put it to practice because of the large number of variables
+that comprise an execution environment. Additionally, HPC resources
+are usually managed under strict usage policies, many of which do not
+allow the user to customize the environment with an arbitrary software
+stack (e.g. compilers, libraries or device drivers), thus making it
+very difficult to obtain a uniform execution platform for a given 
+experiment across different clusters.
+
+Although being intuitively difficult to deal with, these problems can
+be solved through the use of traditional hardware virtualization, in 
+which users can run their own operating system and execution 
+environment on top of a hypervisor, ensuring that the software stack 
+can be configured to the exact requirements for a given experiment. 
+The problem with this approach is that, when considering HPC 
+applications, the performance overhead introduced by the hypervisor 
+and an entire virtual machine is too high for this solution to be 
+considered feasible.
+#+latex: %
+As an alternative to virtual machines, container technologies have 
+gained a lot of attention in the software development industry. This 
+is mainly because containers offer the benefits of virtualization 
+at a fraction of the performance overhead introduced by virtual 
+machines \cite{7562612}.
+#+latex: %
+By using containers to isolate and package software, users are able to
+create reproducible, configurable environments for their
+applications. This diminishes the hassle of managing application
+dependencies and software stack differences when executing experiments
+across different Linux environments. The problem is that the
+performance implications of applying Operating System (OS) containers
+in parallel applications remains relatively unexplored in the HPC
+community. 
+
+This paper compares and contrast two container technologies, Docker
+and Singularity, with respect to their performance overhead and
+ability to solve common HPC workflow problems.  We will consider the
+same experiments running on a native environment as the baseline for
+performance comparison using multiple nodes (up to 64 hosts, 256
+cores). The main contributions of this paper are:
+
+- We employ three cases: the NAS-EP \cite{bailey1991parallel}, the
+  earthquake simulator Ondes3D \cite{dupros:10} and a in-house
+  MPI-based Ping-Pong application to evaluate network latency (Section
+  [[#sec.benchs]]);
+- We demonstrate that Singularity containers have minor computation
+  overhead because of extra work during initialization; and that this
+  overhead is absorbed for longer runs independent of the number of
+  MPI ranks (Section [[#sec.compute]]);
+- Docker containers with network virtualization (using the Docker
+  Swarm) suffer from increased network latency that
+  strongly penalizes communication-bound applications such as Ondes3D
+  (Section [[#sec.latency]]);
+- Performance gains are attainable with an optimized container on top
+  of a regular OS such as our comparison of a Singularity container
+  based on Alpine Linux that reduces the Ondes3D execution time of up
+  to \approx5% in parallel runs (Section [[#sec.alpine]]).
+
+#+BEGIN_COMMENT Lucas
+This introduction lacks to clearly define the problem. Why such
+comparison is necessary? Why it is important to evaluate performance?
+Is there a performance problem? Do you want to make sure others can
+re-use containers without suffering from performance penalties?
+
+At some point (perhaps rephrasing the last paragraph -- see above),
+you should start a phrase with "This paper ..." to explicitly tell the
+reader what this paper is about. We can also itemize the three
+contributions and a similar way done in the abstract, but with further
+details.
+
+Most of the introduction introduces historical and basic concepts
+about virtualization techniques, and IMHO fail to bring the reader
+quickly to the problem addressed in the paper and its
+contribution. More emphasis is given to such basic concepts to what
+this paper is about (context, problem, solution, contributions). Some
+text here could be reused in the Section [[#sec.background]].
+
+Write this at the very end of the introduction (end of paper structure
+paragraph): "The companion material of this work, including the source
+code, analysis scripts, and raw measurements, is publicly available
+at \COMPANION."
+#+END_COMMENT
+
+Section [[#sec.background]] presents some basic concepts regarding
+container technologies, Docker, and Singularity. Section
+[[#sec.relatedwork]] discusses related work in the field of containers and
+virtualization in high-performance computing contexts, and motivate
+our work.  Section [[#sec.results]] presents the experimental design and
+benchmarks, and a detailed description of the main contributions of
+this paper. Section [[#sec.conclusion]] concludes the paper with main
+achievements and detail some future work. The companion material of
+this work, including the source code, analysis scripts, and raw
+measurements, is publicly available at \COMPANION.
+
+** Basic Concepts
+:PROPERTIES:
+:CUSTOM_ID: sec.background
+:END:
+
+#+BEGIN_COMMENT LUCAS
+- [ ] Cite the appropriate paper at the phrase "Containers present a
+      theoretically negligible overhead penalty when compared to an
+      application running natively on the host operating system"
+#+END_COMMENT
+
+Operating System (OS) Containers \cite{soltesz2007container} are a
+mean of achieving virtualization without relying on software to
+emulate hardware resources. Therefore, containers are known as
+software level virtualization for Linux systems, and they orchestrate
+features (/cgroups/ and /namespaces/) that are native to the Linux kernel
+to isolate the resources managed by the OS. As of result, software
+that runs inside of a container can have its own file system, process
+tree, user space and network stack, giving it the impression of being
+executed on an isolated environment.
+#+latex: %
+Containers present a theoretically negligible overhead penalty when
+compared to an application running natively on the host operating
+system. This happens because the Linux kernel already uses /cgroups/ and
+/namespaces/ to manage its resources internally, even when there are not
+multiple containers on a single machine. Considering this approach, a
+non-virtualized Linux environment can be seen itself as a single
+container running on top of the Linux kernel, which means that there
+is no additional software layer in a container that should insert
+execution overhead.
+#+latex: %
+The core APIs and functionality used to create containers are not new,
+and have been present in the Linux kernel for more than a
+decade. Containers become mainstream after a long time especially
+because of how difficult it is for an end user to interact with these
+kernel APIs directly. Conversely, containers only became popular when
+software (such as LXC, OpenVZ, Systemd-nspawn, Docker, rocket
+container runtime -- rkt, and Singularity) was created to interact
+with the kernel and mediate the creation of containers. These
+container management platforms also introduced new features which are
+very desirable for many workflows (including software development and
+HPC), such as the ability to encapsulate an entire environment in an
+image that can be distributed and reproduced on top of different
+hardware, improving reproducibility and dependency management.
+#+latex: %
+Among all alternatives, we describe below two of them:
+Docker and Singularity since they are the more prominent and widely
+used in the OS and HPC communities.
+
+*** Docker                                                         :ignore:
+
+*Docker* \cite{merkel2014docker} is a very popular container system for
+software development and service deployment. Every major cloud
+infrastructure provider (such as AWS, Google Cloud Platform, and
+Microsoft Azure) supports Docker as a platform for executing software,
+and companies all over the world rely on it to deploy its services.
+#+latex: %
+Docker implements a virtualization model that, by default, isolates as
+many aspects of the underlying operating system as possible. As a
+result, a Docker container has many aspects that resemble a
+traditional virtual machine: it has its own network stack, user space,
+and file system.  By virtualizing the network stack, Docker relies on
+a virtual controller that uses Network Address Translation (NAT) to
+correlate multiple containers to the host's IP address. This approach
+forces the user to explicitly specify which ports of the container
+should be exposed to the host operating system, allowing the user to
+have a finer control over network communication on the container.
+
+Additionally, the user space is also separated between container and
+host. This means that there is a new root user inside the container,
+which is controlled by the user who starts it. This turn customization
+easier, for example to install libraries and packages and make
+modifications to the virtualized operating system. On the other hand,
+it also presents a security concern on shared environments, because a
+user can mount the root directory from the host operating system as a
+volume in the container, thus granting access to all the files in the
+host machine. Docker mitigates this issue by requiring root privileges
+in the host operating system for a user to create containers. Although
+efficient, this limitation imposes a barrier in adopting Docker as a
+standard container platform for shared environments in which not every
+user is granted with root privileges.
+
+*** Singularity                                                    :ignore:
+
+# This implies that the container can still be a completely
+# different Linux distribution from the host. 
+
+*Singularity* \cite{10.1371/journal.pone.0177459} is a container system
+developed for scientific research and high-performance computing
+applications. Contrary to Docker, Singularity does not aim to create
+completely isolated environments. It relies on a more open model, with
+the objective of providing integration with existing tools installed
+on the host operating system.  Consequently, the only namespace that
+is isolated between the host and a Singularity container is the file
+system. Other namespaces remain untouched by default. Thus, the
+network stack, process tree, and user space are the same between
+container and host, which lead to the container being seen as a
+process which is executed in the host operating system. This feature
+is very important for two reasons. First, Singularity containers can
+be started and killed by any tool used to manage processes, such as
+/mpirun/ or even SLURM. Second, because the user space is untouched, the
+user that executes processes inside the container is the same as the
+one which started the container, which means that regular users can
+start a container without needing root access in the host OS.
+
+** Related Work and Motivation
+:PROPERTIES:
+:CUSTOM_ID: sec.relatedwork
+:END:
+
+*** Related Work                                                   :ignore:
+
+#+BEGIN_COMMENT LUCAS
+Instead of jumping in directly to the citations; give some general
+context information about related work. Explicitely tell the reader
+that you will list other works that /evaluate performance/ in container
+environments in the HPC context. A very brief historical perspective
+is also welcome, sometimes.
+#+END_COMMENT
+
+Experiments to measure and evaluate the performance of virtualized
+environments for HPC have already been done in the past. One
+particular study compared the performance of Docker containers to
+traditional virtual machines for single-node applications, concluding
+that the former has a considerably lower overhead when compared to the
+latter \cite{7562612}. The same conclusions were drawn when
+considering experiments that run on multiple physical nodes
+\cite{10.1007/978-3-319-20119-1_36} and with more complex application
+signatures that are common in HPC, such as load imbalance and
+communication with other processes \cite{7185212}. Additional work has
+also shown that there is some additional overhead when comparing the
+execution time of applications on top of containers to applications in
+the native environment (with no virtualization)
+\cite{10.1007/978-3-319-27308-2_65}.
+
+An investigation work proposed a model of MPI cluster in a distributed
+environment \cite{7868429}. In this study, Docker containers are
+connected through an orchestrator called Docker Swarm, which is
+responsible for assigning names and providing network connectivity
+between the containers, leveraging Docker's overlay networking
+capabilities.  Performance analysis, however, is absent from this
+study, obscuring the conclusion of whether such an approach is viable
+in a real-world scenario.  Furthermore, it has been shown that the
+performance of network operations can be affected by the use of Docker
+containers, especially in latency-sensitive scenarios \cite{7095802}.
+
+#+BEGIN_COMMENT LUCAS
+The first part of this paragraph (around
+\cite{10.1371/journal.pone.0177459}) looks like basic concepts and
+historical perspective to be included in Section [[#sec.background]]. Only
+at the end you talk about another work that carried out a performance
+analysis of Singularity; but no details are given about platform,
+workload.
+#+END_COMMENT
+
+Singularity \cite{10.1371/journal.pone.0177459} is a container system
+designed for scientific research workflows, and it strives to solve
+some drawbacks of using Docker in HPC. Author argues that Docker is
+not designed for shared, multi-user environments (as discussed in
+Section [[#sec.background]]), something very common in supercomputers.  As
+a consequence, it is very hard to find HPC centers that allow users to
+execute Docker containers. Singularity, on the other hand, solves
+these problems to make HPC containers more accessible to the
+scientific community. Consequently, Singularity containers are already
+accepted and used in many supercomputers around the
+world. Additionally, a performance analysis of applications running on
+top of Singularity containers has also been carried out
+\cite{Le:2017:PAA:3093338.3106737}. It concludes that while some
+overhead does exist, the reported values are negligible for most use
+cases.
+
+*** Motivation                                                     :ignore:
+
+# Wrap up the state of the art mentioned in previous work, mention what is missing, present objectives and motivation.
+
+#+BEGIN_COMMENT LUCAS
+Perhaps a table like this could be useful. Other criteria could be added.
+
+| Related Work                       | Container         | Nodes     | Workload | Conclusions                 |
+|------------------------------------+-------------------+-----------+----------+-----------------------------|
+| \cite{7562612}                     | Docker            | Single    | ?        | Docker more viable than VM  |
+| \cite{7868429}                     | Docker with swarm | How many? | ?        | Perf. Analysis inconclusive |
+| \cite{Le:2017:PAA:3093338.3106737} | Singularity       | ?         | ?        | ?                           |
+| ?                                  |                   |           |          |                             |
+| ?                                  |                   |           |          |                             |
+
+Notice the two empty rows to tell you that more is necessary.
+#+END_COMMENT
+
+#+Latex: \noindent{\bf Motivation:}
+The goal of this work is to study the drawbacks and improvements that
+occur by applying virtualization techniques to high-performance
+computing workflows. As concluded by previous work, using virtual
+machines is unfeasible because of the overheads that comes along with
+this strategy. Thus, our goal is to measure the performance impact of
+applying container-based virtualization to these HPC workloads. We
+present an analysis covering both synthetic benchmarks and a real
+application comparing the performance implications of Docker and
+Singularity, two major container systems, and using a traditional
+approach (with no virtualization) as baseline. Furthermore, we intend
+to demonstrate that virtualization techniques can be used in HPC
+without the massive overhead of traditional virtual machines. Next
+section details our results toward these goals.
+
+# By using containers, cluster administrators can provide flexibility,
+# portability and enhanced reproducibility to its users without
+# sacrificing performance.
+
+** Results and Evaluation of the Performance Overhead
+:PROPERTIES:
+:CUSTOM_ID: sec.results
+:END:
+
+*** Introduction                                                   :ignore:
+Results are based on measurements obtained from experiments with
+multiple compute nodes of the Grid5000 platform \cite{grid5000}, in a
+controlled setup. In what follows, we present (a) the
+software/hardware stack adopted across all experiments with
+three cases (Native, Docker, Singularity) and three benchmarks
+(NAS-EP, Ondes3D, Ping-Pong); (b) the computation overhead analysis
+with a comparison between docker, singularity, and native; (c) a
+verification of the increased communication latency leading to bad
+application performance; and (d) a comprehensive analysis to verify
+how performance gains can be used solely in applying an optimized
+container on top of an optimized OS.
+
+*** Software/Hardware Environment, Benchmarks, and Workload Details
+:PROPERTIES:
+:CUSTOM_ID: sec.benchs
+:END:
+
+The Grid5000 is a platform used for scientific experiments in parallel
+computing, HPC, and computer science. It provides its users with many
+clusters that can be reserved for exclusive use for a limited time. We
+executed the experiments in the Grid5000's =graphene= cluster (at
+Nancy - France), which contains 131 nodes, each one equipped with 16GB
+of DDR3 memory and a quad-core Intel Xeon X3340 (Lynnfield, 2.53GHz),
+and interconnected by a 1 Gigabit Ethernet and a 20 Gbps Infiniband
+network. We used up to 64 compute nodes for our tests using
+exclusively the 1 Gigabit Ethernet because of limitations in the
+container configuration. In all experiments, each node received a
+maximum of 4 MPI processes due to the 4-core availability of processor
+cores. All compute nodes are initially deployed (using =kadeploy3=
+\cite{jeanvoine2013kadeploy3}) with the default Debian9 OS image,
+before laying the Docker or Singularity environment on top of it.
+
+# Three execution environments are configured: Native, Docker, and
+# Singularity.  
+To ensure consistency between the container environments
+against the Native case, the same Debian9 Linux distribution was used for
+such environments in both Docker and Singularity containers.  We have
+used a previously proposed \cite{7868429} multi-node container
+infrastructure for Docker where physical nodes are connected using the
+Docker Swarm utility. This tool is responsible for spawning containers
+on all the nodes and connecting them via an overlay network, so that
+every container (which will execute an MPI process) can be addressed
+by the MPI middleware. The multi-node container infrastructure for
+Singularity is similar to the one with native processes. Because
+Singularity containers share the network stack with its host, there is
+no need for a virtual network between the containers. Therefore,
+processes in Singularity containers communicate through the physical network.
+
+Three parallel applications are used to evaluate the performance in
+the OS options (Native, Docker and Singularity): NAS-EP, Ondes3D, and
+Ping-Pong, detailed as follows.
+#+latex: %
+The NAS Embarrassingly Parallel -- *NAS-EP* -- is part of the NAS
+Parallel Benchmarks (NPB) \cite{bailey1991parallel}. NAS-EP generates
+independent Gaussian random numbers using the polar method, being
+considered a CPU-bound case with parallel speedup close to ideal since
+communication takes place in the beginning and end of the
+execution. EP is executed with the class B workload using one to four
+hosts (4 to 16 cores) in preliminary tests. *Ondes3D* \cite{dupros:10}
+is developed at the BRGM (French Geological Survey) as an
+implementation of the finite-differences method (FDM) to simulate the
+propagation of seismic waves in three-dimensional media. As previously
+observed \cite{tesser2017using}, its signature contains
+characteristics such as load imbalance and frequent asynchronous
+small-message communications among MPI ranks. Two workloads have been
+used to run Ondes3D: the default test case without a geological model
+(synthetic earthquake) and a real Mw 6.3 earthquake that arose in
+Liguria (north-western Italy) in 1887 \cite{aochi2011ligurian} with
+300 timesteps, which has been used as workload for our tests. So, this
+real-world application is also evaluated to verify if it is impacted
+by OS containers. Finally, an in-house *Ping-Pong* benchmark developed
+with MPI (see the companion material for the source code) was used to
+assess the bandwidth and latency performance when introducing the
+container's virtual environment. This evaluation is conducted between
+two nodes that exchange MPI messages, with message sizes varying from
+1Byte to 1MByte.
+
+We generate two randomized full factorial designs \cite{jain1991art}
+to drive experiments and collect measurements for NAS-EP and
+Ondes3D. The first design targets a smaller scale test using up to
+four nodes, with 1, 4, 8, and 16 processes; the second design uses 64
+nodes, with 64, 128, 192, and 256 processes. The first batch uses
+NAS-EP executed with the Class B workload (identified by
+NAS-EP/ClassB) and Ondes3D with the default test case
+(Ondes3D/Default). The second batch of experiments considers the
+Ondes3D application using the Ligurian workload
+(Ondes3D/Ligurian). The Ping-Pong application has been used in a
+separated batch since it uses only two compute nodes of the graphene
+cluster. Messages size corresponding to powers of two from 1B to
+1MBytes (21 data points) has been sequentially measured.  All reported
+makespan and ping-pong measurements are averages from 10 to 30
+replications of each experiment parameter configuration; error bars
+are calculated considering a confidence level of 99.7% assuming a
+Gaussian distribution.
+# Some histograms are slightly skewed 
+
+#+BEGIN_COMMENT LUCAS
+Perhaps add a table to give a summary of all this
+#+END_COMMENT
+
+*** Computation Overhead Analysis
+:PROPERTIES:
+:CUSTOM_ID: sec.compute
+:END:
+
+We present the results of the computation overhead for the small case
+scenarios (up to 16 cores) of NAS-EP/ClassB and Ondes3D/Default, then
+the larger scenario with the Ondes3D/Ligurian case, using 64 nodes and
+256 cores.
+
+**** Small case (4 nodes, 16 cores) with NAS-EP/ClassB and Ondes3D/Default
+:PROPERTIES:
+:UNNUMBERED: true
+:END:
+
+Figure \ref{fig1:left} shows the makespans of the NAS-EP/ClassB (the
+top facets in the first row) and the Ondes3D/Default (bottom), with
+respect to the number of MPI ranks for the Native (left facets) and
+the Containers (right) -- Singularity and Docker. Figure
+\ref{fig1:right} depicts the execution time overhead with respect to
+the number of MPI ranks, calculated for each container environment
+against the native runs, also for both applications.
+
+For the *NAS-EP/ClassB* case, Figure \ref{fig1} (top facets) shows that
+the virtualized approaches perform very close to each other and to the
+native baseline. For 16 MPI ranks, the Docker overhead is of 8% while
+the Singularity imposes a slightly higher overhead of 9%.  Although
+limited, both indicate an alarming increasing trend. This difference
+in execution time can be related to the time needed to spin up the
+containers and should increase as the number of containers (and MPI
+ranks) increases. However, since these runs were short -- less than 7s
+for 16 processes in NAS-EP/ClassB (see Figure \ref{fig1:left}) -- such
+overhead may be absorbed with longer CPU-bound runs that make a
+limited use of the communications.
+#+latex: %
+For the *Ondes3D/Default* case (bottom facets of Figures
+\ref{fig1:left} and \ref{fig1:right}), we observe that the performance
+on the three environments is similar for 1 and 4 MPI ranks. However,
+the Docker performance degrades when going up to 8 and 16 ranks with
+execution time overhead of \approx33% for 8 MPI ranks and \approx53% for 16.  This
+behavior surfaces exactly when more physical nodes are added to the
+experiment, which indicates that the network communication might be
+impacting the performance of Docker containers. This hypothesis is
+further supported by the virtual network (Docker Swarm) that is
+required to provide connectivity between Docker containers. Such a
+virtual network does not exist in the other two environments. Although
+the Singularity container poses some overhead (\approx6% for 16 ranks), we
+believe it has the same reason for the NAS-EP/ClassB case, so
+unrelated to the network.
+
+#+BEGIN_EXPORT latex
+\begin{figure}[!htb]
+\centering
+\subfloat[Execution Time
+\label{fig1:left}]{\begin{minipage}{.47\linewidth}
+\includegraphics[width=.90\linewidth,valign=t]{./img/computation.pdf} \hfill
+\end{minipage}}\hfill%
+%
+\subfloat[Overhead against Native
+\label{fig1:right}]{\begin{minipage}{.47\linewidth}
+\includegraphics[width=.90\linewidth,valign=t]{./img/computation-overhead-small.pdf} \\
+\end{minipage}}\hfill%
+\caption{(a) Execution time as a function of the number of MPI ranks
+         for the three environments (Native, Docker, and Singularity)
+         and the applications (NAS-EP/ClassB, and Ondes3D/Default),
+         and (b), the execution overhead of the container environments
+         against the native environment with respect to the number of
+         MPI ranks.
+}
+\label{fig1}
+\end{figure}
+#+END_EXPORT
+
+**** Large case (64 nodes, 256 cores) with Ondes3D/Ligurian
+:PROPERTIES:
+:UNNUMBERED: true
+:END:
+
+#+BEGIN_COMMENT LUCAS
+- Guilherme, could you please add a plausible reason in the TODO note below.
+#+END_COMMENT
+
+Figure \ref{fig2} shows a large-scale simulation of the Ligurian
+earthquake on Ondes3D. This experiment was conducted to put
+Singularity in a highly-distributed computing scenario, and its main
+objective is to assess the aggregated overhead of spawning a large
+number of containers across multiple nodes. Unfortunately, the
+container infrastructure for Docker using its overlay network and
+Docker Swarm as an orchestrator failed to spawn containers in such a
+high number of nodes, and thus Docker was excluded from this test
+case. As the plot indicates (see Figure \ref{fig2:left}), there is no
+observable difference in execution time between the two approaches
+(Singularity and Native), which indicates that the additional cost of
+executing applications in a Singularity environment is negligible even
+when spawning a high number of containers. The Figure \ref{fig2:right}
+shows the computed overhead as a function of the number of MPI ranks,
+revealing a minor overhead of less than \approx1% in all cases. We
+believe the overhead is minor because of the longer run (more than
+100s), so any initialization time imposed by the container is more
+easily absorbed by the run. Surprisingly, the overhead is smaller with
+256 ranks, breaking the upward trend from 64 to 192. This is probably
+due to the diminishing returns on speedup as the number of cores
+increase, which can mask the container initialization time with other
+overheads that are the constant in both environments, such as network
+communication.
+
+#+BEGIN_EXPORT latex
+\begin{figure}[!htb]
+\centering
+\subfloat[Execution Time
+\label{fig2:left}]{\begin{minipage}{.47\linewidth}
+\includegraphics[width=.90\linewidth,valign=t]{./img/computation-ligurian.pdf} \hfill
+\end{minipage}}\hfill%
+%
+\subfloat[Overhead against Native
+\label{fig2:right}]{\begin{minipage}{.47\linewidth}
+\includegraphics[width=.90\linewidth,valign=t]{./img/computation-overhead-large.pdf} \\
+\end{minipage}}\hfill%
+\caption{(a) Execution time as a function of the number of MPI ranks
+         for the three environments (Native and Singularity) with the Ondes3D/Ligurian application,
+         and (b), the Singularity overhead with respect to the number of
+         MPI ranks.
+}
+\label{fig2}
+\end{figure}
+#+END_EXPORT
+
+*** Verification of Increased Communication Latency
+:PROPERTIES:
+:CUSTOM_ID: sec.latency
+:END:
+
+The results obtained with Ondes3D/Default using the Docker environment
+(see previous Subsection) led us to design an experiment to
+demonstrate that the bad performance is caused by network issues.
+Figure \ref{fig3} presents the Ping Pong benchmark which was used to
+measure the communication latency from the application point of view.
+Figure \ref{fig3:left} depicts the average latency (on the logarithmic
+scale Y axis) between two nodes for the three environments
+(differentiated by color) as a function of the message size (on X,
+also log scale). From these results, we can see that the Docker
+network latency is much higher when compared to both the native and
+singularity environments, therefore with poorer performance. This
+evidence confirms that, as observed in the Ondes3D/Default experiment,
+the virtual network (Docker Swarm) used by Docker introduces
+significant overhead to communication. Singularity containers, on the
+other hand, use the same network stack as the host operating system,
+resulting in non-observable performance differences since most of the
+average latency is within the confidence interval of native
+measurements. The Figure \ref{fig3:right} shows the latency overhead
+of each container environment against the native physical
+interconnection. We can see that the overhead imposed by Singularity
+in the communication latency remains stable no matter the message
+size, which is something desirable.  In some cases the Singularity
+overhead is negative, meaning that average latency measured within
+Singularity is smaller than the average with the native OS. This is
+just an artifact since we show (see Figure \ref{fig3:left}), that
+confidence intervals of Singularity and Native overlap, indicating no
+statistical difference. The case for Docker is much worse because (a)
+the overhead is \approx75% against native, and (b) it dramatically increases
+after the message size 32KBytes. This indicates the low scalability of
+the approach, especially for those applications with larger message
+sizes, but also impacting applications that mostly used smaller
+messages. For instance, in the case of Ondes3D previously studied,
+ranks exchange multiple small messages according to the domain
+decomposition. Even if most messages are exchanged asynchronously, the
+latency impact on the application is easily observed (see Figure
+\ref{fig1:right}).
+
+#+BEGIN_EXPORT latex
+\begin{figure}[!htb]
+\centering
+\subfloat[Average Latency (ms)
+\label{fig3:left}]{\begin{minipage}{.49\linewidth}
+\includegraphics[width=.97\linewidth,valign=t]{./img/pingpong-latency.pdf} \hfill
+\end{minipage}}\hfill%
+%
+\subfloat[Latency Overhead
+\label{fig3:right}]{\begin{minipage}{.49\linewidth}
+\includegraphics[width=.97\linewidth,valign=t]{./img/pingpong-overhead.pdf} \\
+\end{minipage}}\hfill%
+\caption{(a) Average network latency (on Y log scale) measured with the Ping Pong benchmark
+         for the three environments (color) as a function of message size (on X log scale),
+         and (b), the same but showing the derived latency overhead against native (on Y).
+}
+\label{fig3}
+\end{figure}
+#+END_EXPORT
+
+*** Performance Gains with an Optimized Container based on Alpine Linux
+:PROPERTIES:
+:CUSTOM_ID: sec.alpine
+:END:
+
+To illustrate the advantages in flexibility for environment
+configuration, we also conducted an experiment running an Alpine Linux
+image on the container environments (Singularity and Docker). The
+Alpine Linux is a lightweight Linux distribution that strives for
+efficiency and isolation. It is based on Busybox
+\cite{Wells:2000:BSA:364412.364422} and provides an alternate set of
+standard libraries that can yield better performance for some
+applications. Installing a completely different Linux distribution on
+multiple hosts of a cluster for a single experiment is generally a
+very hard task, sometimes even considered unfeasible (especially in a
+shared cluster environment). However, this task can be easily done
+when using containers. Figure \ref{fig4} shows how Docker and
+Singularity (running the Alpine Linux distribution) compare to the
+native operating system (running Debian) both in terms of average
+execution time (Figure \ref{fig4:left}) and performance difference
+against the native host (Figure \ref{fig4:right}) as a function of the
+number of MPI ranks. These results show that, by modifying the
+execution environment, it is possible for the virtualized execution to
+outperform the native one. In the Ondes3D/Ligurian case,
+Singularity/Alpine is \approx5% faster than native, while in the
+NAS-EP/ClassB, both Docker and Singularity running Alpine are from \approx5%
+(with 16 cores) to \approx10% (sequential) faster than the native host when
+equipped with Debian9. Such results are not so surprising but are
+still unconventional. This experiment shows that using a fine-tuned,
+HPC-tailored container in experiments can bring performance advantages
+as well as a reproducible environment.
+
+#+BEGIN_EXPORT latex
+\begin{figure}[!htb]
+\centering
+\subfloat[Execution Time
+\label{fig4:left}]{\begin{minipage}{.47\linewidth}
+\includegraphics[width=.90\linewidth,valign=t]{./img/alpine.pdf} \hfill
+\end{minipage}}\hfill%
+%
+\subfloat[Performance against Native
+\label{fig4:right}]{\begin{minipage}{.47\linewidth}
+\includegraphics[width=.90\linewidth,valign=t]{./img/alpine-negative-overhead.pdf} \\
+\end{minipage}}\hfill%
+\caption{(a) Execution time for the NAS-EP/ClassB benchmark and Ondes3D/Ligurian
+             with containers running Alpine Linux while the host is running
+             Debian9, and (b), performance difference of Alpine Linux
+             containers (Singularity and Docker) against the Debian9 Native
+             environment. Negative percentages in (b) indicate the performance 
+             gains of the containers.
+}
+\label{fig4}
+\end{figure}
+#+END_EXPORT
+
+*** (Support Section) PLOTS and STATS                            :noexport:
+**** Some stats
+***** Check Number of repetitions
+
+#+begin_src R :results output :session :exports both
+results <- read_csv('./results/ondes3d/results.csv', col_types=cols(
+                                                         name = col_integer(),
+                                                         environment = col_character(),
+                                                         parallelism = col_integer(),
+                                                         time = col_integer()
+                                                     ));
+
+results <- results %>%
+  mutate(time = time/1000) %>%
+  group_by(environment, parallelism) %>%
+  summarize(
+    samples = n(),
+    average = mean(time),
+    stdDeviation = sd(time),
+    stdError = 3*stdDeviation/sqrt(samples)
+  );
+results %>% pull(samples) %>% unique
+
+  results <- read_csv('./results/nas/results.csv', col_types=cols(
+                                                         name = col_integer(),
+                                                         environment = col_character(),
+                                                         parallelism = col_integer(),
+                                                         time = col_integer()
+                                                     ));
+  results <- results %>%
+    mutate(time = time/1000) %>%
+    group_by(environment, parallelism) %>%
+    summarize(
+      samples = n(),
+      average = mean(time),
+      stdDeviation = sd(time),
+      stdError = 3*stdDeviation/sqrt(samples)
+    )
+results %>% pull(samples) %>% unique
+
+results <- read_csv('./results/ping-pong/results.csv', col_types=cols(
+                                                         size = col_integer(),
+                                                         time = col_double(),
+                                                         environment = col_character()
+                                                     ));
+results <- results %>% 
+  group_by(environment, size) %>%
+  summarize(
+    samples = n(),
+    average = mean(time),
+    stdDeviation = sd(time),
+    stdError = 3*stdDeviation/sqrt(samples))
+results %>% pull(samples) %>% unique
+
+#+end_src
+
+#+RESULTS:
+: [1] 10
+: [1] 30
+: [1] 20 19
+
+***** Check some stats about ping-pong
+
+#+begin_src R :results output :session :exports both
+results <- read_csv('./results/ping-pong/results.csv', col_types=cols(
+                                                         size = col_integer(),
+                                                         time = col_double(),
+                                                         environment = col_character()
+                                                     ));
+results <- results %>% 
+  group_by(environment, size) %>%
+  summarize(
+    samples = n(),
+    average = mean(time),
+    stdDeviation = sd(time),
+    stdError = 3*stdDeviation/sqrt(samples))
+summary(results)
+unique(results$size)
+length(unique(results$size))
+#+end_src
+
+#+RESULTS:
+#+begin_example
+ environment             size            samples         average       
+ Length:63          Min.   :      1   Min.   :19.00   Min.   : 0.2890  
+ Class :character   1st Qu.:     32   1st Qu.:20.00   1st Qu.: 0.3158  
+ Mode  :character   Median :   1024   Median :20.00   Median : 0.5160  
+                    Mean   :  99864   Mean   :19.97   Mean   : 1.9008  
+                    3rd Qu.:  32768   3rd Qu.:20.00   3rd Qu.: 1.0688  
+                    Max.   :1048576   Max.   :20.00   Max.   :26.4120  
+  stdDeviation        stdError      
+ Min.   :0.03387   Min.   :0.02272  
+ 1st Qu.:0.04832   1st Qu.:0.03241  
+ Median :0.06023   Median :0.04040  
+ Mean   :0.12308   Mean   :0.08271  
+ 3rd Qu.:0.14899   3rd Qu.:0.09995  
+ Max.   :1.00651   Max.   :0.67518
+ [1]       1       2       4       8      16      32      64     128     256
+[10]     512    1024    2048    4096    8192   16384   32768   65536  131072
+[19]  262144  524288 1048576
+[1] 21
+#+end_example
+**** Plots (Guilherme)
+***** EP experiment plot
+
+#+begin_src R :results output graphics :file img/ep-b.png :width 600 :height 400 :session
+  library(tidyverse)
+  
+  results <- read_csv('./results/nas/results.csv')
+  results <- results %>%
+    mutate(time = time/1000) %>%
+    group_by(environment, parallelism) %>%
+    summarize(
+      samples = n(),
+      average = mean(time),
+      stdDeviation = sd(time),
+      stdError = 3*stdDeviation/sqrt(samples)
+    )
+  results
+
+  custom_theme <- function() {
+    ret <- list();
+    ret[[length(ret)+1]] <- theme (
+      plot.margin = unit(c(0,0,0,0), "cm"),
+      legend.spacing = unit(1, "mm"),
+      legend.position = "top",
+      legend.justification = "left",
+      legend.box.spacing = unit(0, "pt"),
+      legend.box.margin = margin(0,0,0,0),
+      legend.title = element_blank());
+    return(ret);
+  }
+
+  ggplot(results, aes(x = parallelism, y = average)) +
+    scale_x_continuous(breaks = c(1, 4, 8, 16), trans = 'sqrt') +
+    ylim(0, NA) +
+    geom_point(aes(col = environment), size = 2) +
+    geom_line(aes(col = environment), size = 1, alpha = 0.3) + 
+    geom_errorbar(aes(ymin = average - stdError, ymax = average + stdError, col = environment), width = 0.2) +
+    scale_color_grey() + 
+    xlab('Amount of computing units (count)') + 
+    ylab('Execution time (s)') +
+    theme_bw(base_size = 12) +
+    theme(legend.position = 'top', legend.spacing = unit(x = c(0, 0, 0, 0), units = 'mm')) +
+    custom_theme()
+#+end_src
+
+#+RESULTS:
+[[file:img/ep-b.png]]
+
+***** Ondes3D ESSAI experiment plot
+#+begin_src R
+library(tidyverse);
+
+results <- read_csv('./results/ondes3d/results.csv');
+
+results <- results %>%
+  mutate(time = time/1000) %>%
+  group_by(environment, parallelism) %>%
+  summarize(
+    samples = n(),
+    average = mean(time),
+    stdDeviation = sd(time),
+    stdError = 3*stdDeviation/sqrt(samples)
+  );
+
+custom_theme <- function() {
+  ret <- list();
+  ret[[length(ret)+1]] <- theme (
+    plot.margin = unit(c(0,0,0,0), "cm"),
+    legend.spacing = unit(1, "mm"),
+    legend.position = "top",
+    legend.justification = "left",
+    legend.box.spacing = unit(0, "pt"),
+    legend.box.margin = margin(0,0,0,0),
+    legend.title = element_blank());
+  return(ret);
+}
+
+ggplot(results, aes(x = parallelism, y = average)) + 
+  geom_line(aes(col=environment), size = 0.5, alpha=0.2) + 
+  geom_point(aes(col=environment), size=2) + 
+  geom_errorbar(aes(ymin=average-stdError, ymax=average+stdError, col=environment), width=0.15) +
+  scale_color_grey() +
+  ylim(0, NA) +
+  scale_x_continuous(breaks=c(1, 4, 8, 16), trans='sqrt') + 
+  xlab("Amount of computing units (count)") +
+  ylab("Execution time (s)") +
+  theme_bw(base_size=12) +
+  theme(legend.position = "top", legend.spacing = unit(x=c(0,0,0,0),units="mm")) +
+  custom_theme();
+#+end_src
+
+***** Ping Pong plot
+#+begin_src R
+library(tidyverse)
+
+results <- read_csv('./results/ping-pong/results.csv')
+results <- results %>% 
+  group_by(environment, size) %>%
+  summarize(
+    samples = n(),
+    average = mean(time),
+    stdDeviation = sd(time),
+    stdError = 3*stdDeviation/sqrt(samples))
+
+default_theme <- function() {
+  ret <- list();
+  ret[[length(ret)+1]] <- theme (
+    plot.margin = unit(c(0,0,0,0), "cm"),
+    legend.spacing = unit(1, "mm"),
+    legend.position = "top",
+    legend.justification = "left",
+    legend.box.spacing = unit(0, "pt"),
+    legend.box.margin = margin(0,0,0,0),
+    legend.title = element_blank());
+  return(ret);
+}
+
+ggplot(results,aes(x=size, y=average)) +
+  geom_line(aes(col = environment), alpha = 0.2) +
+  geom_point(aes(col = environment), size = 3) +
+  geom_errorbar(aes(ymin=average-stdError, ymax=average+stdError, color=environment, group=environment), width = 0.3) +
+  theme_bw(base_size=12) +
+  scale_y_continuous(trans='log2') + 
+  #ylim(0,NA) +
+  scale_x_continuous(trans="log2") + 
+  ylab('Average latency (ms)') +
+  xlab('Message size (bytes)') +
+  scale_color_grey() +
+  default_theme()
+#+end_src
+
+***** Ondes3D Ligurian plot
+#+begin_src R
+library(tidyverse);
+
+results <- read_csv('./results/ondes3d-ligurian/results.csv');
+results <- results %>%
+  mutate(time = time/1000) %>%
+  group_by(environment, parallelism) %>%
+  summarize(
+    samples = n(),
+    average = mean(time),
+    stdDeviation = sd(time),
+    stdError = 3*stdDeviation/sqrt(samples)
+  );
+
+default_theme <- function() {
+  ret <- list();
+  ret[[length(ret)+1]] <- theme (
+    plot.margin = unit(c(0,0,0,0), "cm"),
+    legend.spacing = unit(1, "mm"),
+    legend.position = "top",
+    legend.justification = "left",
+    legend.box.spacing = unit(0, "pt"),
+    legend.box.margin = margin(0,0,0,0),
+    legend.title = element_blank());
+  return(ret);
+}
+
+ggplot(results, aes(x = parallelism, y = average)) + 
+  geom_line(aes(col=environment), size = 0.5, alpha=0.2) + 
+  geom_point(aes(col=environment), size=2) + 
+  geom_errorbar(aes(ymin=average-stdError, ymax=average+stdError, col=environment), width=20) +
+  scale_color_grey() +
+  scale_x_continuous(breaks=seq(64,256,64)) +
+  ylim(0, NA) +
+  xlab("Amount of computing units (count)") +
+  ylab("Execution time (s)") +
+  theme_bw(base_size=12) +
+  theme(legend.position = "top", legend.spacing = unit(x=c(0,0,0,0),units="mm")) +
+  default_theme();
+#+end_src
+
+#+RESULTS:
+
+**** Plots (Lucas)
+***** Small case: Computation Analysis (pure makespan and compute overhead)
+****** Read and merge data
+
+#+begin_src R :results output :session :exports both
+suppressMessages(library(tidyverse))
+files <- list("./results/nas/results.csv",
+              "./results/ondes3d/results.csv",
+              "./results/ondes3d-ligurian/results.csv")
+df.makespan <- do.call("bind_rows", lapply(files, function(file) {
+    read_csv(file, col_types=cols(
+                       name = col_integer(),
+                       environment = col_character(),
+                       parallelism = col_integer(),
+                       time = col_integer()
+                   )) %>%
+        mutate(time = time/1000) %>%
+        group_by(environment, parallelism) %>%
+        summarize(
+            samples = n(),
+            average = mean(time),
+            stdDeviation = sd(time),
+            stdError = 3*stdDeviation/sqrt(samples)
+        ) %>%
+        mutate(Origin = file) %>%
+        separate(Origin, into=c("X0", "X1", "TYPE", "X2"), sep="/", remove=FALSE) %>% select(-X0, -X1, -X2) %>%
+        mutate(Application = ifelse(grepl("ondes3d", TYPE), "Ondes3D", "NAS-EP")) %>%
+        mutate(Input = case_when(TYPE == "nas" ~ "Class B",
+                                 grepl("ligurian", TYPE) ~ "Ligurian",
+                                 TRUE ~ "Default")) %>% select(-TYPE, -Origin) %>%
+        mutate(Native = environment == "native") %>%
+        ungroup()
+})) %>%
+    mutate(environment = factor(environment,
+                                levels=c("native", "singularity", "docker"),
+                                labels=c("Native", "Singularity", "Docker")))
+#+end_src
+
+#+RESULTS:
+****** (left) Plot computation of NAS-EP/ClassB and Ondes3D/Default
+
+#+begin_src R :results output graphics :file img/computation.pdf :width 3 :height 4 :session
+df.makespan %>%
+    mutate(Native = factor(Native, levels=c(TRUE, FALSE), labels=c("Native", "Container"))) %>%
+    mutate(Application = paste(Application, Input, sep="/")) %>%
+    filter(Input %in% c("Class B", "Default")) -> df.sel;
+# Breask in X
+breaks <- df.sel %>% pull(parallelism) %>% unique;
+#Create a custom color scale
+library(RColorBrewer)
+colors <- brewer.pal(9,"Greys")
+myColors <- c(colors[7], colors[5], colors[9])
+names(myColors) <- levels(df.sel$environment)
+colScale <- scale_colour_manual(name = "environment",values = myColors)
+
+df.sel %>%
+    ggplot(aes(x = parallelism, y = average, col=environment)) +
+#    scale_x_continuous(breaks = breaks, trans="sqrt") +
+    ylim(0, NA) +
+    geom_point(size=1) +
+    geom_line(alpha = 0.2) + 
+    geom_errorbar(aes(ymin = average - stdError, ymax = average + stdError, col = environment), 
+                  width = .15) +
+    colScale +
+    xlab('Number of MPI ranks (count)') + 
+    ylab('Execution time (s)') +
+    theme(legend.position = 'top', legend.spacing = unit(x = c(0, 0, 0, 0), units = 'mm')) +
+    theme_bw(base_size = 13) +
+    theme (plot.margin = unit(c(0,0,0,0), "cm"),
+           legend.spacing = unit(1, "mm"),
+           legend.position = "top",
+           legend.justification = "left",
+           legend.box.spacing = unit(0, "pt"),
+           legend.box.margin = margin(0,0,0,0),
+           legend.title = element_blank()) +
+    facet_grid (Application~Native, scales="free_y")
+#+end_src
+
+#+RESULTS:
+[[file:img/computation.pdf]]
+****** (right) Computation Overhead
+
+#+begin_src R :results output :session :exports both
+df.makespan %>%
+    mutate(Case = paste(Application, Input, sep="/")) %>%
+    select(environment, parallelism, average, Case) %>%
+    spread(environment, average) %>%
+    mutate(
+        Docker.Overhead = round((Docker - Native)/Native * 100, 2),
+        Singularity.Overhead = round((Singularity - Native)/Native * 100, 2)) %>%
+    arrange(Case, parallelism) %>%
+    select(parallelism, Case, Docker.Overhead, Singularity.Overhead) %>%
+    gather(environment, Overhead, -parallelism, -Case) -> df.makespan.overhead;
+df.makespan.overhead %>%
+    as.data.frame
+#+end_src
+
+#+RESULTS:
+#+begin_example
+   parallelism             Case          environment Overhead
+1            1   NAS-EP/Class B      Docker.Overhead     0.05
+2            4   NAS-EP/Class B      Docker.Overhead     0.31
+3            8   NAS-EP/Class B      Docker.Overhead     1.05
+4           16   NAS-EP/Class B      Docker.Overhead     7.93
+5            1  Ondes3D/Default      Docker.Overhead     0.69
+6            4  Ondes3D/Default      Docker.Overhead     1.32
+7            8  Ondes3D/Default      Docker.Overhead    33.55
+8           16  Ondes3D/Default      Docker.Overhead    53.42
+9           64 Ondes3D/Ligurian      Docker.Overhead       NA
+10         128 Ondes3D/Ligurian      Docker.Overhead       NA
+11         192 Ondes3D/Ligurian      Docker.Overhead       NA
+12         256 Ondes3D/Ligurian      Docker.Overhead       NA
+13           1   NAS-EP/Class B Singularity.Overhead     0.20
+14           4   NAS-EP/Class B Singularity.Overhead     0.59
+15           8   NAS-EP/Class B Singularity.Overhead     2.17
+16          16   NAS-EP/Class B Singularity.Overhead     9.35
+17           1  Ondes3D/Default Singularity.Overhead     0.55
+18           4  Ondes3D/Default Singularity.Overhead     1.85
+19           8  Ondes3D/Default Singularity.Overhead     3.75
+20          16  Ondes3D/Default Singularity.Overhead     6.52
+21          64 Ondes3D/Ligurian Singularity.Overhead     0.07
+22         128 Ondes3D/Ligurian Singularity.Overhead     0.37
+23         192 Ondes3D/Ligurian Singularity.Overhead     0.62
+24         256 Ondes3D/Ligurian Singularity.Overhead     0.41
+#+end_example
+
+Let's plot this:
+
+#+begin_src R :results output graphics :file img/computation-overhead-small.pdf :exports both :width 3 :height 3.8 :session
+df.makespan.overhead %>%
+    filter(parallelism <= 16) %>%
+    mutate(environment = factor(gsub(".Overhead", "", environment),
+                                levels=c("Singularity", "Docker"))) -> df.sel;
+# Breaks in X
+breaks <- df.sel %>% pull(parallelism) %>% unique;
+
+df.sel %>%
+    ggplot(aes(x=parallelism,
+               y=Overhead,
+               color=environment)) +
+    scale_x_continuous(breaks = breaks, trans="sqrt") +
+    colScale +
+    geom_point(size=1) +
+    geom_line(alpha = 0.3) +
+    xlab('Number of MPI ranks (count)') + 
+    ylab('Overhead of Execution \nTime against Native (%)') +
+    facet_grid(Case~.) +
+    ylim(0,60) +
+    theme_bw(base_size = 13) +
+    theme (plot.margin = unit(c(0,0,0,0), "cm"),
+           legend.spacing = unit(x = c(0, 0, 0, 0), units = 'mm'),
+           legend.position = "top",
+           legend.justification = "left",
+           legend.box.spacing = unit(0, "pt"),
+           legend.box.margin = margin(0,0,0,0),
+           legend.title = element_blank())
+#           axis.text.x = element_text(angle=30, hjust=1))
+#+end_src
+
+#+RESULTS:
+[[file:img/computation-overhead-small.pdf]]
+***** Larger case (Ligurian)
+****** (left) Plot computation of the Ondes3D/Ligurian
+
+#+begin_src R :results output graphics :file img/computation-ligurian.pdf :width 3 :height 3 :session
+df.makespan %>%
+    mutate(Native = factor(Native, levels=c(TRUE, FALSE), labels=c("Native", "Container"))) %>%
+    mutate(Application = paste(Application, Input, sep="/")) %>%
+    filter(Input == "Ligurian") -> df.sel;
+# Breask in X
+breaks <- df.sel %>% pull(parallelism) %>% unique;
+#Create a custom color scale
+library(RColorBrewer)
+colors <- brewer.pal(9,"Greys")
+myColors <- c(colors[7], colors[5], colors[9])
+names(myColors) <- levels(df.sel$environment)
+colScale <- scale_colour_manual(name = "environment",values = myColors)
+
+df.sel %>%
+    ggplot(aes(x = parallelism, y = average, col=environment)) +
+    scale_x_continuous(breaks = breaks) +
+    ylim(0, NA) +
+    geom_point(size=1) +
+    geom_line(alpha = 0.2) + 
+    geom_errorbar(aes(ymin = average - stdError, ymax = average + stdError, col = environment), 
+                  width = 1) +
+    colScale +
+    xlab('Number of MPI ranks (count)') + 
+    ylab('Execution time (s)') +
+    theme_bw(base_size = 13) +
+    theme (plot.margin = unit(c(0,0,0,0), "cm"),
+           legend.spacing = unit(x = c(0, 0, 0, 0), units = 'mm'),
+           legend.position = "top",
+           legend.justification = "left",
+           legend.box.spacing = unit(0, "pt"),
+           legend.box.margin = margin(0,0,0,0),
+           legend.title = element_blank(),
+           axis.text.x = element_text(angle=30, hjust=1)) +
+    facet_grid (Application~Native, scales="free_y")
+#+end_src
+
+#+RESULTS:
+[[file:img/computation-ligurian.pdf]]
+
+****** (right) Computation Overhead of Ondes3D/Ligurian
+
+#+begin_src R :results output :session :exports both
+df.makespan.overhead %>%
+    filter(Case == "Ondes3D/Ligurian") %>%
+    na.omit() %>%
+    as.data.frame
+#+end_src
+
+#+RESULTS:
+:   parallelism             Case          environment Overhead
+: 1          64 Ondes3D/Ligurian Singularity.Overhead     0.07
+: 2         128 Ondes3D/Ligurian Singularity.Overhead     0.37
+: 3         192 Ondes3D/Ligurian Singularity.Overhead     0.62
+: 4         256 Ondes3D/Ligurian Singularity.Overhead     0.41
+
+#+begin_src R :results output graphics :file img/computation-overhead-large.pdf :exports both :width 3 :height 2.5 :session
+df.makespan.overhead %>%
+    filter(Case == "Ondes3D/Ligurian") %>%
+    mutate(environment = factor(gsub(".Overhead", "", environment),
+                                levels=c("Singularity", "Docker"))) %>%
+    filter(environment == "Singularity") -> df.sel;
+# Breaks in X
+breaks <- df.sel %>% pull(parallelism) %>% unique;
+
+df.sel %>%
+    ggplot(aes(x=parallelism,
+               y=Overhead,
+               color=environment)) +
+    scale_x_continuous(breaks = breaks, trans="sqrt") +
+    colScale +
+    geom_point(size=1) +
+    geom_line(alpha = 0.3) +
+    xlab('Number of MPI ranks (count)') + 
+    ylab('Overhead of Execution \nTime against Native (%)') +
+    facet_grid(Case~.) +
+    ylim(0,10) +
+    theme_bw(base_size = 13) +
+    theme (plot.margin = unit(c(0,0,0,0), "cm"),
+           legend.spacing = unit(x = c(0, 0, 0, 0), units = 'mm'),
+           legend.position = "top",
+           legend.justification = "left",
+           legend.box.spacing = unit(0, "pt"),
+           legend.box.margin = margin(0,0,0,0),
+           legend.title = element_blank())
+#           axis.text.x = element_text(angle=30, hjust=1))
+#+end_src
+
+#+RESULTS:
+[[file:img/computation-overhead-large.pdf]]
+
+***** Average Latency
+****** Read data
+
+#+begin_src R :results output :session :exports both
+df.pingpong <- read_csv('./results/ping-pong/results.csv', col_types=cols(
+                                                           size = col_integer(),
+                                                           time = col_double(),
+                                                           environment = col_character()
+                                                       )) %>% 
+    group_by(environment, size) %>%
+    summarize(
+        samples = n(),
+        average = mean(time),
+        stdDeviation = sd(time),
+        stdError = 3*stdDeviation/sqrt(samples)) %>%
+    ungroup() %>%
+    mutate(environment = factor(environment,
+                                levels=c("native", "singularity", "docker"),
+                                labels=c("Native", "Singularity", "Docker")))
+df.pingpong %>%
+    select(environment, size, average) %>%
+    as.data.frame
+#+end_src
+
+#+RESULTS:
+#+begin_example
+   environment    size    average
+1       Docker       1  0.5168438
+2       Docker       2  0.5089402
+3       Docker       4  0.5159974
+4       Docker       8  0.5118132
+5       Docker      16  0.5178094
+6       Docker      32  0.5084038
+7       Docker      64  0.5191684
+8       Docker     128  0.5172968
+9       Docker     256  0.5267978
+10      Docker     512  0.5319715
+11      Docker    1024  0.5743146
+12      Docker    2048  0.6141424
+13      Docker    4096  0.6750107
+14      Docker    8192  0.8137345
+15      Docker   16384  0.9671330
+16      Docker   32768  1.7537951
+17      Docker   65536  2.6515841
+18      Docker  131072  4.6041965
+19      Docker  262144  7.3685646
+20      Docker  524288 13.0757213
+21      Docker 1048576 26.4120102
+22      Native       1  0.3103137
+23      Native       2  0.2898932
+24      Native       4  0.3095508
+25      Native       8  0.2902389
+26      Native      16  0.2912045
+27      Native      32  0.2890110
+28      Native      64  0.3037810
+29      Native     128  0.3127694
+30      Native     256  0.3213167
+31      Native     512  0.3209829
+32      Native    1024  0.3316998
+33      Native    2048  0.3685594
+34      Native    4096  0.4316330
+35      Native    8192  0.4929900
+36      Native   16384  0.7027268
+37      Native   32768  0.9077072
+38      Native   65536  1.1704922
+39      Native  131072  1.9686097
+40      Native  262144  3.0316234
+41      Native  524288  5.2256107
+42      Native 1048576  9.7598553
+43 Singularity       1  0.3152132
+44 Singularity       2  0.3036857
+45 Singularity       4  0.3017783
+46 Singularity       8  0.2963781
+47 Singularity      16  0.3164530
+48 Singularity      32  0.2981544
+49 Singularity      64  0.2908349
+50 Singularity     128  0.3129125
+51 Singularity     256  0.3201008
+52 Singularity     512  0.3146410
+53 Singularity    1024  0.3304958
+54 Singularity    2048  0.3730178
+55 Singularity    4096  0.4510045
+56 Singularity    8192  0.4757047
+57 Singularity   16384  0.7049441
+58 Singularity   32768  0.9247661
+59 Singularity   65536  1.4336109
+60 Singularity  131072  1.9320187
+61 Singularity  262144  2.9506326
+62 Singularity  524288  5.2367806
+63 Singularity 1048576  9.7504616
+#+end_example
+
+****** Plot raw data (after averages)
+
+#+begin_src R :results output graphics :file img/pingpong-latency.pdf :exports both :width 4 :height 4 :session
+#Create a custom color scale
+library(RColorBrewer)
+colors <- brewer.pal(9,"Greys")
+myColors <- c(colors[7], colors[5], colors[9])
+names(myColors) <- levels(df.pingpong$environment)
+colScale <- scale_colour_manual(name = "environment",values = myColors)
+
+df.pingpong %>%
+    ggplot(aes(x=size, y=average)) +
+    geom_line(aes(col = environment), alpha = 0.2) +
+    geom_point(aes(col = environment), size = 1) +
+    geom_errorbar(aes(ymin=average-stdError, ymax=average+stdError, col=environment, group=environment), width = 0.2) +
+    theme_bw(base_size=12) +
+    colScale +
+    scale_y_log10(breaks=c(0.1, 1, 2, 4, 8, 16, 32)) +
+    scale_x_log10(breaks=2^seq(0,20)) +
+    ylab('Average latency (ms)') +
+    xlab('Message size (bytes)') +
+    theme_bw(base_size = 13) +
+    theme (plot.margin = unit(c(0,0,0,0), "cm"),
+           legend.spacing = unit(x = c(0, 0, 0, 0), units = 'mm'),
+           legend.position = "top",
+           legend.justification = "left",
+           legend.box.spacing = unit(0, "pt"),
+           legend.box.margin = margin(0,0,0,0),
+           legend.title = element_blank(),
+           axis.text.x = element_text(angle=55, hjust=1))
+#+end_src
+
+#+RESULTS:
+[[file:img/pingpong-latency.pdf]]
+
+****** Plot percentages
+
+#+begin_src R :results output :session :exports both
+df.pingpong %>%
+    select(environment, size, average) %>%
+    spread(environment, average) %>%
+    mutate(
+        Docker.Overhead = round((Docker - Native)/Native * 100, 2),
+        Singularity.Overhead = round((Singularity - Native)/Native * 100, 2)) %>%
+    select(size, Docker.Overhead, Singularity.Overhead) %>%
+    gather(environment, Overhead, -size) -> df.pingpong.overhead;
+df.pingpong.overhead %>%
+    as.data.frame   
+#+end_src
+
+#+RESULTS:
+#+begin_example
+      size          environment Overhead
+1        1      Docker.Overhead    66.56
+2        2      Docker.Overhead    75.56
+3        4      Docker.Overhead    66.69
+4        8      Docker.Overhead    76.34
+5       16      Docker.Overhead    77.82
+6       32      Docker.Overhead    75.91
+7       64      Docker.Overhead    70.90
+8      128      Docker.Overhead    65.39
+9      256      Docker.Overhead    63.95
+10     512      Docker.Overhead    65.73
+11    1024      Docker.Overhead    73.14
+12    2048      Docker.Overhead    66.63
+13    4096      Docker.Overhead    56.39
+14    8192      Docker.Overhead    65.06
+15   16384      Docker.Overhead    37.63
+16   32768      Docker.Overhead    93.21
+17   65536      Docker.Overhead   126.54
+18  131072      Docker.Overhead   133.88
+19  262144      Docker.Overhead   143.06
+20  524288      Docker.Overhead   150.22
+21 1048576      Docker.Overhead   170.62
+22       1 Singularity.Overhead     1.58
+23       2 Singularity.Overhead     4.76
+24       4 Singularity.Overhead    -2.51
+25       8 Singularity.Overhead     2.12
+26      16 Singularity.Overhead     8.67
+27      32 Singularity.Overhead     3.16
+28      64 Singularity.Overhead    -4.26
+29     128 Singularity.Overhead     0.05
+30     256 Singularity.Overhead    -0.38
+31     512 Singularity.Overhead    -1.98
+32    1024 Singularity.Overhead    -0.36
+33    2048 Singularity.Overhead     1.21
+34    4096 Singularity.Overhead     4.49
+35    8192 Singularity.Overhead    -3.51
+36   16384 Singularity.Overhead     0.32
+37   32768 Singularity.Overhead     1.88
+38   65536 Singularity.Overhead    22.48
+39  131072 Singularity.Overhead    -1.86
+40  262144 Singularity.Overhead    -2.67
+41  524288 Singularity.Overhead     0.21
+42 1048576 Singularity.Overhead    -0.10
+#+end_example
+
+#+begin_src R :results output graphics :file img/pingpong-overhead.pdf :exports both :width 4 :height 4 :session
+df.pingpong.overhead %>%
+    mutate(environment = factor(gsub(".Overhead", "", environment),
+                                levels=c("Singularity", "Docker"))) -> df.sel;
+df.sel %>%
+    ggplot(aes(x=size,
+               y=Overhead,
+               color=environment)) +
+    scale_x_log10(breaks=2^seq(0,20)) +
+    colScale +
+    geom_point(size=1) +
+    geom_line(alpha = 0.3) +
+    xlab('Message size (bytes)') + 
+    ylab('Latency Overhead\nagainst Native (%)') +
+    theme_bw(base_size = 13) +
+    theme (plot.margin = unit(c(0,0,0,0), "cm"),
+           legend.spacing = unit(x = c(0, 0, 0, 0), units = 'mm'),
+           legend.position = "top",
+           legend.justification = "left",
+           legend.box.spacing = unit(0, "pt"),
+           legend.box.margin = margin(0,0,0,0),
+           legend.title = element_blank(),
+           axis.text.x = element_text(angle=55, hjust=1))
+#+end_src
+
+#+RESULTS:
+[[file:img/pingpong-overhead.pdf]]
+
+***** Alpine
+****** Read data
+
+#+begin_src R :results output :session :exports both
+files <- list('./results/nas-alpine/results.csv',
+              './results/ondes3d-alpine/results.csv')
+df.alpine <- do.call("bind_rows", lapply(files, function(file) {
+    read_csv(file, col_types=cols(
+                       name = col_integer(),
+                       environment = col_character(),
+                       parallelism = col_integer(),
+                       time = col_integer()
+                   )) %>%
+        mutate(time = time/1000) %>%
+        group_by(environment, parallelism) %>%
+        summarize(
+            samples = n(),
+            average = mean(time),
+            stdDeviation = sd(time),
+            stdError = 3*stdDeviation/sqrt(samples)
+        ) %>%
+        mutate(Origin = file) %>%
+        separate(Origin, into=c("X0", "X1", "TYPE", "X2"), sep="/", remove=FALSE) %>% select(-X0, -X1, -X2) %>%
+        mutate(Application = ifelse(grepl("ondes3d", TYPE), "Ondes3D", "NAS-EP")) %>%
+        mutate(Input = case_when(TYPE == "nas-alpine" ~ "Class B",
+                                 TYPE == "ondes3d-alpine" ~ "Ligurian",
+                                 TRUE ~ "Default")) %>% select(-Origin) %>%
+        mutate(Native = environment == "native") %>%
+        ungroup()
+})) %>%
+    mutate(environment = factor(environment,
+                                levels=c("native", "singularity", "docker"),
+                                labels=c("Native", "Singularity", "Docker")))
+#+end_src
+
+#+RESULTS:
+
+****** (left) Plot
+
+#+begin_src R :results output graphics :file img/alpine.pdf :width 3 :height 4 :session
+df.alpine %>%
+    mutate(Native = factor(Native, levels=c(TRUE, FALSE), labels=c("Native", "Container"))) %>%
+    mutate(Application = paste(Application, Input, sep="/")) %>%
+    filter(Input %in% c("Class B", "Ligurian")) -> df.sel;
+# Breask in X
+breaks <- df.sel %>% pull(parallelism) %>% unique;
+#Create a custom color scale
+library(RColorBrewer)
+colors <- brewer.pal(9,"Greys")
+myColors <- c(colors[7], colors[5], colors[9])
+names(myColors) <- levels(df.sel$environment)
+colScale <- scale_colour_manual(name = "environment",values = myColors)
+
+df.sel %>%
+    ggplot(aes(x = parallelism, y = average, col=environment)) +
+    scale_x_continuous(breaks = breaks, trans="sqrt") +
+    ylim(0, NA) +
+    geom_point(size=1) +
+    geom_line(alpha = 0.2) + 
+    geom_errorbar(aes(ymin = average - stdError, ymax = average + stdError, col = environment), 
+                  width = .35) +
+    colScale +
+    xlab('Number of MPI ranks (count)') + 
+    ylab('Execution time (s)') +
+    theme(legend.position = 'top', legend.spacing = unit(x = c(0, 0, 0, 0), units = 'mm')) +
+    theme_bw(base_size = 13) +
+    theme (plot.margin = unit(c(0,0,0,0), "cm"),
+           legend.spacing = unit(1, "mm"),
+           legend.position = "top",
+           legend.justification = "left",
+           legend.box.spacing = unit(0, "pt"),
+           legend.box.margin = margin(0,0,0,0),
+           legend.title = element_blank()) +
+    facet_grid (Application~Native, scales="free_y")
+#+end_src
+
+#+RESULTS:
+[[file:img/alpine.pdf]]
+
+****** (right) Computation Overhead
+
+#+begin_src R :results output :session :exports both
+df.alpine %>%
+    mutate(Case = paste(Application, Input, sep="/")) %>%
+    select(environment, parallelism, average, Case) %>%
+    spread(environment, average) %>%
+    mutate(
+        Docker.Gain = round((Docker - Native)/Native * 100, 2),
+        Singularity.Gain = round((Singularity - Native)/Native * 100, 2)) %>%
+    arrange(Case, parallelism) %>%
+    select(parallelism, Case, Docker.Gain, Singularity.Gain) %>%
+    gather(environment, Gain, -parallelism, -Case) -> df.alpine.overhead;
+df.alpine.overhead %>%
+    as.data.frame
+#+end_src
+
+#+RESULTS:
+#+begin_example
+   parallelism             Case      environment   Gain
+1            1   NAS-EP/Class B      Docker.Gain  -9.50
+2            4   NAS-EP/Class B      Docker.Gain  -9.63
+3            8   NAS-EP/Class B      Docker.Gain  -6.32
+4           16   NAS-EP/Class B      Docker.Gain  -4.62
+5            1 Ondes3D/Ligurian      Docker.Gain  -3.58
+6            4 Ondes3D/Ligurian      Docker.Gain  11.42
+7            8 Ondes3D/Ligurian      Docker.Gain  78.97
+8           16 Ondes3D/Ligurian      Docker.Gain 137.08
+9            1   NAS-EP/Class B Singularity.Gain  -9.48
+10           4   NAS-EP/Class B Singularity.Gain  -9.56
+11           8   NAS-EP/Class B Singularity.Gain  -7.12
+12          16   NAS-EP/Class B Singularity.Gain  -4.65
+13           1 Ondes3D/Ligurian Singularity.Gain  -3.55
+14           4 Ondes3D/Ligurian Singularity.Gain  -4.12
+15           8 Ondes3D/Ligurian Singularity.Gain  -3.68
+16          16 Ondes3D/Ligurian Singularity.Gain  -3.62
+#+end_example
+
+Let's plot this:
+
+#+begin_src R :results output graphics :file img/alpine-negative-overhead.pdf :exports both :width 3 :height 3.8 :session
+df.alpine.overhead %>%
+    filter(parallelism <= 16) %>%
+    mutate(environment = factor(gsub(".Gain", "", environment),
+                                levels=c("Singularity", "Docker"))) -> df.sel;
+# Breaks in X
+breaks <- df.sel %>% pull(parallelism) %>% unique;
+
+df.sel %>%
+    ggplot(aes(x=parallelism,
+               y=Gain,
+               color=environment)) +
+    scale_x_continuous(breaks = breaks, trans="sqrt") +
+    colScale +
+    geom_point(size=1) +
+    geom_line(alpha = 0.3) +
+    xlab('Number of MPI ranks (count)') + 
+    ylab('Performance against Native (%)') +
+    facet_grid(Case~.) +
+    coord_cartesian(ylim=c(-20,20)) +
+#    ylim(-30,30) +
+    theme_bw(base_size = 13) +
+    theme (plot.margin = unit(c(0,0,0,0), "cm"),
+           legend.spacing = unit(x = c(0, 0, 0, 0), units = 'mm'),
+           legend.position = "top",
+           legend.justification = "left",
+           legend.box.spacing = unit(0, "pt"),
+           legend.box.margin = margin(0,0,0,0),
+           legend.title = element_blank())
+#           axis.text.x = element_text(angle=30, hjust=1))
+#+end_src
+
+#+RESULTS:
+[[file:img/alpine-negative-overhead.pdf]]
+** Conclusion
+:PROPERTIES:
+:CUSTOM_ID: sec.conclusion
+:END:
+
+In this paper, we assess the performance implications of the adoption
+of Linux Containers for HPC applications with different workloads.
+While containers provide similar features as hardware level
+virtualization with a theoretically negligible performance overhead,
+making them suitable for high-performance applications has to be
+evaluated prior using in production environments. Therefore, we
+compared two container technologies, Docker and Singularity, against a
+native environment running with no virtualization.
+
+The results for the proposed tests indicate that containers introduce
+very little (if any) computation overhead in CPU-bound applications,
+for both Docker and Singularity. This can be verified by the lack of a
+clear performance difference on the EP-NAS/ClassB Benchmark among the
+container and native environments. Although we observed penalties up
+to \approx9%, they are completely absorbed if the applications last longer.
+#+latex: %
+Communication overhead, on the other hand, has been observed in Docker
+containers. This is mainly because the Docker architecture requires
+the containers to be connected through an overlay network in order for
+them to have connectivity across multiple hosts (which was needed for
+the MPI cluster). This overhead was observed in both the Ping Pong
+test case as well as the Ondes3D application, which is known to
+require frequent communication between MPI processes. Singularity is
+free from such overheads.
+#+Latex: %
+Additionally, we conducted experiments that leveraged the potential
+flexibility that a virtualized workflow provides. Because containers
+allow users to fine-tune the execution environment more easily, it was
+possible to use a different Linux distribution without having root
+access to the host operating system. This approach yielded better
+performance than the native execution, which means that it is possible
+to use these fine-tuning capabilities to considerably enhance the
+performance of HPC applications.
+
+With our experiments, we can conclude that Linux containers are a
+suitable option for running HPC applications in a virtualized
+environment, without the drawbacks of traditional hardware-level
+virtualization. In our tests, we concluded that Singularity containers
+are the most suitable option both in terms of system administration
+(for not granting every user that starts a container root access to
+the system) and in terms of performance (for not imposing an overlay
+network that is a potential bottleneck).
+
+As future work, we plan to investigate HPC applications within
+containers that make use of low-latency Infiniband networks and
+multi-GPU systems. We also intend to verify in further details if the
+computation signature of HPC codes are the same outside and inside the
+container.
+
+** Acknowledgments                                                  :ignore:
+
+#+LATEX:\section*{Acknowledgements}
+
+We thank these projects for supporting this investigation: FAPERGS
+GreenCloud (16/488-9), the FAPERGS MultiGPU (16/354-8), the CNPq
+447311/2014-0, the CAPES/Brafitec EcoSud 182/15, and the CAPES/Cofecub
+899/18. Experiments were carried out at the Grid'5000 platform
+#+Latex: ({\texttt{https://www.grid5000.fr}}),
+with support from Inria, CNRS, RENATER and several other french
+organizations. The companion material is hosted by GitHub for
+which we are also grateful.
+
+** References                                                        :ignore:
+
+#+BEGIN_COMMENT LUCAS
+You have too few references. You need to more or less triple that
+number to more related and context work.
+#+END_COMMENT
+
+# See next section to understand how refs.bib file is created.
+
+#+LATEX: \bibliographystyle{sbc}
+#+LATEX: \bibliography{refs}
+
+* Bib file is here                                                 :noexport:
+
+Tangle this file with C-c C-v t
+
+#+begin_src bib :tangle refs.bib
+@article{merkel2014docker,
+  title={Docker: lightweight linux containers for consistent development and deployment},
+  author={Merkel, Dirk},
+  journal={Linux Journal},
+  volume={2014},
+  number={239},
+  pages={2},
+  year={2014},
+  publisher={Belltown Media}
+}
+
+@article{soltesz2007container,
+ author = {Soltesz, Stephen and P\"{o}tzl, Herbert and Fiuczynski, Marc E. and Bavier, Andy and Peterson, Larry},
+ title = {Container-based Operating System Virtualization: A Scalable, High-performance Alternative to Hypervisors},
+ journal = {SIGOPS Oper. Syst. Rev.},
+ issue_date = {June 2007},
+ volume = {41},
+ number = {3},
+ month = mar,
+ year = {2007},
+ issn = {0163-5980},
+ pages = {275--287},
+ numpages = {13},
+ url = {http://doi.acm.org/10.1145/1272998.1273025},
+ doi = {10.1145/1272998.1273025},
+ acmid = {1273025},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+ keywords = {Linux-VServer, Xen, alternative, container, hypervisor, operating, system, virtualization},
+} 
+
+@inproceedings{aochi2011ligurian,
+  title={Investigation of historical earthquake by seismic wave propagation simulation: Source parameters of the 1887 M6. 3 Ligurian, north-western Italy, earthquake},
+  author={Aochi, Hideo and Ducellier, Ariane and Dupros, Fabrice and Terrier, Monique and Lambert, J{\'e}r{\^o}me},
+  booktitle={8{\`e}me colloque AFPS, Vers une maitrise durable du risque sismique},
+  year={2011},
+  editor={{L'Association Française du Génie Parasismique (AFPS)}},
+}
+
+@book{jain1991art,
+  added-at = {2011-04-19T00:00:00.000+0200},
+  author = {Jain, Raj},
+  biburl = {https://www.bibsonomy.org/bibtex/2fec32c393af648375f02cde200e33b99/dblp},
+  interhash = {655d52a18a388bbf814d7d5e5df1f018},
+  intrahash = {fec32c393af648375f02cde200e33b99},
+  isbn = {978-0-471-50336-1},
+  keywords = {dblp},
+  pages = {I-XXVII, 1-685},
+  publisher = {Wiley},
+  series = {Wiley professional computing},
+  timestamp = {2011-04-29T15:27:00.000+0200},
+  title = {The art of computer systems performance analysis - techniques for experimental design, measurement, simulation, and modeling.},
+  year = 1991
+}
+
+@inproceedings{tesser2017using,
+  title={Using Simulation to Evaluate and Tune the Performance of Dynamic Load Balancing of an Over-decomposed Geophysics Application},
+  author={Tesser, Rafael Keller and Schnorr, Lucas Mello and Legrand, Arnaud and Dupros, Fabrice and Navaux, Philippe Olivier Alexandre},
+  booktitle={European Conference on Parallel Processing},
+  pages={192--205},
+  year={2017},
+  organization={Springer}
+}
+
+@article{dupros:10,
+title = "High-performance finite-element simulations of seismic wave propagation in three-dimensional nonlinear inelastic geological media",
+journal = "Par. Comput",
+volume = "36",
+number = "5",
+pages = "308 - 325",
+year = "2010",
+issn = "0167-8191",
+author = "Fabrice Dupros and Florent De Martin and Evelyne Foerster and Dimitri Komatitsch and Jean Roman",
+keywords = "Seismic numerical simulation, Finite-element method, Parallel sparse direct solver, Nonlinear soil behaviour"
+}
+
+@article{bailey1991parallel,
+  title={The NAS parallel benchmarks},
+  author={Bailey, David H and Barszcz, Eric and Barton, John T and Browning, David S and Carter, Robert L and Dagum, Leonardo and Fatoohi, Rod A and Frederickson, Paul O and Lasinski, Thomas A and Schreiber, Rob S and others},
+  journal={The International Journal of Supercomputing Applications},
+  volume={5},
+  number={3},
+  pages={63--73},
+  year={1991},
+  publisher={Sage Publications Sage CA: Thousand Oaks, CA}
+}
+
+@article{jeanvoine2013kadeploy3,
+  title={Kadeploy3: Efficient and scalable operating system provisioning for clusters},
+  author={Jeanvoine, Emmanuel and Sarzyniec, Luc and Nussbaum, Lucas},
+  journal={USENIX; login:},
+  volume={38},
+  number={1},
+  pages={38--44},
+  year={2013}
+}
+
+@incollection{grid5000,
+   title = {Adding Virtualization Capabilities to the {Grid'5000} Testbed},
+   author = {Balouek, Daniel and Carpen Amarie, Alexandra and Charrier, Ghislain and Desprez, Fr{\'e}d{\'e}ric and Jeannot, Emmanuel and Jeanvoine, Emmanuel and L{\`e}bre, Adrien and Margery, David and Niclausse, Nicolas and Nussbaum, Lucas and Richard, Olivier and P{\'e}rez, Christian and Quesnel, Flavien and Rohr, Cyril and Sarzyniec, Luc},
+   booktitle = {Cloud Computing and Services Science},
+   publisher = {Springer International Publishing},
+   pages = {3-20},
+   volume = {367},
+   editor = {Ivanov, Ivan I. and van Sinderen, Marten and Leymann, Frank and Shan, Tony },
+   series = {Communications in Computer and Information Science },
+   isbn = {978-3-319-04518-4 },
+   doi = {10.1007/978-3-319-04519-1\_1 },
+   year = {2013},
+}
+
+@INPROCEEDINGS{7562612, 
+    author={M. T. Chung and N. Quang-Hung and M. T. Nguyen and N. Thoai}, 
+    booktitle={2016 IEEE Sixth International Conference on Communications and Electronics (ICCE)}, 
+    title={Using Docker in high performance computing applications}, 
+    year={2016}, 
+    volume={}, 
+    number={}, 
+    pages={52-57}, 
+    keywords={cloud computing;data handling;parallel processing;virtual machines;virtualisation;Docker;HPC;VM;cloud computing;data intensive application;high performance computing;resource management;virtual machines;virtualization technology;Cloud computing;Computer architecture;Containers;Libraries;Virtual machine monitors;Virtual machining;Virtualization;Docker;Graph500;HPC;HPL;cloud computing;performance evaluation}, 
+    doi={10.1109/CCE.2016.7562612}, 
+    ISSN={}, 
+    month={July}
+}
+
+@InProceedings{10.1007/978-3-319-27308-2_65,
+    author="Ruiz, Cristian
+      and Jeanvoine, Emmanuel
+      and Nussbaum, Lucas",
+    editor="Hunold, Sascha
+      and Costan, Alexandru
+      and Gim{\'e}nez, Domingo
+      and Iosup, Alexandru
+      and Ricci, Laura
+      and G{\'o}mez Requena, Mar{\'i}a Engracia
+      and Scarano, Vittorio
+      and Varbanescu, Ana Lucia
+      and Scott, Stephen L.
+      and Lankes, Stefan
+      and Weidendorfer, Josef
+      and Alexander, Michael",
+    title="Performance Evaluation of Containers for HPC",
+    booktitle="Euro-Par 2015: Parallel Processing Workshops",
+    year="2015",
+    publisher="Springer International Publishing",
+    address="Cham",
+    pages="813--824",
+    abstract="Container-based virtualization technologies such as LXC or Docker have gained a lot of interest recently, especially in the HPC context where they could help to address a number of long-running issues. Even if they have proven to perform better than full-fledged, hypervisor-based, virtualization solutions, there are still a lot of questions about the use of container solutions in the HPC context. This paper evaluates the performance of Linux-based container solutions that rely on cgroups and namespaces using the NAS parallel benchmarks, in various configurations. We show that containers technology has matured over the years, and that performance issues are being solved.",
+    isbn="978-3-319-27308-2"
+}
+
+@InProceedings{10.1007/978-3-319-20119-1_36,
+    author="Higgins, Joshua
+        and Holmes, Violeta
+        and Venters, Colin",
+    editor="Kunkel, Julian M.
+        and Ludwig, Thomas",
+    title="Orchestrating Docker Containers in the HPC Environment",
+    booktitle="High Performance Computing",
+    year="2015",
+    publisher="Springer International Publishing",
+    address="Cham",
+    pages="506--513",
+    abstract="Linux container technology has more than proved itself useful in cloud computing as a lightweight alternative to virtualisation, whilst still offering good enough resource isolation. Docker is emerging as a popular runtime for managing Linux containers, providing both management tools and a simple file format. Research into the performance of containers compared to traditional Virtual Machines and bare metal shows that containers can achieve near native speeds in processing, memory and network throughput. A technology born in the cloud, it is making inroads into scientific computing both as a format for sharing experimental applications and as a paradigm for cloud based execution. However, it has unexplored uses in traditional cluster and grid computing. It provides a run time environment in which there is an opportunity for typical cluster and parallel applications to execute at native speeds, whilst being bundled with their own specific (or legacy) library versions and support software. This offers a solution to the Achilles heel of cluster and grid computing that requires the user to hold intimate knowledge of the local software infrastructure. Using Docker brings us a step closer to more effective job and resource management within the cluster by providing both a common definition format and a repeatable execution environment. In this paper we present the results of our work in deploying Docker containers in the cluster environment and an evaluation of its suitability as a runtime for high performance parallel execution. Our findings suggest that containers can be used to tailor the run time environment for an MPI application without compromising performance, and would provide better Quality of Service for users of scientific computing.",
+    isbn="978-3-319-20119-1"
+}
+
+@INPROCEEDINGS{7185212, 
+    author={D. Beserra and E. D. Moreno and P. T. Endo and J. Barreto and D. Sadok and S. Fernandes}, 
+    booktitle={2015 Ninth International Conference on Complex, Intelligent, and Software Intensive Systems}, 
+    title={Performance Analysis of LXC for HPC Environments}, 
+    year={2015}, 
+    volume={}, 
+    number={}, 
+    pages={358-363}, 
+    keywords={Linux;cloud computing;parallel processing;HPC environments;KVM;LXC;Linux container;container-based virtualizers;high performance computing;hyper visor-based virtualization solution;virtualization overhead;Bandwidth;Benchmark testing;Containers;Kernel;Program processors;Servers;Virtualization;Cloud Computing;Container-based virtualization;HPC;Performance evaluation}, 
+    doi={10.1109/CISIS.2015.53}, 
+    ISSN={}, 
+    month={July}
+}
+
+@INPROCEEDINGS{7095802, 
+    author={W. Felter and A. Ferreira and R. Rajamony and J. Rubio}, 
+    booktitle={2015 IEEE International Symposium on Performance Analysis of Systems and Software (ISPASS)}, 
+    title={An updated performance comparison of virtual machines and Linux containers}, 
+    year={2015}, 
+    volume={}, 
+    number={}, 
+    pages={171-172}, 
+    keywords={Linux;cloud computing;virtual machines;Docker;KVM;Linux containers;cloud architectures;cloud computing;container manager;representative hypervisor;virtual machines;Containers;Hardware;Linux;Random access memory;Servers;Throughput;Virtual machining}, 
+    doi={10.1109/ISPASS.2015.7095802}, 
+    ISSN={}, 
+    month={March}
+}
+
+@INPROCEEDINGS{7868429, 
+    author={N. Nguyen and D. Bein}, 
+    booktitle={2017 IEEE 7th Annual Computing and Communication Workshop and Conference (CCWC)}, 
+    title={Distributed MPI cluster with Docker Swarm mode}, 
+    year={2017}, 
+    volume={}, 
+    number={}, 
+    pages={1-7}, 
+    keywords={application program interfaces;containerisation;message passing;parallel processing;source code (software);MPI programs;container orchestration technology;distributed MPI cluster;docker swarm mode;high-performance computing;modern containerization technology;source code;Cloud computing;Computers;Containers;File systems;Linux;Operating systems;Cluster Automation;Container;Distributed System;Docker;Docker Swarm mode;HPC;MPI}, 
+    doi={10.1109/CCWC.2017.7868429}, 
+    ISSN={}, 
+    month={Jan}
+}
+
+@article{10.1371/journal.pone.0177459,
+    author = {Kurtzer, Gregory M. AND Sochat, Vanessa AND Bauer, Michael W.},
+    journal = {PLOS ONE},
+    publisher = {Public Library of Science},
+    title = {Singularity: Scientific containers for mobility of compute},
+    year = {2017},
+    month = {05},
+    volume = {12},
+    url = {https://doi.org/10.1371/journal.pone.0177459},
+    pages = {1-20},
+    abstract = {Here we present Singularity, software developed to bring containers and reproducibility to scientific computing. Using Singularity containers, developers can work in reproducible environments of their choosing and design, and these complete environments can easily be copied and executed on other platforms. Singularity is an open source initiative that harnesses the expertise of system and software engineers and researchers alike, and integrates seamlessly into common workflows for both of these groups. As its primary use case, Singularity brings mobility of computing to both users and HPC centers, providing a secure means to capture and distribute software and compute environments. This ability to create and deploy reproducible environments across these centers, a previously unmet need, makes Singularity a game changing development for computational science.},
+    number = {5},
+    doi = {10.1371/journal.pone.0177459}
+}
+
+@inproceedings{Le:2017:PAA:3093338.3106737,
+    author = {Le, Emily and Paz, David},
+    title = {Performance Analysis of Applications Using Singularity Container on SDSC Comet},
+    booktitle = {Proceedings of the Practice and Experience in Advanced Research Computing 2017 on Sustainability, Success and Impact},
+    series = {PEARC17},
+    year = {2017},
+    isbn = {978-1-4503-5272-7},
+    location = {New Orleans, LA, USA},
+    pages = {66:1--66:4},
+    articleno = {66},
+    numpages = {4},
+    url = {http://doi.acm.org/10.1145/3093338.3106737},
+    doi = {10.1145/3093338.3106737},
+    acmid = {3106737},
+    publisher = {ACM},
+    address = {New York, NY, USA},
+    keywords = {IMB: Intel's MPI Benchmark, NEURON: Neuronal Simulation Tool, OSU: Ohio State University Benchmark, Singularity},
+}
+
+@article{Wells:2000:BSA:364412.364422,
+ author = {Wells, Nicholas},
+ title = {BusyBox: A Swiss Army Knife for Linux},
+ journal = {Linux J.},
+ issue_date = {October 2000},
+ volume = {2000},
+ number = {78es},
+ month = oct,
+ year = {2000},
+ issn = {1075-3583},
+ articleno = {10},
+ url = {http://dl.acm.org/citation.cfm?id=364412.364422},
+ acmid = {364422},
+ publisher = {Belltown Media},
+ address = {Houston, TX},
+} 
+#+end_src
+* Emacs setup                                                      :noexport:
+
+# Local Variables:
+# eval: (add-to-list 'load-path ".")
+# eval: (require 'ox-extra)
+# eval: (ox-extras-activate '(ignore-headlines))
+# eval: (add-to-list 'org-latex-classes '("article" "\\documentclass{article}\n \[NO-DEFAULT-PACKAGES]\n \[EXTRA]\n"  ("\\section{%s}" . "\\section*{%s}") ("\\subsection{%s}" . "\\subsection*{%s}")                       ("\\subsubsection{%s}" . "\\subsubsection*{%s}")                       ("\\paragraph{%s}" . "\\paragraph*{%s}")                       ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+# eval: (setq org-latex-to-pdf-process '("pdflatex -interaction nonstopmode -output-directory %o %f ; bibtex `basename %f | sed 's/\.tex//'` ; pdflatex -interaction nonstopmode -output-directory  %o %f ; pdflatex -interaction nonstopmode -output-directory %o %f"))
+# eval: (setq ispell-local-dictionary "american")
+# eval: (eval (flyspell-mode t))
+# eval: (setq org-latex-with-hyperref nil)
+# End:

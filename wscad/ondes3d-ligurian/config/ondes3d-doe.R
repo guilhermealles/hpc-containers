@@ -7,14 +7,14 @@ ondes3d_DoE <- fac.design (
     blocks=1,
     randomize=TRUE,
     seed=72539,
-    nlevels=c(3,4),
+    nlevels=c(2,4),
     factor.names=list(
-        environment=c("docker","singularity","native"),
-        parallelism=c(1,4,8,16)));
+        environment=c('singularity','native'),
+        parallelism=c(64,128,192,256)));
 
 export.design(ondes3d_DoE, 
     path=".", 
     filename=NULL, 
     type="csv", 
     replace=TRUE,
-    response.names=c("time"));
+    response.names=c('time'));

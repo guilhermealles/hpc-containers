@@ -1,90 +1,90 @@
-1,native,openmp,8,Time taken: 174969 milliseconds
-2,docker,mpi-high-comm,8,Time taken: 111980 milliseconds
-5,native,mpi,8,Time taken: 98711 milliseconds
-6,docker,openmp,8,Time taken: 169353 milliseconds
-8,singularity,mpi,8,Time taken: 94704 milliseconds
-9,singularity,openmp,8,Time taken: 168740 milliseconds
-14,native,mpi-high-comm,8,Time taken: 92769 milliseconds
-23,docker,mpi,8,Time taken: 177005 milliseconds
-24,singularity,mpi-high-comm,8,Time taken: 89182 milliseconds
-36,singularity,openmp,8,Time taken: 168984 milliseconds
-41,singularity,mpi,8,Time taken: 94807 milliseconds
-42,native,mpi,8,Time taken: 98585 milliseconds
-43,native,openmp,8,Time taken: 174930 milliseconds
-44,native,mpi-high-comm,8,Time taken: 92826 milliseconds
-45,docker,mpi,8,Time taken: 177907 milliseconds
-46,singularity,mpi-high-comm,8,Time taken: 88250 milliseconds
-47,docker,openmp,8,Time taken: 168451 milliseconds
-50,docker,mpi-high-comm,8,Time taken: 176173 milliseconds
-55,native,openmp,8,Time taken: 174766 milliseconds
-57,docker,openmp,8,Time taken: 168869 milliseconds
-60,singularity,openmp,8,Time taken: 167896 milliseconds
-64,singularity,mpi,8,Time taken: 94900 milliseconds
-66,docker,mpi-high-comm,8,Time taken: 176605 milliseconds
-67,native,mpi-high-comm,8,Time taken: 92630 milliseconds
-71,native,mpi,8,Time taken: 98641 milliseconds
-74,docker,mpi,8,Time taken: 175830 milliseconds
-81,singularity,mpi-high-comm,8,Time taken: 88410 milliseconds
-83,docker,openmp,8,Time taken: 168993 milliseconds
-86,docker,mpi-high-comm,8,Time taken: 175040 milliseconds
-87,native,mpi,8,Time taken: 98560 milliseconds
-88,singularity,mpi-high-comm,8,Time taken: 88234 milliseconds
-91,docker,mpi,8,Time taken: 176408 milliseconds
-93,native,mpi-high-comm,8,Time taken: 92713 milliseconds
-100,singularity,mpi,8,Time taken: 95135 milliseconds
-102,singularity,openmp,8,Time taken: 168052 milliseconds
-106,native,openmp,8,Time taken: 174712 milliseconds
-109,singularity,openmp,8,Time taken: 167803 milliseconds
-110,native,openmp,8,Time taken: 174792 milliseconds
-111,native,mpi-high-comm,8,Time taken: 92539 milliseconds
-114,docker,mpi-high-comm,8,Time taken: 175844 milliseconds
-115,docker,mpi,8,Time taken: 175926 milliseconds
-116,singularity,mpi-high-comm,8,Time taken: 88371 milliseconds
-125,native,mpi,8,Time taken: 97818 milliseconds
-128,docker,openmp,8,Time taken: 168873 milliseconds
-131,singularity,mpi,8,Time taken: 94784 milliseconds
-137,native,mpi-high-comm,8,Time taken: 92865 milliseconds
-140,docker,mpi,8,Time taken: 174879 milliseconds
-141,singularity,mpi-high-comm,8,Time taken: 88297 milliseconds
-144,singularity,openmp,8,Time taken: 168043 milliseconds
-146,singularity,mpi,8,Time taken: 95005 milliseconds
-149,native,openmp,8,Time taken: 175053 milliseconds
-150,native,mpi,8,Time taken: 98270 milliseconds
-153,docker,openmp,8,Time taken: 168565 milliseconds
-158,docker,mpi-high-comm,8,Time taken: 175002 milliseconds
-163,native,mpi,8,Time taken: 98900 milliseconds
-164,singularity,mpi-high-comm,8,Time taken: 88235 milliseconds
-170,native,openmp,8,Time taken: 174701 milliseconds
-171,docker,openmp,8,Time taken: 168673 milliseconds
-174,singularity,mpi,8,Time taken: 94568 milliseconds
-175,singularity,openmp,8,Time taken: 168075 milliseconds
-181,docker,mpi-high-comm,8,Time taken: 175486 milliseconds
-184,native,mpi-high-comm,8,Time taken: 92728 milliseconds
-189,docker,mpi,8,Time taken: 175622 milliseconds
-190,native,mpi-high-comm,8,Time taken: 92883 milliseconds
-201,docker,mpi,8,Time taken: 175600 milliseconds
-202,singularity,mpi-high-comm,8,Time taken: 88356 milliseconds
-207,docker,mpi-high-comm,8,Time taken: 175245 milliseconds
-209,singularity,openmp,8,Time taken: 167939 milliseconds
-210,native,openmp,8,Time taken: 175210 milliseconds
-212,docker,openmp,8,Time taken: 168802 milliseconds
-214,native,mpi,8,Time taken: 98566 milliseconds
-215,singularity,mpi,8,Time taken: 94965 milliseconds
-224,native,mpi-high-comm,8,Time taken: 93199 milliseconds
-225,singularity,mpi-high-comm,8,Time taken: 88344 milliseconds
-229,native,openmp,8,Time taken: 175090 milliseconds
-231,native,mpi,8,Time taken: 98849 milliseconds
-236,docker,openmp,8,Time taken: 168957 milliseconds
-238,singularity,openmp,8,Time taken: 168751 milliseconds
-239,singularity,mpi,8,Time taken: 94924 milliseconds
-240,docker,mpi-high-comm,8,Time taken: 175613 milliseconds
-242,docker,mpi,8,Time taken: 177411 milliseconds
-245,docker,openmp,8,Time taken: 168831 milliseconds
-248,native,openmp,8,Time taken: 175028 milliseconds
-250,singularity,openmp,8,Time taken: 169439 milliseconds
-252,native,mpi,8,Time taken: 98148 milliseconds
-255,docker,mpi,8,Time taken: 176343 milliseconds
-259,singularity,mpi,8,Time taken: 95046 milliseconds
-260,native,mpi-high-comm,8,Time taken: 92849 milliseconds
-263,singularity,mpi-high-comm,8,Time taken: 88473 milliseconds
-264,docker,mpi-high-comm,8,Time taken: 175470 milliseconds
+1,native,openmp,8,174969
+2,docker,mpi-high-comm,8,111980
+5,native,mpi,8,98711
+6,docker,openmp,8,169353
+8,singularity,mpi,8,94704
+9,singularity,openmp,8,168740
+14,native,mpi-high-comm,8,92769
+23,docker,mpi,8,177005
+24,singularity,mpi-high-comm,8,89182
+36,singularity,openmp,8,168984
+41,singularity,mpi,8,94807
+42,native,mpi,8,98585
+43,native,openmp,8,174930
+44,native,mpi-high-comm,8,92826
+45,docker,mpi,8,177907
+46,singularity,mpi-high-comm,8,88250
+47,docker,openmp,8,168451
+50,docker,mpi-high-comm,8,176173
+55,native,openmp,8,174766
+57,docker,openmp,8,168869
+60,singularity,openmp,8,167896
+64,singularity,mpi,8,94900
+66,docker,mpi-high-comm,8,176605
+67,native,mpi-high-comm,8,92630
+71,native,mpi,8,98641
+74,docker,mpi,8,175830
+81,singularity,mpi-high-comm,8,88410
+83,docker,openmp,8,168993
+86,docker,mpi-high-comm,8,175040
+87,native,mpi,8,98560
+88,singularity,mpi-high-comm,8,88234
+91,docker,mpi,8,176408
+93,native,mpi-high-comm,8,92713
+100,singularity,mpi,8,95135
+102,singularity,openmp,8,168052
+106,native,openmp,8,174712
+109,singularity,openmp,8,167803
+110,native,openmp,8,174792
+111,native,mpi-high-comm,8,92539
+114,docker,mpi-high-comm,8,175844
+115,docker,mpi,8,175926
+116,singularity,mpi-high-comm,8,88371
+125,native,mpi,8,97818
+128,docker,openmp,8,168873
+131,singularity,mpi,8,94784
+137,native,mpi-high-comm,8,92865
+140,docker,mpi,8,174879
+141,singularity,mpi-high-comm,8,88297
+144,singularity,openmp,8,168043
+146,singularity,mpi,8,95005
+149,native,openmp,8,175053
+150,native,mpi,8,98270
+153,docker,openmp,8,168565
+158,docker,mpi-high-comm,8,175002
+163,native,mpi,8,98900
+164,singularity,mpi-high-comm,8,88235
+170,native,openmp,8,174701
+171,docker,openmp,8,168673
+174,singularity,mpi,8,94568
+175,singularity,openmp,8,168075
+181,docker,mpi-high-comm,8,175486
+184,native,mpi-high-comm,8,92728
+189,docker,mpi,8,175622
+190,native,mpi-high-comm,8,92883
+201,docker,mpi,8,175600
+202,singularity,mpi-high-comm,8,88356
+207,docker,mpi-high-comm,8,175245
+209,singularity,openmp,8,167939
+210,native,openmp,8,175210
+212,docker,openmp,8,168802
+214,native,mpi,8,98566
+215,singularity,mpi,8,94965
+224,native,mpi-high-comm,8,93199
+225,singularity,mpi-high-comm,8,88344
+229,native,openmp,8,175090
+231,native,mpi,8,98849
+236,docker,openmp,8,168957
+238,singularity,openmp,8,168751
+239,singularity,mpi,8,94924
+240,docker,mpi-high-comm,8,175613
+242,docker,mpi,8,177411
+245,docker,openmp,8,168831
+248,native,openmp,8,175028
+250,singularity,openmp,8,169439
+252,native,mpi,8,98148
+255,docker,mpi,8,176343
+259,singularity,mpi,8,95046
+260,native,mpi-high-comm,8,92849
+263,singularity,mpi-high-comm,8,88473
+264,docker,mpi-high-comm,8,175470

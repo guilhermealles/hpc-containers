@@ -1,12 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <math.h>
 #include "sys/types.h"
 
 #include <mpi.h>
 
 #define MAX_SIZE   1048576
-#define NUM_ROUNDS 10
+#define NUM_ROUNDS 1
 
 int main(int argc, char **argv) {
   int        me, nproc;
@@ -26,8 +27,13 @@ int main(int argc, char **argv) {
     MPI_Abort(MPI_COMM_WORLD, 1);
   }
 
-  if (me == 0)
-    printf("MPI-2 passive ping-pong latency test, performing %d rounds at each xfer size.\n\n", NUM_ROUNDS);
+  int size_exponent;
+  if (argc != 2) {
+    printf("Exponent was not provided.");
+    MPI_Abort(MPI_COMM_WORLD, 1);
+  } else {
+    size_exponent = atoi(argv[1]);
+  }
 
   MPI_Alloc_mem(MAX_SIZE, MPI_INFO_NULL, &rcv_buf);
   MPI_Alloc_mem(MAX_SIZE, MPI_INFO_NULL, &snd_buf);
@@ -38,50 +44,49 @@ int main(int argc, char **argv) {
     snd_buf[i] = 1;
   }
 
-  for (msg_length = 1; msg_length <= MAX_SIZE; msg_length *= 2) {
-    MPI_Barrier(MPI_COMM_WORLD);
+  msg_length = pow(2, size_exponent);
+  MPI_Barrier(MPI_COMM_WORLD);
 
-    // Perform NUM_ROUNDS ping-pongs
-    for (round = 0; round < NUM_ROUNDS*2; round++) {
-      t_start = MPI_Wtime();
-      // I am the sender
-      if (round % 2 == me) {
-        // Clear start and end markers for next round
-        MPI_Win_lock(MPI_LOCK_EXCLUSIVE, me, 0, window);
-        rcv_buf[0] = 0;
-        rcv_buf[msg_length-1] = 0;
-        MPI_Win_unlock(me, window);
+  // Perform NUM_ROUNDS ping-pongs
+  for (round = 0; round < NUM_ROUNDS; round++) {
+    t_start = MPI_Wtime();
+    // I am the sender
+    if (round % 2 == me) {
+      // Clear start and end markers for next round
+      MPI_Win_lock(MPI_LOCK_EXCLUSIVE, me, 0, window);
+      rcv_buf[0] = 0;
+      rcv_buf[msg_length-1] = 0;
+      MPI_Win_unlock(me, window);
 
-        MPI_Win_lock(MPI_LOCK_EXCLUSIVE, (me+1)%2, 0, window);
-        MPI_Put(snd_buf, msg_length, MPI_BYTE, (me+1)%2, 0, msg_length, MPI_BYTE, window);
-        MPI_Win_unlock((me+1)%2, window);
-      }
-
-      // I am the receiver: Poll start and end markers
-      else {
-        u_int8_t val;
-
-        do {
-          //MPI_Iprobe(0, 0, MPI_COMM_WORLD, &val, MPI_STATUS_IGNORE);
-          MPI_Win_lock(MPI_LOCK_EXCLUSIVE, me, 0, window);
-          val = ((volatile u_int8_t*)rcv_buf)[0];
-          MPI_Win_unlock(me, window);
-        } while (val == 0);
-
-        do {
-          //MPI_Iprobe(0, 0, MPI_COMM_WORLD, &val, MPI_STATUS_IGNORE);
-          MPI_Win_lock(MPI_LOCK_EXCLUSIVE, me, 0, window);
-          val = ((volatile u_int8_t*)rcv_buf)[msg_length-1];
-          MPI_Win_unlock(me, window);
-        } while (val == 0);
-      }
-      MPI_Barrier(MPI_COMM_WORLD);
-      t_stop = MPI_Wtime();
-      if (me == 0)
-        printf("%8d bytes, %12.8f ms\n", msg_length, (t_stop-t_start)*1000);
+      MPI_Win_lock(MPI_LOCK_EXCLUSIVE, (me+1)%2, 0, window);
+      MPI_Put(snd_buf, msg_length, MPI_BYTE, (me+1)%2, 0, msg_length, MPI_BYTE, window);
+      MPI_Win_unlock((me+1)%2, window);
     }
-  }
 
+    // I am the receiver: Poll start and end markers
+    else {
+      u_int8_t val;
+
+      do {
+        //MPI_Iprobe(0, 0, MPI_COMM_WORLD, &val, MPI_STATUS_IGNORE);
+        MPI_Win_lock(MPI_LOCK_EXCLUSIVE, me, 0, window);
+        val = ((volatile u_int8_t*)rcv_buf)[0];
+        MPI_Win_unlock(me, window);
+      } while (val == 0);
+
+      do {
+        //MPI_Iprobe(0, 0, MPI_COMM_WORLD, &val, MPI_STATUS_IGNORE);
+        MPI_Win_lock(MPI_LOCK_EXCLUSIVE, me, 0, window);
+        val = ((volatile u_int8_t*)rcv_buf)[msg_length-1];
+        MPI_Win_unlock(me, window);
+      } while (val == 0);
+    }
+    MPI_Barrier(MPI_COMM_WORLD);
+    t_stop = MPI_Wtime();
+    if (me == 0)
+      printf("%12.8f\n", (t_stop-t_start)*1000);
+  }
+  
   MPI_Win_free(&window);
   MPI_Free_mem(snd_buf);
   MPI_Free_mem(rcv_buf);

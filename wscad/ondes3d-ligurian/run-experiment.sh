@@ -22,8 +22,6 @@ do
 
     if [ $environment = "singularity" ]; then
         echo $(./singularity-single-run.sh $name $environment $parallelism)
-    elif [ $environment = "docker" ]; then
-        echo $(./docker-single-run.sh $name $environment $parallelism)
     elif [ $environment = "native" ]; then
         echo $(./native-single-run.sh $name $environment $parallelism)
     fi

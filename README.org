@@ -1,0 +1,19 @@
+* Companion: "HPC Applics. Perf. on Linux Containers"
+
+This GIT entry is the companion for the paper entitled "Assessing the
+Computation and Communication Overhead of Linux Containers for HPC
+Applications", by Guilherme Rezende Alles, Alexandre Carissimi, and
+Lucas Mello Schnorr. The paper has been submitted to WSCAD 2018.
+We have conducted multiple performance experiments with HPC
+applications running inside Docker and Singularity containers. 
+The repository contains:
+
+- code to build a Docker cluster infrastructure. Highly influenced by
+  [[https://github.com/NLKNguyen/alpine-mpich][NLNKguyen's work]]: Docker images and the multi-host orchestration are
+  kept mostly intact, with some minor tweaks.
+- Based on the same Docker images, there are some Singularity
+  definition files to create singularity containers for performance
+  analysis.
+- An automated script to run experiments (configured in a .csv file)
+  is also included.
+- Results are kept in the =results= directory.

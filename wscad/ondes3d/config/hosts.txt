@@ -1,4 +1,4 @@
-host:4
-host:4
-host:4
-host:4
+graphene-111.nancy.grid5000.fr
+graphene-118.nancy.grid5000.fr
+graphene-119.nancy.grid5000.fr
+graphene-125.nancy.grid5000.fr
