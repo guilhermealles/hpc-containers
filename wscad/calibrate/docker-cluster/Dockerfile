@@ -13,6 +13,11 @@ FROM guilhermealles/mpich-debian:onbuild
 # the current working directory in this Docker image
 COPY project/ .
 
+COPY ssh/* /home/mpi/.ssh/
+COPY ssh/id_rsa.pub /home/mpi/.ssh/authorized_keys
+RUN sudo chown mpi:mpi /home/mpi/.ssh
+RUN sudo chown mpi:mpi /home/mpi/.ssh/*
+
 # Normal build command
 RUN sudo apt-get update -y && sudo apt-get install -y libxml2-dev libxslt1-dev git
 RUN git clone https://gitlab.inria.fr/simgrid/platform-calibration.git
