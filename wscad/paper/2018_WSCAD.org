@@ -2033,8 +2033,7 @@ keywords = "Seismic numerical simulation, Finite-element method, Parallel sparse
  address = {Houston, TX},
 } 
 #+end_src
-
-* Reviews WSCAD 2018
+* Reviews WSCAD 2018                                               :noexport:
 ** ===== Review =====
 *** Originalidade
 
