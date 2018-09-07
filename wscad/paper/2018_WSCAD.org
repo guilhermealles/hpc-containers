@@ -2034,7 +2034,7 @@ keywords = "Seismic numerical simulation, Finite-element method, Parallel sparse
 } 
 #+end_src
 * Reviews WSCAD 2018                                               :noexport:
-** ===== Review =====
+** ===== Review ===== (Bom, especialista)
 *** Originalidade
 
 Evaluation=Trabalho original, possui várias contribuições novas (5)
@@ -2110,7 +2110,7 @@ Docker is used in datacenters with many (1000s) nodes. Why this?
 Section 5 - second paragraph ....absorbed change to amortized - ...This
 approach yielded better... The fine tuning?
 
-** ===== Review =====
+** ===== Review ===== (Regular, não especialista)
 *** Originalidade
 
 Evaluation=Trabalho com alguma contribuição original (4)
@@ -2178,7 +2178,7 @@ são diferenciados por cores, mas como as figuras estão em escala de
 cinza torna-se difícil distingui-los. Sugiro que usem marcadores
 diferentes ao invés de cores diferentes com mesmos marcadores.
 
-** ===== Review =====
+** ===== Review ===== (Regular, com bom domínio)
 *** Originalidade
 
 Evaluation=Trabalho com contribuições cuja originalidade é discutível (3)
