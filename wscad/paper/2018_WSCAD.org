@@ -2093,7 +2093,10 @@ I feel that the network overhead of docker should be further
 investigated. This technology has been advancing very fast and now it
 allows other nodes of connection.
 
-.First, singularity containers...Docker allows control over the resources a container uses. Therefore, RAM, CPU and disk space can be limited on a per container basis. This is na advantage of Docker over Singularity.
+.First, singularity containers...Docker allows control over the
+resources a container uses. Therefore, RAM, CPU and disk space can be
+limited on a per container basis. This is na advantage of Docker over
+Singularity.
 
 Section 3 second paragraph ...in a real-world scenario. Furthermore,
 it... docker swarm is usual in industry! - fourth paragraph ....that
