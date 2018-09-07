@@ -2033,6 +2033,373 @@ keywords = "Seismic numerical simulation, Finite-element method, Parallel sparse
  address = {Houston, TX},
 } 
 #+end_src
+
+* Reviews WSCAD 2018
+** ===== Review =====
+*** Originalidade (Avalie a originalidade do trabalho, comparando com
+trabalhos já existentes. Avalie se o trabalho apresenta novos
+resultados, ou mesmo novas observações relevantes sobre temas já
+tratados em outros artigos. Inclua nos comentários para o autor as obras
+relacionadas ao texto que não foram citadas.): 5: Trabalho original,
+possui várias contribuições novas 4: Trabalho com alguma contribuição
+original 3: Trabalho com contribuições cuja originalidade é discutível
+2: Trabalho com contribuições marginais quanto originalidade 1: Trabalho
+desprovido de contribuições quanto a originalidade
+
+Evaluation=Trabalho original, possui várias contribuições novas (5)
+
+*** Relevância (Avalie a importância do tema, das questões abordadas, e
+dos resultados do trabalho considerando o escopo do evento (Tópicos de
+Interesse). Caso o trabalho não seja bem avaliado neste item, apresente
+algumas sugestões aos autores de como torná-lo mais relevante.): 5: Tema
+extremamente relevante 4: Tema relevante 3: Tema pouco relevante 2: Tema
+cuja relevância é questionável 1: Tema não relevante (deve ser submetido
+em outro evento)
+
+Evaluation=Tema extremamente relevante (5)
+
+*** Mérito técnico (Avalie o mérito do trabalho proposto, analisando a
+qualidade da sua idéia central e a profundidade do autor na compreensão
+do tema, dos problemas e das soluções apresentadas. Nos comentários aos
+autores, inclua sugestões que possam melhorar a qualidade e a
+profundidade do trabalho.): 5: Trabalho excelente, possui contribuições
+relevantes 4: Trabalho consistente com contribuições 3: Trabalho
+consistente com contribuições marginais 2: Trabalho fraco e com
+contribuições marginais 1: Trabalho e contribuições fracas
+
+Evaluation=Trabalho consistente com contribuições (4)
+
+*** Qualidade do texto (Avalie a estrutura do texto, a sua legibilidade
+e a qualidade didática da redação. Verifique se a formatação está
+adequada e se as figuras estão bem relacionadas no texto.): 5: Texto
+muito bom 4: Texto bom, precisa de alguma revisão 3: Texto legível,
+precisa de revisão cuidadosa 2: Texto fraco, precisa de revisão
+detalhada 1: Inaceitável
+
+Evaluation=Texto muito bom (5)
+
+*** Bibliografia (Avalie a qualidade, em abrangência e atualidade, das
+referências bibliográficas utilizadas no artigo.): 5: Excelente 4: Bom
+3: Regular 2: Fraco 1: Ruim
+
+Evaluation=Bom (4)
+
+*** Avaliação Geral (Especifique sua impressão geral do trabalho. Esta
+avaliação pode ser independente dos outros critérios, porém, sugerimos
+que observe se ocorrem discrepâncias.): 5: Excelente 4: Bom 3: Regular
+2: Fraco 1: Ruim
+
+Evaluation=Bom (4)
+
+*** Confiança na avaliação (Como avaliador, classifique o seu nível de
+conhecimento no tema do texto avaliado.): 5: Excelente domínio do tema,
+especialista 4: Bom domínio do tema 3: Conhecimento geral na área, não
+especialista 2: Pouco domínio do tema 1: Tema distante da minha área de
+conhecimento
+
+Evaluation=Excelente domínio do tema, especialista (5)
+
+*** Comentários para o autor (Comente o que seu entendimento sobre o
+artigo. Dê justificativas para cada uma das notas atribuídas em cada
+item (originalidade, relevância, mérito, qualidade do texto). Ressalte
+as qualidades e aponte possíveis erros do texto. Explique como o artigo
+poderia ser melhorado.): This article compares and contrast two
+containers technologies, Docker and Singularity, with respect to their
+performance overhead and ability to solve common HPC workflow problems.
+
+The article is well written, and the sentences are clear and direct.
+However, there are some important points that need to be explained or
+improved:
+
+- The paper lacks to cite important advantage of conteiners to HPC 1)
+Reproducibility of experiments; 2) More control of resources (CPU, RAM,
+disk space) used by the containers 3) Ability to migrate containers
+between hosts by stopping and restasting on another host;
+
+-The paper doesn´t address failure scenarios when comparing native x
+containers.
+
+-More emphasis should be done on executing multiple containers on single
+host. This has the potential to reduce the total number of nodes
+required to run the HPC jobs. But at some point a host can become
+saturated so a equilibrium point should be achieved; The loose container
+isolation of singularity can ease maintenance and improve network
+performance, but couldn´t this open the opportunity to interference
+between containers?
+
+I feel that the network overhead of docker should be further
+investigated. This technology has been advancing very fast and now it
+allows other nodes of connection.
+
+.First, singularity containers...Docker allows control over the resources a container uses. Therefore, RAM, CPU and disk space can be limited on a per container basis. This is na advantage of Docker over Singularity.
+
+Section 3 second paragraph ...in a real-world scenario. Furthermore,
+it... docker swarm is usual in industry! - fourth paragraph ....that
+occur by applying virtualization techniques... change to ....that occur
+by applying container based virtualization techniques...
+
+Section 4.1 - Third paragraph could be in Section 2.
+
+Section 4.2 - The containers couldn´t be started prior to the
+experiments? MPI ranks was not previously defined. Fourth
+paragraph...Unfortunately, the container infrastructure for Docker....
+Docker is used in datacenters with many (1000s) nodes. Why this?
+
+Section 5 - second paragraph ....absorbed change to amortized - ...This
+approach yielded better... The fine tuning?
+
+** ===== Review =====
+*** Originalidade (Avalie a originalidade do trabalho, comparando com
+trabalhos já existentes. Avalie se o trabalho apresenta novos
+resultados, ou mesmo novas observações relevantes sobre temas já
+tratados em outros artigos. Inclua nos comentários para o autor as obras
+relacionadas ao texto que não foram citadas.): 5: Trabalho original,
+possui várias contribuições novas 4: Trabalho com alguma contribuição
+original 3: Trabalho com contribuições cuja originalidade é discutível
+2: Trabalho com contribuições marginais quanto originalidade 1: Trabalho
+desprovido de contribuições quanto a originalidade
+
+Evaluation=Trabalho com alguma contribuição original (4)
+
+*** Relevância (Avalie a importância do tema, das questões abordadas, e
+dos resultados do trabalho considerando o escopo do evento (Tópicos de
+Interesse). Caso o trabalho não seja bem avaliado neste item, apresente
+algumas sugestões aos autores de como torná-lo mais relevante.): 5: Tema
+extremamente relevante 4: Tema relevante 3: Tema pouco relevante 2: Tema
+cuja relevância é questionável 1: Tema não relevante (deve ser submetido
+em outro evento)
+
+Evaluation=Tema pouco relevante (3)
+
+*** Mérito técnico (Avalie o mérito do trabalho proposto, analisando a
+qualidade da sua idéia central e a profundidade do autor na compreensão
+do tema, dos problemas e das soluções apresentadas. Nos comentários aos
+autores, inclua sugestões que possam melhorar a qualidade e a
+profundidade do trabalho.): 5: Trabalho excelente, possui contribuições
+relevantes 4: Trabalho consistente com contribuições 3: Trabalho
+consistente com contribuições marginais 2: Trabalho fraco e com
+contribuições marginais 1: Trabalho e contribuições fracas
+
+Evaluation=Trabalho consistente com contribuições marginais (3)
+
+*** Qualidade do texto (Avalie a estrutura do texto, a sua legibilidade
+e a qualidade didática da redação. Verifique se a formatação está
+adequada e se as figuras estão bem relacionadas no texto.): 5: Texto
+muito bom 4: Texto bom, precisa de alguma revisão 3: Texto legível,
+precisa de revisão cuidadosa 2: Texto fraco, precisa de revisão
+detalhada 1: Inaceitável
+
+Evaluation=Texto bom, precisa de alguma revisão (4)
+
+*** Bibliografia (Avalie a qualidade, em abrangência e atualidade, das
+referências bibliográficas utilizadas no artigo.): 5: Excelente 4: Bom
+3: Regular 2: Fraco 1: Ruim
+
+Evaluation=Bom (4)
+
+*** Avaliação Geral (Especifique sua impressão geral do trabalho. Esta
+avaliação pode ser independente dos outros critérios, porém, sugerimos
+que observe se ocorrem discrepâncias.): 5: Excelente 4: Bom 3: Regular
+2: Fraco 1: Ruim
+
+Evaluation=Regular (3)
+
+*** Confiança na avaliação (Como avaliador, classifique o seu nível de
+conhecimento no tema do texto avaliado.): 5: Excelente domínio do tema,
+especialista 4: Bom domínio do tema 3: Conhecimento geral na área, não
+especialista 2: Pouco domínio do tema 1: Tema distante da minha área de
+conhecimento
+
+Evaluation=Conhecimento geral na área, não especialista (3)
+
+*** Comentários para o autor (Comente o que seu entendimento sobre o
+artigo. Dê justificativas para cada uma das notas atribuídas em cada
+item (originalidade, relevância, mérito, qualidade do texto). Ressalte
+as qualidades e aponte possíveis erros do texto. Explique como o artigo
+poderia ser melhorado.): O trabalho apresenta o ambiente em que as
+soluções de conteiners são empregadas e suas vantagens em relação a
+tradicionais máquinas virtuais. Em especial o artigo considera os
+conteiners Docker e Singularity, comparando seus desemenhos para
+soluções de problemas de HPC.
+
+Para realizar os experimentos foi utilizada plataforma Grid5000 com
+diversos nós, considerando os ambientes (Nativo, Docker e Singularity)
+para 3 benchmarks (NAS-EP, Ondes3D e Ping-Pont). Foi analisado o
+overhead de computação, a latência de comunicação e o ganho de
+performance aplicando otimização.
+
+De acordo com os experimentos apresentados os desempenhos tanto do
+Docker quanto do Singularity são relativamente próximos da execução
+nativa. Contudo em comparação direta a solução Singularity tem ligeiras
+vantagens.
+
+No final do 2o. parágrafo da seção 4.2 os autores apontam um possível
+motivo do desempenho do Docker está relacionado a comunicação da rede.
+Os autores afirmam: "Such a virtual network does not exist in the other
+two environments" Quais os outros ambientes aqui citados? Singularity e
+Nativo? Deixar claro.
+
+Na figura 2 é apresentado os resultados para MPI Ranks de 64 a 256. A
+respeito dos resultados dessa figura o atigo apresenta: "Unfortunately,
+the container infrastructure for Docker using its overlay network and
+Docker Swarm as an orchestrator failed to spawn containers in such a
+high number of nodes, and thus Docker was excluded from this test case."
+Não ficou claro o limite suportado pelo Docker nem os motivos que ele
+falhou. Sugiro explicar esses dois pontos, e se for o caso incluir no
+gráfico os resultados do Docker até ele falhar.
+
+No 1o. parágrafo da seção 4.3, indica que os resultados dos 3 ambietes
+são diferenciados por cores, mas como as figuras estão em escala de
+cinza torna-se difícil distingui-los. Sugiro que usem marcadores
+diferentes ao invés de cores diferentes com mesmos marcadores.
+
+** ===== Review =====
+*** Originalidade (Avalie a originalidade do trabalho, comparando com
+trabalhos já existentes. Avalie se o trabalho apresenta novos
+resultados, ou mesmo novas observações relevantes sobre temas já
+tratados em outros artigos. Inclua nos comentários para o autor as obras
+relacionadas ao texto que não foram citadas.): 5: Trabalho original,
+possui várias contribuições novas 4: Trabalho com alguma contribuição
+original 3: Trabalho com contribuições cuja originalidade é discutível
+2: Trabalho com contribuições marginais quanto originalidade 1: Trabalho
+desprovido de contribuições quanto a originalidade
+
+Evaluation=Trabalho com contribuições cuja originalidade é discutível (3)
+
+*** Relevância (Avalie a importância do tema, das questões abordadas, e
+dos resultados do trabalho considerando o escopo do evento (Tópicos de
+Interesse). Caso o trabalho não seja bem avaliado neste item, apresente
+algumas sugestões aos autores de como torná-lo mais relevante.): 5: Tema
+extremamente relevante 4: Tema relevante 3: Tema pouco relevante 2: Tema
+cuja relevância é questionável 1: Tema não relevante (deve ser submetido
+em outro evento)
+
+Evaluation=Tema relevante (4)
+
+*** Mérito técnico (Avalie o mérito do trabalho proposto, analisando a
+qualidade da sua idéia central e a profundidade do autor na compreensão
+do tema, dos problemas e das soluções apresentadas. Nos comentários aos
+autores, inclua sugestões que possam melhorar a qualidade e a
+profundidade do trabalho.): 5: Trabalho excelente, possui contribuições
+relevantes 4: Trabalho consistente com contribuições 3: Trabalho
+consistente com contribuições marginais 2: Trabalho fraco e com
+contribuições marginais 1: Trabalho e contribuições fracas
+
+Evaluation=Trabalho fraco e com contribuições marginais (2)
+
+*** Qualidade do texto (Avalie a estrutura do texto, a sua legibilidade
+e a qualidade didática da redação. Verifique se a formatação está
+adequada e se as figuras estão bem relacionadas no texto.): 5: Texto
+muito bom 4: Texto bom, precisa de alguma revisão 3: Texto legível,
+precisa de revisão cuidadosa 2: Texto fraco, precisa de revisão
+detalhada 1: Inaceitável
+
+Evaluation=Texto legível, precisa de revisão cuidadosa (3)
+
+*** Bibliografia (Avalie a qualidade, em abrangência e atualidade, das
+referências bibliográficas utilizadas no artigo.): 5: Excelente 4: Bom
+3: Regular 2: Fraco 1: Ruim
+
+Evaluation=Fraco (2)
+
+*** Avaliação Geral (Especifique sua impressão geral do trabalho. Esta
+avaliação pode ser independente dos outros critérios, porém, sugerimos
+que observe se ocorrem discrepâncias.): 5: Excelente 4: Bom 3: Regular
+2: Fraco 1: Ruim
+
+Evaluation=Regular (3)
+
+*** Confiança na avaliação (Como avaliador, classifique o seu nível de
+conhecimento no tema do texto avaliado.): 5: Excelente domínio do tema,
+especialista 4: Bom domínio do tema 3: Conhecimento geral na área, não
+especialista 2: Pouco domínio do tema 1: Tema distante da minha área de
+conhecimento
+
+Evaluation=Bom domínio do tema (4)
+
+*** Comentários para o autor (Comente o que seu entendimento sobre o
+artigo. Dê justificativas para cada uma das notas atribuídas em cada
+item (originalidade, relevância, mérito, qualidade do texto). Ressalte
+as qualidades e aponte possíveis erros do texto. Explique como o artigo
+poderia ser melhorado.): The paper evaluates the performance of the
+Operating System (OS) containers in HPC applications. Despite the clear
+objective and presenting experimental results, the contribution seems
+incremental, as the contributions presented in Section 1 seem more like
+objectives or results overview than a scientific contribution. This is
+basically a benchmarking paper providing comparisons and foundations to
+make technology choices. However, in this case, the scientific
+contribution is limited.
+
+
+Other, more detailed comments: *I don't agree with the reason given for
+testing Docker and Singularity described as "Docker and Singularity
+since they are the more prominent and widely used in the OS and HPC
+communities". Both technologies may be promising solutions, but Docker,
+for instance, is more used in industry than in academy. Moreover, as the
+paper does not present any reference to this phrase, it seems more like
+authors' opinion than an actual fact.
+
+*The related work selection is unclear and limited, the criteria for
+selecting a paper was not presented. Relevant related manuscripts are
+missing [1], [2], [3]. Moreover, this Section seems to be again
+presenting the used container technologies, which were already described
+in Section 2. I expected a literature review to be presented in the
+related work. Another detail that shows the papers limitation is the
+last phrase of the second paragraph: "Furthermore, it has been shown
+that the performance of network operations can be affected by the use of
+Docker containers, especially in latency-sensitive scenarios [Felter et
+al. 2015]". The problem is that Felter et al. did not evaluate nor
+concluded anything related to the network latency in Docker. Also, the
+motivation states: "Furthermore, we intend to demonstrate that
+virtualization techniques can be used in HPC without the massive
+overhead of traditional virtual machines". I recommend a more consistent
+argumentation, virtual machines can present overhead in HPC
+applications, but it depends on the characteristics of the applications
+tested and the underlying technologies used. Also, recent researches
+have shown CPU intensive applications with almost native performance
+using the KVM Hypervisor on cloud environments.
+
+*Subsection 4.1 emphasizes that the Docker Swarm orchestrator was used
+for managing the Docker environment. Nothing is cited regarding the
+management of the Singularity environment. How were the 64 nodes
+managed?
+
+*A phrase from the Subsection 4.4 gives a confusing discussion of the
+paper's results: "Such results are not so surprising but are still
+unconventional..." The significant overhead of Docker makes me question
+the decision for testing it. Moreover, the lack of Docker tests in the
+so-called Large case is unacceptable. If the Swarm failed to launch
+containers in this large environment, why more advanced solutions were
+not deployed? In my experience, the OpenStack Zun component is very
+effective for managing large-scale environments. Zun by default launches
+Docker-based containers.
+
+*In Figure 3, the latency seems to be below 0 ms considering the 1ms in
+the Y axis. I recommend I careful revision and improvement of the
+figures. Also, the lines should also have different styles, avoiding the
+need to differentiate them by only the colors.
+
+*The evaluation with an optimized OS seemed a bit suspicious to me. It
+seems obvious to improve the performance in an optimized OS, which has a
+simpler scheduler or even low-level tuning. Moreover, I did not
+understand why it was only tested in containers, it would be relevant if
+the performance was improved compared to the optimized native OS.
+
+*The results are not properly justified neither discussed. Expressions
+such as: "This is probably due...", "we believe..." are not a scientific
+manner to address the results.
+
+*The results only considering the performance and ignoring the relevance
+of management is a clear limitation. For instance, the Docker virtual
+networking is blamed for causing performance losses, but it is
+implemented for strong reasons. The virtual networks facilitate the
+management of infrastructures as well as improve the isolation and
+security.
+
+[1]https://ieeexplore.ieee.org/document/7092949
+[2]https://ieeexplore.ieee.org/document/7912689
+[3]https://ieeexplore.ieee.org/document/7275379
+
 * Emacs setup                                                      :noexport:
 
 # Local Variables:
