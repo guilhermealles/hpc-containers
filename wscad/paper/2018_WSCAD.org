@@ -2250,6 +2250,11 @@ tested and the underlying technologies used. Also, recent researches
 have shown CPU intensive applications with almost native performance
 using the KVM Hypervisor on cloud environments.
 
+#+BEGIN_COMMENT
+- [ ] Check if [Felter et al. 2015] really says what we said it said.
+  - Reviewer say that we are not right by attributing that sentense to Felter
+#+END_COMMENT
+
 *Subsection 4.1 emphasizes that the Docker Swarm orchestrator was used
 for managing the Docker environment. Nothing is cited regarding the
 management of the Singularity environment. How were the 64 nodes
