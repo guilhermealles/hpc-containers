@@ -2036,74 +2036,37 @@ keywords = "Seismic numerical simulation, Finite-element method, Parallel sparse
 
 * Reviews WSCAD 2018
 ** ===== Review =====
-*** Originalidade (Avalie a originalidade do trabalho, comparando com
-trabalhos já existentes. Avalie se o trabalho apresenta novos
-resultados, ou mesmo novas observações relevantes sobre temas já
-tratados em outros artigos. Inclua nos comentários para o autor as obras
-relacionadas ao texto que não foram citadas.): 5: Trabalho original,
-possui várias contribuições novas 4: Trabalho com alguma contribuição
-original 3: Trabalho com contribuições cuja originalidade é discutível
-2: Trabalho com contribuições marginais quanto originalidade 1: Trabalho
-desprovido de contribuições quanto a originalidade
+*** Originalidade
 
 Evaluation=Trabalho original, possui várias contribuições novas (5)
 
-*** Relevância (Avalie a importância do tema, das questões abordadas, e
-dos resultados do trabalho considerando o escopo do evento (Tópicos de
-Interesse). Caso o trabalho não seja bem avaliado neste item, apresente
-algumas sugestões aos autores de como torná-lo mais relevante.): 5: Tema
-extremamente relevante 4: Tema relevante 3: Tema pouco relevante 2: Tema
-cuja relevância é questionável 1: Tema não relevante (deve ser submetido
-em outro evento)
+*** Relevância
 
 Evaluation=Tema extremamente relevante (5)
 
-*** Mérito técnico (Avalie o mérito do trabalho proposto, analisando a
-qualidade da sua idéia central e a profundidade do autor na compreensão
-do tema, dos problemas e das soluções apresentadas. Nos comentários aos
-autores, inclua sugestões que possam melhorar a qualidade e a
-profundidade do trabalho.): 5: Trabalho excelente, possui contribuições
-relevantes 4: Trabalho consistente com contribuições 3: Trabalho
-consistente com contribuições marginais 2: Trabalho fraco e com
-contribuições marginais 1: Trabalho e contribuições fracas
+*** Mérito técnico
 
 Evaluation=Trabalho consistente com contribuições (4)
 
-*** Qualidade do texto (Avalie a estrutura do texto, a sua legibilidade
-e a qualidade didática da redação. Verifique se a formatação está
-adequada e se as figuras estão bem relacionadas no texto.): 5: Texto
-muito bom 4: Texto bom, precisa de alguma revisão 3: Texto legível,
-precisa de revisão cuidadosa 2: Texto fraco, precisa de revisão
-detalhada 1: Inaceitável
+*** Qualidade do texto
 
 Evaluation=Texto muito bom (5)
 
-*** Bibliografia (Avalie a qualidade, em abrangência e atualidade, das
-referências bibliográficas utilizadas no artigo.): 5: Excelente 4: Bom
-3: Regular 2: Fraco 1: Ruim
+*** Bibliografia
 
 Evaluation=Bom (4)
 
-*** Avaliação Geral (Especifique sua impressão geral do trabalho. Esta
-avaliação pode ser independente dos outros critérios, porém, sugerimos
-que observe se ocorrem discrepâncias.): 5: Excelente 4: Bom 3: Regular
-2: Fraco 1: Ruim
+*** Avaliação Geral
 
 Evaluation=Bom (4)
 
-*** Confiança na avaliação (Como avaliador, classifique o seu nível de
-conhecimento no tema do texto avaliado.): 5: Excelente domínio do tema,
-especialista 4: Bom domínio do tema 3: Conhecimento geral na área, não
-especialista 2: Pouco domínio do tema 1: Tema distante da minha área de
-conhecimento
+*** Confiança na avaliação
 
 Evaluation=Excelente domínio do tema, especialista (5)
 
-*** Comentários para o autor (Comente o que seu entendimento sobre o
-artigo. Dê justificativas para cada uma das notas atribuídas em cada
-item (originalidade, relevância, mérito, qualidade do texto). Ressalte
-as qualidades e aponte possíveis erros do texto. Explique como o artigo
-poderia ser melhorado.): This article compares and contrast two
+*** Comentários para o autor
+
+This article compares and contrast two
 containers technologies, Docker and Singularity, with respect to their
 performance overhead and ability to solve common HPC workflow problems.
 
@@ -2149,74 +2112,37 @@ Section 5 - second paragraph ....absorbed change to amortized - ...This
 approach yielded better... The fine tuning?
 
 ** ===== Review =====
-*** Originalidade (Avalie a originalidade do trabalho, comparando com
-trabalhos já existentes. Avalie se o trabalho apresenta novos
-resultados, ou mesmo novas observações relevantes sobre temas já
-tratados em outros artigos. Inclua nos comentários para o autor as obras
-relacionadas ao texto que não foram citadas.): 5: Trabalho original,
-possui várias contribuições novas 4: Trabalho com alguma contribuição
-original 3: Trabalho com contribuições cuja originalidade é discutível
-2: Trabalho com contribuições marginais quanto originalidade 1: Trabalho
-desprovido de contribuições quanto a originalidade
+*** Originalidade
 
 Evaluation=Trabalho com alguma contribuição original (4)
 
-*** Relevância (Avalie a importância do tema, das questões abordadas, e
-dos resultados do trabalho considerando o escopo do evento (Tópicos de
-Interesse). Caso o trabalho não seja bem avaliado neste item, apresente
-algumas sugestões aos autores de como torná-lo mais relevante.): 5: Tema
-extremamente relevante 4: Tema relevante 3: Tema pouco relevante 2: Tema
-cuja relevância é questionável 1: Tema não relevante (deve ser submetido
-em outro evento)
+*** Relevância
 
 Evaluation=Tema pouco relevante (3)
 
-*** Mérito técnico (Avalie o mérito do trabalho proposto, analisando a
-qualidade da sua idéia central e a profundidade do autor na compreensão
-do tema, dos problemas e das soluções apresentadas. Nos comentários aos
-autores, inclua sugestões que possam melhorar a qualidade e a
-profundidade do trabalho.): 5: Trabalho excelente, possui contribuições
-relevantes 4: Trabalho consistente com contribuições 3: Trabalho
-consistente com contribuições marginais 2: Trabalho fraco e com
-contribuições marginais 1: Trabalho e contribuições fracas
+*** Mérito técnico
 
 Evaluation=Trabalho consistente com contribuições marginais (3)
 
-*** Qualidade do texto (Avalie a estrutura do texto, a sua legibilidade
-e a qualidade didática da redação. Verifique se a formatação está
-adequada e se as figuras estão bem relacionadas no texto.): 5: Texto
-muito bom 4: Texto bom, precisa de alguma revisão 3: Texto legível,
-precisa de revisão cuidadosa 2: Texto fraco, precisa de revisão
-detalhada 1: Inaceitável
+*** Qualidade do texto
 
 Evaluation=Texto bom, precisa de alguma revisão (4)
 
-*** Bibliografia (Avalie a qualidade, em abrangência e atualidade, das
-referências bibliográficas utilizadas no artigo.): 5: Excelente 4: Bom
-3: Regular 2: Fraco 1: Ruim
+*** Bibliografia
 
 Evaluation=Bom (4)
 
-*** Avaliação Geral (Especifique sua impressão geral do trabalho. Esta
-avaliação pode ser independente dos outros critérios, porém, sugerimos
-que observe se ocorrem discrepâncias.): 5: Excelente 4: Bom 3: Regular
-2: Fraco 1: Ruim
+*** Avaliação Geral
 
 Evaluation=Regular (3)
 
-*** Confiança na avaliação (Como avaliador, classifique o seu nível de
-conhecimento no tema do texto avaliado.): 5: Excelente domínio do tema,
-especialista 4: Bom domínio do tema 3: Conhecimento geral na área, não
-especialista 2: Pouco domínio do tema 1: Tema distante da minha área de
-conhecimento
+*** Confiança na avaliação
 
 Evaluation=Conhecimento geral na área, não especialista (3)
 
-*** Comentários para o autor (Comente o que seu entendimento sobre o
-artigo. Dê justificativas para cada uma das notas atribuídas em cada
-item (originalidade, relevância, mérito, qualidade do texto). Ressalte
-as qualidades e aponte possíveis erros do texto. Explique como o artigo
-poderia ser melhorado.): O trabalho apresenta o ambiente em que as
+*** Comentários para o autor
+
+O trabalho apresenta o ambiente em que as
 soluções de conteiners são empregadas e suas vantagens em relação a
 tradicionais máquinas virtuais. Em especial o artigo considera os
 conteiners Docker e Singularity, comparando seus desemenhos para
@@ -2254,74 +2180,37 @@ cinza torna-se difícil distingui-los. Sugiro que usem marcadores
 diferentes ao invés de cores diferentes com mesmos marcadores.
 
 ** ===== Review =====
-*** Originalidade (Avalie a originalidade do trabalho, comparando com
-trabalhos já existentes. Avalie se o trabalho apresenta novos
-resultados, ou mesmo novas observações relevantes sobre temas já
-tratados em outros artigos. Inclua nos comentários para o autor as obras
-relacionadas ao texto que não foram citadas.): 5: Trabalho original,
-possui várias contribuições novas 4: Trabalho com alguma contribuição
-original 3: Trabalho com contribuições cuja originalidade é discutível
-2: Trabalho com contribuições marginais quanto originalidade 1: Trabalho
-desprovido de contribuições quanto a originalidade
+*** Originalidade
 
 Evaluation=Trabalho com contribuições cuja originalidade é discutível (3)
 
-*** Relevância (Avalie a importância do tema, das questões abordadas, e
-dos resultados do trabalho considerando o escopo do evento (Tópicos de
-Interesse). Caso o trabalho não seja bem avaliado neste item, apresente
-algumas sugestões aos autores de como torná-lo mais relevante.): 5: Tema
-extremamente relevante 4: Tema relevante 3: Tema pouco relevante 2: Tema
-cuja relevância é questionável 1: Tema não relevante (deve ser submetido
-em outro evento)
+*** Relevância
 
 Evaluation=Tema relevante (4)
 
-*** Mérito técnico (Avalie o mérito do trabalho proposto, analisando a
-qualidade da sua idéia central e a profundidade do autor na compreensão
-do tema, dos problemas e das soluções apresentadas. Nos comentários aos
-autores, inclua sugestões que possam melhorar a qualidade e a
-profundidade do trabalho.): 5: Trabalho excelente, possui contribuições
-relevantes 4: Trabalho consistente com contribuições 3: Trabalho
-consistente com contribuições marginais 2: Trabalho fraco e com
-contribuições marginais 1: Trabalho e contribuições fracas
+*** Mérito técnico
 
 Evaluation=Trabalho fraco e com contribuições marginais (2)
 
-*** Qualidade do texto (Avalie a estrutura do texto, a sua legibilidade
-e a qualidade didática da redação. Verifique se a formatação está
-adequada e se as figuras estão bem relacionadas no texto.): 5: Texto
-muito bom 4: Texto bom, precisa de alguma revisão 3: Texto legível,
-precisa de revisão cuidadosa 2: Texto fraco, precisa de revisão
-detalhada 1: Inaceitável
+*** Qualidade do texto
 
 Evaluation=Texto legível, precisa de revisão cuidadosa (3)
 
-*** Bibliografia (Avalie a qualidade, em abrangência e atualidade, das
-referências bibliográficas utilizadas no artigo.): 5: Excelente 4: Bom
-3: Regular 2: Fraco 1: Ruim
+*** Bibliografia
 
 Evaluation=Fraco (2)
 
-*** Avaliação Geral (Especifique sua impressão geral do trabalho. Esta
-avaliação pode ser independente dos outros critérios, porém, sugerimos
-que observe se ocorrem discrepâncias.): 5: Excelente 4: Bom 3: Regular
-2: Fraco 1: Ruim
+*** Avaliação Geral
 
 Evaluation=Regular (3)
 
-*** Confiança na avaliação (Como avaliador, classifique o seu nível de
-conhecimento no tema do texto avaliado.): 5: Excelente domínio do tema,
-especialista 4: Bom domínio do tema 3: Conhecimento geral na área, não
-especialista 2: Pouco domínio do tema 1: Tema distante da minha área de
-conhecimento
+*** Confiança na avaliação
 
 Evaluation=Bom domínio do tema (4)
 
-*** Comentários para o autor (Comente o que seu entendimento sobre o
-artigo. Dê justificativas para cada uma das notas atribuídas em cada
-item (originalidade, relevância, mérito, qualidade do texto). Ressalte
-as qualidades e aponte possíveis erros do texto. Explique como o artigo
-poderia ser melhorado.): The paper evaluates the performance of the
+*** Comentários para o autor
+
+The paper evaluates the performance of the
 Operating System (OS) containers in HPC applications. Despite the clear
 objective and presenting experimental results, the contribution seems
 incremental, as the contributions presented in Section 1 seem more like
