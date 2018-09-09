@@ -2276,6 +2276,15 @@ the Y axis. I recommend I careful revision and improvement of the
 figures. Also, the lines should also have different styles, avoiding the
 need to differentiate them by only the colors.
 
+#+BEGIN_COMMENT
+I've tried really hard to put the 0 on the Y logscale, and I was
+unable to do it. It seems that 0 is undefined in logscale, since it
+might never be achieved. Even adding an explicit geom to obtain a
+horizontal line in 0 doesn't show up. So, let's leave this as is and
+say I'm sorry for this reviewer.  I'm okay with the line style, but if
+you feel compeling to change, just add shape aesthetics.
+#+END_COMMENT
+
 *The evaluation with an optimized OS seemed a bit suspicious to me. It
 seems obvious to improve the performance in an optimized OS, which has a
 simpler scheduler or even low-level tuning. Moreover, I did not
