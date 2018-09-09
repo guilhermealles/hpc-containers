@@ -1431,7 +1431,7 @@ df.pingpong %>%
     colScale +
     scale_y_log10(breaks=c(0.1, 1, 2, 4, 8, 16, 32)) +
     scale_x_log10(breaks=2^seq(0,20)) +
-    ylab('Average latency (ms)') +
+    ylab('Average latency (ms in logscale)') +
     xlab('Message size (bytes)') +
     theme_bw(base_size = 13) +
     theme (plot.margin = unit(c(0,0,0,0), "cm"),
