@@ -1323,6 +1323,7 @@ df.sel %>%
 ****** Read data
 
 #+begin_src R :results output :session :exports both
+suppressMessages(library(tidyverse))
 df.pingpong <- read_csv('./results/ping-pong/results.csv', col_types=cols(
                                                            size = col_integer(),
                                                            time = col_double(),
