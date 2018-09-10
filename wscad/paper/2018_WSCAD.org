@@ -110,7 +110,7 @@ applying Operating System (OS) containers in HPC applications. Docker and
 Singularity are compared to a native baseline with no virtualization,
 using synthetic workloads and an earthquake simulator called Ondes3D
 as benchmarks. Our evaluation using up to 256 cores indicate that (a)
-Singularity containers have minor performance overhead, (b) Docker
+Singularity containers have a minor performance overhead, (b) Docker
 containers do suffer from increased network latency, and (c)
 performance gains are attainable with an optimized container on top of
 a regular OS.
@@ -130,19 +130,19 @@ results. It is okay to reveal this from the start.
 - [ ] Okay, agreed. I will look into that (add more citations).
 #+END_COMMENT
 
-One fundamental aspect of scientific computing research is that, in
-order for it to be credible, it should be reproducible. This means
+One fundamental aspect of scientific computing research is that, for
+it to be credible, it should be reproducible. Reproducibility means
 that the researcher has the responsibility of providing its readers
 with the resources necessary to run experiments and obtain similar
 results to the ones provided by the research. Although the concept of
-reproducibility is well known in the scientific community, it is very
-hard to put it to practice because of the large number of variables
-that comprise an execution environment. Additionally, HPC resources
-are usually managed under strict usage policies, many of which do not
-allow the user to customize the environment with an arbitrary software
-stack (e.g. compilers, libraries or device drivers), thus making it
-very difficult to obtain a uniform execution platform for a given 
-experiment across different clusters.
+reproducibility is well known in the scientific community, it is tough
+to put it to practice because of a large number of variables that
+comprise an execution environment. Additionally, strict usage policies
+manage HPC resources, many of which do not allow the user to customize
+the platform with an arbitrary software stack (e.g., compilers,
+libraries or device drivers), thus making it very difficult to obtain
+a uniform execution platform for a given experiment across different
+clusters.
 
 Although being intuitively difficult to deal with, these problems can
 be solved through the use of traditional hardware virtualization, in 
