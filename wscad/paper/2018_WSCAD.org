@@ -373,7 +373,8 @@ capabilities.  Performance analysis, however, is absent from this
 study, obscuring the conclusion of whether such an approach is viable
 in a real-world scenario.  Furthermore, it has been shown that the
 performance of network operations can be affected by the use of Docker
-containers, especially in latency-sensitive scenarios \cite{7095802}.
+containers because of Docker's Network Address Translation (NAT)
+feature \cite{7095802}.
 
 #+BEGIN_COMMENT LUCAS
 The first part of this paragraph (around
@@ -2291,6 +2292,13 @@ using the KVM Hypervisor on cloud environments.
 #+BEGIN_COMMENT
 - [ ] Check if [Felter et al. 2015] really says what we said it said.
   - Reviewer say that we are not right by attributing that sentense to Felter
+#+END_COMMENT
+#+BEGIN_COMMENT alles
+The reviewer is correct in the sense that [Felter et al. 2015] did not
+say /literally/ that latency sensitive scenarios are
+affected. However, one of the conclusions of this work is that
+Docker's NAT does indeed introduce some overhead. I'll adjust the
+sentences accordingly.
 #+END_COMMENT
 
 *Subsection 4.1 emphasizes that the Docker Swarm orchestrator was used
