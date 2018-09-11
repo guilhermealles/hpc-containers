@@ -169,7 +169,7 @@ performance implications of applying Operating System (OS) containers
 in parallel applications remain relatively unexplored in the HPC
 community.
 
-This paper compares and contrast two container technologies, Docker
+This paper compares and contrasts two container technologies, Docker
 and Singularity, with respect to their performance overhead and
 ability to solve common HPC workflow problems.  We will consider the
 same experiments running on a native environment as the baseline for
