@@ -2290,7 +2290,7 @@ have shown CPU intensive applications with almost native performance
 using the KVM Hypervisor on cloud environments.
 
 #+BEGIN_COMMENT
-- [ ] Check if [Felter et al. 2015] really says what we said it said.
+- [X] Check if [Felter et al. 2015] really says what we said it said.
   - Reviewer say that we are not right by attributing that sentense to Felter
 #+END_COMMENT
 #+BEGIN_COMMENT alles
