@@ -252,7 +252,7 @@ executed on an isolated environment.
 #+latex: %
 Containers present a theoretically negligible overhead penalty when
 compared to an application running natively on the host operating
-system. This happens because the Linux kernel already uses /cgroups/ and
+system. This low overhead happens because the Linux kernel already uses /cgroups/ and
 /namespaces/ to manage its resources internally, even when there are not
 multiple containers on a single machine. Considering this approach, a
 non-virtualized Linux environment can be seen itself as a single
