@@ -144,15 +144,15 @@ libraries or device drivers), thus making it very difficult to obtain
 a uniform execution platform for a given experiment across different
 clusters.
 
-Although being intuitively difficult to deal with, these problems can
-be solved through the use of traditional hardware virtualization, in 
-which users can run their own operating system and execution 
-environment on top of a hypervisor, ensuring that the software stack 
-can be configured to the exact requirements for a given experiment. 
-The problem with this approach is that, when considering HPC 
-applications, the performance overhead introduced by the hypervisor 
-and an entire virtual machine is too high for this solution to be 
-considered feasible.
+Although being intuitively challenging to deal with, these problems
+can be solved through the use of traditional hardware virtualization,
+in which users can run their operating system and execution
+environment on top of a hypervisor, ensuring that the software stack
+can be configured to the exact requirements for a given
+experiment. The problem with this approach is that, when considering
+HPC applications, the performance overhead introduced by the
+hypervisor and an entire virtual machine is too high for this solution
+to be found feasible.
 #+latex: %
 As an alternative to virtual machines, container technologies have 
 gained a lot of attention in the software development industry. This 
