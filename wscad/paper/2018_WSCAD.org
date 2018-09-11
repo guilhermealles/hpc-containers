@@ -162,7 +162,7 @@ fraction of the performance overhead introduced by virtual machines
 #+latex: %
 By using containers to isolate and package software, users can
 create reproducible, configurable environments for their
-applications. This diminishes the hassle of managing application
+applications. Therefore, the use of containers diminishes the hassle of managing application
 dependencies and software stack differences when executing experiments
 across different Linux environments. The problem is that the
 performance implications of applying Operating System (OS) containers
