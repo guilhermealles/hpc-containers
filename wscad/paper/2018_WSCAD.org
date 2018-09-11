@@ -504,7 +504,7 @@ communication takes place in the beginning and end of the
 execution. EP is executed with the class B workload using one to four
 hosts (4 to 16 cores) in preliminary tests. *Ondes3D* \cite{dupros:10}
 is developed at the BRGM (French Geological Survey) as an
-implementation of the finite-differences method (FDM) to simulate the
+implementation of the finite-difference method (FDM) to simulate the
 propagation of seismic waves in three-dimensional media. As previously
 observed \cite{tesser2017using}, its signature contains
 characteristics such as load imbalance and frequent asynchronous
