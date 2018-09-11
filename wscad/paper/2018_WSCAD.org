@@ -512,7 +512,7 @@ small-message communications among MPI ranks. Two workloads have been
 used to run Ondes3D: the default test case without a geological model
 (synthetic earthquake) and a real Mw 6.3 earthquake that arose in
 Liguria (north-western Italy) in 1887 \cite{aochi2011ligurian} with
-300 timesteps, which has been used as workload for our tests. So, this
+300 timesteps, which has been used as the workload for our tests. So, this
 real-world application is also evaluated to verify if it is impacted
 by OS containers. Finally, an in-house *Ping-Pong* benchmark developed
 with MPI (see the companion material for the source code) was used to
