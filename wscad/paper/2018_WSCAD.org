@@ -262,7 +262,7 @@ execution overhead.
 #+latex: %
 The core APIs and functionality used to create containers are not new
 and have been present in the Linux kernel for more than a
-decade. Containers become mainstream after a long time especially
+decade. Containers become mainstream after a long time primarily
 because of how difficult it is for an end user to interact with these
 kernel APIs directly. Conversely, containers only became popular when
 software (such as LXC, OpenVZ, Systemd-nspawn, Docker, rocket
