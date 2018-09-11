@@ -386,9 +386,9 @@ workload.
 
 Singularity \cite{10.1371/journal.pone.0177459} is a container system
 designed for scientific research workflows, and it strives to solve
-some drawbacks of using Docker in HPC. Author argues that Docker is
+some drawbacks of using Docker in HPC. The author argues that Docker is
 not designed for shared, multi-user environments (as discussed in
-Section [[#sec.background]]), something very common in supercomputers.  As
+Section [[#sec.background]]), something prevalent in supercomputers.  As
 a consequence, it is very hard to find HPC centers that allow users to
 execute Docker containers. Singularity, on the other hand, solves
 these problems to make HPC containers more accessible to the
