@@ -469,7 +469,7 @@ Nancy - France), which contains 131 nodes, each one equipped with 16GB
 of DDR3 memory and a quad-core Intel Xeon X3340 (Lynnfield, 2.53GHz),
 and interconnected by a 1 Gigabit Ethernet and a 20 Gbps Infiniband
 network. We used up to 64 compute nodes for our tests using
-exclusively the 1 Gigabit Ethernet because of limitations in the
+the 1 Gigabit Ethernet exclusively because of limitations in the
 container configuration. In all experiments, each node received a
 maximum of 4 MPI processes due to the 4-core availability of processor
 cores. All compute nodes are initially deployed (using =kadeploy3=
