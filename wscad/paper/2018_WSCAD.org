@@ -254,7 +254,7 @@ Containers present a theoretically negligible overhead penalty when
 compared to an application running natively on the host operating
 system. This low overhead happens because the Linux kernel already uses /cgroups/ and
 /namespaces/ to manage its resources internally, even when there are not
-multiple containers on a single machine. Considering this approach, a
+multiple containers on a single machine. Therefore, a
 non-virtualized Linux environment can be seen itself as a single
 container running on top of the Linux kernel, which means that there
 is no additional software layer in a container that should insert
