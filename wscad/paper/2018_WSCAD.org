@@ -160,7 +160,7 @@ is mainly because containers offer the benefits of virtualization
 at a fraction of the performance overhead introduced by virtual 
 machines \cite{7562612}.
 #+latex: %
-By using containers to isolate and package software, users are able to
+By using containers to isolate and package software, users can
 create reproducible, configurable environments for their
 applications. This diminishes the hassle of managing application
 dependencies and software stack differences when executing experiments
