@@ -171,8 +171,8 @@ community.
 
 This paper compares and contrasts two container technologies, Docker
 and Singularity, concerning their performance overhead and
-ability to solve common HPC workflow problems.  We will consider the
-same experiments running on a native environment as the baseline for
+ability to solve common HPC workflow problems.  We will consider 
+experiments running on a native environment as the baseline for
 performance comparison using multiple nodes (up to 64 hosts, 256
 cores). The main contributions of this paper are:
 
