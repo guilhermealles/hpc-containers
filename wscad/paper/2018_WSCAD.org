@@ -154,11 +154,11 @@ HPC applications, the performance overhead introduced by the
 hypervisor and an entire virtual machine is too high for this solution
 to be found feasible.
 #+latex: %
-As an alternative to virtual machines, container technologies have 
-gained a lot of attention in the software development industry. This 
-is mainly because containers offer the benefits of virtualization 
-at a fraction of the performance overhead introduced by virtual 
-machines \cite{7562612}.
+As an alternative to virtual machines, container technologies have
+gained a lot of attention in the software development
+industry. Containers offer the benefits of virtualization at a
+fraction of the performance overhead introduced by virtual machines
+\cite{7562612}.
 #+latex: %
 By using containers to isolate and package software, users can
 create reproducible, configurable environments for their
