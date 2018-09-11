@@ -678,7 +678,7 @@ are the constant in both environments, such as network communication.
 :END:
 
 The results obtained with Ondes3D/Default using the Docker environment
-(see previous Subsection) led us to design an experiment to
+(see the previous Subsection) led us to design an experiment to
 demonstrate that the bad performance is caused by network issues.
 Figure \ref{fig3} presents the Ping Pong benchmark which was used to
 measure the communication latency from the application point of view.
@@ -740,7 +740,7 @@ latency impact on the application is easily observed (see Figure
 :END:
 
 To illustrate the advantages in flexibility for environment
-configuration, we also conducted an experiment running an Alpine Linux
+configuration, we also experimented running an Alpine Linux
 image on the container environments (Singularity and Docker). The
 Alpine Linux is a lightweight Linux distribution that strives for
 efficiency and isolation. It is based on Busybox
@@ -1708,14 +1708,15 @@ native environment running with no virtualization.
 
 The results for the proposed tests indicate that containers introduce
 very little (if any) computation overhead in CPU-bound applications,
-for both Docker and Singularity. This can be verified by the lack of a
-clear performance difference on the EP-NAS/ClassB Benchmark among the
-container and native environments. Although we observed penalties up
-to \approx9%, they are completely absorbed if the applications last longer.
+for both Docker and Singularity. The lack of a clear performance
+difference on the EP-NAS/ClassB Benchmark among the container and
+native environments indicates such a hypothesis. Although we
+observed penalties up to \approx9%, they are completely absorbed if the
+applications last longer.
 #+latex: %
 Communication overhead, on the other hand, has been observed in Docker
-containers. This is mainly because the Docker architecture requires
-the containers to be connected through an overlay network in order for
+containers. This overhead is mainly because the Docker architecture
+requires the containers to be connected through an overlay network for
 them to have connectivity across multiple hosts (which was needed for
 the MPI cluster). This overhead was observed in both the Ping Pong
 test case as well as the Ondes3D application, which is known to
@@ -1724,27 +1725,27 @@ free from such overheads.
 #+Latex: %
 Additionally, we conducted experiments that leveraged the potential
 flexibility that a virtualized workflow provides. Because containers
-allow users to fine-tune the execution environment more easily, it was
+allow users to fine-tune the execution environment more efficiently, it was
 possible to use a different Linux distribution without having root
 access to the host operating system. In this case, carefully selecting
 an optimized environment for a specific workload yielded better
 performance than the native execution, which means that it is possible
-to use these fine-tuning capabilities to considerably enhance the
-performance of HPC applications.
+to use these fine-tuning capabilities to enhance the
+performance of HPC applications considerably.
 
 With our experiments, we can conclude that Linux containers are a
 suitable option for running HPC applications in a virtualized
 environment, without the drawbacks of traditional hardware-level
 virtualization. In our tests, we concluded that Singularity containers
-are the most suitable option both in terms of system administration
+are the most suitable option both regarding system administration
 (for not granting every user that starts a container root access to
-the system) and in terms of performance (for not imposing an overlay
+the system) and regarding performance (for not imposing an overlay
 network that is a potential bottleneck).
 
 As future work, we plan to investigate HPC applications within
 containers that make use of low-latency Infiniband networks and
 multi-GPU systems. We also intend to verify in further details if the
-computation signature of HPC codes are the same outside and inside the
+computation signature of HPC codes is the same outside and inside the
 container.
 
 ** Acknowledgments                                                  :ignore:
