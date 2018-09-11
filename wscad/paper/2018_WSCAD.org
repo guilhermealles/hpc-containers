@@ -247,7 +247,7 @@ software level virtualization for Linux systems, and they orchestrate
 features (/cgroups/ and /namespaces/) that are native to the Linux kernel
 to isolate the resources managed by the OS. As of result, software
 that runs inside of a container can have its file system, process
-tree, user space and network stack, giving it the impression of being
+tree, user space, and network stack, giving it the impression of being
 executed on an isolated environment.
 #+latex: %
 Containers present a theoretically negligible overhead penalty when
