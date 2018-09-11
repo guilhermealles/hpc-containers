@@ -166,8 +166,8 @@ applications. This diminishes the hassle of managing application
 dependencies and software stack differences when executing experiments
 across different Linux environments. The problem is that the
 performance implications of applying Operating System (OS) containers
-in parallel applications remains relatively unexplored in the HPC
-community. 
+in parallel applications remain relatively unexplored in the HPC
+community.
 
 This paper compares and contrast two container technologies, Docker
 and Singularity, with respect to their performance overhead and
