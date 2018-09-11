@@ -420,18 +420,18 @@ Notice the two empty rows to tell you that more is necessary.
 
 #+Latex: \noindent{\bf Motivation:}
 The goal of this work is to study the drawbacks and improvements that
-occur by applying container based virtualization techniques to
+occur by applying container-based virtualization techniques to
 high-performance computing workflows. As concluded by previous work,
 using virtual machines is unfeasible because of the overheads that
-comes along with this strategy. Thus, our goal is to measure the
+come along with this strategy. Thus, our goal is to measure the
 performance impact of applying container-based virtualization to these
 HPC workloads. We present an analysis covering both synthetic
 benchmarks and a real application comparing the performance
 implications of Docker and Singularity, two major container systems,
 and using a traditional approach (with no virtualization) as
-baseline. Furthermore, we intend to demonstrate that virtualization
+a baseline. Furthermore, we intend to demonstrate that virtualization
 techniques can be used in HPC without the massive overhead of
-traditional virtual machines. Next section details our results toward
+conventional virtual machines. Next section details our results toward
 these goals.
 
 # By using containers, cluster administrators can provide flexibility,
