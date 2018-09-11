@@ -260,7 +260,7 @@ container running on top of the Linux kernel, which means that there
 is no additional software layer in a container that should insert
 execution overhead.
 #+latex: %
-The core APIs and functionality used to create containers are not new,
+The core APIs and functionality used to create containers are not new
 and have been present in the Linux kernel for more than a
 decade. Containers become mainstream after a long time especially
 because of how difficult it is for an end user to interact with these
