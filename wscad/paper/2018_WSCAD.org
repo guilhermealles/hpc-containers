@@ -494,7 +494,7 @@ processes in Singularity containers communicate through the physical
 network.
 
 Three parallel applications are used to evaluate the performance in
-the OS options (Native, Docker and Singularity): NAS-EP, Ondes3D, and
+the OS options (Native, Docker, and Singularity): NAS-EP, Ondes3D, and
 Ping-Pong, detailed as follows.
 #+latex: %
 The NAS Embarrassingly Parallel -- *NAS-EP* -- is part of the NAS
