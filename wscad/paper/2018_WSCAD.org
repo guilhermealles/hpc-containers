@@ -177,7 +177,7 @@ performance comparison using multiple nodes (up to 64 hosts, 256
 cores). The main contributions of this paper are:
 
 - We employ three cases: the NAS-EP \cite{bailey1991parallel}, the
-  earthquake simulator Ondes3D \cite{dupros:10} and a in-house
+  earthquake simulator Ondes3D \cite{dupros:10} and an in-house
   MPI-based Ping-Pong application to evaluate network latency (Section
   [[#sec.benchs]]);
 - We demonstrate that Singularity containers have minor computation
