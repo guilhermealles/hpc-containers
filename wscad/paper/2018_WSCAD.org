@@ -477,10 +477,10 @@ before laying the Docker or Singularity environment on top of it.
 
 # Three execution environments are configured: Native, Docker, and
 # Singularity.  
-To ensure consistency between the container environments
-against the Native case, the same Debian9 Linux distribution was used for
-such environments in both Docker and Singularity containers.  We have
-used a previously proposed \cite{7868429} multi-node container
+To ensure consistency between the container environments against the
+Native case, the same Debian9 Linux distribution was used for such
+environments in both Docker and Singularity containers.  We have used
+a previously proposed \cite{7868429} multi-node container
 infrastructure for Docker where physical nodes are connected using the
 Docker Swarm utility. This tool is responsible for spawning containers
 on all the nodes and connecting them via an overlay network, so that
@@ -489,7 +489,8 @@ by the MPI middleware. The multi-node container infrastructure for
 Singularity is similar to the one with native processes. Because
 Singularity containers share the network stack with its host, there is
 no need for a virtual network between the containers. Therefore,
-processes in Singularity containers communicate through the physical network.
+processes in Singularity containers communicate through the physical
+network.
 
 Three parallel applications are used to evaluate the performance in
 the OS options (Native, Docker and Singularity): NAS-EP, Ondes3D, and
@@ -2065,7 +2066,7 @@ Evaluation=Bom (4)
 
 Evaluation=Excelente domínio do tema, especialista (5)
 
-*** Comentários para o autor
+*** TODO Comentários para o autor
 
 This article compares and contrast two
 containers technologies, Docker and Singularity, with respect to their
@@ -2080,6 +2081,26 @@ Reproducibility of experiments; 2) More control of resources (CPU, RAM,
 disk space) used by the containers 3) Ability to migrate containers
 between hosts by stopping and restasting on another host;
 
+#+BEGIN_COMMENT alles
+About the previous paragraph: 
+
+(1) is cited throughout the paper as motivation for exploring
+container technologies.
+
+(2) I think this comment misses the point when we consider the context
+of HPC: The common use case for an HPC application is to use all the
+available resources. Control of resources is indeed possible using
+cgroups, but this subject is more related to a cloud environment than
+it is to an HPC environment.
+
+(3) Has been tried (by me and others), thus far without success. There
+are some projects (DMTCP and CRIU are examples) that attempt this feat
+with various degrees of success, but so far I haven't found a way to
+successfully checkpoint and restart MPI applications (this would be
+huge, in my opinion). Again, I think this comment very relevant in a
+cloud environment, but not so much in an HPC environment.
+#+END_COMMENT
+
 -The paper doesn´t address failure scenarios when comparing native x
 containers.
 
@@ -2090,6 +2111,20 @@ saturated so a equilibrium point should be achieved; The loose container
 isolation of singularity can ease maintenance and improve network
 performance, but couldn´t this open the opportunity to interference
 between containers?
+
+#+BEGIN_COMMENT alles
+As mentioned in the paper, we executed as many containers as cores
+available in any given host. Oversubscription is possible, but what is
+the point?
+
+The reviewer expresses concern about the loose container isolation of
+Singularity and how it could interfere with other containers. This is
+a valid concern in a cloud environment, but in an HPC cluster the
+typical use case is that of a single user being granted 100% of the
+cluster infrastructure. Any setting different than that can be
+controlled by the job manager/scheduler that already exists in the
+cluster.
+#+END_COMMENT
 
 I feel that the network overhead of docker should be further
 investigated. This technology has been advancing very fast and now it
