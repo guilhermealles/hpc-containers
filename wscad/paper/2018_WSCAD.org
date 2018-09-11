@@ -630,25 +630,25 @@ Figure \ref{fig2} shows a large-scale simulation of the Ligurian
 earthquake on Ondes3D. This experiment was conducted to put
 Singularity in a highly-distributed computing scenario, and its main
 objective is to assess the aggregated overhead of spawning a large
-number of containers across multiple nodes. Unfortunately, the
-container infrastructure for Docker using its overlay network and
-Docker Swarm as an orchestrator failed to spawn containers in such a
-high number of nodes, and thus Docker was excluded from this test
-case. As the plot indicates (see Figure \ref{fig2:left}), there is no
-observable difference in execution time between the two approaches
-(Singularity and Native), which indicates that the additional cost of
-executing applications in a Singularity environment is negligible even
-when spawning a high number of containers. The Figure \ref{fig2:right}
-shows the computed overhead as a function of the number of MPI ranks,
-revealing a minor overhead of less than \approx1% in all cases. We
-believe the overhead is minor because of the longer run (more than
-100s), so any initialization time imposed by the container is more
-easily absorbed by the run. Surprisingly, the overhead is smaller with
-256 ranks, breaking the upward trend from 64 to 192. This is probably
-due to the diminishing returns on speedup as the number of cores
-increase, which can mask the container initialization time with other
-overheads that are the constant in both environments, such as network
-communication.
+number of containers across multiple nodes. Unfortunately, due to
+limitations in the way Docker containers detect its peers in the
+deployed infrastructure, the cluster architecture for Docker failed to
+detect such a high number of containers, and thus Docker was excluded
+from this test case. As the plot indicates (see Figure
+\ref{fig2:left}), there is no observable difference in execution time
+between the two approaches (Singularity and Native), which indicates
+that the additional cost of executing applications in a Singularity
+environment is negligible even when spawning a high number of
+containers. The Figure \ref{fig2:right} shows the computed overhead as
+a function of the number of MPI ranks, revealing a minor overhead of
+less than \approx1% in all cases. We believe the overhead is minor
+because of the longer run (more than 100s), so any initialization time
+imposed by the container is more easily absorbed by the
+run. Surprisingly, the overhead is smaller with 256 ranks, breaking
+the upward trend from 64 to 192. This is probably due to the
+diminishing returns on speedup as the number of cores increase, which
+can mask the container initialization time with other overheads that
+are the constant in both environments, such as network communication.
 
 #+BEGIN_EXPORT latex
 \begin{figure}[!htb]
@@ -2144,7 +2144,7 @@ Evaluation=Regular (3)
 
 Evaluation=Conhecimento geral na área, não especialista (3)
 
-*** Comentários para o autor
+*** DONE Comentários para o autor
 
 O trabalho apresenta o ambiente em que as
 soluções de conteiners são empregadas e suas vantagens em relação a
