@@ -1975,12 +1975,11 @@ keywords = "Seismic numerical simulation, Finite-element method, Parallel sparse
 
 @INPROCEEDINGS{7868429, 
     author={N. Nguyen and D. Bein}, 
-    booktitle={2017 IEEE 7th Annual Computing and Communication Workshop and Conference (CCWC)}, 
+    booktitle={IEEE 7th Annual Comp. and Comm. Workshop and Conf.}, 
     title={Distributed MPI cluster with Docker Swarm mode}, 
     year={2017}, 
     volume={}, 
     number={}, 
-    pages={1-7}, 
     keywords={application program interfaces;containerisation;message passing;parallel processing;source code (software);MPI programs;container orchestration technology;distributed MPI cluster;docker swarm mode;high-performance computing;modern containerization technology;source code;Cloud computing;Computers;Containers;File systems;Linux;Operating systems;Cluster Automation;Container;Distributed System;Docker;Docker Swarm mode;HPC;MPI}, 
     doi={10.1109/CCWC.2017.7868429}, 
     ISSN={}, 
