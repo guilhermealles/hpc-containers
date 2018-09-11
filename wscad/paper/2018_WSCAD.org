@@ -451,7 +451,7 @@ software/hardware stack adopted across all experiments with three
 cases (Native, Docker, Singularity) and three benchmarks (NAS-EP,
 Ondes3D, Ping-Pong); (b) the computation overhead analysis with a
 comparison between docker, singularity, and native; (c) a verification
-of the increased communication latency leading to bad application
+of the increased communication latency leading to poor application
 performance; and (d) a comprehensive analysis to verify how
 performance gains can be used solely in applying an optimized
 container on top of an optimized OS.
