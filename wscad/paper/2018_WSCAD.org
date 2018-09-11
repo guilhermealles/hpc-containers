@@ -560,12 +560,12 @@ the larger scenario with the Ondes3D/Ligurian case, using 64 nodes and
 :END:
 
 Figure \ref{fig1:left} shows the makespans of the NAS-EP/ClassB (the
-top facets in the first row) and the Ondes3D/Default (bottom), with
-respect to the number of MPI ranks for the Native (left facets) and
-the Containers (right) -- Singularity and Docker. Figure
-\ref{fig1:right} depicts the execution time overhead with respect to
-the number of MPI ranks, calculated for each container environment
-against the native runs, also for both applications.
+top facets in the first row) and the Ondes3D/Default (bottom), for the
+number of MPI ranks for the Native (left facets) and the Containers
+(right) -- Singularity and Docker. Figure \ref{fig1:right} depicts the
+execution time overhead concerning the number of MPI ranks, calculated
+for each container environment against the native runs, also for both
+applications.
 
 For the *NAS-EP/ClassB* case, Figure \ref{fig1} (top facets) shows that
 the virtualized approaches perform very close to each other and to the
@@ -576,7 +576,7 @@ in execution time can be related to the time needed to spin up the
 containers and should increase as the number of containers (and MPI
 ranks) increases. However, since these runs were short -- less than 7s
 for 16 processes in NAS-EP/ClassB (see Figure \ref{fig1:left}) -- such
-overhead may be absorbed with longer CPU-bound runs that make a
+overhead may be absorbed with longer CPU-bound runs that make
 limited use of the communications.
 #+latex: %
 For the *Ondes3D/Default* case (bottom facets of Figures
