@@ -420,18 +420,19 @@ Notice the two empty rows to tell you that more is necessary.
 
 #+Latex: \noindent{\bf Motivation:}
 The goal of this work is to study the drawbacks and improvements that
-occur by applying virtualization techniques to high-performance
-computing workflows. As concluded by previous work, using virtual
-machines is unfeasible because of the overheads that comes along with
-this strategy. Thus, our goal is to measure the performance impact of
-applying container-based virtualization to these HPC workloads. We
-present an analysis covering both synthetic benchmarks and a real
-application comparing the performance implications of Docker and
-Singularity, two major container systems, and using a traditional
-approach (with no virtualization) as baseline. Furthermore, we intend
-to demonstrate that virtualization techniques can be used in HPC
-without the massive overhead of traditional virtual machines. Next
-section details our results toward these goals.
+occur by applying container based virtualization techniques to
+high-performance computing workflows. As concluded by previous work,
+using virtual machines is unfeasible because of the overheads that
+comes along with this strategy. Thus, our goal is to measure the
+performance impact of applying container-based virtualization to these
+HPC workloads. We present an analysis covering both synthetic
+benchmarks and a real application comparing the performance
+implications of Docker and Singularity, two major container systems,
+and using a traditional approach (with no virtualization) as
+baseline. Furthermore, we intend to demonstrate that virtualization
+techniques can be used in HPC without the massive overhead of
+traditional virtual machines. Next section details our results toward
+these goals.
 
 # By using containers, cluster administrators can provide flexibility,
 # portability and enhanced reproducibility to its users without
@@ -1726,7 +1727,8 @@ Additionally, we conducted experiments that leveraged the potential
 flexibility that a virtualized workflow provides. Because containers
 allow users to fine-tune the execution environment more easily, it was
 possible to use a different Linux distribution without having root
-access to the host operating system. This approach yielded better
+access to the host operating system. In this case, carefully selecting
+an optimized environment for a specific workload yielded better
 performance than the native execution, which means that it is possible
 to use these fine-tuning capabilities to considerably enhance the
 performance of HPC applications.
@@ -2135,7 +2137,7 @@ resources a container uses. Therefore, RAM, CPU and disk space can be
 limited on a per container basis. This is na advantage of Docker over
 Singularity.
 
-Section 3 second paragraph ...in a real-world scenario. Furthermore,
+Section 3 second in ...pargraph a real-world scenario. Furthermore,
 it... docker swarm is usual in industry! - fourth paragraph ....that
 occur by applying virtualization techniques... change to ....that occur
 by applying container based virtualization techniques...
