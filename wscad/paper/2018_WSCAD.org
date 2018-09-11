@@ -181,8 +181,8 @@ cores). The main contributions of this paper are:
   MPI-based Ping-Pong application to evaluate network latency (Section
   [[#sec.benchs]]);
 - We demonstrate that Singularity containers have minor computation
-  overhead because of extra work during initialization; and that this
-  overhead is absorbed for longer runs independent of the number of
+  overhead because of extra work during initialization and that longer
+  runs absorb such cost independently of the number of
   MPI ranks (Section [[#sec.compute]]);
 - Docker containers with network virtualization (using the Docker
   Swarm) suffer from increased network latency that
