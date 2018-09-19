@@ -185,8 +185,24 @@ Universidade Federal do Rio Grande do Sul
 \frame{\frametitle{conclusions}
     \begin{itemize}
         \item containters as a mean of achieving resource isolation is viable in an HPC environment
+        \item virtualization of the \textit{network} namespace has a negative impact on performance for MPI workloads
         \item computational overhead, while present, is negligible in most use cases
         \item communication overhead is significant, especially in the Docker environment
+    \end{itemize}
+}
+
+\frame{\frametitle{future work}
+    \begin{itemize}
+        \item further investigate Docker Swarm scalability
+        \begin{itemize}
+            \item increased latency
+            \item failure to spawn a larger number of containers
+        \end{itemize}
+        \item explore compatibility with other devices
+        \begin{itemize}
+            \item GPU
+            \item InfiniBand
+        \end{itemize}
     \end{itemize}
 }
 
