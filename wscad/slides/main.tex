@@ -7,7 +7,7 @@
 %\usetheme{Berkeley}
 \usecolortheme[RGB={120,0,0}]{structure}
 \setbeamertemplate{blocks}[rounded][shadow=true]
-\setbeamertemplate{footline}{\hfill\insertframenumber{}/\inserttotalframenumber\hspace*{0.02cm}}
+\setbeamertemplate{footline}{\hfill\insertframenumber{}\hspace*{0.2cm}\vspace*{0.2cm}}
 \usepackage[utf8]{inputenc}   % pacote para acentuao
 \usepackage{graphicx}
 \usepackage{subcaption}
@@ -19,322 +19,161 @@
 
 \begin{document}
 
-\title{Container technologies on HPC applications}
-\author{\large Guilherme Rezende Alles\\
-\footnotesize CPM270 - Introduction to High Performance Computing\\
+\title{Assessing the Computation and Communication Overhead of Linux Containers for HPC Applications}
+\author{
+\large 
+Guilherme Rezende Alles\\
+Lucas Mello Schnorr\\
+Alexandre Carissimi\\
 \small
-\vspace*{1.5cm}
+\vspace*{0.5cm}
 Instituto de Informática\\
 Universidade Federal do Rio Grande do Sul
 }
 \logo{\includegraphics[scale=0.3]{inf}}
 \date{21 de Junho de 2018}
+
 \frame{\titlepage}
-\frame{\frametitle{Roteiro}\tableofcontents[hideallsubsections]}
 
-
-\section{Introdução}
-\frame{\tableofcontents[currentsection,hideothersubsections]}
-\subsection{Motivação}
-\frame{\frametitle{Motivação}
+\frame{\frametitle{Why is this relevant?}
     \begin{itemize}
-        \item Virtualização permite redução de custos de infraestrutura
-        \begin{itemize}
-            \item Desvantagem: impacto no desempenho de aplicações
-            \item Opção: virtualização em nível de SO (contêineres)
-        \end{itemize}
+        \item Scientists should spend their time researching, and not figuring out execution environment specifics
+        \item Dependency management hell
+        \item Reproducible research should be the default, not a "plus"
     \end{itemize}
+    
     \begin{itemize}
-        \item Popularidade de contêineres na indústria de software
+        \item Solution? Virtual machines! But...
         \begin{itemize}
-            \item Todos os serviços da Google executam em contêineres
-        \end{itemize}
-    \end{itemize}
-    \begin{itemize}
-        \item Vantagens relevantes em computação científica
-        \begin{itemize}
-            \item Reprodutibilidade de experimentos
-            \item Portabilidade (\textit{Bring Your Own Environment})
+            \item Requires a hypervisor, which is probably cumbersome and not always installed on the host
+            \item Operating system images are large and can take a while to build and distribute
+            \item \textbf{Overhead}
         \end{itemize}
     \end{itemize}
 }
 
-\subsection{Objetivos}
-\frame{\frametitle{Objetivos}
+\frame{\frametitle{Why is this relevant?}
+    There is a workaround: Linux Containers!
     \begin{itemize}
-        \item Avaliar a viabilidade de contêineres no contexto de aplicações paralelas
-        \begin{itemize}
-            \item Compatibilidade dessa solução com ambientes HPC
-            \item Impacto no desempenho
-        \end{itemize}
+        \item No hypervisor, thus lower overhead
+        \item Images take much less space
+        \item Requirement is the Linux Kernel, which most HPC Clusters already run
+        \item Provides flexibility that can yield performance gains at a small development cost
     \end{itemize}
-    \vspace*{0.5cm}
+}
+
+\frame{\frametitle{Motivation & Objectives}
+    
+}
+
+\frame{
     \begin{itemize}
-        \item Comparar duas tecnologias de contêineres ao desempenho nativo
+        \item table of contents
+    \end{itemize}
+}
+
+\frame{\frametitle{Linux Containers}
+    \begin{itemize}
+        \item Operating System level virtualization
+        \item Resource control and isolation build into the Linux Kernel
+        \item Cgroups and Namespaces API
+        \item Complex operation
+    \end{itemize}
+    \centering
+    \includegraphics[width=.2\textwidth]{conteineres.png}\\
+    \footnotesize(translate this figure, probably enhance it)
+}
+
+\frame{\frametitle{docker}
+    \begin{itemize}
+        \item Main use case: microservice virtualization
+        \item Widely used in the industry
+        \item Easily found in cloud infrastructure providers such as AWS, GCP and Azure
+        \item philosophy: enforce the virtualization of every namespace provided by the Linux Kernel
         \begin{itemize}
-            \item Docker e Singularity
+            \item \textbf{User}, file system, \textbf{network}, IPC, pid
+            \item Implications on the use case (elaborate in that)
         \end{itemize}
     \end{itemize}
 }
 
-\section{Fundamentação teórica}
-\frame{\tableofcontents[currentsection,hideothersubsections]}
-\subsection{Contêineres}
-\frame{\frametitle{Contêineres}
+\frame{\frametitle{singularity}
     \begin{itemize}
-        \item Ambiente de execução virtualizado
-        \item Objetivos principais
+        \item Linux Containers for HPC
+        \item Alternative to Docker drawbacks for shared environments
+        \item Aims for a secure container environment that can be installed in clusters
+        \item philosophy: only virtualize the necessary namespaces, while everything else is kept optional.
         \begin{itemize}
-            \item Isolamento de processos
-            \item Encapsulamento de dependências
-        \end{itemize}
-        \item Restrito a sistemas operacionais GNU/Linux 
-        \begin{itemize}
-            \item \textit{Kernel} é compartilhado entre contêineres e sistema nativo
-        \end{itemize}
-    \end{itemize}
-    \begin{figure}
-        \centering
-        \includegraphics[width=.375\textwidth]{conteineres.png}
-    \end{figure}
-}
-
-\section{Tecnologias de contêineres}
-\frame{\tableofcontents[currentsection,hideothersubsections]}
-
-\subsection{Docker}
-\frame{\frametitle{Docker}
-    \begin{figure}
-        \centering
-        \vspace*{-1cm}
-        \includegraphics[width=.3\textwidth]{docker-logo.png}
-        \vspace*{-0.25cm}
-    \end{figure}
-    \begin{itemize}
-        \item Plataforma de contêineres mais popular na indústria de software
-    \end{itemize}
-    \begin{itemize}
-        \item Usa a API de \textit{namespaces} para isolamento completo
-        \begin{itemize}
-            \item Processos têm a impressão de estarem executando em uma máquina dedicada
-        \end{itemize}
-    \end{itemize}
-    \begin{itemize}
-        \item \textit{Docker daemon} executa como \textit{root}
-        \begin{itemize}
-            \item Segurança comprometida em ambientes compartilhados
+            \item \textbf{file system}
         \end{itemize}
     \end{itemize}
 }
 
-\frame{\frametitle{Implementação de \textit{cluster} com Docker}
+\frame{\frametitle{testbed}
     \begin{itemize}
-        \item Virtualização da camada de rede
+        \item Grid5000's Graphene clusters
         \begin{itemize}
-            \item Interface virtual conecta contêineres em uma única máquina
-            \item Para múltiplas máquinas físicas, é necessária uma rede virtual
-        \end{itemize}
-    \end{itemize}
-    \begin{itemize}
-        \item \textit{Docker Swarm}
-        \begin{itemize}
-            \item Configura múltiplas máquinas físicas em um \textit{cluster}, conectado por uma rede de sobreposição
-            \item Contêineres são distribuídos múltiplas máquinas físicas
-        \end{itemize}
-    \end{itemize}
-    \begin{figure}
-        \centering
-        \includegraphics[width=.6\textwidth]{swarm-cluster.png}
-    \end{figure}
-}
-
-\subsection{Singularity}
-\frame{\frametitle{Singularity}
-    \begin{figure}
-        \centering
-        \vspace*{-1cm}
-        \includegraphics[width=.1\textwidth]{singularity-logo.png}
-        \vspace{-0.5cm}
-    \end{figure}
-    \begin{itemize}
-        \item Desenvolvido para uso com aplicações de alto desempenho
-        \item Principais objetivos
-        \begin{itemize}
-            \item Reprodutibilidade
-            \item Portabilidade
-            \item Integração nativa com recursos comuns em \textit{clusters}
-        \end{itemize}
-        \vspace*{0.2cm}
-        \item Nível de virtualização menos invasivo
-        \begin{itemize}
-            \item Contêiner é visto como um processo do usuário no sistema nativo
-        \end{itemize}
-    \end{itemize}
-}
-
-\frame{\frametitle{Execução do Singularity em um cluster}
-    Singularity permite integração nativa com ferramentas instaladas, por conta do modelo de virtualização menos invasivo
-    \vspace*{0.3cm}
-    \begin{itemize}
-        \item Contêineres são processos visíveis no sistema nativo
-        \begin{itemize}
-            \item Rede, IPC e usuários são compartilhados
-        \end{itemize}
-        \vspace*{0.3cm}
-        \item Integração trivial com escalonadores de tarefas (como, por exemplo, SLURM ou \textit{mpirun})
-        \begin{itemize}
-            \item No sistema nativo: \textit{mpirun -np 4 ./container.img}
-        \end{itemize}
-        \vspace*{0.3cm}
-    \end{itemize}
-}
-
-\section{Avaliação experimental}
-\frame{\tableofcontents[currentsection,hideothersubsections]}
-
-\subsection{Recursos utilizados}
-\frame{\frametitle{Plataforma de hardware}
-    \begin{itemize}
-        \item Grid5000
-        \begin{itemize}
-            \item Plataforma para experimentos em computação
-            \item Segue uma infraestrutura do tipo \textit{grid}
-        \end{itemize}
-    \end{itemize}
-    \vspace*{-0.2cm}
-    \begin{figure}
-        \centering
-        \includegraphics[width=.3\textwidth]{grid5000.png}
-    \end{figure}
-    \vspace*{-0.2cm}
-    \begin{itemize}
-        \item Testes experimentais na \textit{Grid5000}
-        \begin{itemize}
-            \item Até 5 nodos do \textit{cluster} \textit{Graphene}, no \textit{site} \textit{Nancy}
-            \begin{itemize}
-                \item Intel Xeon X3340 (4 \textit{cores}, 2.53GHz)
-                \item 16GB DDR3 RAM
-                \item Gigabit Ethernet
-            \end{itemize}
-        \end{itemize}
-    \end{itemize}
-}
-
-\frame{\frametitle{Ambiente de software}
-    \begin{itemize}
-        \item Sistema operacional
-        \begin{itemize}
-            \item Linux, distribuição Debian 9
-            \begin{itemize}
-                \item Melhor compatibiliade com a Grid5000
-            \end{itemize}
-            \item MPICH 3.2
-            \item OpenMP 4.5
-        \end{itemize}
-        \vspace*{0.2cm}
-        \item Benchmarks:
-        \begin{itemize}
-            \item Ondes3D (MPI + OpenMP)
-            \begin{itemize}
-                \item Desbalanceamento de carga, comunicação frequente
-            \end{itemize}
-            \item Ping-Pong (MPI)
-            \begin{itemize}
-                \item Desempenho da rede
-            \end{itemize}
-            \item NAS Parallel Benchmarks - EP (MPI)
-            \begin{itemize}
-                \item Baixa comunicação, altamente paralelizável
-            \end{itemize}
-        \end{itemize}
-    \end{itemize}
-}
-
-\subsection{Resultados}
-\frame{\frametitle{\textit{Benchmark} Ondes3D - 50 timesteps}
-    \vspace*{-0.2cm}
-    \begin{figure}
-        \centering
-        \includegraphics[width=.75\textwidth]{ondes3d-essai-50ts.png}
-    \end{figure}
-    \begin{itemize}
-        \item Docker apresenta desempenho pior
-        \begin{itemize}
-            \item Sobrecusto da rede virtual
-        \end{itemize}
-        \item Singularity apresenta resultados próximos do nativo
-    \end{itemize}
-}
-
-\frame{\frametitle{\textit{Benchmark} Ping-Pong}
-    \begin{figure}
-        \centering
-        \includegraphics[width=0.7\textwidth]{ping-pong.png}
-    \end{figure}
-    \begin{itemize}
-        \item Evidencia a o \textit{overhead} na rede virtualizada
-    \end{itemize}
-}
-
-\frame{\frametitle{\textit{Benchmark} NAS EP - Categoria B}
-    \begin{figure}
-        \centering
-        \includegraphics[width=0.8\textwidth]{ep-b.png}
-    \end{figure}
-    \begin{itemize}
-        \item Desempenho do Docker e Singularity é comparável
-        \item Uso de contêineres não degrada o desempenho nativo
-    \end{itemize}
-}
-
-\frame{\frametitle{\textit{Benchmark} NAS EP - Categoria B, Alpine Linux}
-    \begin{figure}
-        \centering
-        \includegraphics[width=0.8\textwidth]{ep-b-alpine.png}
-    \end{figure}
-    \begin{itemize}
-        \item É possível modificar facilmente o ambiente de execução
-        \item Uso de bibliotecas diferentes pode melhorar o desempenho
-    \end{itemize}
-}
-
-\section{Conclusões}
-\frame{\tableofcontents[currentsection,hideothersubsections]}
-
-\subsection{}
-\frame{\frametitle{Conclusões}
-    \begin{itemize}
-        \item Contêineres são uma plataforma viável para virtualização de aplicações HPC
-        \begin{itemize}
-            \item Baixo sobrecusto computacional (\textit{overhead})
-            \item Auxilia a reprodutibilidade de experimentos
-            \item Permite maior flexibilidade do ambiente de execução
+            \item Intel Xeon X3340, 4 cores @ 2.53GHz
+            \item 16GB DDR3 RAM
+            \item Gigabit Ethernet interconnect
         \end{itemize}
         \vspace*{0.5cm}
-        \item Na tecnologia atual, contêineres Singularity são mais apropriados para ambientes de HPC
+        \item Debian 9 (\textit{stretch}) Linux
         \begin{itemize}
-            \item Rede nativa
-            \item Usuário sem privilégios adicionais
-            \item Integração nativa com ferramentas comuns
+            \item Singularity containers running on top of the native environment
+            \item Docker containers connected through Docker Swarm \textit{overlay}
         \end{itemize}
     \end{itemize}
 }
 
-\subsection{}
-\frame{
-    \frametitle{Obrigado!}
-    \centering
-    Guilherme Rezende Alles - gralles@inf.ufrgs.br\\
-    \vspace*{1cm}
-    \textbf{Perguntas?}\\
-    \vspace*{0.5cm}
-    \includegraphics[scale=0.55]{inf} \hspace{1cm}
-    \includegraphics[scale=0.13]{ufrgs.png}
+\frame{\frametitle{workload}
+    \begin{itemize}
+        \item NAS Parallel Benchmarks
+        \begin{itemize}
+            \item Synthetic workload for baseline purposes
+            \item EP (\textit{embarrassingly parallel}) Kernel
+            \begin{itemize}
+                \item CPU bound scenario
+                \item Low communication between workers
+                \item Workload size B
+            \end{itemize}
+        \end{itemize}
+        \vspace*{0.3cm}
+        \item Ondes3D
+        \begin{itemize}
+            \item Seismic waves propagation simulation
+            \item Load imbalance, frequent communication
+            \begin{itemize}
+                \item Workload: default test case + Ligurian
+            \end{itemize}
+        \end{itemize}
+        \vspace*{0.3cm}
+        \item Ping-Pong benchmark
+        \begin{itemize}
+            \item Network latency
+        \end{itemize}
+    \end{itemize}
 }
 
+\frame{\frametitle{results}
+    \begin{itemize}
+        \item NAS EP raw results
+        \item NAS EP computed overhead against native
+    \end{itemize}
+}
+
+\frame{\frametitle{results}
+    \begin{itemize}
+        \item Ondes3D raw results
+        \item Ondes3D computed overhead against native
+    \end{itemize}
+}
+
+\frame{\frametitle{results}
+    \begin{itemize}
+        \item Ping-pong raw results
+        \item Ping-pong overhead against native (???)
+    \end{itemize}
+}
 
 \end{document}
-
-
-
-
