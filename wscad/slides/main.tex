@@ -35,81 +35,143 @@ Universidade Federal do Rio Grande do Sul
 
 \frame{\titlepage}
 
-\frame{\frametitle{Why is this relevant?}
+\section{Introduction and Objectives}
+\frame{\frametitle{Introduction}
     \begin{itemize}
-        \item Scientists should spend their time researching, and not figuring out execution environment specifics
-        \item Dependency management hell
-        \item Reproducible research should be the default, not a "plus"
-    \end{itemize}
-    
-    \begin{itemize}
-        \item Solution? Virtual machines! But...
+        \item HPC clusters are \textbf{highly heterogeneous}
         \begin{itemize}
-            \item Requires a hypervisor, which is probably cumbersome and not always installed on the host
-            \item Operating system images are large and can take a while to build and distribute
-            \item \textbf{Overhead}
+            \item Hardware configurations, software stacks, usage policies...
+        \end{itemize}
+        \pause
+        \vspace*{0.3cm}
+        \item Designing experiments for portability requires investing time
+        \begin{itemize}
+            \item Operating system specifics
+            \item Dependency management
+        \end{itemize}
+        \pause
+        \vspace*{0.3cm}
+        \item What if someone wants to reproduce your experiments?
+    \end{itemize}
+}
+
+\frame{\frametitle{Introduction}
+    Possible solution: virtual machines!\pause But...
+    \begin{itemize}
+        \item Requires a \textbf{hypervisor}. Which one?
+        \begin{itemize}
+            \item Type 1, Type 2, paravirtualization
+            \item What if different clusters support different hypervisors?
+        \end{itemize}
+        \item Multi-gigabyte system images
+        \item \textbf{Overhead}
+    \end{itemize}
+}
+
+\frame{\frametitle{Introduction}
+    Why can't we use Linux Containers?
+    \begin{itemize}
+        \pause
+        \vspace*{0.2cm}
+        \item No hypervisor overhead
+        \pause
+        \vspace*{0.2cm}
+        \item Images take much less space
+        \pause
+        \vspace*{0.2cm}
+        \item APIs integrated in the Linux Kernel
+        \pause
+        \vspace*{0.2cm}
+        \item Flexibility provided can yield performance gains at a small development cost
+    \end{itemize}
+}
+
+\frame{\frametitle{Objectives}
+    \begin{itemize}
+        \item Measure \textbf{viability} of applying container technology to HPC
+        \pause
+        \begin{itemize}
+            \item Computation overhead
+            \item Communication overhead
+        \end{itemize}
+        \pause
+        \vspace*{0.5cm}
+        \item Contrast two popular container environments and their \textbf{workflows}
+        \begin{itemize}
+            \item Docker
+            \item Singularity
         \end{itemize}
     \end{itemize}
 }
 
-\frame{\frametitle{Why is this relevant?}
-    There is a workaround: Linux Containers!
-    \begin{itemize}
-        \item No hypervisor, thus lower overhead
-        \item Images take much less space
-        \item Requirement is the Linux Kernel, which most HPC Clusters already run
-        \item Provides flexibility that can yield performance gains at a small development cost
-    \end{itemize}
-}
+\frame{\frametitle{Outline}\tableofcontents[hideallsubsections]}
 
-\frame{\frametitle{Motivation & Objectives}
-    
-}
-
-\frame{
-    \begin{itemize}
-        \item table of contents
-    \end{itemize}
-}
-
+\section{Linux Containers}
 \frame{\frametitle{Linux Containers}
     \begin{itemize}
         \item Operating System level virtualization
-        \item Resource control and isolation build into the Linux Kernel
-        \item Cgroups and Namespaces API
-        \item Complex operation
+        \pause
+        \item \textbf{Resource control} and \textbf{isolation} build into the Linux Kernel
+        \begin{itemize}
+            \item \textbf{Cgroups} API
+            \item \textbf{Namespaces} API
+        \end{itemize}
     \end{itemize}
+    \vspace*{0.2cm}
     \centering
-    \includegraphics[width=.2\textwidth]{conteineres.png}\\
+    \includegraphics[width=.3\textwidth]{conteineres.png}\\
     \footnotesize(translate this figure, probably enhance it)
 }
 
-\frame{\frametitle{docker}
+\frame{\frametitle{Docker}
+    \vspace*{-0.7cm}
+    \begin{figure}
+        \centering
+        \includegraphics[width=.3\textwidth]{docker-logo.png}
+    \end{figure}
+    \vspace*{-0.2cm}
     \begin{itemize}
-        \item Main use case: microservice virtualization
         \item Widely used in the industry
-        \item Easily found in cloud infrastructure providers such as AWS, GCP and Azure
-        \item philosophy: enforce the virtualization of every namespace provided by the Linux Kernel
         \begin{itemize}
-            \item \textbf{User}, file system, \textbf{network}, IPC, pid
-            \item Implications on the use case (elaborate in that)
+            \item Microservices virtualization
+        \end{itemize}
+        \item Standard in cloud infrastructure providers such as AWS, GCP and Azure
+        \pause
+        \item Enforces the virtualization of every namespace provided by the Linux Kernel
+        \begin{itemize}
+            \item \textbf{User}, file system, \textbf{network}, IPC, PID
+            \item Implications on the use case (elaborate on that)
         \end{itemize}
     \end{itemize}
 }
 
-\frame{\frametitle{singularity}
+\frame{\frametitle{Singularity}
+    \vspace*{-0.5cm}
+    \begin{figure}
+        \centering
+        \includegraphics[width=.1\textwidth]{singularity-logo.png}
+    \end{figure}
+    \vspace*{-0.2cm}
     \begin{itemize}
         \item Linux Containers for HPC
+        \vspace*{0.2cm}
         \item Alternative to Docker drawbacks for shared environments
-        \item Aims for a secure container environment that can be installed in clusters
-        \item philosophy: only virtualize the necessary namespaces, while everything else is kept optional.
+        \pause
+        \vspace*{0.2cm}
+        \item Objective: \textbf{secure} container environment for HPC clusters
+        \pause
+        \vspace*{0.2cm}slock
+        \item Virtualizes \textbf{only the necessary namespaces}. Everything else is kept optional.
         \begin{itemize}
             \item \textbf{file system}
         \end{itemize}
     \end{itemize}
 }
 
-\frame{\frametitle{testbed}
+\section{Experimental Design}
+\frame{\tableofcontents[currentsection,hideothersubsections]}
+
+\frame{\frametitle{Testbed}
     \begin{itemize}
         \item Grid5000's Graphene clusters
         \begin{itemize}
@@ -117,43 +179,51 @@ Universidade Federal do Rio Grande do Sul
             \item 16GB DDR3 RAM
             \item Gigabit Ethernet interconnect
         \end{itemize}
+        \pause
         \vspace*{0.5cm}
         \item Debian 9 (\textit{stretch}) Linux
         \begin{itemize}
-            \item Singularity containers running on top of the native environment
+            \item Containers running on top of the native environment
             \item Docker containers connected through Docker Swarm \textit{overlay}
+            \begin{itemize}
+                \item Necessary because of \textbf{PID} and \textbf{network} virtualization
+                \item Allows addressing MPI processes
+            \end{itemize}
         \end{itemize}
     \end{itemize}
 }
 
-\frame{\frametitle{workload}
+\frame{\frametitle{Workload}
+    NAS Parallel Benchmarks
     \begin{itemize}
-        \item NAS Parallel Benchmarks
+        \item Synthetic workload for baseline purposes
+        \item EP (\textit{embarrassingly parallel}) Kernel
         \begin{itemize}
-            \item Synthetic workload for baseline purposes
-            \item EP (\textit{embarrassingly parallel}) Kernel
-            \begin{itemize}
-                \item CPU bound scenario
-                \item Low communication between workers
-                \item Workload size B
-            \end{itemize}
-        \end{itemize}
-        \vspace*{0.3cm}
-        \item Ondes3D
-        \begin{itemize}
-            \item Seismic waves propagation simulation
-            \item Load imbalance, frequent communication
-            \begin{itemize}
-                \item Workload: default test case + Ligurian
-            \end{itemize}
-        \end{itemize}
-        \vspace*{0.3cm}
-        \item Ping-Pong benchmark
-        \begin{itemize}
-            \item Network latency
+            \item CPU bound scenario
+            \item Low communication between workers
+            \item Workload size B
         \end{itemize}
     \end{itemize}
+    \pause
+    \vspace*{0.2cm}
+    Ondes3D
+    \begin{itemize}
+        \item Seismic waves propagation simulation
+        \item Load imbalance, frequent communication
+        \begin{itemize}
+            \item Workload: default test case + Ligurian
+        \end{itemize}
+    \end{itemize}
+    \vspace*{0.2cm}
+    \pause
+    Ping-Pong benchmark
+    \begin{itemize}
+        \item Network latency
+    \end{itemize}
 }
+
+\section{Results}
+\frame{\tableofcontents[currentsection,hideothersubsections]}
 
 \frame{\frametitle{results}
     \begin{itemize}
@@ -181,6 +251,9 @@ Universidade Federal do Rio Grande do Sul
         \item Alpine linux results
     \end{itemize}
 }
+
+\section{Conclusions and Future Work}
+\frame{\tableofcontents[currentsection,hideothersubsections]}
 
 \frame{\frametitle{conclusions}
     \begin{itemize}
