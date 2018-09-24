@@ -160,7 +160,7 @@ Universidade Federal do Rio Grande do Sul
         \vspace*{0.2cm}
         \item Objective: \textbf{secure} container environment for HPC clusters
         \pause
-        \vspace*{0.2cm}slock
+        \vspace*{0.2cm}
         \item Virtualizes \textbf{only the necessary namespaces}. Everything else is kept optional.
         \begin{itemize}
             \item \textbf{file system}
@@ -255,23 +255,31 @@ Universidade Federal do Rio Grande do Sul
 \section{Conclusions and Future Work}
 \frame{\tableofcontents[currentsection,hideothersubsections]}
 
-\frame{\frametitle{conclusions}
+\frame{\frametitle{Conclusions}
     \begin{itemize}
-        \item containters as a mean of achieving resource isolation is viable in an HPC environment
-        \item virtualization of the \textit{network} namespace has a negative impact on performance for MPI workloads
-        \item computational overhead, while present, is negligible in most use cases
-        \item communication overhead is significant, especially in the Docker environment
+        \item Containers are a viable way of virtualizing an HPC environment
+        \pause
+        \item Computational overhead is negligible in most use cases
+        \pause
+        \item Communication overhead is significant, especially in the Docker environment
+        \begin{itemize}
+            \item Virtualization of the \textbf{network} namespace impacts MPI workloads
+        \end{itemize}
+        \pause
+        \item Performance gains are attainable by \textbf{fine tuning} the execution environment
     \end{itemize}
 }
 
-\frame{\frametitle{future work}
+\frame{\frametitle{Future Work}
     \begin{itemize}
-        \item further investigate Docker Swarm scalability
+        \item Further investigate Docker Swarm scalability
         \begin{itemize}
-            \item increased latency
-            \item failure to spawn a larger number of containers
+            \item Increased latency
+            \item Failure to spawn a larger number of containers
         \end{itemize}
-        \item explore compatibility with other devices
+        \pause
+        \vspace*{0.3cm}
+        \item Explore container compatibility with other devices
         \begin{itemize}
             \item GPU
             \item InfiniBand
