@@ -30,7 +30,6 @@ Alexandre Carissimi\\
 Instituto de Informática\\
 Universidade Federal do Rio Grande do Sul
 }
-\logo{\includegraphics[scale=0.3]{inf}}
 \date{21 de Junho de 2018}
 
 \frame{\titlepage}
@@ -225,31 +224,72 @@ Universidade Federal do Rio Grande do Sul
 \section{Results}
 \frame{\tableofcontents[currentsection,hideothersubsections]}
 
-\frame{\frametitle{results}
-    \begin{itemize}
-        \item NAS EP raw results
-        \item NAS EP computed overhead against native
-    \end{itemize}
+\frame{\frametitle{Results - NAS EP}
+    \begin{figure}
+        \centering
+        \begin{subfigure}{.45\textwidth}
+            \hspace*{-1.2cm}
+            \includegraphics[width=1.2\textwidth]{nas-ep-raw.png}
+        \end{subfigure}
+        \pause
+        \begin{subfigure}{.45\textwidth}
+        \hspace*{0.2cm}
+            \includegraphics[width=1.2\textwidth]{nas-ep-overhead.png}
+        \end{subfigure}
+    \end{figure}
 }
 
-\frame{\frametitle{results}
-    \begin{itemize}
-        \item Ondes3D raw results
-        \item Ondes3D computed overhead against native
-    \end{itemize}
+\frame{\frametitle{Results - Ondes3D Default}
+    \begin{figure}
+        \centering
+        \begin{subfigure}{.45\textwidth}
+            \hspace*{-1.2cm}
+            \includegraphics[width=1.2\textwidth]{ondes3d-default-raw.png}
+        \end{subfigure}
+        \pause
+        \begin{subfigure}{.45\textwidth}
+        \hspace*{0.2cm}
+            \includegraphics[width=1.2\textwidth]{ondes3d-default-overhead.png}
+        \end{subfigure}
+    \end{figure}
 }
 
-\frame{\frametitle{results}
-    \begin{itemize}
-        \item Ping-pong raw results
-        \item Ping-pong overhead against native (???)
-    \end{itemize}
+\frame{\frametitle{Results - Ondes3D Ligurian}
+    \begin{figure}
+        \centering
+        \begin{subfigure}{.45\textwidth}
+            \hspace*{-1.2cm}
+            \includegraphics[width=1.2\textwidth]{ondes3d-ligurian-raw.png}
+        \end{subfigure}
+        \pause
+        \begin{subfigure}{.45\textwidth}
+        \hspace*{0.2cm}
+            \includegraphics[width=1.2\textwidth]{ondes3d-ligurian-overhead.png}
+        \end{subfigure}
+    \end{figure}
 }
 
-\frame{\frametitle{results}
-    \begin{itemize}
-        \item Alpine linux results
-    \end{itemize}
+\frame{\frametitle{Results - Ping Pong}
+    \begin{figure}
+        \centering
+        \vspace*{-0.2cm}
+        \includegraphics[width=0.65\textwidth]{network-latency-raw.png}
+    \end{figure}
+}
+
+\frame{\frametitle{Results - Alpine Linux}
+    \begin{figure}
+        \centering
+        \begin{subfigure}{.45\textwidth}
+            \hspace*{-1.2cm}
+            \includegraphics[width=1.2\textwidth]{alpine-nas-ondes3d-raw.png}
+        \end{subfigure}
+        \pause
+        \begin{subfigure}{.45\textwidth}
+        \hspace*{0.2cm}
+            \includegraphics[width=1.2\textwidth]{alpine-nas-ondes3d-overhead.png}
+        \end{subfigure}+
+    \end{figure}
 }
 
 \section{Conclusions and Future Work}
