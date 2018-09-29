@@ -1067,7 +1067,7 @@ ggplot(results, aes(x = parallelism, y = average)) +
 
 #+RESULTS:
 
-**** Plots (Lucas)
+**** Plots (Lucas) - for the paper
 ***** Small case: Computation Analysis (pure makespan and compute overhead)
 ****** Read and merge data
 
@@ -1693,6 +1693,761 @@ df.sel %>%
 
 #+RESULTS:
 [[file:img/alpine-negative-overhead.pdf]]
+**** Plots (Lucas) - for the presentation
+***** Small case: Computation Analysis (pure makespan and compute overhead)
+****** Read and merge data
+
+#+begin_src R :results output :session :exports both
+suppressMessages(library(tidyverse))
+files <- list("./results/nas/results.csv",
+              "./results/ondes3d/results.csv",
+              "./results/ondes3d-ligurian/results.csv")
+df.makespan <- do.call("bind_rows", lapply(files, function(file) {
+    read_csv(file, col_types=cols(
+                       name = col_integer(),
+                       environment = col_character(),
+                       parallelism = col_integer(),
+                       time = col_integer()
+                   )) %>%
+        mutate(time = time/1000) %>%
+        group_by(environment, parallelism) %>%
+        summarize(
+            samples = n(),
+            average = mean(time),
+            stdDeviation = sd(time),
+            stdError = 3*stdDeviation/sqrt(samples)
+        ) %>%
+        mutate(Origin = file) %>%
+        separate(Origin, into=c("X0", "X1", "TYPE", "X2"), sep="/", remove=FALSE) %>% select(-X0, -X1, -X2) %>%
+        mutate(Application = ifelse(grepl("ondes3d", TYPE), "Ondes3D", "NAS-EP")) %>%
+        mutate(Input = case_when(TYPE == "nas" ~ "Class B",
+                                 grepl("ligurian", TYPE) ~ "Ligurian",
+                                 TRUE ~ "Default")) %>% select(-TYPE, -Origin) %>%
+        mutate(Native = environment == "native") %>%
+        ungroup()
+})) %>%
+    mutate(environment = factor(environment,
+                                levels=c("native", "singularity", "docker"),
+                                labels=c("Native", "Singularity", "Docker")))
+#+end_src
+
+#+RESULTS:
+****** NAS-EP/ClassB (left) - compute
+
+#+begin_src R :results output graphics :file img/v2-nas-ep-raw.pdf :width 4 :height 3 :session
+df.makespan %>%
+    mutate(Native = factor(Native, levels=c(TRUE, FALSE), labels=c("Native", "Container"))) %>%
+    mutate(Application = paste(Application, Input, sep="/")) %>%
+    filter(Input %in% c("Class B", "Default")) -> df.sel;
+# Breask in X
+breaks <- df.sel %>% pull(parallelism) %>% unique;
+#Create a custom color scale
+library(RColorBrewer)
+colors <- brewer.pal(9,"Set1")
+myColors <- c(colors[1], colors[3], colors[2])
+names(myColors) <- levels(df.sel$environment)
+colScale <- scale_colour_manual(name = "environment",values = myColors)
+
+df.sel %>%
+    filter(grepl("NAS", Application)) %>%
+    ggplot(aes(x = parallelism, y = average, col=environment)) +
+    ylim(0, NA) +
+    geom_point(size=1) +
+    geom_line(alpha = 0.2) + 
+    geom_errorbar(aes(ymin = average - stdError, ymax = average + stdError, col = environment), 
+                  width = 1.5) +
+    colScale +
+    xlab('Number of MPI ranks (count)') + 
+    ylab('Execution time (s)') +
+    theme(legend.position = 'top', legend.spacing = unit(x = c(0, 0, 0, 0), units = 'mm')) +
+    theme_bw(base_size = 13) +
+    theme (plot.margin = unit(c(0,0,0,0), "cm"),
+           legend.spacing = unit(1, "mm"),
+           legend.position = "top",
+           legend.justification = "left",
+           legend.box.spacing = unit(0, "pt"),
+           legend.box.margin = margin(0,0,0,0),
+           legend.title = element_blank()) +
+    facet_grid (Application~Native, scales="free_y")
+#+end_src
+
+#+RESULTS:
+[[file:img/v2-nas-ep-raw.pdf]]
+
+****** NAS-EP/ClassB (right) - computation overhead
+******* Data manipulation
+#+begin_src R :results output :session :exports both
+df.makespan %>%
+    mutate(Case = paste(Application, Input, sep="/")) %>%
+    select(environment, parallelism, average, Case) %>%
+    spread(environment, average) %>%
+    mutate(
+        Docker.Overhead = round((Docker - Native)/Native * 100, 2),
+        Singularity.Overhead = round((Singularity - Native)/Native * 100, 2)) %>%
+    arrange(Case, parallelism) %>%
+    select(parallelism, Case, Docker.Overhead, Singularity.Overhead) %>%
+    gather(environment, Overhead, -parallelism, -Case) -> df.makespan.overhead;
+df.makespan.overhead %>%
+    as.data.frame
+#+end_src
+
+#+RESULTS:
+#+begin_example
+   parallelism             Case          environment Overhead
+1            1   NAS-EP/Class B      Docker.Overhead     0.05
+2            4   NAS-EP/Class B      Docker.Overhead     0.31
+3            8   NAS-EP/Class B      Docker.Overhead     1.05
+4           16   NAS-EP/Class B      Docker.Overhead     7.93
+5            1  Ondes3D/Default      Docker.Overhead     0.69
+6            4  Ondes3D/Default      Docker.Overhead     1.32
+7            8  Ondes3D/Default      Docker.Overhead    33.55
+8           16  Ondes3D/Default      Docker.Overhead    53.42
+9           64 Ondes3D/Ligurian      Docker.Overhead       NA
+10         128 Ondes3D/Ligurian      Docker.Overhead       NA
+11         192 Ondes3D/Ligurian      Docker.Overhead       NA
+12         256 Ondes3D/Ligurian      Docker.Overhead       NA
+13           1   NAS-EP/Class B Singularity.Overhead     0.20
+14           4   NAS-EP/Class B Singularity.Overhead     0.59
+15           8   NAS-EP/Class B Singularity.Overhead     2.17
+16          16   NAS-EP/Class B Singularity.Overhead     9.35
+17           1  Ondes3D/Default Singularity.Overhead     0.55
+18           4  Ondes3D/Default Singularity.Overhead     1.85
+19           8  Ondes3D/Default Singularity.Overhead     3.75
+20          16  Ondes3D/Default Singularity.Overhead     6.52
+21          64 Ondes3D/Ligurian Singularity.Overhead     0.07
+22         128 Ondes3D/Ligurian Singularity.Overhead     0.37
+23         192 Ondes3D/Ligurian Singularity.Overhead     0.62
+24         256 Ondes3D/Ligurian Singularity.Overhead     0.41
+#+end_example
+
+******* Plot
+Let's plot this:
+
+#+begin_src R :results output graphics :file img/v2-nas-ep-overhead.pdf :exports both :width 4 :height 3 :session
+df.makespan.overhead %>%
+    filter(parallelism <= 16) %>%
+    mutate(environment = factor(gsub(".Overhead", "", environment),
+                                levels=c("Singularity", "Docker"))) -> df.sel;
+# Breaks in X
+breaks <- df.sel %>% pull(parallelism) %>% unique;
+
+df.sel %>%
+    mutate(Facet = "Container / Native") %>%
+    filter(grepl("NAS", Case)) %>%
+    ggplot(aes(x=parallelism,
+               y=Overhead,
+               color=environment)) +
+    scale_x_continuous(breaks = breaks, trans="sqrt") +
+    colScale +
+    geom_point(size=1) +
+    geom_line(alpha = 0.3) +
+    xlab('Number of MPI ranks (count)') + 
+    ylab('Makespan Overhead (%)') +
+    facet_grid(Case~Facet) +
+    ylim(0,60) +
+    theme_bw(base_size = 13) +
+    theme (plot.margin = unit(c(0,0,0,0), "cm"),
+           legend.spacing = unit(x = c(0, 0, 0, 0), units = 'mm'),
+           legend.position = "top",
+           legend.justification = "left",
+           legend.box.spacing = unit(0, "pt"),
+           legend.box.margin = margin(0,0,0,0),
+           legend.title = element_blank()) +
+    ylim(0,100)
+#           axis.text.x = element_text(angle=30, hjust=1))
+#+end_src
+
+#+RESULTS:
+[[file:img/v2-nas-ep-overhead.pdf]]
+
+****** (left) Plot computation of NAS-EP/ClassB and Ondes3D/Default
+
+#+begin_src R :results output graphics :file img/computation.pdf :width 3 :height 4 :session
+df.makespan %>%
+    mutate(Native = factor(Native, levels=c(TRUE, FALSE), labels=c("Native", "Container"))) %>%
+    mutate(Application = paste(Application, Input, sep="/")) %>%
+    filter(Input %in% c("Class B", "Default")) -> df.sel;
+# Breask in X
+breaks <- df.sel %>% pull(parallelism) %>% unique;
+#Create a custom color scale
+library(RColorBrewer)
+colors <- brewer.pal(9,"Greys")
+myColors <- c(colors[7], colors[5], colors[9])
+names(myColors) <- levels(df.sel$environment)
+colScale <- scale_colour_manual(name = "environment",values = myColors)
+
+df.sel %>%
+    ggplot(aes(x = parallelism, y = average, col=environment)) +
+#    scale_x_continuous(breaks = breaks, trans="sqrt") +
+    ylim(0, NA) +
+    geom_point(size=1) +
+    geom_line(alpha = 0.2) + 
+    geom_errorbar(aes(ymin = average - stdError, ymax = average + stdError, col = environment), 
+                  width = .15) +
+    colScale +
+    xlab('Number of MPI ranks (count)') + 
+    ylab('Execution time (s)') +
+    theme(legend.position = 'top', legend.spacing = unit(x = c(0, 0, 0, 0), units = 'mm')) +
+    theme_bw(base_size = 13) +
+    theme (plot.margin = unit(c(0,0,0,0), "cm"),
+           legend.spacing = unit(1, "mm"),
+           legend.position = "top",
+           legend.justification = "left",
+           legend.box.spacing = unit(0, "pt"),
+           legend.box.margin = margin(0,0,0,0),
+           legend.title = element_blank()) +
+    facet_grid (Application~Native, scales="free_y")
+#+end_src
+
+#+RESULTS:
+[[file:img/computation.pdf]]
+****** (right) Computation Overhead
+
+#+begin_src R :results output :session :exports both
+df.makespan %>%
+    mutate(Case = paste(Application, Input, sep="/")) %>%
+    select(environment, parallelism, average, Case) %>%
+    spread(environment, average) %>%
+    mutate(
+        Docker.Overhead = round((Docker - Native)/Native * 100, 2),
+        Singularity.Overhead = round((Singularity - Native)/Native * 100, 2)) %>%
+    arrange(Case, parallelism) %>%
+    select(parallelism, Case, Docker.Overhead, Singularity.Overhead) %>%
+    gather(environment, Overhead, -parallelism, -Case) -> df.makespan.overhead;
+df.makespan.overhead %>%
+    as.data.frame
+#+end_src
+
+#+RESULTS:
+#+begin_example
+   parallelism             Case          environment Overhead
+1            1   NAS-EP/Class B      Docker.Overhead     0.05
+2            4   NAS-EP/Class B      Docker.Overhead     0.31
+3            8   NAS-EP/Class B      Docker.Overhead     1.05
+4           16   NAS-EP/Class B      Docker.Overhead     7.93
+5            1  Ondes3D/Default      Docker.Overhead     0.69
+6            4  Ondes3D/Default      Docker.Overhead     1.32
+7            8  Ondes3D/Default      Docker.Overhead    33.55
+8           16  Ondes3D/Default      Docker.Overhead    53.42
+9           64 Ondes3D/Ligurian      Docker.Overhead       NA
+10         128 Ondes3D/Ligurian      Docker.Overhead       NA
+11         192 Ondes3D/Ligurian      Docker.Overhead       NA
+12         256 Ondes3D/Ligurian      Docker.Overhead       NA
+13           1   NAS-EP/Class B Singularity.Overhead     0.20
+14           4   NAS-EP/Class B Singularity.Overhead     0.59
+15           8   NAS-EP/Class B Singularity.Overhead     2.17
+16          16   NAS-EP/Class B Singularity.Overhead     9.35
+17           1  Ondes3D/Default Singularity.Overhead     0.55
+18           4  Ondes3D/Default Singularity.Overhead     1.85
+19           8  Ondes3D/Default Singularity.Overhead     3.75
+20          16  Ondes3D/Default Singularity.Overhead     6.52
+21          64 Ondes3D/Ligurian Singularity.Overhead     0.07
+22         128 Ondes3D/Ligurian Singularity.Overhead     0.37
+23         192 Ondes3D/Ligurian Singularity.Overhead     0.62
+24         256 Ondes3D/Ligurian Singularity.Overhead     0.41
+#+end_example
+
+Let's plot this:
+
+#+begin_src R :results output graphics :file img/computation-overhead-small.pdf :exports both :width 3 :height 3.8 :session
+df.makespan.overhead %>%
+    filter(parallelism <= 16) %>%
+    mutate(environment = factor(gsub(".Overhead", "", environment),
+                                levels=c("Singularity", "Docker"))) -> df.sel;
+# Breaks in X
+breaks <- df.sel %>% pull(parallelism) %>% unique;
+
+df.sel %>%
+    ggplot(aes(x=parallelism,
+               y=Overhead,
+               color=environment)) +
+    scale_x_continuous(breaks = breaks, trans="sqrt") +
+    colScale +
+    geom_point(size=1) +
+    geom_line(alpha = 0.3) +
+    xlab('Number of MPI ranks (count)') + 
+    ylab('Overhead of Execution \nTime against Native (%)') +
+    facet_grid(Case~.) +
+    ylim(0,60) +
+    theme_bw(base_size = 13) +
+    theme (plot.margin = unit(c(0,0,0,0), "cm"),
+           legend.spacing = unit(x = c(0, 0, 0, 0), units = 'mm'),
+           legend.position = "top",
+           legend.justification = "left",
+           legend.box.spacing = unit(0, "pt"),
+           legend.box.margin = margin(0,0,0,0),
+           legend.title = element_blank())
+#           axis.text.x = element_text(angle=30, hjust=1))
+#+end_src
+
+#+RESULTS:
+[[file:img/computation-overhead-small.pdf]]
+***** Larger case (Ligurian)
+****** (left) Plot computation of the Ondes3D/Ligurian
+
+#+begin_src R :results output graphics :file img/computation-ligurian.pdf :width 3 :height 3 :session
+df.makespan %>%
+    mutate(Native = factor(Native, levels=c(TRUE, FALSE), labels=c("Native", "Container"))) %>%
+    mutate(Application = paste(Application, Input, sep="/")) %>%
+    filter(Input == "Ligurian") -> df.sel;
+# Breask in X
+breaks <- df.sel %>% pull(parallelism) %>% unique;
+#Create a custom color scale
+library(RColorBrewer)
+colors <- brewer.pal(9,"Greys")
+myColors <- c(colors[7], colors[5], colors[9])
+names(myColors) <- levels(df.sel$environment)
+colScale <- scale_colour_manual(name = "environment",values = myColors)
+
+df.sel %>%
+    ggplot(aes(x = parallelism, y = average, col=environment)) +
+    scale_x_continuous(breaks = breaks) +
+    ylim(0, NA) +
+    geom_point(size=1) +
+    geom_line(alpha = 0.2) + 
+    geom_errorbar(aes(ymin = average - stdError, ymax = average + stdError, col = environment), 
+                  width = 1) +
+    colScale +
+    xlab('Number of MPI ranks (count)') + 
+    ylab('Execution time (s)') +
+    theme_bw(base_size = 13) +
+    theme (plot.margin = unit(c(0,0,0,0), "cm"),
+           legend.spacing = unit(x = c(0, 0, 0, 0), units = 'mm'),
+           legend.position = "top",
+           legend.justification = "left",
+           legend.box.spacing = unit(0, "pt"),
+           legend.box.margin = margin(0,0,0,0),
+           legend.title = element_blank(),
+           axis.text.x = element_text(angle=30, hjust=1)) +
+    facet_grid (Application~Native, scales="free_y")
+#+end_src
+
+#+RESULTS:
+[[file:img/computation-ligurian.pdf]]
+
+****** (right) Computation Overhead of Ondes3D/Ligurian
+
+#+begin_src R :results output :session :exports both
+df.makespan.overhead %>%
+    filter(Case == "Ondes3D/Ligurian") %>%
+    na.omit() %>%
+    as.data.frame
+#+end_src
+
+#+RESULTS:
+:   parallelism             Case          environment Overhead
+: 1          64 Ondes3D/Ligurian Singularity.Overhead     0.07
+: 2         128 Ondes3D/Ligurian Singularity.Overhead     0.37
+: 3         192 Ondes3D/Ligurian Singularity.Overhead     0.62
+: 4         256 Ondes3D/Ligurian Singularity.Overhead     0.41
+
+#+begin_src R :results output graphics :file img/computation-overhead-large.pdf :exports both :width 3 :height 2.5 :session
+df.makespan.overhead %>%
+    filter(Case == "Ondes3D/Ligurian") %>%
+    mutate(environment = factor(gsub(".Overhead", "", environment),
+                                levels=c("Singularity", "Docker"))) %>%
+    filter(environment == "Singularity") -> df.sel;
+# Breaks in X
+breaks <- df.sel %>% pull(parallelism) %>% unique;
+
+df.sel %>%
+    ggplot(aes(x=parallelism,
+               y=Overhead,
+               color=environment)) +
+    scale_x_continuous(breaks = breaks, trans="sqrt") +
+    colScale +
+    geom_point(size=1) +
+    geom_line(alpha = 0.3) +
+    xlab('Number of MPI ranks (count)') + 
+    ylab('Overhead of Execution \nTime against Native (%)') +
+    facet_grid(Case~.) +
+    ylim(0,10) +
+    theme_bw(base_size = 13) +
+    theme (plot.margin = unit(c(0,0,0,0), "cm"),
+           legend.spacing = unit(x = c(0, 0, 0, 0), units = 'mm'),
+           legend.position = "top",
+           legend.justification = "left",
+           legend.box.spacing = unit(0, "pt"),
+           legend.box.margin = margin(0,0,0,0),
+           legend.title = element_blank())
+#           axis.text.x = element_text(angle=30, hjust=1))
+#+end_src
+
+#+RESULTS:
+[[file:img/computation-overhead-large.pdf]]
+
+***** Average Latency
+****** Read data
+
+#+begin_src R :results output :session :exports both
+suppressMessages(library(tidyverse))
+df.pingpong <- read_csv('./results/ping-pong/results.csv', col_types=cols(
+                                                           size = col_integer(),
+                                                           time = col_double(),
+                                                           environment = col_character()
+                                                       )) %>% 
+    group_by(environment, size) %>%
+    summarize(
+        samples = n(),
+        average = mean(time),
+        stdDeviation = sd(time),
+        stdError = 3*stdDeviation/sqrt(samples)) %>%
+    ungroup() %>%
+    mutate(environment = factor(environment,
+                                levels=c("native", "singularity", "docker"),
+                                labels=c("Native", "Singularity", "Docker")))
+df.pingpong %>%
+    select(environment, size, average) %>%
+    as.data.frame
+#+end_src
+
+#+RESULTS:
+#+begin_example
+   environment    size    average
+1       Docker       1  0.5168438
+2       Docker       2  0.5089402
+3       Docker       4  0.5159974
+4       Docker       8  0.5118132
+5       Docker      16  0.5178094
+6       Docker      32  0.5084038
+7       Docker      64  0.5191684
+8       Docker     128  0.5172968
+9       Docker     256  0.5267978
+10      Docker     512  0.5319715
+11      Docker    1024  0.5743146
+12      Docker    2048  0.6141424
+13      Docker    4096  0.6750107
+14      Docker    8192  0.8137345
+15      Docker   16384  0.9671330
+16      Docker   32768  1.7537951
+17      Docker   65536  2.6515841
+18      Docker  131072  4.6041965
+19      Docker  262144  7.3685646
+20      Docker  524288 13.0757213
+21      Docker 1048576 26.4120102
+22      Native       1  0.3103137
+23      Native       2  0.2898932
+24      Native       4  0.3095508
+25      Native       8  0.2902389
+26      Native      16  0.2912045
+27      Native      32  0.2890110
+28      Native      64  0.3037810
+29      Native     128  0.3127694
+30      Native     256  0.3213167
+31      Native     512  0.3209829
+32      Native    1024  0.3316998
+33      Native    2048  0.3685594
+34      Native    4096  0.4316330
+35      Native    8192  0.4929900
+36      Native   16384  0.7027268
+37      Native   32768  0.9077072
+38      Native   65536  1.1704922
+39      Native  131072  1.9686097
+40      Native  262144  3.0316234
+41      Native  524288  5.2256107
+42      Native 1048576  9.7598553
+43 Singularity       1  0.3152132
+44 Singularity       2  0.3036857
+45 Singularity       4  0.3017783
+46 Singularity       8  0.2963781
+47 Singularity      16  0.3164530
+48 Singularity      32  0.2981544
+49 Singularity      64  0.2908349
+50 Singularity     128  0.3129125
+51 Singularity     256  0.3201008
+52 Singularity     512  0.3146410
+53 Singularity    1024  0.3304958
+54 Singularity    2048  0.3730178
+55 Singularity    4096  0.4510045
+56 Singularity    8192  0.4757047
+57 Singularity   16384  0.7049441
+58 Singularity   32768  0.9247661
+59 Singularity   65536  1.4336109
+60 Singularity  131072  1.9320187
+61 Singularity  262144  2.9506326
+62 Singularity  524288  5.2367806
+63 Singularity 1048576  9.7504616
+#+end_example
+
+****** Plot raw data (after averages)
+
+#+begin_src R :results output graphics :file img/pingpong-latency.pdf :exports both :width 4 :height 4 :session
+#Create a custom color scale
+library(RColorBrewer)
+colors <- brewer.pal(9,"Greys")
+myColors <- c(colors[7], colors[5], colors[9])
+names(myColors) <- levels(df.pingpong$environment)
+colScale <- scale_colour_manual(name = "environment",values = myColors)
+
+df.pingpong %>%
+    ggplot(aes(x=size, y=average)) +
+    geom_line(aes(col = environment), alpha = 0.2) +
+    geom_point(aes(col = environment), size = 1) +
+    geom_errorbar(aes(ymin=average-stdError, ymax=average+stdError, col=environment, group=environment), width = 0.2) +
+    theme_bw(base_size=12) +
+    colScale +
+    scale_y_log10(breaks=c(0.1, 1, 2, 4, 8, 16, 32)) +
+    scale_x_log10(breaks=2^seq(0,20)) +
+    ylab('Average latency (ms in logscale)') +
+    xlab('Message size (bytes)') +
+    theme_bw(base_size = 13) +
+    theme (plot.margin = unit(c(0,0,0,0), "cm"),
+           legend.spacing = unit(x = c(0, 0, 0, 0), units = 'mm'),
+           legend.position = "top",
+           legend.justification = "left",
+           legend.box.spacing = unit(0, "pt"),
+           legend.box.margin = margin(0,0,0,0),
+           legend.title = element_blank(),
+           axis.text.x = element_text(angle=55, hjust=1))
+#+end_src
+
+#+RESULTS:
+[[file:img/pingpong-latency.pdf]]
+
+****** Plot percentages
+
+#+begin_src R :results output :session :exports both
+df.pingpong %>%
+    select(environment, size, average) %>%
+    spread(environment, average) %>%
+    mutate(
+        Docker.Overhead = round((Docker - Native)/Native * 100, 2),
+        Singularity.Overhead = round((Singularity - Native)/Native * 100, 2)) %>%
+    select(size, Docker.Overhead, Singularity.Overhead) %>%
+    gather(environment, Overhead, -size) -> df.pingpong.overhead;
+df.pingpong.overhead %>%
+    as.data.frame   
+#+end_src
+
+#+RESULTS:
+#+begin_example
+      size          environment Overhead
+1        1      Docker.Overhead    66.56
+2        2      Docker.Overhead    75.56
+3        4      Docker.Overhead    66.69
+4        8      Docker.Overhead    76.34
+5       16      Docker.Overhead    77.82
+6       32      Docker.Overhead    75.91
+7       64      Docker.Overhead    70.90
+8      128      Docker.Overhead    65.39
+9      256      Docker.Overhead    63.95
+10     512      Docker.Overhead    65.73
+11    1024      Docker.Overhead    73.14
+12    2048      Docker.Overhead    66.63
+13    4096      Docker.Overhead    56.39
+14    8192      Docker.Overhead    65.06
+15   16384      Docker.Overhead    37.63
+16   32768      Docker.Overhead    93.21
+17   65536      Docker.Overhead   126.54
+18  131072      Docker.Overhead   133.88
+19  262144      Docker.Overhead   143.06
+20  524288      Docker.Overhead   150.22
+21 1048576      Docker.Overhead   170.62
+22       1 Singularity.Overhead     1.58
+23       2 Singularity.Overhead     4.76
+24       4 Singularity.Overhead    -2.51
+25       8 Singularity.Overhead     2.12
+26      16 Singularity.Overhead     8.67
+27      32 Singularity.Overhead     3.16
+28      64 Singularity.Overhead    -4.26
+29     128 Singularity.Overhead     0.05
+30     256 Singularity.Overhead    -0.38
+31     512 Singularity.Overhead    -1.98
+32    1024 Singularity.Overhead    -0.36
+33    2048 Singularity.Overhead     1.21
+34    4096 Singularity.Overhead     4.49
+35    8192 Singularity.Overhead    -3.51
+36   16384 Singularity.Overhead     0.32
+37   32768 Singularity.Overhead     1.88
+38   65536 Singularity.Overhead    22.48
+39  131072 Singularity.Overhead    -1.86
+40  262144 Singularity.Overhead    -2.67
+41  524288 Singularity.Overhead     0.21
+42 1048576 Singularity.Overhead    -0.10
+#+end_example
+
+#+begin_src R :results output graphics :file img/pingpong-overhead.pdf :exports both :width 4 :height 4 :session
+df.pingpong.overhead %>%
+    mutate(environment = factor(gsub(".Overhead", "", environment),
+                                levels=c("Singularity", "Docker"))) -> df.sel;
+df.sel %>%
+    ggplot(aes(x=size,
+               y=Overhead,
+               color=environment)) +
+    scale_x_log10(breaks=2^seq(0,20)) +
+    colScale +
+    geom_point(size=1) +
+    geom_line(alpha = 0.3) +
+    xlab('Message size (bytes)') + 
+    ylab('Latency Overhead\nagainst Native (%)') +
+    theme_bw(base_size = 13) +
+    theme (plot.margin = unit(c(0,0,0,0), "cm"),
+           legend.spacing = unit(x = c(0, 0, 0, 0), units = 'mm'),
+           legend.position = "top",
+           legend.justification = "left",
+           legend.box.spacing = unit(0, "pt"),
+           legend.box.margin = margin(0,0,0,0),
+           legend.title = element_blank(),
+           axis.text.x = element_text(angle=55, hjust=1))
+#+end_src
+
+#+RESULTS:
+[[file:img/pingpong-overhead.pdf]]
+
+***** Alpine
+****** Read data
+
+#+begin_src R :results output :session :exports both
+files <- list('./results/nas-alpine/results.csv',
+              './results/ondes3d-alpine/results.csv')
+df.alpine <- do.call("bind_rows", lapply(files, function(file) {
+    read_csv(file, col_types=cols(
+                       name = col_integer(),
+                       environment = col_character(),
+                       parallelism = col_integer(),
+                       time = col_integer()
+                   )) %>%
+        mutate(time = time/1000) %>%
+        group_by(environment, parallelism) %>%
+        summarize(
+            samples = n(),
+            average = mean(time),
+            stdDeviation = sd(time),
+            stdError = 3*stdDeviation/sqrt(samples)
+        ) %>%
+        mutate(Origin = file) %>%
+        separate(Origin, into=c("X0", "X1", "TYPE", "X2"), sep="/", remove=FALSE) %>% select(-X0, -X1, -X2) %>%
+        mutate(Application = ifelse(grepl("ondes3d", TYPE), "Ondes3D", "NAS-EP")) %>%
+        mutate(Input = case_when(TYPE == "nas-alpine" ~ "Class B",
+                                 TYPE == "ondes3d-alpine" ~ "Ligurian",
+                                 TRUE ~ "Default")) %>% select(-Origin) %>%
+        mutate(Native = environment == "native") %>%
+        ungroup()
+})) %>%
+    mutate(environment = factor(environment,
+                                levels=c("native", "singularity", "docker"),
+                                labels=c("Native", "Singularity", "Docker")))
+#+end_src
+
+#+RESULTS:
+
+****** (left) Plot
+
+#+begin_src R :results output graphics :file img/alpine.pdf :width 3 :height 4 :session
+df.alpine %>%
+    mutate(Native = factor(Native, levels=c(TRUE, FALSE), labels=c("Native", "Container"))) %>%
+    mutate(Application = paste(Application, Input, sep="/")) %>%
+    filter(Input %in% c("Class B", "Ligurian")) -> df.sel;
+# Breask in X
+breaks <- df.sel %>% pull(parallelism) %>% unique;
+#Create a custom color scale
+library(RColorBrewer)
+colors <- brewer.pal(9,"Greys")
+myColors <- c(colors[7], colors[5], colors[9])
+names(myColors) <- levels(df.sel$environment)
+colScale <- scale_colour_manual(name = "environment",values = myColors)
+
+df.sel %>%
+    ggplot(aes(x = parallelism, y = average, col=environment)) +
+    scale_x_continuous(breaks = breaks, trans="sqrt") +
+    ylim(0, NA) +
+    geom_point(size=1) +
+    geom_line(alpha = 0.2) + 
+    geom_errorbar(aes(ymin = average - stdError, ymax = average + stdError, col = environment), 
+                  width = .35) +
+    colScale +
+    xlab('Number of MPI ranks (count)') + 
+    ylab('Execution time (s)') +
+    theme(legend.position = 'top', legend.spacing = unit(x = c(0, 0, 0, 0), units = 'mm')) +
+    theme_bw(base_size = 13) +
+    theme (plot.margin = unit(c(0,0,0,0), "cm"),
+           legend.spacing = unit(1, "mm"),
+           legend.position = "top",
+           legend.justification = "left",
+           legend.box.spacing = unit(0, "pt"),
+           legend.box.margin = margin(0,0,0,0),
+           legend.title = element_blank()) +
+    facet_grid (Application~Native, scales="free_y")
+#+end_src
+
+#+RESULTS:
+[[file:img/alpine.pdf]]
+
+****** (right) Computation Overhead
+
+#+begin_src R :results output :session :exports both
+df.alpine %>%
+    mutate(Case = paste(Application, Input, sep="/")) %>%
+    select(environment, parallelism, average, Case) %>%
+    spread(environment, average) %>%
+    mutate(
+        Docker.Gain = round((Docker - Native)/Native * 100, 2),
+        Singularity.Gain = round((Singularity - Native)/Native * 100, 2)) %>%
+    arrange(Case, parallelism) %>%
+    select(parallelism, Case, Docker.Gain, Singularity.Gain) %>%
+    gather(environment, Gain, -parallelism, -Case) -> df.alpine.overhead;
+df.alpine.overhead %>%
+    as.data.frame
+#+end_src
+
+#+RESULTS:
+#+begin_example
+   parallelism             Case      environment   Gain
+1            1   NAS-EP/Class B      Docker.Gain  -9.50
+2            4   NAS-EP/Class B      Docker.Gain  -9.63
+3            8   NAS-EP/Class B      Docker.Gain  -6.32
+4           16   NAS-EP/Class B      Docker.Gain  -4.62
+5            1 Ondes3D/Ligurian      Docker.Gain  -3.58
+6            4 Ondes3D/Ligurian      Docker.Gain  11.42
+7            8 Ondes3D/Ligurian      Docker.Gain  78.97
+8           16 Ondes3D/Ligurian      Docker.Gain 137.08
+9            1   NAS-EP/Class B Singularity.Gain  -9.48
+10           4   NAS-EP/Class B Singularity.Gain  -9.56
+11           8   NAS-EP/Class B Singularity.Gain  -7.12
+12          16   NAS-EP/Class B Singularity.Gain  -4.65
+13           1 Ondes3D/Ligurian Singularity.Gain  -3.55
+14           4 Ondes3D/Ligurian Singularity.Gain  -4.12
+15           8 Ondes3D/Ligurian Singularity.Gain  -3.68
+16          16 Ondes3D/Ligurian Singularity.Gain  -3.62
+#+end_example
+
+Let's plot this:
+
+#+begin_src R :results output graphics :file img/alpine-negative-overhead.pdf :exports both :width 3 :height 3.8 :session
+df.alpine.overhead %>%
+    filter(parallelism <= 16) %>%
+    mutate(environment = factor(gsub(".Gain", "", environment),
+                                levels=c("Singularity", "Docker"))) -> df.sel;
+# Breaks in X
+breaks <- df.sel %>% pull(parallelism) %>% unique;
+
+df.sel %>%
+    ggplot(aes(x=parallelism,
+               y=Gain,
+               color=environment)) +
+    scale_x_continuous(breaks = breaks, trans="sqrt") +
+    colScale +
+    geom_point(size=1) +
+    geom_line(alpha = 0.3) +
+    xlab('Number of MPI ranks (count)') + 
+    ylab('Performance against Native (%)') +
+    facet_grid(Case~.) +
+    coord_cartesian(ylim=c(-20,20)) +
+#    ylim(-30,30) +
+    theme_bw(base_size = 13) +
+    theme (plot.margin = unit(c(0,0,0,0), "cm"),
+           legend.spacing = unit(x = c(0, 0, 0, 0), units = 'mm'),
+           legend.position = "top",
+           legend.justification = "left",
+           legend.box.spacing = unit(0, "pt"),
+           legend.box.margin = margin(0,0,0,0),
+           legend.title = element_blank())
+#           axis.text.x = element_text(angle=30, hjust=1))
+#+end_src
+
+#+RESULTS:
+[[file:img/alpine-negative-overhead.pdf]]
+
 ** Conclusion
 :PROPERTIES:
 :CUSTOM_ID: sec.conclusion
