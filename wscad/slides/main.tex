@@ -183,29 +183,27 @@ Instituto de Informática\\ Universidade Federal do Rio Grande do Sul \\\medskip
 \frame{\tableofcontents[currentsection,hideothersubsections]}
 
 \frame{\frametitle{Testbed}
+  Grid5000's Graphene clusters (hardware)
+  \begin{itemize}
+  \item Intel Xeon X3340, 4 cores @ 2.53GHz
+  \item 16GB DDR3 RAM
+  \item Gigabit Ethernet interconnect
+  \end{itemize}
+  \pause
+  \vfill
+  Debian 9 (\textit{stretch}) Linux (software)
+  \begin{itemize}
+  \item Containers running on top of the native environment
+  \item Docker containers connected through Docker Swarm \textit{overlay}
     \begin{itemize}
-        \item Grid5000's Graphene clusters
-        \begin{itemize}
-            \item Intel Xeon X3340, 4 cores @ 2.53GHz
-            \item 16GB DDR3 RAM
-            \item Gigabit Ethernet interconnect
-        \end{itemize}
-        \pause
-        \vspace*{0.5cm}
-        \item Debian 9 (\textit{stretch}) Linux
-        \begin{itemize}
-            \item Containers running on top of the native environment
-            \item Docker containers connected through Docker Swarm \textit{overlay}
-            \begin{itemize}
-                \item Necessary because of \textbf{PID} and \textbf{network} virtualization
-                \item Allows addressing MPI processes
-            \end{itemize}
-        \end{itemize}
+    \item Necessary because of \textbf{PID} and \textbf{network} virtualization
+    \item Allows addressing MPI processes
     \end{itemize}
+  \end{itemize}
 }
 
-\frame{\frametitle{Workload}
-    NAS Parallel Benchmarks
+\frame{\frametitle{Three Workloads}
+    1. NAS Parallel Benchmarks
     \begin{itemize}
         \item Synthetic workload for baseline purposes
         \item EP (\textit{embarrassingly parallel}) Kernel
@@ -217,19 +215,20 @@ Instituto de Informática\\ Universidade Federal do Rio Grande do Sul \\\medskip
     \end{itemize}
     \pause
     \vspace*{0.2cm}
-    Ondes3D
+    2. Ondes3D geophysics simulator (French BRGM)
     \begin{itemize}
-        \item Seismic waves propagation simulation
-        \item Load imbalance, frequent communication
+        \item Seismic waves propagation simulation in heterogeneous media
+        \item Spatial and temporal load imbalance, frequent communication
         \begin{itemize}
-            \item Workload: default test case + Ligurian
+            \item Two inputs: simplified Chuetsu-Oki (test case) + Ligurian
         \end{itemize}
     \end{itemize}
     \vspace*{0.2cm}
     \pause
-    Ping-Pong benchmark
+    3. Ad-hoc Ping-Pong benchmark
     \begin{itemize}
-        \item Network latency
+    \item Mostly focused on network latency \\
+      $\to$ to verify how it would affect small messages
     \end{itemize}
 }
 
