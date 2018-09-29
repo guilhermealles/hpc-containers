@@ -1760,7 +1760,7 @@ df.sel %>%
     xlab('Number of MPI ranks (count)') + 
     ylab('Execution time (s)') +
     theme(legend.position = 'top', legend.spacing = unit(x = c(0, 0, 0, 0), units = 'mm')) +
-    theme_bw(base_size = 13) +
+    theme_bw(base_size = 16) +
     theme (plot.margin = unit(c(0,0,0,0), "cm"),
            legend.spacing = unit(1, "mm"),
            legend.position = "top",
@@ -1845,7 +1845,7 @@ df.sel %>%
     ylab('Makespan Overhead (%)') +
     facet_grid(Case~Facet) +
     ylim(0,60) +
-    theme_bw(base_size = 13) +
+    theme_bw(base_size = 16) +
     theme (plot.margin = unit(c(0,0,0,0), "cm"),
            legend.spacing = unit(x = c(0, 0, 0, 0), units = 'mm'),
            legend.position = "top",
