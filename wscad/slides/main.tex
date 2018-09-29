@@ -112,19 +112,24 @@ Instituto de Informática\\ Universidade Federal do Rio Grande do Sul \\\medskip
 
 \section{Linux Containers}
 \frame{\frametitle{Linux Containers}
-    \begin{itemize}
-        \item Operating System level virtualization
-        \pause
-        \item \textbf{Resource control} and \textbf{isolation} build into the Linux Kernel
-        \begin{itemize}
-            \item \textbf{Cgroups} API
-            \item \textbf{Namespaces} API
-        \end{itemize}
-    \end{itemize}
-    \vspace*{0.2cm}
-    \centering
-    \includegraphics[width=.3\textwidth]{conteineres.png}\\
-    \footnotesize(translate this figure, probably enhance it)
+  \vspace*{0.2cm}
+  \centering
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      OS level virtualization
+
+      \bigskip
+      
+      Build into the Linux Kernel
+      \begin{itemize}
+      \item \textbf{Resource control} (cgroups)
+      \item \textbf{Isolation} (namespaces)
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \includegraphics[width=\linewidth]{conteineres.png}
+    \end{column}
+  \end{columns}
 }
 
 \frame{\frametitle{Docker}
