@@ -1751,11 +1751,12 @@ colScale <- scale_colour_manual(name = "environment",values = myColors)
 df.sel %>%
     filter(grepl("NAS", Application)) %>%
     ggplot(aes(x = parallelism, y = average, col=environment)) +
+    scale_x_continuous(breaks = breaks, trans="sqrt") +
     ylim(0, NA) +
     geom_point(size=1) +
     geom_line(alpha = 0.2) + 
     geom_errorbar(aes(ymin = average - stdError, ymax = average + stdError, col = environment), 
-                  width = 1.5) +
+                  width = .3) +
     colScale +
     xlab('Number of MPI ranks (count)') + 
     ylab('Execution time (s)') +
