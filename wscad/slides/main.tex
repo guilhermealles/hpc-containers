@@ -136,21 +136,24 @@ Instituto de Informática\\ Universidade Federal do Rio Grande do Sul \\\medskip
     \vspace*{-0.7cm}
     \begin{figure}
         \centering
-        \includegraphics[width=.3\textwidth]{docker-logo.png}
+        \includegraphics[width=.5\textwidth]{docker-logo.png}
     \end{figure}
     \vspace*{-0.2cm}
     \begin{itemize}
-        \item Widely used in the industry
-        \begin{itemize}
-            \item Microservices virtualization
-        \end{itemize}
-        \item Standard in cloud infrastructure providers such as AWS, GCP and Azure
-        \pause
-        \item Enforces the virtualization of every namespace provided by the Linux Kernel
-        \begin{itemize}
-            \item \textbf{User}, file system, \textbf{network}, IPC, PID
-            \item Implications on the use case (elaborate on that)
-        \end{itemize}
+    \item Widely used in the industry (for microservices virtualization)
+    \item Standard in cloud IaaS providers such as AWS, GCP and Azure
+      \pause\vfill
+    \item Enforces virtualization for all six Linux Kernel namespace
+      \begin{itemize}
+      \item \emph{mount} (filesystem tree and mounts)
+      \item \emph{PID} (process IDs)
+      \item \emph{UTS} (host name and domain name)
+      \item \emph{\bf network} (devices, ports, routing tables, firewall)
+      \item \emph{IPC} (inter-process communication resources)
+      \item \emph{\bf user} (unpriviliged, added in Linux 3.8)
+      \end{itemize}
+      \pause
+    \item Implications on the use case (elaborate on that)
     \end{itemize}
 }
 
