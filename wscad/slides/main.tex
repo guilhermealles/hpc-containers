@@ -285,12 +285,17 @@ Only with Singularity due to Docker swarm communication overhead
   \end{itemize}
 }
 
-\frame{\frametitle{Results -- Ping Pong}
-    \begin{figure}
-        \centering
-        \vspace*{-0.2cm}
-        \includegraphics[width=0.65\textwidth]{network-latency-raw.png}
-    \end{figure}
+\frame{\frametitle{Results -- Ping Pong (measuring network latency)}
+  \includegraphics[width=\linewidth]{../paper/img/v2-network-latency-raw.pdf}
+
+  \vfill\pause
+  
+  \begin{itemize}
+  \item Docker network latency is much higher \\
+    $\to$ As previous experiments have shown
+  \item\pause Singularity containers use the native network stack \\
+    $\to$ Non-observable performance differences
+  \end{itemize}
 }
 
 \frame{\frametitle{Results -- Alpine Linux}
