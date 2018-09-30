@@ -268,17 +268,20 @@ Instituto de Informática\\ Universidade Federal do Rio Grande do Sul \\\medskip
   \end{itemize}
 }
 
-\frame{\frametitle{Results -- Ondes3D Ligurian}
-    \includegraphics[width=.49\linewidth]{../paper/img/v2-ondes3d-ligurian-raw.pdf}\hfill%
-    \only<2->{\includegraphics[width=.49\linewidth]{../paper/img/v2-ondes3d-ligurian-overhead.pdf}}
+\frame{\frametitle{Results -- Ondes3D with Ligurian (large)}
 
-    
+Only with Singularity due to Docker swarm communication overhead
+  
+    \includegraphics[width=.49\linewidth]{../paper/img/v2-ondes3d-ligurian-raw.pdf}\hfill\pause%
+    \only<3->{\includegraphics[width=.49\linewidth]{../paper/img/v2-ondes3d-ligurian-overhead.pdf}}
+
   Observations
 
   \begin{itemize}
-  \item 
-  \item<2-> 
-  \item<3-> 
+  \item No observable difference in execution time
+  \item<3-> Minor overhead of less than $\approx$1\% in all cases \\
+    $\to$ Container initialization time gets absorbed
+  \item<4-> Overhead is smaller with 256 ranks     $\to$ Smaller returns on speedup
   \end{itemize}
 }
 
