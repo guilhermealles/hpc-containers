@@ -236,8 +236,8 @@ Instituto de Informática\\ Universidade Federal do Rio Grande do Sul \\\medskip
 \frame{\tableofcontents[currentsection,hideothersubsections]}
 
 \frame{\frametitle{Results -- NAS EP (Class B)}
-  \includegraphics[width=.49\linewidth]{../paper/img/v2-nas-ep-raw.pdf}\hfill%
-  \only<2->{\includegraphics[width=.49\linewidth]{../paper/img/v2-nas-ep-overhead.pdf}}
+  \includegraphics[width=.49\linewidth]{../paper/img/v2-nas-ep-raw.pdf}\hfill\pause%
+  \only<3->{\includegraphics[width=.49\linewidth]{../paper/img/v2-nas-ep-overhead.pdf}}
 
   \vfill
 
@@ -245,9 +245,9 @@ Instituto de Informática\\ Universidade Federal do Rio Grande do Sul \\\medskip
 
   \begin{itemize}
   \item Singularity and Docker are very similar to each other
-  \item<2-> Overhead with 16 MPI ranks: Singularity ($\approx$9\%),
+  \item<3-> Overhead with 16 MPI ranks: Singularity ($\approx$9\%),
     Docker ($\approx$8\%) \\
-  \item<3-> Overhead increases with the number of MPI ranks
+  \item<4-> Overhead increases with the number of MPI ranks
   \end{itemize}
 }
 
