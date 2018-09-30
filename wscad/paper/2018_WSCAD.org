@@ -1903,8 +1903,7 @@ df.sel %>%
 
 #+RESULTS:
 [[file:img/v2-ondes3d-default-raw.pdf]]
-
-****** NAS-EP/ClassB (right) - computation overhead
+****** Ondes3D/Default (right) - computation overhead
 ******* Data manipulation
 #+begin_src R :results output :session :exports both
 df.makespan %>%
