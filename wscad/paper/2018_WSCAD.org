@@ -1989,132 +1989,10 @@ df.sel %>%
 #+RESULTS:
 [[file:img/v2-ondes3d-default-overhead.pdf]]
 
-****** (left) Plot computation of NAS-EP/ClassB and Ondes3D/Default
-
-#+begin_src R :results output graphics :file img/computation.pdf :width 3 :height 4 :session
-df.makespan %>%
-    mutate(Native = factor(Native, levels=c(TRUE, FALSE), labels=c("Native", "Container"))) %>%
-    mutate(Application = paste(Application, Input, sep="/")) %>%
-    filter(Input %in% c("Class B", "Default")) -> df.sel;
-# Breask in X
-breaks <- df.sel %>% pull(parallelism) %>% unique;
-#Create a custom color scale
-library(RColorBrewer)
-colors <- brewer.pal(9,"Greys")
-myColors <- c(colors[7], colors[5], colors[9])
-names(myColors) <- levels(df.sel$environment)
-colScale <- scale_colour_manual(name = "environment",values = myColors)
-
-df.sel %>%
-    ggplot(aes(x = parallelism, y = average, col=environment)) +
-#    scale_x_continuous(breaks = breaks, trans="sqrt") +
-    ylim(0, NA) +
-    geom_point(size=1) +
-    geom_line(alpha = 0.2) + 
-    geom_errorbar(aes(ymin = average - stdError, ymax = average + stdError, col = environment), 
-                  width = .15) +
-    colScale +
-    xlab('Number of MPI ranks (count)') + 
-    ylab('Execution time (s)') +
-    theme(legend.position = 'top', legend.spacing = unit(x = c(0, 0, 0, 0), units = 'mm')) +
-    theme_bw(base_size = 13) +
-    theme (plot.margin = unit(c(0,0,0,0), "cm"),
-           legend.spacing = unit(1, "mm"),
-           legend.position = "top",
-           legend.justification = "left",
-           legend.box.spacing = unit(0, "pt"),
-           legend.box.margin = margin(0,0,0,0),
-           legend.title = element_blank()) +
-    facet_grid (Application~Native, scales="free_y")
-#+end_src
-
-#+RESULTS:
-[[file:img/computation.pdf]]
-****** (right) Computation Overhead
-
-#+begin_src R :results output :session :exports both
-df.makespan %>%
-    mutate(Case = paste(Application, Input, sep="/")) %>%
-    select(environment, parallelism, average, Case) %>%
-    spread(environment, average) %>%
-    mutate(
-        Docker.Overhead = round((Docker - Native)/Native * 100, 2),
-        Singularity.Overhead = round((Singularity - Native)/Native * 100, 2)) %>%
-    arrange(Case, parallelism) %>%
-    select(parallelism, Case, Docker.Overhead, Singularity.Overhead) %>%
-    gather(environment, Overhead, -parallelism, -Case) -> df.makespan.overhead;
-df.makespan.overhead %>%
-    as.data.frame
-#+end_src
-
-#+RESULTS:
-#+begin_example
-   parallelism             Case          environment Overhead
-1            1   NAS-EP/Class B      Docker.Overhead     0.05
-2            4   NAS-EP/Class B      Docker.Overhead     0.31
-3            8   NAS-EP/Class B      Docker.Overhead     1.05
-4           16   NAS-EP/Class B      Docker.Overhead     7.93
-5            1  Ondes3D/Default      Docker.Overhead     0.69
-6            4  Ondes3D/Default      Docker.Overhead     1.32
-7            8  Ondes3D/Default      Docker.Overhead    33.55
-8           16  Ondes3D/Default      Docker.Overhead    53.42
-9           64 Ondes3D/Ligurian      Docker.Overhead       NA
-10         128 Ondes3D/Ligurian      Docker.Overhead       NA
-11         192 Ondes3D/Ligurian      Docker.Overhead       NA
-12         256 Ondes3D/Ligurian      Docker.Overhead       NA
-13           1   NAS-EP/Class B Singularity.Overhead     0.20
-14           4   NAS-EP/Class B Singularity.Overhead     0.59
-15           8   NAS-EP/Class B Singularity.Overhead     2.17
-16          16   NAS-EP/Class B Singularity.Overhead     9.35
-17           1  Ondes3D/Default Singularity.Overhead     0.55
-18           4  Ondes3D/Default Singularity.Overhead     1.85
-19           8  Ondes3D/Default Singularity.Overhead     3.75
-20          16  Ondes3D/Default Singularity.Overhead     6.52
-21          64 Ondes3D/Ligurian Singularity.Overhead     0.07
-22         128 Ondes3D/Ligurian Singularity.Overhead     0.37
-23         192 Ondes3D/Ligurian Singularity.Overhead     0.62
-24         256 Ondes3D/Ligurian Singularity.Overhead     0.41
-#+end_example
-
-Let's plot this:
-
-#+begin_src R :results output graphics :file img/computation-overhead-small.pdf :exports both :width 3 :height 3.8 :session
-df.makespan.overhead %>%
-    filter(parallelism <= 16) %>%
-    mutate(environment = factor(gsub(".Overhead", "", environment),
-                                levels=c("Singularity", "Docker"))) -> df.sel;
-# Breaks in X
-breaks <- df.sel %>% pull(parallelism) %>% unique;
-
-df.sel %>%
-    ggplot(aes(x=parallelism,
-               y=Overhead,
-               color=environment)) +
-    scale_x_continuous(breaks = breaks, trans="sqrt") +
-    colScale +
-    geom_point(size=1) +
-    geom_line(alpha = 0.3) +
-    xlab('Number of MPI ranks (count)') + 
-    ylab('Overhead of Execution \nTime against Native (%)') +
-    facet_grid(Case~.) +
-    ylim(0,60) +
-    theme_bw(base_size = 13) +
-    theme (plot.margin = unit(c(0,0,0,0), "cm"),
-           legend.spacing = unit(x = c(0, 0, 0, 0), units = 'mm'),
-           legend.position = "top",
-           legend.justification = "left",
-           legend.box.spacing = unit(0, "pt"),
-           legend.box.margin = margin(0,0,0,0),
-           legend.title = element_blank())
-#           axis.text.x = element_text(angle=30, hjust=1))
-#+end_src
-
-#+RESULTS:
-[[file:img/computation-overhead-small.pdf]]
 ***** Larger case (Ligurian)
-****** (left) Plot computation of the Ondes3D/Ligurian
+****** Ondes3D/Ligurian (left) - compute
 
-#+begin_src R :results output graphics :file img/computation-ligurian.pdf :width 3 :height 3 :session
+#+begin_src R :results output graphics :file img/v2-ondes3d-ligurian-raw.pdf :width 4 :height 3 :session
 df.makespan %>%
     mutate(Native = factor(Native, levels=c(TRUE, FALSE), labels=c("Native", "Container"))) %>%
     mutate(Application = paste(Application, Input, sep="/")) %>%
@@ -2123,8 +2001,8 @@ df.makespan %>%
 breaks <- df.sel %>% pull(parallelism) %>% unique;
 #Create a custom color scale
 library(RColorBrewer)
-colors <- brewer.pal(9,"Greys")
-myColors <- c(colors[7], colors[5], colors[9])
+colors <- brewer.pal(9,"Set1")
+myColors <- c(colors[1], colors[3], colors[2])
 names(myColors) <- levels(df.sel$environment)
 colScale <- scale_colour_manual(name = "environment",values = myColors)
 
@@ -2139,7 +2017,7 @@ df.sel %>%
     colScale +
     xlab('Number of MPI ranks (count)') + 
     ylab('Execution time (s)') +
-    theme_bw(base_size = 13) +
+    theme_bw(base_size = 16) +
     theme (plot.margin = unit(c(0,0,0,0), "cm"),
            legend.spacing = unit(x = c(0, 0, 0, 0), units = 'mm'),
            legend.position = "top",
@@ -2152,25 +2030,11 @@ df.sel %>%
 #+end_src
 
 #+RESULTS:
-[[file:img/computation-ligurian.pdf]]
+[[file:img/v2-ondes3d-ligurian-raw.pdf]]
 
-****** (right) Computation Overhead of Ondes3D/Ligurian
+****** Ondes3D/Ligurian (right) - computation overhead
 
-#+begin_src R :results output :session :exports both
-df.makespan.overhead %>%
-    filter(Case == "Ondes3D/Ligurian") %>%
-    na.omit() %>%
-    as.data.frame
-#+end_src
-
-#+RESULTS:
-:   parallelism             Case          environment Overhead
-: 1          64 Ondes3D/Ligurian Singularity.Overhead     0.07
-: 2         128 Ondes3D/Ligurian Singularity.Overhead     0.37
-: 3         192 Ondes3D/Ligurian Singularity.Overhead     0.62
-: 4         256 Ondes3D/Ligurian Singularity.Overhead     0.41
-
-#+begin_src R :results output graphics :file img/computation-overhead-large.pdf :exports both :width 3 :height 2.5 :session
+#+begin_src R :results output graphics :file img/v2-ondes3d-ligurian-overhead.pdf :exports both :width 4 :height 3 :session
 df.makespan.overhead %>%
     filter(Case == "Ondes3D/Ligurian") %>%
     mutate(environment = factor(gsub(".Overhead", "", environment),
@@ -2180,6 +2044,7 @@ df.makespan.overhead %>%
 breaks <- df.sel %>% pull(parallelism) %>% unique;
 
 df.sel %>%
+    mutate(Facet = "Container / Native") %>%
     ggplot(aes(x=parallelism,
                y=Overhead,
                color=environment)) +
@@ -2188,10 +2053,10 @@ df.sel %>%
     geom_point(size=1) +
     geom_line(alpha = 0.3) +
     xlab('Number of MPI ranks (count)') + 
-    ylab('Overhead of Execution \nTime against Native (%)') +
-    facet_grid(Case~.) +
+    ylab('Makespan Overhead (%)') +
+    facet_grid(Case~Facet) +
     ylim(0,10) +
-    theme_bw(base_size = 13) +
+    theme_bw(base_size = 16) +
     theme (plot.margin = unit(c(0,0,0,0), "cm"),
            legend.spacing = unit(x = c(0, 0, 0, 0), units = 'mm'),
            legend.position = "top",
@@ -2203,7 +2068,7 @@ df.sel %>%
 #+end_src
 
 #+RESULTS:
-[[file:img/computation-overhead-large.pdf]]
+[[file:img/v2-ondes3d-ligurian-overhead.pdf]]
 
 ***** Average Latency
 ****** Read data
