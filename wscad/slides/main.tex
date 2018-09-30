@@ -318,30 +318,30 @@ Only with Singularity due to Docker swarm communication overhead
         \pause
         \item Computational overhead is negligible in most use cases
         \pause
-        \item Communication overhead is significant, especially in the Docker environment
+        \item Communication overhead is significant, especially with Docker
         \begin{itemize}
             \item Virtualization of the \textbf{network} namespace impacts MPI workloads
         \end{itemize}
         \pause
-        \item Performance gains are attainable by \textbf{fine tuning} the execution environment
+        \item Performance gains are attainable by \textbf{fine tuning} the environment
     \end{itemize}
 }
 
 \frame{\frametitle{Future Work}
+  Further investigate Docker Swarm scalability
     \begin{itemize}
-        \item Further investigate Docker Swarm scalability
-        \begin{itemize}
-            \item Increased latency
-            \item Failure to spawn a larger number of containers
-        \end{itemize}
-        \pause
-        \vspace*{0.3cm}
-        \item Explore container compatibility with other devices
-        \begin{itemize}
-            \item GPU
-            \item InfiniBand
-        \end{itemize}
+    \item Increased latency
+    \item Failure to spawn a larger number of containers
     \end{itemize}
+    \pause\vfill    
+  Explore container compatibility with other devices
+    \begin{itemize}
+    \item GPU
+    \item InfiniBand
+    \end{itemize}
+    \pause\vfill    
+ Evaluate CharlieCloud: follows the UNIX philosophy \\
+    \includegraphics[width=.25\textwidth]{charliecloud.png}%        
 }
 
 \end{document}
