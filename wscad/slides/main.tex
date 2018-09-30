@@ -251,19 +251,21 @@ Instituto de Informática\\ Universidade Federal do Rio Grande do Sul \\\medskip
   \end{itemize}
 }
 
-\frame{\frametitle{Results -- Ondes3D Default}
-    \begin{figure}
-        \centering
-        \begin{subfigure}{.45\textwidth}
-            \hspace*{-1.2cm}
-            \includegraphics[width=1.2\textwidth]{ondes3d-default-raw.png}
-        \end{subfigure}
-        \pause
-        \begin{subfigure}{.45\textwidth}
-        \hspace*{0.2cm}
-            \includegraphics[width=1.2\textwidth]{ondes3d-default-overhead.png}
-        \end{subfigure}
-    \end{figure}
+\frame{\frametitle{Results -- Ondes3D with simplified Chuetsu-Oki (small)}
+  \includegraphics[width=.49\linewidth]{../paper/img/v2-ondes3d-default-raw.pdf}\hfill%
+  \only<2->{\includegraphics[width=.49\linewidth]{../paper/img/v2-ondes3d-default-overhead.pdf}}
+
+
+  Observations
+
+  \begin{itemize}
+  \item Docker performance degrades when going up to 8 and 16 ranks
+  \item<2-> Overhead of $\approx$33\% for 8 MPI ranks and
+    $\approx$53\% for 16 \\
+    More physical nodes $\to$ increase Docker swarm overhead
+  \item<3-> Singularity has some overhead ($\approx$6\% for 16 ranks)  \\
+    $\to$ For same reasons of compute-bound NAS EP (previous slide)
+  \end{itemize}
 }
 
 \frame{\frametitle{Results -- Ondes3D Ligurian}
