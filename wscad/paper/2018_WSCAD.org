@@ -2237,7 +2237,7 @@ df.alpine <- do.call("bind_rows", lapply(files, function(file) {
 
 ****** (left) Plot
 
-#+begin_src R :results output graphics :file img/alpine.pdf :width 3 :height 4 :session
+#+begin_src R :results output graphics :file img/v2-alpine-nas-ondes3d-raw.pdf :width 4 :height 3.8 :session
 df.alpine %>%
     mutate(Native = factor(Native, levels=c(TRUE, FALSE), labels=c("Native", "Container"))) %>%
     mutate(Application = paste(Application, Input, sep="/")) %>%
@@ -2246,8 +2246,8 @@ df.alpine %>%
 breaks <- df.sel %>% pull(parallelism) %>% unique;
 #Create a custom color scale
 library(RColorBrewer)
-colors <- brewer.pal(9,"Greys")
-myColors <- c(colors[7], colors[5], colors[9])
+colors <- brewer.pal(9,"Set1")
+myColors <- c(colors[1], colors[3], colors[2])
 names(myColors) <- levels(df.sel$environment)
 colScale <- scale_colour_manual(name = "environment",values = myColors)
 
@@ -2275,10 +2275,10 @@ df.sel %>%
 #+end_src
 
 #+RESULTS:
-[[file:img/alpine.pdf]]
+[[file:img/v2-alpine-nas-ondes3d-raw.pdf]]
 
 ****** (right) Computation Overhead
-
+******* Data manipulation
 #+begin_src R :results output :session :exports both
 df.alpine %>%
     mutate(Case = paste(Application, Input, sep="/")) %>%
@@ -2315,9 +2315,11 @@ df.alpine.overhead %>%
 16          16 Ondes3D/Ligurian Singularity.Gain  -3.62
 #+end_example
 
+******* Plot
+
 Let's plot this:
 
-#+begin_src R :results output graphics :file img/alpine-negative-overhead.pdf :exports both :width 3 :height 3.8 :session
+#+begin_src R :results output graphics :file img/v2-alpine-nas-ondes3d-overhead.pdf :width 3 :height 3.8 :session
 df.alpine.overhead %>%
     filter(parallelism <= 16) %>%
     mutate(environment = factor(gsub(".Gain", "", environment),
@@ -2326,6 +2328,7 @@ df.alpine.overhead %>%
 breaks <- df.sel %>% pull(parallelism) %>% unique;
 
 df.sel %>%
+    mutate(Facet = "Container / Native") %>%
     ggplot(aes(x=parallelism,
                y=Gain,
                color=environment)) +
@@ -2335,7 +2338,7 @@ df.sel %>%
     geom_line(alpha = 0.3) +
     xlab('Number of MPI ranks (count)') + 
     ylab('Performance against Native (%)') +
-    facet_grid(Case~.) +
+    facet_grid(Case~Facet) +
     coord_cartesian(ylim=c(-20,20)) +
 #    ylim(-30,30) +
     theme_bw(base_size = 13) +
@@ -2350,7 +2353,7 @@ df.sel %>%
 #+end_src
 
 #+RESULTS:
-[[file:img/alpine-negative-overhead.pdf]]
+[[file:img/v2-alpine-nas-ondes3d-overhead.pdf]]
 
 ** Conclusion
 :PROPERTIES:
