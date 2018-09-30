@@ -298,9 +298,15 @@ Only with Singularity due to Docker swarm communication overhead
   \end{itemize}
 }
 
-\frame{\frametitle{Results -- Alpine Linux}
-  \includegraphics[width=.49\linewidth]{alpine-nas-ondes3d-raw.png}\pause%
-  \includegraphics[width=.49\linewidth]{alpine-nas-ondes3d-overhead.png}
+\frame{\frametitle{Results -- Optimized Container based on Alpine Linux}
+  \includegraphics[width=.53\linewidth]{../paper/img/v2-alpine-nas-ondes3d-raw.pdf}\hfill\pause%
+  \includegraphics[width=.39\linewidth]{../paper/img/v2-alpine-nas-ondes3d-overhead.pdf}
+
+  Observations
+  \begin{itemize}
+  \item Virtualized execution to outperform the native one
+  \item Singularity/Alpine is $\approx$5\% on the Ondes3D/Ligurian case 
+  \end{itemize}
 }
 
 \section{Conclusions and Future Work}
