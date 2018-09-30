@@ -2202,6 +2202,7 @@ df.pingpong %>%
 ****** Read data
 
 #+begin_src R :results output :session :exports both
+suppressMessages(library(tidyverse))
 files <- list('./results/nas-alpine/results.csv',
               './results/ondes3d-alpine/results.csv')
 df.alpine <- do.call("bind_rows", lapply(files, function(file) {
@@ -2223,7 +2224,7 @@ df.alpine <- do.call("bind_rows", lapply(files, function(file) {
         separate(Origin, into=c("X0", "X1", "TYPE", "X2"), sep="/", remove=FALSE) %>% select(-X0, -X1, -X2) %>%
         mutate(Application = ifelse(grepl("ondes3d", TYPE), "Ondes3D", "NAS-EP")) %>%
         mutate(Input = case_when(TYPE == "nas-alpine" ~ "Class B",
-                                 TYPE == "ondes3d-alpine" ~ "Ligurian",
+                                 TYPE == "ondes3d-alpine" ~ "Default",
                                  TRUE ~ "Default")) %>% select(-Origin) %>%
         mutate(Native = environment == "native") %>%
         ungroup()
@@ -2241,7 +2242,7 @@ df.alpine <- do.call("bind_rows", lapply(files, function(file) {
 df.alpine %>%
     mutate(Native = factor(Native, levels=c(TRUE, FALSE), labels=c("Native", "Container"))) %>%
     mutate(Application = paste(Application, Input, sep="/")) %>%
-    filter(Input %in% c("Class B", "Ligurian")) -> df.sel;
+    filter(Input %in% c("Class B", "Default")) -> df.sel;
 # Breask in X
 breaks <- df.sel %>% pull(parallelism) %>% unique;
 #Create a custom color scale
@@ -2296,23 +2297,23 @@ df.alpine.overhead %>%
 
 #+RESULTS:
 #+begin_example
-   parallelism             Case      environment   Gain
-1            1   NAS-EP/Class B      Docker.Gain  -9.50
-2            4   NAS-EP/Class B      Docker.Gain  -9.63
-3            8   NAS-EP/Class B      Docker.Gain  -6.32
-4           16   NAS-EP/Class B      Docker.Gain  -4.62
-5            1 Ondes3D/Ligurian      Docker.Gain  -3.58
-6            4 Ondes3D/Ligurian      Docker.Gain  11.42
-7            8 Ondes3D/Ligurian      Docker.Gain  78.97
-8           16 Ondes3D/Ligurian      Docker.Gain 137.08
-9            1   NAS-EP/Class B Singularity.Gain  -9.48
-10           4   NAS-EP/Class B Singularity.Gain  -9.56
-11           8   NAS-EP/Class B Singularity.Gain  -7.12
-12          16   NAS-EP/Class B Singularity.Gain  -4.65
-13           1 Ondes3D/Ligurian Singularity.Gain  -3.55
-14           4 Ondes3D/Ligurian Singularity.Gain  -4.12
-15           8 Ondes3D/Ligurian Singularity.Gain  -3.68
-16          16 Ondes3D/Ligurian Singularity.Gain  -3.62
+   parallelism            Case      environment   Gain
+1            1  NAS-EP/Class B      Docker.Gain  -9.50
+2            4  NAS-EP/Class B      Docker.Gain  -9.63
+3            8  NAS-EP/Class B      Docker.Gain  -6.32
+4           16  NAS-EP/Class B      Docker.Gain  -4.62
+5            1 Ondes3D/Default      Docker.Gain  -3.58
+6            4 Ondes3D/Default      Docker.Gain  11.42
+7            8 Ondes3D/Default      Docker.Gain  78.97
+8           16 Ondes3D/Default      Docker.Gain 137.08
+9            1  NAS-EP/Class B Singularity.Gain  -9.48
+10           4  NAS-EP/Class B Singularity.Gain  -9.56
+11           8  NAS-EP/Class B Singularity.Gain  -7.12
+12          16  NAS-EP/Class B Singularity.Gain  -4.65
+13           1 Ondes3D/Default Singularity.Gain  -3.55
+14           4 Ondes3D/Default Singularity.Gain  -4.12
+15           8 Ondes3D/Default Singularity.Gain  -3.68
+16          16 Ondes3D/Default Singularity.Gain  -3.62
 #+end_example
 
 ******* Plot
