@@ -1,0 +1,126 @@
+\begin{thebibliography}{}
+
+\bibitem[Aochi et~al. 2011]{aochi2011ligurian}
+Aochi, H., Ducellier, A., Dupros, F., Terrier, M., and Lambert, J. (2011).
+\newblock Investigation of historical earthquake by seismic wave propagation
+  simulation: Source parameters of the 1887 m6. 3 ligurian, north-western
+  italy, earthquake.
+\newblock In {L'Association Française du Génie Parasismique (AFPS)}, editor,
+  {\em 8{\`e}me colloque AFPS, Vers une maitrise durable du risque sismique}.
+
+\bibitem[Bailey et~al. 1991]{bailey1991parallel}
+Bailey, D.~H., Barszcz, E., Barton, J.~T., Browning, D.~S., Carter, R.~L.,
+  Dagum, L., Fatoohi, R.~A., Frederickson, P.~O., Lasinski, T.~A., Schreiber,
+  R.~S., et~al. (1991).
+\newblock The nas parallel benchmarks.
+\newblock {\em The International Journal of Supercomputing Applications},
+  5(3):63--73.
+
+\bibitem[Balouek et~al. 2013]{grid5000}
+Balouek, D., Carpen~Amarie, A., Charrier, G., Desprez, F., Jeannot, E.,
+  Jeanvoine, E., L{\`e}bre, A., Margery, D., Niclausse, N., Nussbaum, L.,
+  Richard, O., P{\'e}rez, C., Quesnel, F., Rohr, C., and Sarzyniec, L. (2013).
+\newblock Adding virtualization capabilities to the {Grid'5000} testbed.
+\newblock In Ivanov, I.~I., van Sinderen, M., Leymann, F., and Shan, T.,
+  editors, {\em Cloud Computing and Services Science}, volume 367 of {\em
+  Communications in Computer and Information Science}, pages 3--20. Springer
+  International Publishing.
+
+\bibitem[Beserra et~al. 2015]{7185212}
+Beserra, D., Moreno, E.~D., Endo, P.~T., Barreto, J., Sadok, D., and Fernandes,
+  S. (2015).
+\newblock Performance analysis of lxc for hpc environments.
+\newblock In {\em 2015 Ninth International Conference on Complex, Intelligent,
+  and Software Intensive Systems}, pages 358--363.
+
+\bibitem[Chung et~al. 2016]{7562612}
+Chung, M.~T., Quang-Hung, N., Nguyen, M.~T., and Thoai, N. (2016).
+\newblock Using docker in high performance computing applications.
+\newblock In {\em 2016 IEEE Sixth International Conference on Communications
+  and Electronics (ICCE)}, pages 52--57.
+
+\bibitem[Dupros et~al. 2010]{dupros:10}
+Dupros, F., Martin, F.~D., Foerster, E., Komatitsch, D., and Roman, J. (2010).
+\newblock High-performance finite-element simulations of seismic wave
+  propagation in three-dimensional nonlinear inelastic geological media.
+\newblock {\em Par. Comput}, 36(5):308 -- 325.
+
+\bibitem[Felter et~al. 2015]{7095802}
+Felter, W., Ferreira, A., Rajamony, R., and Rubio, J. (2015).
+\newblock An updated performance comparison of virtual machines and linux
+  containers.
+\newblock In {\em 2015 IEEE International Symposium on Performance Analysis of
+  Systems and Software (ISPASS)}, pages 171--172.
+
+\bibitem[Higgins et~al. 2015]{10.1007/978-3-319-20119-1_36}
+Higgins, J., Holmes, V., and Venters, C. (2015).
+\newblock Orchestrating docker containers in the hpc environment.
+\newblock In Kunkel, J.~M. and Ludwig, T., editors, {\em High Performance
+  Computing}, pages 506--513, Cham. Springer International Publishing.
+
+\bibitem[Jain 1991]{jain1991art}
+Jain, R. (1991).
+\newblock {\em The art of computer systems performance analysis - techniques
+  for experimental design, measurement, simulation, and modeling.}
+\newblock Wiley professional computing. Wiley.
+
+\bibitem[Jeanvoine et~al. 2013]{jeanvoine2013kadeploy3}
+Jeanvoine, E., Sarzyniec, L., and Nussbaum, L. (2013).
+\newblock Kadeploy3: Efficient and scalable operating system provisioning for
+  clusters.
+\newblock {\em USENIX; login:}, 38(1):38--44.
+
+\bibitem[Kurtzer et~al. 2017]{10.1371/journal.pone.0177459}
+Kurtzer, G.~M., Sochat, V., and Bauer, M.~W. (2017).
+\newblock Singularity: Scientific containers for mobility of compute.
+\newblock {\em PLOS ONE}, 12(5):1--20.
+
+\bibitem[Le and Paz 2017]{Le:2017:PAA:3093338.3106737}
+Le, E. and Paz, D. (2017).
+\newblock Performance analysis of applications using singularity container on
+  sdsc comet.
+\newblock In {\em Proceedings of the Practice and Experience in Advanced
+  Research Computing 2017 on Sustainability, Success and Impact}, PEARC17,
+  pages 66:1--66:4, New York, NY, USA. ACM.
+
+\bibitem[Merkel 2014]{merkel2014docker}
+Merkel, D. (2014).
+\newblock Docker: lightweight linux containers for consistent development and
+  deployment.
+\newblock {\em Linux Journal}, 2014(239):2.
+
+\bibitem[Nguyen and Bein 2017]{7868429}
+Nguyen, N. and Bein, D. (2017).
+\newblock Distributed mpi cluster with docker swarm mode.
+\newblock In {\em IEEE 7th Annual Comp. and Comm. Workshop and Conf.}
+
+\bibitem[Ruiz et~al. 2015]{10.1007/978-3-319-27308-2_65}
+Ruiz, C., Jeanvoine, E., and Nussbaum, L. (2015).
+\newblock Performance evaluation of containers for hpc.
+\newblock In Hunold, S., Costan, A., Gim{\'e}nez, D., Iosup, A., Ricci, L.,
+  G{\'o}mez~Requena, M.~E., Scarano, V., Varbanescu, A.~L., Scott, S.~L.,
+  Lankes, S., Weidendorfer, J., and Alexander, M., editors, {\em Euro-Par 2015:
+  Parallel Processing Workshops}, pages 813--824, Cham. Springer International
+  Publishing.
+
+\bibitem[Soltesz et~al. 2007]{soltesz2007container}
+Soltesz, S., P\"{o}tzl, H., Fiuczynski, M.~E., Bavier, A., and Peterson, L.
+  (2007).
+\newblock Container-based operating system virtualization: A scalable,
+  high-performance alternative to hypervisors.
+\newblock {\em SIGOPS Oper. Syst. Rev.}, 41(3):275--287.
+
+\bibitem[Tesser et~al. 2017]{tesser2017using}
+Tesser, R.~K., Schnorr, L.~M., Legrand, A., Dupros, F., and Navaux, P. O.~A.
+  (2017).
+\newblock Using simulation to evaluate and tune the performance of dynamic load
+  balancing of an over-decomposed geophysics application.
+\newblock In {\em European Conference on Parallel Processing}, pages 192--205.
+  Springer.
+
+\bibitem[Wells 2000]{Wells:2000:BSA:364412.364422}
+Wells, N. (2000).
+\newblock Busybox: A swiss army knife for linux.
+\newblock {\em Linux J.}, 2000(78es).
+
+\end{thebibliography}

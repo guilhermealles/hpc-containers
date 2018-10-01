@@ -758,7 +758,7 @@ execution time (Figure \ref{fig4:left}) and performance difference
 against the native host (Figure \ref{fig4:right}) as a function of the
 number of MPI ranks. These results show that, by modifying the
 execution environment, it is possible for the virtualized execution to
-outperform the native one. In the Ondes3D/Ligurian case,
+outperform the native one. In the Ondes3D/Default case,
 Singularity/Alpine is \approx5% faster than native, while in the
 NAS-EP/ClassB, both Docker and Singularity running Alpine are from \approx5%
 (with 16 cores) to \approx10% (sequential) faster than the native host when
@@ -779,7 +779,7 @@ as well as a reproducible environment.
 \label{fig4:right}]{\begin{minipage}{.47\linewidth}
 \includegraphics[width=.90\linewidth,valign=t]{./img/alpine-negative-overhead.pdf} \\
 \end{minipage}}\hfill%
-\caption{(a) Execution time for the NAS-EP/ClassB benchmark and Ondes3D/Ligurian
+\caption{(a) Execution time for the NAS-EP/ClassB benchmark and Ondes3D/Default
              with containers running Alpine Linux while the host is running
              Debian9, and (b), performance difference of Alpine Linux
              containers (Singularity and Docker) against the Debian9 Native
@@ -1544,6 +1544,7 @@ df.sel %>%
 ****** Read data
 
 #+begin_src R :results output :session :exports both
+suppressMessages(library(tidyverse))
 files <- list('./results/nas-alpine/results.csv',
               './results/ondes3d-alpine/results.csv')
 df.alpine <- do.call("bind_rows", lapply(files, function(file) {
@@ -1565,7 +1566,7 @@ df.alpine <- do.call("bind_rows", lapply(files, function(file) {
         separate(Origin, into=c("X0", "X1", "TYPE", "X2"), sep="/", remove=FALSE) %>% select(-X0, -X1, -X2) %>%
         mutate(Application = ifelse(grepl("ondes3d", TYPE), "Ondes3D", "NAS-EP")) %>%
         mutate(Input = case_when(TYPE == "nas-alpine" ~ "Class B",
-                                 TYPE == "ondes3d-alpine" ~ "Ligurian",
+                                 TYPE == "ondes3d-alpine" ~ "Default",
                                  TRUE ~ "Default")) %>% select(-Origin) %>%
         mutate(Native = environment == "native") %>%
         ungroup()
@@ -1583,7 +1584,7 @@ df.alpine <- do.call("bind_rows", lapply(files, function(file) {
 df.alpine %>%
     mutate(Native = factor(Native, levels=c(TRUE, FALSE), labels=c("Native", "Container"))) %>%
     mutate(Application = paste(Application, Input, sep="/")) %>%
-    filter(Input %in% c("Class B", "Ligurian")) -> df.sel;
+    filter(Input %in% c("Class B", "Default")) -> df.sel;
 # Breask in X
 breaks <- df.sel %>% pull(parallelism) %>% unique;
 #Create a custom color scale
@@ -1638,23 +1639,23 @@ df.alpine.overhead %>%
 
 #+RESULTS:
 #+begin_example
-   parallelism             Case      environment   Gain
-1            1   NAS-EP/Class B      Docker.Gain  -9.50
-2            4   NAS-EP/Class B      Docker.Gain  -9.63
-3            8   NAS-EP/Class B      Docker.Gain  -6.32
-4           16   NAS-EP/Class B      Docker.Gain  -4.62
-5            1 Ondes3D/Ligurian      Docker.Gain  -3.58
-6            4 Ondes3D/Ligurian      Docker.Gain  11.42
-7            8 Ondes3D/Ligurian      Docker.Gain  78.97
-8           16 Ondes3D/Ligurian      Docker.Gain 137.08
-9            1   NAS-EP/Class B Singularity.Gain  -9.48
-10           4   NAS-EP/Class B Singularity.Gain  -9.56
-11           8   NAS-EP/Class B Singularity.Gain  -7.12
-12          16   NAS-EP/Class B Singularity.Gain  -4.65
-13           1 Ondes3D/Ligurian Singularity.Gain  -3.55
-14           4 Ondes3D/Ligurian Singularity.Gain  -4.12
-15           8 Ondes3D/Ligurian Singularity.Gain  -3.68
-16          16 Ondes3D/Ligurian Singularity.Gain  -3.62
+   parallelism            Case      environment   Gain
+1            1  NAS-EP/Class B      Docker.Gain  -9.50
+2            4  NAS-EP/Class B      Docker.Gain  -9.63
+3            8  NAS-EP/Class B      Docker.Gain  -6.32
+4           16  NAS-EP/Class B      Docker.Gain  -4.62
+5            1 Ondes3D/Default      Docker.Gain  -3.58
+6            4 Ondes3D/Default      Docker.Gain  11.42
+7            8 Ondes3D/Default      Docker.Gain  78.97
+8           16 Ondes3D/Default      Docker.Gain 137.08
+9            1  NAS-EP/Class B Singularity.Gain  -9.48
+10           4  NAS-EP/Class B Singularity.Gain  -9.56
+11           8  NAS-EP/Class B Singularity.Gain  -7.12
+12          16  NAS-EP/Class B Singularity.Gain  -4.65
+13           1 Ondes3D/Default Singularity.Gain  -3.55
+14           4 Ondes3D/Default Singularity.Gain  -4.12
+15           8 Ondes3D/Default Singularity.Gain  -3.68
+16          16 Ondes3D/Default Singularity.Gain  -3.62
 #+end_example
 
 Let's plot this:
