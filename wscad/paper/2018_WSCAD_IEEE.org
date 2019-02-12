@@ -85,7 +85,7 @@ submissão de artigos.  Datas importantes:
 
 #+BEGIN_EXPORT latex
 %\usepackage[brazil]{babel}   
-\def\COMPANION{{\scriptsize\url{https://github.com/guilhermealles/hpc-containers/}}}
+\def\COMPANION{{\small\url{https://github.com/guilhermealles/hpc-containers/}}}
 #+END_EXPORT
 
 ** Frontpage                                                        :ignore:
@@ -237,7 +237,7 @@ benchmarks, and a detailed description of the main contributions of
 this paper. Section [[#sec.conclusion]] concludes the article with main
 achievements and detail some future work. The companion material of
 this work, including the source code, analysis scripts, and raw
-measurements, is publicly available at \COMPANION.
+measurements, is publicly available at \linebreak \COMPANION.
 
 ** Basic Concepts
 :PROPERTIES:
