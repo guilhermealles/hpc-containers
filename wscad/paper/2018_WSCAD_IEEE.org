@@ -101,7 +101,7 @@ submissão de artigos.  Datas importantes:
    }
 
 \IEEEauthorblockA{Instituto de Informática -- Universidade Federal do Rio Grande do Sul (UFRGS)\\
-  Caixa Postal 15.064 -- 91.501-970 -- Porto Alegre -- RS -- Brazil\\
+  P.O. box 15.064 -- 91.501-970 -- Porto Alegre -- RS -- Brazil\\
   \{gralles,asc,schnorr\}@inf.ufrgs.br
   }
 }
