@@ -610,12 +610,13 @@ network.
 \begin{figure}[!htb]
 \centering
 \subfloat[Execution Time
-\label{fig1:left}]{\begin{minipage}{.47\linewidth}
+\label{fig1:left}]{\begin{minipage}{.8\linewidth}
 \includegraphics[width=.90\linewidth,valign=t]{./img/computation.pdf} \hfill
-\end{minipage}}\hfill%
+\end{minipage}}\\
+%hfill%
 %
 \subfloat[Overhead against Native
-\label{fig1:right}]{\begin{minipage}{.47\linewidth}
+\label{fig1:right}]{\begin{minipage}{.8\linewidth}
 \includegraphics[width=.90\linewidth,valign=t]{./img/computation-overhead-small.pdf} \\
 \end{minipage}}\hfill%
 \caption{(a) Execution time as a function of the number of MPI ranks
@@ -666,12 +667,11 @@ are the constant in both environments, such as network communication.
 \begin{figure}[!htb]
 \centering
 \subfloat[Execution Time
-\label{fig2:left}]{\begin{minipage}{.47\linewidth}
+\label{fig2:left}]{\begin{minipage}{.8\linewidth}
 \includegraphics[width=.90\linewidth,valign=t]{./img/computation-ligurian.pdf} \hfill
-\end{minipage}}\hfill%
-%
+\end{minipage}}\\
 \subfloat[Overhead against Native
-\label{fig2:right}]{\begin{minipage}{.47\linewidth}
+\label{fig2:right}]{\begin{minipage}{.8\linewidth}
 \includegraphics[width=.90\linewidth,valign=t]{./img/computation-overhead-large.pdf} \\
 \end{minipage}}\hfill%
 \caption{(a) Execution time as a function of the number of MPI ranks
@@ -729,12 +729,12 @@ latency impact on the application is easily observed (see Figure
 \begin{figure}[!htb]
 \centering
 \subfloat[Average Latency (ms)
-\label{fig3:left}]{\begin{minipage}{.49\linewidth}
+\label{fig3:left}]{\begin{minipage}{\linewidth}
 \includegraphics[width=.97\linewidth,valign=t]{./img/pingpong-latency.pdf} \hfill
-\end{minipage}}\hfill%
+\end{minipage}}\\
 %
 \subfloat[Latency Overhead
-\label{fig3:right}]{\begin{minipage}{.49\linewidth}
+\label{fig3:right}]{\begin{minipage}{\linewidth}
 \includegraphics[width=.97\linewidth,valign=t]{./img/pingpong-overhead.pdf} \\
 \end{minipage}}\hfill%
 \caption{(a) Average network latency (on Y log scale) measured with the Ping Pong benchmark
@@ -781,12 +781,12 @@ as well as a reproducible environment.
 \begin{figure}[!htb]
 \centering
 \subfloat[Execution Time
-\label{fig4:left}]{\begin{minipage}{.47\linewidth}
+\label{fig4:left}]{\begin{minipage}{.8\linewidth}
 \includegraphics[width=.90\linewidth,valign=t]{./img/alpine.pdf} \hfill
-\end{minipage}}\hfill%
+\end{minipage}}\\
 %
 \subfloat[Performance against Native
-\label{fig4:right}]{\begin{minipage}{.47\linewidth}
+\label{fig4:right}]{\begin{minipage}{.8\linewidth}
 \includegraphics[width=.90\linewidth,valign=t]{./img/alpine-negative-overhead.pdf} \\
 \end{minipage}}\hfill%
 \caption{(a) Execution time for the NAS-EP/ClassB benchmark and Ondes3D/Ligurian
