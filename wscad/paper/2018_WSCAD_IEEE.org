@@ -14,7 +14,7 @@
 #+PROPERTY: header-args :eval never-export
 
 #+LATEX_CLASS: IEEEtran
-#+LATEX_CLASS_OPTIONS: [conference,letter,10pt,final]
+#+LATEX_CLASS_OPTIONS: [conference,a4paper,10pt,final]
 #+LATEX_HEADER: \usepackage[utf8]{inputenc}
 #+LATEX_HEADER: \usepackage[T1]{fontenc}
 #+LATEX_HEADER: \usepackage{graphicx}
