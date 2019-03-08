@@ -1,25 +1,3 @@
-* Companion: "HPC Applics. Perf. on Linux Containers"
-
-This GIT entry is the companion for the paper entitled "Assessing the
-Computation and Communication Overhead of Linux Containers for HPC
-Applications", by Guilherme Rezende Alles, Alexandre Carissimi, and
-Lucas Mello Schnorr. The paper has been submitted to WSCAD 2018.
-We have conducted multiple performance experiments with HPC
-applications running inside Docker and Singularity containers. 
-The repository contains:
-
-- code to build a Docker cluster infrastructure. Highly influenced by
-  [[https://github.com/NLKNguyen/alpine-mpich][NLNKguyen's work]]: Docker images and the multi-host orchestration are
-  kept mostly intact, with some minor tweaks.
-- Based on the same Docker images, there are some Singularity
-  definition files to create singularity containers for performance
-  analysis.
-- An automated script to run experiments (configured in a .csv file)
-  is also included.
-- Results are kept in the =results= directory.
-
-To cite this paper, use
-#+begin_src
 @INPROCEEDINGS{187381,
     AUTHOR="Guilherme Alles and Lucas Schnorr and Alexandre Carissimi",
     TITLE="Assessing the Computation and Communication Overhead of Linux Containers for HPC Applications",
@@ -31,4 +9,3 @@ To cite this paper, use
     ABSTRACT="Virtualization technology provides features that are desirable for high-performance computing (HPC), such as enhanced reproducibility for scientific experiments and flexible execution environment customization. This paper explores the performance implications of applying Operating System (OS) containers in HPC applications. Docker and Singularity are compared to a native baseline with no virtualization, using synthetic workloads and an earthquake simulator called Ondes3D as benchmarks. Our evaluation using up to 256 cores indicate that (a) Singularity containers have minor performance overhead, (b) Docker containers do suffer from increased network latency, and (c) performance gains are attainable with an optimized container on top of a regular OS.",
     KEYWORDS="Avaliação, Medição e Predição de Desempenho; Computação em Aglomerados de Computadores; Computação de Alto Desempenho em Grade e na Nuvem; Linguagens, Compiladores e Ferramentas para Alto Desempenho; Sistemas Operacionais",
 }
-#+end_src
